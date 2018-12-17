@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>天能集团（濮阳）报表系统</title>
+		<!-- 引入 echarts.js -->
+		<script src="../js/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/plateWeightReopt.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+	</head>
+
+	<body>
+		<br />
+		<input type="date" id="startTime" value="2018-11-26" />
+		<label>-</label>
+		<input type="date" id="endTime" value="2018-11-27" />
+
+		<button type="button" onclick="getWorkSummeryExcel()">工作详情查看</button>
+
+		<table class = "table" frame="border" rules="all" id="mytable">
+			<caption>称重统计</caption>
+			<thead>
+				<td>日期</td>
+				<td>产线</td>
+				<td>型号</td>
+				<td>姓名</td>
+				<td>频次</td>
+				<td>均值</td>
+				<td>不良次数</td>
+				<td>不良率</td>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<div id="detail"></div>
+		<br />
+		<div id="report"></div>
+
+	</body>
+
+</html>
