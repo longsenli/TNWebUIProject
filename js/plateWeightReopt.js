@@ -493,7 +493,7 @@ function getWorkDetail() {
 function getWorkSummeryExcel() {
 
 	$("#mytable tbody").html("");
-$("#mytable tr:not(:first)").empty(""); 
+	$("#mytable tr:not(:first)").empty("");
 
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
@@ -544,7 +544,7 @@ $("#mytable tr:not(:first)").empty("");
 function testCity() {
 
 	$("#mytable tbody").html("");
-$("#mytable tr:not(:first)").empty(""); 
+	$("#mytable tr:not(:first)").empty("");
 
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
@@ -555,10 +555,10 @@ $("#mytable tr:not(:first)").empty("");
 		type: "GET",
 		dataType: "json",
 		success: function(dataRes) {
-console.log(dataRes);
+			console.log(dataRes);
 			//var models = eval("(" + dataRes + ")");
 			var models = dataRes;
-console.log(models);
+			console.log(models);
 			var c = document.getElementById('mytable'); //获得表格的信息
 			var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
 			for(var i in models) {
@@ -577,6 +577,52 @@ console.log(models);
 						y.innerHTML = models[i].birthday; 
 				}
 			}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function loginPage() {
+
+	var urlAPI = "http://192.168.1.110:8080/tokentest/login?name=1&psd=1";
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		headers: {
+			Token: '12334'
+		},
+		dataType: "json",
+		success: function(dataRes) {
+			console.log(dataRes);
+			//var models = eval("(" + dataRes + ")");
+			
+			$.cookie("token", dataRes.token)
+			window.location.href = "index.html";
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function testToken() {
+
+	var urlAPI = "http://192.168.1.110:8080/tokentest/mainpage";
+	$.ajax({
+		contentType: "application/json; charset=utf-8",
+		headers: {
+			Token: $.cookie('token')
+		},
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+			console.log(dataRes);
+			//var models = eval("(" + dataRes + ")");
+			　
+			alert(dataRes);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
