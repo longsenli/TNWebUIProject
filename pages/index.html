@@ -29,6 +29,7 @@
 		<link href="../css/layout.css" rel="stylesheet" type="text/css">
 		<!-- jQuery -->
 		<script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/jquery/jquery.cookie.js"></script>
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -56,6 +57,13 @@
 	</head>
 
 	<body>
+			<script>
+				if($.cookie('.token')== null)
+				{
+					window.location.href = "login.html";
+				}
+					
+			</script>
 
 		<div id="wrapper">
 			<!-- Navigation -->
@@ -128,10 +136,10 @@
 								<!-- /.nav-second-level -->
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-table fa-fw"></i> 功能二</a>
+								<a href="#"><i class="fa fa-table fa-fw"></i> 功能二<span class="fa arrow"></a>
 								<ul class="nav nav-second-level">
 									<li>
-										<a href="#">子功能一</a>
+										<a href="#"  onclick="testToken()")>子功能一</a>
 									</li>
 									<li>
 										<a href="#">子功能二</a>
