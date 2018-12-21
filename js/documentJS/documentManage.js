@@ -70,10 +70,10 @@ console.log(models);
 				for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
 					   
 					var y = x.insertCell(j);
-					if(j ==0)
-						y.onclick = exportFile;
+//					if(j ==0)
+//						y.onclick = exportFile;
 					if(j == 0)
-						y.innerHTML = "<a href=\"#\">" + models[i].name + "</a> "; //models[i].name
+						y.innerHTML = "<a href=\"#\"  onclick=\"exportFile()\" >" + models[i].name + "</a> "; //models[i].name
 					if(j == 1)
 						y.innerHTML = models[i].summary; 
 					if(j == 2)
