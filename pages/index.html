@@ -130,20 +130,18 @@
 									<li>
 										<a href="#" onclick="weighRecord()">称重记录查看</a>
 									</li>
-									<li>
-										<a href="#">子功能二</a>
-									</li>
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-table fa-fw"></i> 功能二<span class="fa arrow"></a>
+								<a href="#"><i class="fa fa-table fa-fw"></i> 权限管理<span class="fa arrow"></a>
 								<ul class="nav nav-second-level">
 									<li>
-										<a href="#"  onclick="testToken()")>子功能一</a>
+										<a href="#"  onclick="user()")>用户管理</a>
 									</li>
 									<li>
-										<a href="#">子功能二</a>
+										<a href="#">角色管理</a>
+										<a href="#">菜单管理</a>
 									</li>
 								</ul>
 							</li>
@@ -409,6 +407,12 @@
 				document.getElementById("container-page-text").innerHTML = "极板称重记录";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
+			};
+			
+			function user() {
+				document.getElementById("container-page-text").innerHTML = "用户管理";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/rights/user.html');
 			};
 		</script>
 
