@@ -46,6 +46,7 @@
 		<script src="../dist/js/sb-admin-2.js"></script>
 
 		<script src="../js/plateWeightReopt.js"></script>
+		<script src="../js/documentJS/documentManage.js"></script>
 		<script src="../vendor/echarts/echarts.min.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -129,6 +130,16 @@
 									<li>
 										<a href="#" onclick="weighRecord()">称重记录查看</a>
 									</li>
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
+								<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 文档管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="documentManage()">文档管理</a>
+									</li>
+									
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -409,7 +420,11 @@
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
 			};
-			
+			function documentManage() {
+				document.getElementById("container-page-text").innerHTML = "极板称重记录";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/documentManage/document.html');
+			};
 			function user() {
 				document.getElementById("container-page-text").innerHTML = "用户管理";
 				$("#containerHTML").empty();
