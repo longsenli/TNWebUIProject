@@ -120,7 +120,7 @@
 				var password=document.getElementById("form-password").value;
 			    $.ajax({
 					type : 'POST',
-					url : 'http://192.168.1.110:8080/api/login',
+					url : 'http://localhost:8080/api/login',
 					dataType: "json",
 					data:{'username':username,"password":password},
 					async:false,
@@ -128,6 +128,7 @@
 
 						if(result.status=="1"){
 							$.cookie('token', result.token); 
+							$.cookie('message', result.message);
 							window.location.href="index.html"; 
 						}else{
 							var hintinfo=document.getElementById("hintinfo");
