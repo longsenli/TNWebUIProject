@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>心声社区</title>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../js/contentJS/contentManage.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+	</head>
+
+	<body>
+		<script type="text/javascript ">
+			initData();
+		</script>
+
+		<div id="myCollapsibleExample">
+			<a href="#publishIdeaFrom" data-toggle="collapse">说出心声</a>
+		</div>
+		<form ID="publishIdeaFrom" class="collapse" name="publishIdeaFrom">
+			<label> 心声： </label>
+			<textarea class="form-control" rows="3" name="context "></textarea>
+			<br>
+			<div class="form-inline row">
+				<div class="form-group">
+					<label for="name">标题</label>
+					<input type="text" class="form-control" id="name" name="title" style="width:300px;" placeholder="请输入作者姓名 ">
+				</div>
+				<label> 类型： </label>
+				<select class="selectpicker" id="contentType" style="width:100px;" name="type">
+					<option value=1>1</option>
+					<option value=2>2</option>
+					<option value=3>3</option>
+				</select>
+				<label>
+			<input type="checkbox" name = "anonymity"> 匿名
+		</label>
+
+				<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">
+			</div>
+		</form>
+
+		<form ID="form2">
+			<div class="form-inline row">
+				<label> 类型： </label>
+				<select class="selectpicker" id="typeAll" style="width:100px;" name="type">
+					<option value=0>全部</option>
+					<option value=1>开发</option>
+					<option value=2>维修</option>
+					<option value=3>架构</option>
+				</select>
+				<div class="form-group">
+					<label for="name">标题</label>
+					<input type="text" class="form-control" id="name" name="summary" style="width:200px;" placeholder="请输入关键字 ">
+				</div>
+				<div class="form-group">
+					<label for="name">创建人</label>
+					<input type="text" class="form-control" id="name" name="creator" style="width:150px;" placeholder="请输入创建人 ">
+				</div>
+				<label>    时间： </label>
+				<input type="date " id="startTime" name="startTime" value="2018-12-12" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" value="2018-12-29" />
+				<input type="button" class="btn btn-default" value="查询 " onclick="filterContent()">
+			</div>
+		</form>
+
+		<table class="table" style="height:400px;" frame="border" rules="all" id="mytable">
+			<thead>
+				<td>标题</td>
+				<td>类型</td>
+				<td>创建人</td>
+				<td>创建时间</td>
+				<td style=" display: none;">内容</td>
+				<td style=" display: none;">ID</td>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<div id="contentDetail">
+			<textarea class="form-control" style="background:#3EADC5 ;" rows="3" id="selectedDetail"></textarea>
+			<div id="comment"></div>
+		</div>
+		<form ID="commentForm" name="publishIdeaFrom">
+			<label> 评论： </label>
+			<textarea class="form-control" rows="3" name="context "></textarea>
+			<br>
+			<div class="form-inline row">
+				<label>
+			<input type="checkbox" name = "anonymity"> 匿名
+			</label>
+				<input type="button" class="btn btn-default" value="提交 " onclick="submitComment()">
+			</div>
+		</form>
+	</body>
+
+</html>

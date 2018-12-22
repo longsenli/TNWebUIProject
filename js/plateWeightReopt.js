@@ -13,7 +13,7 @@ function loadXMLDoc() {
 			document.getElementById("detail").innerHTML = xmlhttp.responseText;
 		}
 	}
-	xmlhttp.open("GET", "http://192.168.1.110:8088/api/UserInfo/get?id=2", true);
+	xmlhttp.open("GET", "http://192.168.1.104:8088/api/UserInfo/get?id=2", true);
 	xmlhttp.send();
 };
 
@@ -27,7 +27,7 @@ function addAPI() {
 	var queryArray = "{'str':'asdfdsf'}";
 	window.alert(queryArray);
 
-	var urlAPI = "http://192.168.1.110:8088/api/UserInfo/changedata?str=ewrrt";
+	var urlAPI = "http://192.168.1.104:8088/api/UserInfo/changedata?str=ewrrt";
 	$.ajax({
 		url: urlAPI,
 		type: "POST",
@@ -49,7 +49,7 @@ function postTest() {
 		d[this.name] = this.value;
 	});
 
-	var urlAPI = "http://192.168.1.110:8088/api/UserInfo/changedata";
+	var urlAPI = "http://192.168.1.104:8088/api/UserInfo/changedata";
 	$.ajax({
 		url: urlAPI,
 		type: "post",
@@ -69,7 +69,7 @@ function getWebAPI() {
 	var endTime = $("#endTime").val();
 	var productLine = $('#productLine option:selected').text();
 	var productType = $('#productType option:selected').text();
-	var urlAPI = "http://192.168.1.110:8088/api/UserInfo/get?startTime=";
+	var urlAPI = "http://192.168.1.104:8088/api/UserInfo/get?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&procudtLine=" + productLine + "&productType=" + productType;
 	$.ajax({
 		url: urlAPI,
@@ -266,7 +266,7 @@ function uploadFile() {
 	formData.append("F_NAME", ofile.name);
 
 	$.ajax({
-		url: "http://192.168.1.110:8088/api/UserInfo/Test",
+		url: "http://192.168.1.104:8088/api/UserInfo/Test",
 		type: "POST",
 		data: formData,
 		cache: false, //不需要缓存
@@ -290,7 +290,7 @@ function getWorkSum() {
 	var endTime = $("#endTime").val();
 	var staffName = $('#workerName option:selected').text();
 
-	var urlAPI = "http://192.168.1.110:8088/api/PlateWeigh/getStaffWorkSum?startTime=";
+	var urlAPI = "http://192.168.1.104:8088/api/PlateWeigh/getStaffWorkSum?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + staffName;
 	$.ajax({
 		url: urlAPI,
@@ -377,7 +377,7 @@ function addOption() {
 	//添加一个选项 
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
-	var urlAPI = "http://192.168.1.110:8088/api/PlateWeigh/GetStaff?startTime=";
+	var urlAPI = "http://192.168.1.104:8088/api/PlateWeigh/GetStaff?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime;
 	$.ajax({
 		url: urlAPI,
@@ -410,7 +410,7 @@ function getWorkDetail() {
 	var endTime = $("#endTime").val();
 	var staffName = $('#workerName option:selected').text();
 
-	var urlAPI = "http://192.168.1.110:8088/api/PlateWeigh/getStaffWorkSum?startTime=";
+	var urlAPI = "http://192.168.1.104:8088/api/PlateWeigh/getStaffWorkSum?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + staffName;
 	$.ajax({
 		url: urlAPI,
@@ -498,7 +498,7 @@ function getWorkSummeryExcel() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 
-	var urlAPI = "http://192.168.1.110:8088/api/PlateWeigh/GetStaffWorkSummery?startTime=";
+	var urlAPI = "http://192.168.1.104:8088/api/PlateWeigh/GetStaffWorkSummery?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime;
 	$.ajax({
 		url: urlAPI,
@@ -549,7 +549,7 @@ function testCity() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 
-	var urlAPI = "http://192.168.1.110:8080/api/allpeople";
+	var urlAPI = "http://192.168.1.104:8080/api/allpeople";
 	$.ajax({
 		url: urlAPI,
 		type: "GET",
@@ -586,7 +586,7 @@ function testCity() {
 
 function loginPage() {
 
-	var urlAPI = "http://192.168.1.110:8080/tokentest/login?name=1&psd=1";
+	var urlAPI = "http://192.168.1.104:8080/tokentest/login?name=1&psd=1";
 	$.ajax({
 		url: urlAPI,
 		type: "GET",
@@ -609,7 +609,7 @@ function loginPage() {
 
 function testToken() {
 
-	var urlAPI = "http://192.168.1.110:8080/tokentest/mainpage";
+	var urlAPI = "http://192.168.1.104:8080/tokentest/mainpage";
 	$.ajax({
 		contentType: "application/json; charset=utf-8",
 		headers: {
