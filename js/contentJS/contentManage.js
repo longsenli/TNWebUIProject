@@ -185,56 +185,76 @@ function filterContent() {
 		}
 	});
 };
-var ID = -1;
+var ID = "";
 function showDetail()
 {
 
 ID = this.cells[5].childNodes[0].textContent;
-	alert( this.rowIndex);
+
 	 document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
-	 var dataHtml = "";
-	 dataHtml += "<span style=>" + "123" + "<span style=\"float:right\">" + "data[2]" + "</span><p><span class=\"msg\">" + "data[0]" + "</span></p>";
-	document.getElementById("comment").innerHTML = dataHtml;
-//	 var dataHtml = "", data = "";
-//                for(var i = localStorage.length-1; i >= 0; i--)//效率更高的循环方法
-//                {
-//                    data = localStorage.getItem(localStorage.key(i)).split("|");
-// 
-//                        //dataHtml += "<p><span class=\"msg\">" + data[0] + "</span><span class=\"datetime\">" + data[1] + "</span><span>" + data[2]+"</span></p>";
-//                    dataHtml += "<span style=>" + data[1] + "<span style=\"float:right\">" + data[2] + "</span><p><span class=\"msg\">" + data[0] + "<input style=\"float:right;border:none;border-radius:5px;\" id=\"clearBt\" type=\"button\" onclick=\"delete1(" + localStorage.key(i) + ");\" value=\"删除\"/>" + "</span></p>";
-//                }
-//                document.getElementById("comment").innerHTML = dataHtml;
+	 $.ajax({
+		url: "http://192.168.1.104:8080/api/comment/selectbycontentid?contentID=" + ID,
+		type: "GET",
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		cache: false, //不需要缓存
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) {
+				var models = eval("(" + dataRes.data + ")");
+				var dataHtml = "";
+				for(var i in models) {
+
+					 dataHtml += "<span>" + models[i].commentor + "</span><span style=\"float:right\">" + models[i].createtime + "</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + models[i].text + "</textarea></p>";
+
+				}
+				document.getElementById("comment").innerHTML = dataHtml;
+			} else {
+				alert("查询失败！" + dataRes.message);
+			}
+
+		}
+	});
 };
 
 function submitComment() {
+
+if(ID.length < 2)
+{
+	alert("请先选择评论内容!");
+	return;
+}
+
+	var formData = new FormData();
+	formData.append("text", document.commentForm.context.value);
+	formData.append("contentID", ID);
+
+	if($('#commentAnonymity').is(':checked')) {
+		formData.append("commentor", "匿名");
+	} else {
+		formData.append("commentor", "lls");
+	}
+	alert(getFormData(formData));
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/content/getcontenttype",
-		type: "GET",
-
-		contentType: "application/json",
-		dataType: "json",
-		processData: true,
-		success: function(dataRes) {
-			console.log(dataRes);
-			$("#typeAll").find('option').remove();
-			$("#contentType").find('option').remove();
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-
-				$('#typeAll').append(("<option value=" + "-1" + " selected='selected'>" + "全部"  + "</option>").toString())
-				for (var  i  in  models)  {  
-					$('#contentType').append(("<option value=" + models[i].type.toString() + ">" + models[i].name.toString()  + "</option>").toString())
-					$('#typeAll').append(("<option value=" + models[i].type.toString() + ">" + models[i].name.toString()  + "</option>").toString())
-
-				}
-				$('#contentType').selectpicker('refresh');
-				$('#contentType').selectpicker('render');  
-				$('#typeAll').selectpicker('refresh');
-				$('#typeAll').selectpicker('render');   
-				filterContent();
+		url: "http://192.168.1.104:8080/api/comment/insertcomment",
+		type: "POST",
+		data: getFormData(formData),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		cache: false, //不需要缓存
+		processData: false,
+		contentType: false,
+		success: function(data) {
+			if(data.status == 1) {
+				alert('保存成功!');
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("保存失败！" + data.message);
 			}
+
 		}
 	});
 

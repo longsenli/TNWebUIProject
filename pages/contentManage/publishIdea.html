@@ -82,18 +82,16 @@
 			<tbody></tbody>
 		</table>
 		<div id="contentDetail">
-			<textarea class="form-control" style="background:#3EADC5 ;" rows="3" id="selectedDetail"></textarea>
+			<textarea class="form-control" style="background:gray; resize:none;" readonly="readonly"  rows="3" id="selectedDetail"></textarea>
 			<div id="comment"></div>
 		</div>
-		<form ID="commentForm" name="publishIdeaFrom">
+		<form ID="commentForm" name="commentForm">
 			<label> 评论： </label>
-			<textarea class="form-control" rows="3" name="context "></textarea>
+			<textarea class="form-control" rows="2" style="resize:none;" name="context"></textarea>
 			<br>
-			<div class="form-inline row">
-				<label>
-			<input type="checkbox" name = "anonymity"> 匿名
-			</label>
-				<input type="button" class="btn btn-default" value="提交 " onclick="submitComment()">
+			<div style="float:right" class="form-inline row">
+				<label><input  type="checkbox" name = "commentAnonymity"> 匿名  </label>
+				<input style="float:right" type="button" class="btn btn-default" value="提交 " onclick="submitComment()">
 			</div>
 		</form>
 	</body>
