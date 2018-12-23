@@ -24,16 +24,16 @@ function publishIdea() {
 	if($('#anonymity').is(':checked')) {
 		formData.append("creator", "匿名");
 	} else {
-		formData.append("creator", "lls");
+		formData.append("creator", $.cookie('username'));
 	}
 //	alert(getFormData(formData));
 	$.ajax({
 		url:window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
 		data: getFormData(formData),
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+					Token: $.cookie('token')
+				},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
@@ -53,9 +53,9 @@ function initConentData() {
 	$.ajax({
 		url: window.serviceIP + "/api/content/getcontenttype",
 		type: "GET",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+				headers: {
+					Token: $.cookie('token')
+				},
 		contentType: "application/json",
 		dataType: "json",
 		processData: true,
@@ -102,6 +102,9 @@ function initData() {
 
 		contentType: "application/json",
 		dataType: "json",
+		headers: {
+			Token: $.cookie('token')
+		},
 		processData: true,
 		success: function(dataRes) {
 			console.log(dataRes);
@@ -138,9 +141,9 @@ function filterContent() {
 		url: window.serviceIP + "/api/content/selectcontent",
 		type: "POST",
 		data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
@@ -195,10 +198,9 @@ selectedContentID = this.cells[5].childNodes[0].textContent;
 	 $.ajax({
 		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
-		//data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
@@ -222,7 +224,7 @@ selectedContentID = this.cells[5].childNodes[0].textContent;
 
 function submitComment() {
 
-if(ID.length < 2)
+if(selectedContentID.length < 2)
 {
 	alert("请先选择评论内容!");
 	return;
@@ -235,16 +237,16 @@ if(ID.length < 2)
 	if($('#commentAnonymity').is(':checked')) {
 		formData.append("commentor", "匿名");
 	} else {
-		formData.append("commentor", "lls");
+		formData.append("commentor", $.cookie('username').toString());
 	}
-	alert(getFormData(formData));
+	//alert(getFormData(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/comment/insertcomment",
 		type: "POST",
 		data: getFormData(formData),
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,

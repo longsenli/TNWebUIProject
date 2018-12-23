@@ -21,9 +21,9 @@ function uploadFile() {
 		url: window.serviceIP + "/api/documentupload",
 		type: "POST",
 		data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
@@ -40,15 +40,15 @@ function uploadFile() {
 
 function filterFile() {
 	var formData = new FormData($("#form2")[0]);
-$("#mytable tbody").html("");
+	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
 	$.ajax({
 		url: window.serviceIP + "/api/documentSelect",
 		type: "POST",
 		data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
+		headers: {
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,

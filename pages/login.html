@@ -129,7 +129,8 @@
 
 						if(result.status=="1"){
 							$.cookie('token', result.token); 
-							$.cookie('message', result.message);
+							$.cookie('username', result.message);
+							$.cookie('userID', username);
 							window.location.href="index.html"; 
 						}else{
 							var hintinfo=document.getElementById("hintinfo");
