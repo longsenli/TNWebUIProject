@@ -15,7 +15,7 @@ function uploadFile() {
 	//	formData.append("file", ofile); //这个是文件，这里只是演示上传了一个文件，如果要上传多个的话将[0]去掉
 	//	formData.append("F_ID", "123"); //这个是上传的其他参数
 	//	formData.append("F_NAME", ofile.name);
-	formData.append("creator", "lls");
+	formData.append("creator", $.cookie('username').toString());
 
 	$.ajax({
 		url: window.serviceIP + "/api/documentupload",
@@ -27,11 +27,12 @@ function uploadFile() {
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
-		success: function(data) {
-			if(data.status == 1) {
+		success: function(dataRes) {
+			//alert(window.serviceIP + "/api/documentupload");
+			if(dataRes.status == 1) {
 				alert('保存成功!');
 			} else {
-				alert("保存失败！" + data.message);
+				alert("保存失败！" + dataRes.message);
 			}
 
 		}
@@ -64,10 +65,10 @@ function filterFile() {
 					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
 						   
 						var y = x.insertCell(j);
-						//					if(j ==0)
-						//						y.onclick = exportFile;
+										//	if(j ==0)
+											//	y.onclick = exportFile;
 						if(j == 0)
-							y.innerHTML = "<a href=\"#\"  onclick=\"exportFile()\" >" + models[i].name + "</a> ";  //models[i].name
+							y.innerHTML = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> ";  
 						if(j == 1)
 							y.innerHTML = models[i].summary; 
 						if(j == 2)
@@ -84,8 +85,11 @@ function filterFile() {
 	});
 };
 
-function exportFile() {  
-	var filename = this.innerHTML.split(">")[1].split("<")[0];
+function exportFile(obj) 
+{  
+	//alert(obj.innerHTML);
+
+	var filename = obj.innerHTML;
 	var form = $("<form>"); //定义一个form表单
 	form.attr("style", "display:none");
 	form.attr("target", "");
