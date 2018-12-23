@@ -1,7 +1,7 @@
 function publishIdea() {
 
 	var formData = new FormData();
-	alert(document.publishIdeaFrom.type.value);
+	//alert(document.publishIdeaFrom.type.value);
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
 	formData.append("context", document.publishIdeaFrom.context.value);
