@@ -1,6 +1,7 @@
 function publishIdea() {
 
 	var formData = new FormData();
+	alert(document.publishIdeaFrom.type.value);
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
 	formData.append("context", document.publishIdeaFrom.context.value);
@@ -76,7 +77,7 @@ function initConentData() {
 				$('#contentType').selectpicker('refresh');
 
 				$('#contentType').selectpicker('render');  
-				console.log(htmlStr);   
+ 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -166,7 +167,7 @@ function filterContent() {
 						if(j == 0)
 							y.innerHTML = models[i].title;  //models[i].name
 						if(j == 1)
-							y.innerHTML =$("#contentType").find("option:eq("+models[i].type+")").text() ; 
+							y.innerHTML =$("#contentType").find("option:eq("+(models[i].type-1)+")").text() ; 
 						if(j == 2)
 							y.innerHTML = models[i].creator; 
 						if(j == 3)
