@@ -18,7 +18,7 @@ function uploadFile() {
 	formData.append("creator", "lls");
 
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/documentupload",
+		url: window.serviceIP + "/api/documentupload",
 		type: "POST",
 		data: formData,
 		//		headers: {
@@ -43,7 +43,7 @@ function filterFile() {
 $("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/documentSelect",
+		url: window.serviceIP + "/api/documentSelect",
 		type: "POST",
 		data: formData,
 		//		headers: {
@@ -90,7 +90,7 @@ function exportFile() {  
 	form.attr("style", "display:none");
 	form.attr("target", "");
 	form.attr("method", "post");
-	form.attr("action", "http://192.168.1.104:8080/api/downloadFile");
+	form.attr("action", window.serviceIP + "/api/downloadFile");
 	var input1 = $("<input>");
 	input1.attr("type", "hidden");
 	input1.attr("name", "filename");

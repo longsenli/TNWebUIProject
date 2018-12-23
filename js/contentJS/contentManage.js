@@ -1,7 +1,5 @@
 function publishIdea() {
-	var strdata = $("#publishIdeaFrom").serializeArray();
 
-	var ideaForm = new FormData($("#publishIdeaFrom")[0]);
 	var formData = new FormData();
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
@@ -22,15 +20,15 @@ function publishIdea() {
 	//	formData.append("file", ofile); //这个是文件，这里只是演示上传了一个文件，如果要上传多个的话将[0]去掉
 	//	formData.append("F_ID", "123"); //这个是上传的其他参数
 	//	formData.append("F_NAME", ofile.name);
-	alert(document.publishIdeaFrom.anonymity.value)
+
 	if($('#anonymity').is(':checked')) {
 		formData.append("creator", "匿名");
 	} else {
 		formData.append("creator", "lls");
 	}
-	alert(getFormData(formData));
+//	alert(getFormData(formData));
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/content/insertcontent",
+		url:window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
 		data: getFormData(formData),
 		//		headers: {
@@ -53,7 +51,7 @@ function publishIdea() {
 function initConentData() {
 
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/content/getcontenttype",
+		url: window.serviceIP + "/api/content/getcontenttype",
 		type: "GET",
 		//		headers: {
 		//			Token: $.cookie('token')
@@ -97,8 +95,9 @@ function getFormData(formDataOrign) {
 };
 
 function initData() {
+
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/content/getcontenttype",
+		url: window.serviceIP + "/api/content/getcontenttype",
 		type: "GET",
 
 		contentType: "application/json",
@@ -131,11 +130,12 @@ function initData() {
 };
 
 function filterContent() {
+	//alert( $("#contentType").find("option:eq(2)").text());
 	var formData = new FormData($("#form2")[0]);
 	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/content/selectcontent",
+		url: window.serviceIP + "/api/content/selectcontent",
 		type: "POST",
 		data: formData,
 		//		headers: {
@@ -163,7 +163,7 @@ function filterContent() {
 						if(j == 0)
 							y.innerHTML = models[i].title;  //models[i].name
 						if(j == 1)
-							y.innerHTML = models[i].type; 
+							y.innerHTML =$("#contentType").find("option:eq("+models[i].type+")").text() ; 
 						if(j == 2)
 							y.innerHTML = models[i].creator; 
 						if(j == 3)
@@ -185,15 +185,15 @@ function filterContent() {
 		}
 	});
 };
-var ID = "";
+var selectedContentID = "";
 function showDetail()
 {
 
-ID = this.cells[5].childNodes[0].textContent;
+selectedContentID = this.cells[5].childNodes[0].textContent;
 
 	 document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
 	 $.ajax({
-		url: "http://192.168.1.104:8080/api/comment/selectbycontentid?contentID=" + ID,
+		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
 		//data: formData,
 		//		headers: {
@@ -230,7 +230,7 @@ if(ID.length < 2)
 
 	var formData = new FormData();
 	formData.append("text", document.commentForm.context.value);
-	formData.append("contentID", ID);
+	formData.append("contentID", selectedContentID);
 
 	if($('#commentAnonymity').is(':checked')) {
 		formData.append("commentor", "匿名");
@@ -239,7 +239,7 @@ if(ID.length < 2)
 	}
 	alert(getFormData(formData));
 	$.ajax({
-		url: "http://192.168.1.104:8080/api/comment/insertcomment",
+		url: window.serviceIP + "/api/comment/insertcomment",
 		type: "POST",
 		data: getFormData(formData),
 		//		headers: {

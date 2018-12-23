@@ -38,6 +38,7 @@
          <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
    
         <script src="../vendor/login/js/scripts.js"></script>
+        <script src="../js/common.js"></script>
     </head>
 
     <body>
@@ -120,7 +121,7 @@
 				var password=document.getElementById("form-password").value;
 			    $.ajax({
 					type : 'POST',
-					url : 'http://localhost:8080/api/login',
+					url : window.serviceIP+ '/api/login',
 					dataType: "json",
 					data:{'username':username,"password":password},
 					async:false,

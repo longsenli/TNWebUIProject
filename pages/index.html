@@ -51,6 +51,7 @@
 		<script type="text/javascript" src="../js/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
 		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
 		<script src="../vendor/echarts/echarts.min.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -151,7 +152,7 @@
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 心声社区<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li>
-										<a href="#" onclick="documentManage()">心声社区</a>
+										<a href="#" onclick="contentManage()">心声社区</a>
 									</li>
 
 								</ul>
@@ -441,7 +442,7 @@
 				$("#containerHTML").load('../pages/documentManage/document.html');
 			};
 
-			function documentManage() {
+			function contentManage() {
 				document.getElementById("container-page-text").innerHTML = "心声社区";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
