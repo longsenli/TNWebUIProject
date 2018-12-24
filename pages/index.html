@@ -51,6 +51,7 @@
 		<script type="text/javascript" src="../js/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
 		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
+		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script  type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -153,6 +154,16 @@
 								<ul class="nav nav-second-level">
 									<li>
 										<a href="#" onclick="contentManage()">心声社区</a>
+									</li>
+
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>设备管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="equipmentDataCollector()">设备数据采集</a>
 									</li>
 
 								</ul>
@@ -448,6 +459,12 @@
 				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
 			};
 
+			function equipmentDataCollector() {
+				document.getElementById("container-page-text").innerHTML = "设备数据采集";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/equipmentManage/informationCollection.html');
+			};
+			
 			function user() {
 				document.getElementById("container-page-text").innerHTML = "用户管理";
 				$("#containerHTML").empty();

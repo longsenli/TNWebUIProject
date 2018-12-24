@@ -27,14 +27,14 @@ function publishIdea() {
 	} else {
 		formData.append("creator", $.cookie('username'));
 	}
-//	alert(getFormData(formData));
+	//	alert(getFormData(formData));
 	$.ajax({
-		url:window.serviceIP + "/api/content/insertcontent",
+		url: window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
 		data: getFormData(formData),
 		headers: {
-					Token: $.cookie('token')
-				},
+			Token: $.cookie('token')
+		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: false,
@@ -54,9 +54,9 @@ function initConentData() {
 	$.ajax({
 		url: window.serviceIP + "/api/content/getcontenttype",
 		type: "GET",
-				headers: {
-					Token: $.cookie('token')
-				},
+		headers: {
+			Token: $.cookie('token')
+		},
 		contentType: "application/json",
 		dataType: "json",
 		processData: true,
@@ -76,8 +76,7 @@ function initConentData() {
 				$('#contentType').html(htmlStr);
 				$('#contentType').selectpicker('refresh');
 
-				$('#contentType').selectpicker('render');  
- 
+				$('#contentType').selectpicker('render');   
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -134,7 +133,7 @@ function initData() {
 };
 
 function filterContent() {
-	//alert( $("#contentType").find("option:eq(2)").text());
+
 	var formData = new FormData($("#form2")[0]);
 	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
@@ -157,7 +156,7 @@ function filterContent() {
 				for(var i in models) {
 
 					var x = c.insertRow(c.rows.length);
-					x.onclick= showDetail;
+					x.onclick = showDetail;
 					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
 						   
 						var y = x.insertCell(j);
@@ -167,7 +166,7 @@ function filterContent() {
 						if(j == 0)
 							y.innerHTML = models[i].title;  //models[i].name
 						if(j == 1)
-							y.innerHTML =$("#contentType").find("option:eq("+(models[i].type-1)+")").text() ; 
+							y.innerHTML = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
 						if(j == 2)
 							y.innerHTML = models[i].creator; 
 						if(j == 3)
@@ -178,10 +177,10 @@ function filterContent() {
 							y.innerHTML = models[i].id; 
 					}
 				}
-				 $('#mytable tr').find('td:eq(4)').hide();
-				   $('#mytable tr').find('th:eq(4)').hide();
-				   $('#mytable tr').find('td:eq(5)').hide();
-				   $('#mytable tr').find('th:eq(5)').hide();
+				$('#mytable tr').find('td:eq(4)').hide();
+				$('#mytable tr').find('th:eq(4)').hide();
+				$('#mytable tr').find('td:eq(5)').hide();
+				$('#mytable tr').find('th:eq(5)').hide();
 			} else {
 				alert("查询失败！" + dataRes.message);
 			}
@@ -190,13 +189,13 @@ function filterContent() {
 	});
 };
 var selectedContentID = "";
-function showDetail()
-{
 
-selectedContentID = this.cells[5].childNodes[0].textContent;
+function showDetail() {
 
-	 document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
-	 $.ajax({
+	selectedContentID = this.cells[5].childNodes[0].textContent;
+
+	document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
+	$.ajax({
 		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
 		headers: {
@@ -211,7 +210,7 @@ selectedContentID = this.cells[5].childNodes[0].textContent;
 				var dataHtml = "";
 				for(var i in models) {
 
-					 dataHtml += "<span>" + models[i].commentor + "</span><span style=\"float:right\">" + models[i].createtime + "</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + models[i].text + "</textarea></p>";
+					dataHtml += "<span>" + models[i].commentor + "</span><span style=\"float:right\">" + models[i].createtime + "</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + models[i].text + "</textarea></p>";
 
 				}
 				document.getElementById("comment").innerHTML = dataHtml;
@@ -225,11 +224,10 @@ selectedContentID = this.cells[5].childNodes[0].textContent;
 
 function submitComment() {
 
-if(selectedContentID.length < 2)
-{
-	alert("请先选择评论内容!");
-	return;
-}
+	if(selectedContentID.length < 2) {
+		alert("请先选择评论内容!");
+		return;
+	}
 
 	var formData = new FormData();
 	formData.append("text", document.commentForm.context.value);
