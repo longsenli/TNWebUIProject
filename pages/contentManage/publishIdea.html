@@ -4,6 +4,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>心声社区</title>
+		<style>
+        .changeTableRowColor{
+            background-color: #31b0d5  !important;
+            color: white;
+        }
+</style>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../js/contentJS/contentManage.js"></script>
@@ -70,7 +76,7 @@
 			</div>
 		</form>
 
-		<table class="table" style="height:400px;" frame="border" rules="all" id="mytable">
+		<table class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="height:400px;" frame="border" rules="all" id="mytable">
 			<thead>
 				<td>标题</td>
 				<td>类型</td>
@@ -81,7 +87,8 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-		<div id="contentDetail">
+
+		<div id="contentDetail" style = "min-height:50px; max-height:400px;overflow:auto;overflow-x:hidden;">
 			<textarea class="form-control" style="background:gray; resize:none;" readonly="readonly"  rows="3" id="selectedDetail"></textarea>
 			<div id="comment"></div>
 		</div>
@@ -91,7 +98,7 @@
 			<br>
 			<div style="float:right" class="form-inline row">
 				<label><input  type="checkbox" name = "commentAnonymity"> 匿名  </label>
-				<input style="float:right" type="button" class="btn btn-default" value="提交 " onclick="saveEquipmentParam()">
+				<input style="float:right" type="button" class="btn btn-default" value="评论 " onclick="submitComment()">
 			</div>
 		</form>
 	</body>

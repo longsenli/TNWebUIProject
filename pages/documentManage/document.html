@@ -15,6 +15,9 @@
 	</head>
 
 	<body>
+		<script type="text/javascript">
+			initFileData();
+		</script>
 		<div id="myCollapsibleExample"><a href="#form1" data-toggle="collapse">文件上传</a></div>
 
 		<form  ID="form1"  class="collapse">
@@ -37,7 +40,7 @@
 		<form  ID="form2"  >
 			<div class="form-inline row">
 				<label> 类型： </label>
-				<select class="form-control  mmp-select" id="typeAll" style="width:100px;" name="type">
+				<select class="selectpicker" id="typeAll" style="width:100px;" name="type">
 					<option value=0>全部</option>
 					<option value=1>开发</option>
 					<option value=2>维修</option>
@@ -58,15 +61,10 @@
 				<input type="button" class="btn btn-default" value="查询" onclick="filterFile()">
 			</div>
 		</form>
-		<table class = "table" frame="border" rules="all" id="mytable">
-			<thead>
-				<td>名称</td>
-				<td>摘要</td>
-				<td>创建人</td>
-				<td>创建时间</td>		
-			</thead>
-			<tbody></tbody>
+		<br />
+		<table class = "table table-responsive table-striped    table-bordered table-hover table-condensed "  id="mytable">
 		</table>
+
 			<!--<input type="button" class="btn btn-default" value="下载" onclick="exportFile()">-->
 	</body>
 

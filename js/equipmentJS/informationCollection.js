@@ -179,12 +179,9 @@ function saveEquipmentParam() {
 };
 
 function getEquipmentParamRecord() {
-	var columnsArray = [];
-	columnsArray.push({
 
-		field: "state",
-		checkbox: true
-	});
+	var columnsArray = [];
+
 	var columnsID = new Array();
 	var paramName = $("#equipmentParam label");
 	//var paramID = $("#equipmentParam input");
@@ -242,14 +239,14 @@ function getEquipmentParamRecord() {
 						obj["记录时间"] = models[i + j].recordtime;
 						obj["图片记录"] = models[i + j].picturefile;
 					}
-					obj[columnsArray[j + 1].title] = models[i + j].value;
+					obj[columnsArray[j].title] = models[i + j].value;
 				}
 				dataShow.push(obj);
 				i += m;
 			}
 			$('#table').bootstrapTable('destroy').bootstrapTable({
 				data: dataShow,
-				toolbar: '#toolbar',
+				toolbar: '#toolbar1',
 				singleSelect: true,
 				clickToSelect: true,
 				sortName: "recordTime",
@@ -257,10 +254,10 @@ function getEquipmentParamRecord() {
 				pageSize: 15,
 				pageNumber: 1,
 				pageList: "[10, 25, 50, 100, All]",
-				showToggle: true,
-				showRefresh: true,
-				showColumns: true,
-				search: true,
+				//showToggle: true,
+				//showRefresh: true,
+				//showColumns: true,
+				//search: true,
 				pagination: true,
 				columns: columnsArray
 			});

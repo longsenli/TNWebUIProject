@@ -39,7 +39,88 @@ function uploadFile() {
 	});
 };
 
+function initFileData(){
+	filterFile();
+}
 function filterFile() {
+	var columnsArray = [];
+	columnsArray.push({
+		"title": "名称",
+		"field": "名称",
+		switchable: true,
+		sortable: true
+	});
+	columnsArray.push({
+		"title": "摘要",
+		"field": "摘要",
+		switchable: true,
+		sortable: true
+	});
+	columnsArray.push({
+		"title": "创建人",
+		"field": "创建人",
+		switchable: true,
+		sortable: true
+	});
+	columnsArray.push({
+		"title": "创建时间",
+		"field": "创建时间",
+		switchable: true,
+		sortable: true
+	});
+	var formData = new FormData($("#form2")[0]);
+	$.ajax({
+		url: window.serviceIP + "/api/documentSelect",
+		type: "POST",
+		data: formData,
+		headers: {
+			Token: $.cookie('token')
+		},
+		cache: false, //不需要缓存
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) {
+
+				var models = eval("(" + dataRes.data + ")");
+				var dataShow = [];
+				for(var i = 0; i < models.length; i++) {
+					var obj = {};
+
+					obj["名称"] = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> "; 
+					obj["摘要"] = models[i].summary;
+					obj["创建人"] = models[i].creator;
+					obj["创建时间"] = models[i].createtime;
+					dataShow.push(obj);
+				}
+				$('#mytable').bootstrapTable('destroy').bootstrapTable({
+					data: dataShow,
+					toolbar: '#toolbar',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "recordTime",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+			} else {
+				alert("查询失败！" + dataRes.message);
+			}
+
+		}
+	});
+};
+
+function filterFileOld() {
+
 	var formData = new FormData($("#form2")[0]);
 	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
@@ -55,8 +136,8 @@ function filterFile() {
 		contentType: false,
 		success: function(dataRes) {
 			if(dataRes.status == 1) {
-				var models = eval("(" + dataRes.data + ")");
 
+				var models = eval("(" + dataRes.data + ")");
 				var c = document.getElementById('mytable'); //获得表格的信息
 				var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
 				for(var i in models) {
@@ -65,10 +146,10 @@ function filterFile() {
 					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
 						   
 						var y = x.insertCell(j);
-										//	if(j ==0)
-											//	y.onclick = exportFile;
+						//	if(j ==0)
+						//	y.onclick = exportFile;
 						if(j == 0)
-							y.innerHTML = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> ";  
+							y.innerHTML = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> "; 
 						if(j == 1)
 							y.innerHTML = models[i].summary; 
 						if(j == 2)
@@ -77,16 +158,15 @@ function filterFile() {
 							y.innerHTML = models[i].createtime; 
 					}
 				}
+
 			} else {
 				alert("查询失败！" + dataRes.message);
 			}
-
 		}
 	});
 };
 
-function exportFile(obj) 
-{  
+function exportFile(obj) {  
 	//alert(obj.innerHTML);
 
 	var filename = obj.innerHTML;

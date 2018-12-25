@@ -132,7 +132,7 @@ function initData() {
 
 };
 
-function filterContent() {
+function filterContentT() {
 
 	var formData = new FormData($("#form2")[0]);
 	$("#mytable tbody").html("");
@@ -188,10 +188,104 @@ function filterContent() {
 		}
 	});
 };
+
+function filterContent() {
+
+	var columnsArray = [];
+	columnsArray.push({
+		"title": "标题",
+		"field": "标题"
+	});
+	columnsArray.push({
+		"title": "类型",
+		"field": "类型"
+	});
+	columnsArray.push({
+		"title": "创建人",
+		"field": "创建人"
+	});
+	columnsArray.push({
+		"title": "创建时间",
+		"field": "创建时间"
+	});
+	columnsArray.push({
+		"title": "内容",
+		"field": "内容",
+	//	visible: false
+	});
+	columnsArray.push({
+		"title": "ID",
+		"field": "ID",
+	//	visible: false
+	});
+	var formData = new FormData($("#form2")[0]);
+	$("#mytable tbody").html("");
+	$("#mytable tr:not(:first)").empty("");
+	$.ajax({
+		url: window.serviceIP + "/api/content/selectcontent",
+		type: "POST",
+		data: formData,
+		headers: {
+			Token: $.cookie('token')
+		},
+		cache: false, //不需要缓存
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) {
+				selectedContentID = "";
+				document.getElementById("selectedDetail").innerHTML = "";
+				document.getElementById("comment").innerHTML  = "";
+				var models = eval("(" + dataRes.data + ")");
+				var dataShow = [];
+				for(var i = 0; i < models.length; i++) {
+					var obj = {};
+
+					obj["标题"] = models[i].title;
+					obj["类型"] = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
+					obj["创建人"] = models[i].creator;
+					obj["创建时间"] = models[i].createtime;
+					obj["内容"] = models[i].context; 
+					obj["ID"] = models[i].id;
+					dataShow.push(obj);
+				}
+				$('#mytable').bootstrapTable('destroy').bootstrapTable({
+					data: dataShow,
+					toolbar: '#toolbar',
+					//singleSelect: true,
+					clickToSelect: true,
+					sortName: "创建时间",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+				$('#mytable tr').find('td:eq(4)').hide();
+				$('#mytable tr').find('th:eq(4)').hide();
+				$('#mytable tr').find('td:eq(5)').hide();
+				$('#mytable tr').find('th:eq(5)').hide();
+				var c = document.getElementById('mytable'); //获得表格的信息
+				for(var i = 1; i <= models.length; i++) { //依次向新行插入表格列数的单元格
+					c.rows[i].onclick = showDetail;
+				}
+			} else {
+				alert("查询失败！" + dataRes.message);
+			}
+
+		}
+	});
+};
 var selectedContentID = "";
 
 function showDetail() {
-
+	  $('.changeTableRowColor').removeClass('changeTableRowColor');
+      $(this).addClass('changeTableRowColor');
 	selectedContentID = this.cells[5].childNodes[0].textContent;
 
 	document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
