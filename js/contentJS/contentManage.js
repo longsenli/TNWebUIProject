@@ -211,12 +211,12 @@ function filterContent() {
 	columnsArray.push({
 		"title": "内容",
 		"field": "内容",
-	//	visible: false
+		//	visible: false
 	});
 	columnsArray.push({
 		"title": "ID",
 		"field": "ID",
-	//	visible: false
+		//	visible: false
 	});
 	var formData = new FormData($("#form2")[0]);
 	$("#mytable tbody").html("");
@@ -235,7 +235,7 @@ function filterContent() {
 			if(dataRes.status == 1) {
 				selectedContentID = "";
 				document.getElementById("selectedDetail").innerHTML = "";
-				document.getElementById("comment").innerHTML  = "";
+				document.getElementById("comment").innerHTML = "";
 				var models = eval("(" + dataRes.data + ")");
 				var dataShow = [];
 				for(var i = 0; i < models.length; i++) {
@@ -284,8 +284,8 @@ function filterContent() {
 var selectedContentID = "";
 
 function showDetail() {
-	  $('.changeTableRowColor').removeClass('changeTableRowColor');
-      $(this).addClass('changeTableRowColor');
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	$(this).addClass('changeTableRowColor');
 	selectedContentID = this.cells[5].childNodes[0].textContent;
 
 	document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
@@ -322,15 +322,21 @@ function submitComment() {
 		alert("请先选择评论内容!");
 		return;
 	}
-
+	if(document.commentForm.context.value.length < 1) {
+		alert("输入评论内容!");
+		return;
+	}
+	var submitName = "";
 	var formData = new FormData();
 	formData.append("text", document.commentForm.context.value);
 	formData.append("contentID", selectedContentID);
 
 	if($('#commentAnonymity').is(':checked')) {
 		formData.append("commentor", "匿名");
+		submitName = "匿名";
 	} else {
 		formData.append("commentor", $.cookie('username').toString());
+		submitName = $.cookie('username').toString();
 	}
 	//alert(getFormData(formData));
 	$.ajax({
@@ -346,6 +352,16 @@ function submitComment() {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
+				
+				document.commentForm.context.value = "";
+
+				var dataHtml =""; 				
+				var nowTime = new Date();
+				var nowStr = nowTime.format("yyyy-MM-dd hh:mm:ss");
+				dataHtml += "<span>" + submitName + "</span><span style=\"float:right\">" + nowStr +
+					"</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + document.commentForm.context.value + "</textarea></p>";
+				dataHtml += document.getElementById("comment").innerHTML;
+				document.getElementById("comment").innerHTML = dataHtml;
 			} else {
 				alert("保存失败！" + data.message);
 			}
