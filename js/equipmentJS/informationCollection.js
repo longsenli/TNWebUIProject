@@ -22,6 +22,7 @@ function getEquipmentType() {
 				}
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
+				$('#equipmentType').selectpicker('mobile');
 				getEquipmentInfo();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -52,7 +53,8 @@ function getEquipmentInfo() {
 
 				}
 				$('#equipmentInfo').selectpicker('refresh');
-				$('#equipmentInfo').selectpicker('render');  
+				$('#equipmentInfo').selectpicker('render'); 
+				$('#equipmentInfo').selectpicker('mobile'); 
 				getEquipmentParam();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

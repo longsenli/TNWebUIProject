@@ -76,7 +76,8 @@ function initConentData() {
 				$('#contentType').html(htmlStr);
 				$('#contentType').selectpicker('refresh');
 
-				$('#contentType').selectpicker('render');   
+				$('#contentType').selectpicker('render');  
+			    $('.selectpicker').selectpicker('mobile'); 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -123,6 +124,8 @@ function initData() {
 				$('#contentType').selectpicker('render');  
 				$('#typeAll').selectpicker('refresh');
 				$('#typeAll').selectpicker('render');   
+				$('#typeAll').selectpicker('mobile');
+				$('#contentType').selectpicker('mobile');
 				filterContent();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
