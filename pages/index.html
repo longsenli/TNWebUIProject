@@ -52,7 +52,8 @@
 		<script type="text/javascript" src="../js/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
 		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
-		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
+		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>		
+		<script type="text/javascript" src="../js/equipmentJS/equipmentManage.js"></script>
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
 		<script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
@@ -166,9 +167,11 @@
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>设备管理<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li>
+										<a href="#" onclick="equipmentInfoManage()">设备信息管理</a>
+									</li>
+									<li>
 										<a href="#" onclick="equipmentDataCollector()">设备数据采集</a>
 									</li>
-
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -460,6 +463,12 @@
 				document.getElementById("container-page-text").innerHTML = "心声社区";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
+			};
+
+			function equipmentInfoManage() {
+				document.getElementById("container-page-text").innerHTML = "设备数据采集";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/equipmentManage/equipmentManage.html');
 			};
 
 			function equipmentDataCollector() {

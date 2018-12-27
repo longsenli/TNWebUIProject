@@ -22,3 +22,12 @@ Date.prototype.format = function(format) {
 	}
 	return format;
 }
+
+function getFormDataToJson(formDataOrign) {
+	var objData = {};
+
+	for(var entry of formDataOrign.entries()) {
+		objData[entry[0]] = entry[1];
+	}
+	return JSON.stringify(objData);
+}
