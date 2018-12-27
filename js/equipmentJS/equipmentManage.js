@@ -11,7 +11,7 @@ function getEquipmentTypeTable() {
 		//		},
 		processData: true,
 		success: function(dataRes) {
-			console.log(dataRes);
+	
 			$("#equipmentType").find('option').remove();
 
 			if(dataRes.status == 1) { 

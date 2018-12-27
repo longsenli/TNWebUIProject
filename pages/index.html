@@ -52,10 +52,11 @@
 		<script type="text/javascript" src="../js/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
 		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
-		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>		
+		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
 		<script type="text/javascript" src="../js/equipmentJS/equipmentManage.js"></script>
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
+		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -187,6 +188,16 @@
 									</li>
 								</ul>
 							</li>
+										<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 工单管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="workOrderManage()">工单管理</a>
+									</li>
+
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
 						</ul>
 					</div>
 					<!-- /.sidebar-collapse -->
@@ -220,221 +231,221 @@
 								<a href="#">
 									<div class="panel-footer">
 										<span class="pull-left">查看详情</span>
-									<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-									<div class="clearfix"></div>
-					</div>
-					</a>
-				</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="panel panel-green">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<i class="fa fa-tasks fa-5x"></i>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
+							</div>
 						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge">12</div>
-							<div>新任务!</div>
-						</div>
-					</div>
-				</div>
-				<a href="#">
-					<div class="panel-footer">
-						<span class="pull-left">查看详情</span>
-						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="panel panel-yellow">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<i class="fa fa-shopping-cart fa-5x"></i>
-						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge">124</div>
-							<div>新工单!</div>
-						</div>
-					</div>
-				</div>
-				<a href="#">
-					<div class="panel-footer">
-						<span class="pull-left">查看详情</span>
-						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="panel panel-red">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<i class="fa fa-support fa-5x"></i>
-						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge">13</div>
-							<div>新告警!</div>
-						</div>
-					</div>
-				</div>
-				<a href="#">
-					<div class="panel-footer">
-						<span class="pull-left">查看详情</span>
-						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-		</div>
-		<!-- /.row -->
-		<div class="row">
-			<div class="col-lg-8">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bar-chart-o fa-fw"></i> 日产量趋势图
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div id="morris-area-chart"></div>
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bar-chart-o fa-fw"></i> 当日任务完成率
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-lg-4">
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-striped">
-										<thead>
-											<tr>
-												<th>工序</th>
-												<th>日期</th>
-												<th>时间</th>
-												<th>完成率</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>涂板</td>
-												<td>2018.12.12</td>
-												<td>15:30</td>
-												<td>80%</td>
-											</tr>
-											<tr>
-												<td>分板</td>
-												<td>2018.12.12</td>
-												<td>15:30</td>
-												<td>73%</td>
-											</tr>
-											<tr>
-												<td>包板</td>
-												<td>2018.12.12</td>
-												<td>15:30</td>
-												<td>92%</td>
-											</tr>
-											<tr>
-												<td>铸焊</td>
-												<td>2018.12.12</td>
-												<td>15:30</td>
-												<td>86%</td>
-											</tr>
-										</tbody>
-									</table>
+						<div class="col-lg-3 col-md-6">
+							<div class="panel panel-green">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-tasks fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+											<div class="huge">12</div>
+											<div>新任务!</div>
+										</div>
+									</div>
 								</div>
-								<!-- /.table-responsive -->
+								<a href="#">
+									<div class="panel-footer">
+										<span class="pull-left">查看详情</span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
 							</div>
-							<!-- /.col-lg-4 (nested) -->
-							<div class="col-lg-8">
-								<div id="morris-bar-chart"></div>
+						</div>
+						<div class="col-lg-3 col-md-6">
+							<div class="panel panel-yellow">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-shopping-cart fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+											<div class="huge">124</div>
+											<div>新工单!</div>
+										</div>
+									</div>
+								</div>
+								<a href="#">
+									<div class="panel-footer">
+										<span class="pull-left">查看详情</span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
 							</div>
-							<!-- /.col-lg-8 (nested) -->
 						</div>
-						<!-- /.row -->
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-			</div>
-			<!-- /.col-lg-8 -->
-			<div class="col-lg-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bell fa-fw"></i> 重要提示
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="list-group">
-							<a href="#" class="list-group-item">
-								<i class="fa fa-comment fa-fw"></i> 提示一
-								<span class="pull-right text-muted small"><em>4分钟以前</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-envelope fa-fw"></i> 提示二
-								<span class="pull-right text-muted small"><em>27分钟以前</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-tasks fa-fw"></i> 提示三
-								<span class="pull-right text-muted small"><em>43分钟以前</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-upload fa-fw"></i> 提示四
-								<span class="pull-right text-muted small"><em>11:32</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-warning fa-fw"></i> 提示五
-								<span class="pull-right text-muted small"><em>10:57</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-shopping-cart fa-fw"></i> 提示六
-								<span class="pull-right text-muted small"><em>9:49</em>
-                                    </span>
-							</a>
-							<a href="#" class="list-group-item">
-								<i class="fa fa-money fa-fw"></i> 提示七
-								<span class="pull-right text-muted small"><em>昨天</em>
-                                    </span>
-							</a>
+						<div class="col-lg-3 col-md-6">
+							<div class="panel panel-red">
+								<div class="panel-heading">
+									<div class="row">
+										<div class="col-xs-3">
+											<i class="fa fa-support fa-5x"></i>
+										</div>
+										<div class="col-xs-9 text-right">
+											<div class="huge">13</div>
+											<div>新告警!</div>
+										</div>
+									</div>
+								</div>
+								<a href="#">
+									<div class="panel-footer">
+										<span class="pull-left">查看详情</span>
+										<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+										<div class="clearfix"></div>
+									</div>
+								</a>
+							</div>
 						</div>
-						<!-- /.list-group -->
-						<a href="#" class="btn btn-default btn-block">全部重要提示</a>
 					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bar-chart-o fa-fw"></i> 各型号电池库存率
+					<!-- /.row -->
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i> 日产量趋势图
+								</div>
+								<!-- /.panel-heading -->
+								<div class="panel-body">
+									<div id="morris-area-chart"></div>
+								</div>
+								<!-- /.panel-body -->
+							</div>
+							<!-- /.panel -->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i> 当日任务完成率
+								</div>
+								<!-- /.panel-heading -->
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-4">
+											<div class="table-responsive">
+												<table class="table table-bordered table-hover table-striped">
+													<thead>
+														<tr>
+															<th>工序</th>
+															<th>日期</th>
+															<th>时间</th>
+															<th>完成率</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>涂板</td>
+															<td>2018.12.12</td>
+															<td>15:30</td>
+															<td>80%</td>
+														</tr>
+														<tr>
+															<td>分板</td>
+															<td>2018.12.12</td>
+															<td>15:30</td>
+															<td>73%</td>
+														</tr>
+														<tr>
+															<td>包板</td>
+															<td>2018.12.12</td>
+															<td>15:30</td>
+															<td>92%</td>
+														</tr>
+														<tr>
+															<td>铸焊</td>
+															<td>2018.12.12</td>
+															<td>15:30</td>
+															<td>86%</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<!-- /.table-responsive -->
+										</div>
+										<!-- /.col-lg-4 (nested) -->
+										<div class="col-lg-8">
+											<div id="morris-bar-chart"></div>
+										</div>
+										<!-- /.col-lg-8 (nested) -->
+									</div>
+									<!-- /.row -->
+								</div>
+								<!-- /.panel-body -->
+							</div>
+							<!-- /.panel -->
+						</div>
+						<!-- /.col-lg-8 -->
+						<div class="col-lg-4">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<i class="fa fa-bell fa-fw"></i> 重要提示
+								</div>
+								<!-- /.panel-heading -->
+								<div class="panel-body">
+									<div class="list-group">
+										<a href="#" class="list-group-item">
+											<i class="fa fa-comment fa-fw"></i> 提示一
+											<span class="pull-right text-muted small"><em>4分钟以前</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-envelope fa-fw"></i> 提示二
+											<span class="pull-right text-muted small"><em>27分钟以前</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-tasks fa-fw"></i> 提示三
+											<span class="pull-right text-muted small"><em>43分钟以前</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-upload fa-fw"></i> 提示四
+											<span class="pull-right text-muted small"><em>11:32</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-warning fa-fw"></i> 提示五
+											<span class="pull-right text-muted small"><em>10:57</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-shopping-cart fa-fw"></i> 提示六
+											<span class="pull-right text-muted small"><em>9:49</em>
+                                    </span>
+										</a>
+										<a href="#" class="list-group-item">
+											<i class="fa fa-money fa-fw"></i> 提示七
+											<span class="pull-right text-muted small"><em>昨天</em>
+                                    </span>
+										</a>
+									</div>
+									<!-- /.list-group -->
+									<a href="#" class="btn btn-default btn-block">全部重要提示</a>
+								</div>
+								<!-- /.panel-body -->
+							</div>
+							<!-- /.panel -->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<i class="fa fa-bar-chart-o fa-fw"></i> 各型号电池库存率
+								</div>
+								<div class="panel-body">
+									<div id="morris-donut-chart"></div>
+									<a href="#" class="btn btn-default btn-block">查看详情</a>
+								</div>
+								<!-- /.panel-body -->
+							</div>
+						</div>
+						<!-- /.col-lg-4 -->
 					</div>
-					<div class="panel-body">
-						<div id="morris-donut-chart"></div>
-						<a href="#" class="btn btn-default btn-block">查看详情</a>
-					</div>
-					<!-- /.panel-body -->
+					<!-- /.row -->
 				</div>
 			</div>
-			<!-- /.col-lg-4 -->
-		</div>
-		<!-- /.row -->
-		</div>
-		</div>
-		<!-- /#page-wrapper -->
+			<!-- /#page-wrapper -->
 		</div>
 		<!-- /#wrapper -->
 
@@ -463,6 +474,12 @@
 				document.getElementById("container-page-text").innerHTML = "心声社区";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
+			};
+
+			function workOrderManage() {
+				document.getElementById("container-page-text").innerHTML = "工单管理";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/workOrderManage.html');
 			};
 
 			function equipmentInfoManage() {
