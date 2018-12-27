@@ -38,7 +38,7 @@ $(function() {
 });
 
 function saveChange() {
-	addEquipmentInfo();	
+	addEquipmentInfo();
 }
 
 function selectedEquipRow(param) {
@@ -50,26 +50,28 @@ function selectedEquipRow(param) {
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
-		operateType = "add";
+		$("#equipmentInfoManageForm" + " #typeid"  ).attr("value",document.equipmentSelectForm.equipmentType.value.toString());
 		$('#myModal').modal('show');
 	} else if(optionType == "equipment_edit") {
-		operateType = "edit";
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
 		}
-		console.log(row);
 
-		for (var key in row[0])
-		{
-			if(key ==0)
-			{
+		for(var key in row[0]) {
+			if(key == 0) {
 				continue;
 			}
-			$("#equipmentInfoManageForm" + " #" + key).attr("value",row[0][key]); 
+			$("#equipmentInfoManageForm" + " #" + key).attr("value", row[0][key]);
 		}
-		
+
 		$('#myModal').modal('show');
+	} else if(optionType == "equipment_delete") {
+		if(row.length < 1) {
+			alert("请选择行数据!");
+			return;
+		}
+		deleteEquipmentInfo(row[0]["id"]);
 	}
 }
 
@@ -144,18 +146,51 @@ function getEquipmentInfoTable() {
 
 };
 
+function deleteEquipmentInfo( equipID) {
+	alert(equipID);
+//	var jsonStr = {};
+//	jsonStr.push({
+//		"equipID": equipID
+//	});
+	//JSON.stringify(jsonStr);,
+	var formData = new FormData();
+	formData.append("equipID", equipID);
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/deleteequipmentinfo",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				alert('删除成功!');
+				getEquipmentInfoTable();
+				$("#myModal").modal('hide');
+			} else {
+				alert("删除失败！" + data.message);
+			}
+
+		}
+	});
+};
+
 function addEquipmentInfo() {
 
 	var formData = new FormData($("#equipmentInfoManageForm")[0]);
+	console.log(formData);
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/changeequipmentinfo",
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
 		data: window.getFormDataToJson(formData),
-//		headers: {
-//			Token: $.cookie('token')
-//		},
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
 
 		success: function(data) {
 			if(data.status == 1) {

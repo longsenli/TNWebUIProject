@@ -273,10 +273,7 @@ function filterContent() {
 				$('#mytable tr').find('th:eq(4)').hide();
 				$('#mytable tr').find('td:eq(5)').hide();
 				$('#mytable tr').find('th:eq(5)').hide();
-				var c = document.getElementById('mytable'); //获得表格的信息
-				for(var i = 1; i <= models.length; i++) { //依次向新行插入表格列数的单元格
-					c.rows[i].onclick = showDetail;
-				}
+
 			} else {
 				alert("查询失败！" + dataRes.message);
 			}
@@ -284,14 +281,24 @@ function filterContent() {
 		}
 	});
 };
+//行点击事件
+$(function() {
+	 $("body").delegate('#mytable tr', 'click', function () {
+       showDetail(this);
+    });
+});
+
+
 var selectedContentID = "";
 
-function showDetail() {
-	$('.changeTableRowColor').removeClass('changeTableRowColor');
-	$(this).addClass('changeTableRowColor');
-	selectedContentID = this.cells[5].childNodes[0].textContent;
+function showDetail(row) {
 
-	document.getElementById("selectedDetail").innerHTML = this.cells[4].childNodes[0].textContent;
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	$(row).addClass('changeTableRowColor');
+	
+	selectedContentID = row.cells[5].childNodes[0].textContent;
+
+	document.getElementById("selectedDetail").innerHTML = row.cells[4].childNodes[0].textContent;
 	$.ajax({
 		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
