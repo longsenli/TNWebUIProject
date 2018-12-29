@@ -96,12 +96,12 @@ function ProductionLineSlctFun() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
-
+					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
+				SelectProductinLineFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}

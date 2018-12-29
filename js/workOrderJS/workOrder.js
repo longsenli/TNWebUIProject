@@ -1,4 +1,6 @@
-
+function SelectProductinLineFun(){
+				getWorkOrder();
+};
 function getWorkOrder() {
 	var columnsArray = [];
 	columnsArray.push({

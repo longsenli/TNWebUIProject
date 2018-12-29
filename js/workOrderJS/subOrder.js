@@ -1,3 +1,6 @@
+function SelectProductinLineFun(){
+	lineWorkOrderSlct();
+}
 function lineWorkOrderSlct() {
 	//	return true;
 	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
