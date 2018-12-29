@@ -1,6 +1,5 @@
-function SelectProductinLineFun(){
-	lineWorkOrderSlct();
-}
+
+
 function lineWorkOrderSlct() {
 	//	return true;
 	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
@@ -137,7 +136,6 @@ function SelectSubOrder() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-console.log(models);
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
@@ -255,7 +253,7 @@ function getUsableMaterialFun()
 	formData.append("plantID",document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
 	formData.append("materialID", $("#table").bootstrapTable('getData')[0].materialid)
 	//$('#table').dataTable().row.data();
-	alert(window.getFormDataToJson(formData))
+
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -335,7 +333,7 @@ function gainMaterialRecord() {
 	{
 		arrayObj.push(selectRow[i].id);
 	}
-	console.log(JSON.stringify(arrayObj));
+
 	formData.append("materialIDListStr", JSON.stringify(arrayObj));
 	
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());

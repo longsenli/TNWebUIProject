@@ -10,10 +10,13 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/subOrder.js"></script>
 
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
-		
+		<script type="text/javascript" src="../../vendor/qrcode/jquery.qrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/qrcode.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -21,16 +24,20 @@
 	</head>
 
 	<body>
-		<script type="text/javascript" src="../../js/workOrderJS/subOrder.js"></script>
-
+		<div id="qrcode"></div>
 		<script type="text/javascript">
-			
+			//			   jQuery(function(){
+			//  jQuery('#qrcode').qrcode("http://www.jq22.com");
+			//})
+			jQuery('#qrcode').qrcode({
+				render: "table",
+				text: "http://www.jq22.com"
+			});
 			PlantToLineSelectData();
-//			setTimeout(function() {
-//				//add your code
-//				lineWorkOrderSlct();
-//			}, 5 * 100);
-			//lineWorkOrderSlct();
+			setTimeout(function() {
+				//add your code
+				lineWorkOrderSlct();
+			}, 5 * 100);
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
@@ -65,16 +72,16 @@
 		</form>
 
 		<div id="MaterialFormCollapsible">
-			<a href="#gainMaterialForm" data-toggle="collapse">领料</a>
+			<a href="#gainMaterialForm" onclick="getUsableMaterialFun()" data-toggle="collapse">领料</a>
 		</div>
 
 		<form ID="gainMaterialForm" class="collapse">
 			<div class="form-inline row">
 
-			<button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
+				<button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>查询
             </button>
-            <button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
+				<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>领料
             </button>
 				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
@@ -85,12 +92,12 @@
 		</form>
 		<br />
 
-		<div id="materialidToolbar" class="btn-group">
+		<!--<div id="materialidToolbar" class="btn-group">
 			<button id="workorder_add" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>完成
             </button>
 
-		</div>
+		</div>-->
 		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 		</form>

@@ -101,7 +101,7 @@ function ProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
-				SelectProductinLineFun();
+				//SelectProductinLineFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}

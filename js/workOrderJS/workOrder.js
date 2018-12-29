@@ -1,6 +1,3 @@
-function SelectProductinLineFun(){
-				getWorkOrder();
-};
 function getWorkOrder() {
 	var columnsArray = [];
 	columnsArray.push({
@@ -22,23 +19,23 @@ function getWorkOrder() {
 		"title": "批次数量",
 		"field": "batchnum"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "总产量",
 		"field": "totalproduction"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "报废数量",
 		"field": "scrapnum"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "输出产物",
 		"field": "materialid"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "计划开始时间",
 		"field": "scheduledstarttime"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "计划结束时间",
 		"field": "scheduledendtime"
 	});
@@ -64,7 +61,7 @@ function getWorkOrder() {
 		visible: false
 	});
 	$.ajax({
-		url: window.serviceIP + "/api/order/getworkorder" ,
+		url: window.serviceIP + "/api/order/getworkorder",
 		type: "GET",
 
 		contentType: "application/json",
@@ -76,7 +73,7 @@ function getWorkOrder() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-	
+
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
@@ -94,7 +91,7 @@ function getWorkOrder() {
 					pagination: true,
 					columns: columnsArray
 				});
-	
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -102,20 +99,42 @@ function getWorkOrder() {
 	});
 
 };
+$(function() {
+	$('#myModal').on('hide.bs.modal',
+		function() {
+			document.getElementById("workOrderManageForm").reset();
+		})
+});
 
+function setLineModal() {
+	$("#lineWorkOrderModal").find('option').remove();
+
+	$("#productionLineSlct option").each(function() {
+		$('#lineWorkOrderModal').append(("<option value=" + $(this).val() + ">" + $(this).text()  + "</option>").toString());
+
+	})
+	$('#lineWorkOrderModal').selectpicker('refresh');
+	$('#lineWorkOrderModal').selectpicker('render');  
+};
+
+    
+ 
+ 
+   
 function selectedWorkOrderRow(param) {
 
 	//使用getSelections即可获得，row是json格式的数据
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-
+	setLineModal();
 	var optionType = param.getAttribute("id");
 	if(optionType == "workorder_add") {
-
-		$("#workOrderManageForm" + " #plantid"  ).attr("value",document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-		$("#workOrderManageForm" + " #processid"  ).attr("value",document.PlantToLineSelectForm.productionProcessSlct.value.toString());
-		$("#workOrderManageForm" + " #lineid"  ).attr("value",document.PlantToLineSelectForm.productionLineSlct.value.toString());
+		//document.getElementById("workOrderManageForm").reset();
+		$("#workOrderManageForm" + " #orderid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		$("#workOrderManageForm" + " #plantid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		$("#workOrderManageForm" + " #processid").attr("value", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+		$("#workOrderManageForm" + " #lineid").attr("value", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
@@ -141,20 +160,18 @@ function selectedWorkOrderRow(param) {
 	}
 };
 
-function deleteWorkOrder(orderid){
-	
+function deleteWorkOrder(orderid) {
+
 }
-function saveChange()
-{
+
+function saveChange() {
 	var formData = new FormData($("#workOrderManageForm")[0]);
-	console.log(formData);
-	console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
-		
+
 		data: window.getFormDataToJson(formData),
 		//		headers: {
 		//			Token: $.cookie('token')
