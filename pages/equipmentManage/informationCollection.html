@@ -19,23 +19,21 @@
 
 	<body>
 		<script type="text/javascript ">
+			equipDataPlantSlctFun();
 			getEquipmentType();
 		</script>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<form ID="equipmentSelectForm" name="equipmentSelectForm">
 					<div class="form-inline row">
+							<label> 厂区： </label>
+				<select class="selectpicker" id="equipDataPlantSlct" style="width:100px;" name="equipDataPlantSlct" onchange="getEquipmentInfo()">
+				</select>
 						<label> 类型： </label>
 						<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfo()">
-							<option value=1>1</option>
-							<option value=2>2</option>
-							<option value=3>3</option>
 						</select>
 						<label> 设备： </label>
 						<select class="selectpicker" id="equipmentInfo" style="width:100px;" name="equipmentInfo" onchange="getEquipmentParam()">
-							<option value=1>1</option>
-							<option value=2>2</option>
-							<option value=3>3</option>
 						</select>
 						<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 					</div>

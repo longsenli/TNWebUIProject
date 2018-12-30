@@ -20,15 +20,16 @@
 	<body>
 	<!--	<div class="container">-->
 			<script type="text/javascript ">
+				equipMngPlantSlctFun();
 				getEquipmentTypeTable();
 			</script>
 			<form ID="equipmentSelectForm" name="equipmentSelectForm">
 				<div class="form-inline row">
+					<label> 厂区： </label>
+				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="getEquipmentInfoTable()">
+				</select>
 					<label> 类型： </label>
 					<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoTable()">
-						<option value=1>1</option>
-						<option value=2>2</option>
-						<option value=3>3</option>
 					</select>
 					<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 				</div>
@@ -47,6 +48,7 @@
 							<form ID="equipmentInfoManageForm">
 								<input type="text" id="id"  name = "id" style="display:none" />
 								<input type="text" id="typeid" name = "typeid" style="display:none" />
+								<input type="text" id="plantid" name = "plantid" style="display:none" />
 								<label for="name">机器名称:</label>
 								<input type="text" class="form-control" id="name" name = "name" placeholder="请输入名称">
 								<label for="name">购买时间:</label>

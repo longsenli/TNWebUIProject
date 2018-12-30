@@ -1,41 +1,155 @@
-function getWorkOrder() {
+function workOrderIndustrialPlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#industrialPlantSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+
+				}
+				$('#industrialPlantSlct').selectpicker('refresh');
+				$('#industrialPlantSlct').selectpicker('render');   
+				$('#industrialPlantSlct').selectpicker('mobile');
+				workOrderProductionLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function workOrderProductionProcessSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionprocess",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#productionProcessSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionProcessSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				//console.log($('#productionProcessSlct'));
+				$('#productionProcessSlct').selectpicker('refresh');
+				$('#productionProcessSlct').selectpicker('render');   
+				$('#productionProcessSlct').selectpicker('mobile');
+				workOrderProductionLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+function workOrderProductionLineSlctFun(){
+//	return true;
+//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
+//
+//		return;
+//	}
+//alert("生产线选择");
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionline",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#productionLineSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#productionLineSlct').selectpicker('refresh');
+				$('#productionLineSlct').selectpicker('render');   
+				$('#productionLineSlct').selectpicker('mobile');
+				getWorkOrder();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function getWorkOrder(){
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
 	columnsArray.push({
+		 width:300,
 		"title": "工单号",
 		"field": "orderid"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "产线",
 		"field": "lineid"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "状态",
 		"field": "status"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "批次数量",
 		"field": "batchnum"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "总产量",
 		"field": "totalproduction"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "报废数量",
 		"field": "scrapnum"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "输出产物",
 		"field": "materialid"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "计划开始时间",
 		"field": "scheduledstarttime"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "计划结束时间",
 		"field": "scheduledendtime"
 	});
@@ -88,6 +202,8 @@ function getWorkOrder() {
 					//showRefresh: true,
 					//showColumns: true,
 					//search: true,
+					fixedColumns: true,//固定列
+        			fixedNumber:2,//固定前两列
 					pagination: true,
 					columns: columnsArray
 				});
@@ -188,4 +304,14 @@ function saveChange() {
 
 		}
 	});
-}
+};
+//$(function(){
+//	var $table = $('.table');
+//var $fixedColumn = $table.clone().insertBefore($table).addClass('fixed-column');
+// 
+//$fixedColumn.find('th:not(:first-child),td:not(:first-child)').remove();
+// 
+//$fixedColumn.find('tr').each(function (i, elem) {
+//  $(this).height($table.find('tr:eq(' + i + ')').height());
+//});
+//});

@@ -1,4 +1,108 @@
+function subOrderIndustrialPlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
 
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#industrialPlantSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+
+				}
+				$('#industrialPlantSlct').selectpicker('refresh');
+				$('#industrialPlantSlct').selectpicker('render');   
+				$('#industrialPlantSlct').selectpicker('mobile');
+				subOrderProductionLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function subOrderProductionProcessSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionprocess",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#productionProcessSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionProcessSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				//console.log($('#productionProcessSlct'));
+				$('#productionProcessSlct').selectpicker('refresh');
+				$('#productionProcessSlct').selectpicker('render');   
+				$('#productionProcessSlct').selectpicker('mobile');
+				subOrderProductionLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function subOrderProductionLineSlctFun() {
+	//	return true;
+	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
+	//
+	//		return;
+	//	}
+	//alert("生产线选择");
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionline",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#productionLineSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#productionLineSlct').selectpicker('refresh');
+				$('#productionLineSlct').selectpicker('render');   
+				$('#productionLineSlct').selectpicker('mobile');
+				lineWorkOrderSlct();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
 
 function lineWorkOrderSlct() {
 	//	return true;
@@ -162,7 +266,7 @@ function SelectSubOrder() {
 };
 
 function SelectMaterialRecord() {
-var columnsArray = [];
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -247,10 +351,9 @@ var columnsArray = [];
 	});
 };
 
-function getUsableMaterialFun()
-{	
+function getUsableMaterialFun() {
 	var formData = new FormData();
-	formData.append("plantID",document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
 	formData.append("materialID", $("#table").bootstrapTable('getData')[0].materialid)
 	//$('#table').dataTable().row.data();
 
@@ -288,7 +391,7 @@ function getUsableMaterialFun()
 		visible: false
 	});
 	$.ajax({
-		url: window.serviceIP + "/api/material/getusablematerial" ,
+		url: window.serviceIP + "/api/material/getusablematerial",
 		type: "POST",
 		processData: false,
 		contentType: false,
@@ -325,21 +428,21 @@ function getUsableMaterialFun()
 		}
 	});
 }
+
 function gainMaterialRecord() {
 	var formData = new FormData();
 	var selectRow = $("#usableMaterialTable").bootstrapTable('getSelections');
 	var arrayObj = new Array();
-	for(var i =0;i<selectRow.length;i++)
-	{
+	for(var i = 0; i < selectRow.length; i++) {
 		arrayObj.push(selectRow[i].id);
 	}
 
 	formData.append("materialIDListStr", JSON.stringify(arrayObj));
-	
+
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	formData.append("outputter", "lls") //$.cookie('username');
 	$.ajax({
-		url: window.serviceIP + "/api/material/gainmaterialrecord" ,
+		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",
 		processData: false,
 		contentType: false,
@@ -357,4 +460,37 @@ function gainMaterialRecord() {
 			}
 		}
 	});
+}
+
+function createQRCode() {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		return;
+	}
+	$("#codeHtml").html('<div id="QRCode" ></div>');
+	jQuery('#QRCode').qrcode({
+		//render: "canva",
+		render: "canvas",
+		 width: 100, //宽度
+         height:100, //高度
+		text: row[0]["id"]
+	});
+}
+
+function printQRCode() {
+	createQRCode();
+	var img = document.getElementById("QRImage"); /// get image element
+	var canvas = document.getElementsByTagName("canvas")[0]; /// get canvas element
+	img.src = canvas.toDataURL(); /// update image
+document.getElementById("QRImage").style.display="block";
+	$("#QRImage").jqprint({
+		debug: false,
+		importCSS: true,
+		printContainer: true,
+		operaSupport: false
+	});
+	document.getElementById("QRImage").style.display="none";
 }

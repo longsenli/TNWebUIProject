@@ -1,7 +1,39 @@
+
+function equipMngPlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#equipMngPlantSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#equipMngPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+
+				}
+				$('#equipMngPlantSlct').selectpicker('refresh');
+				$('#equipMngPlantSlct').selectpicker('render');   
+				$('#equipMngPlantSlct').selectpicker('mobile');
+				getEquipmentInfoTable();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
 function getEquipmentTypeTable() {
 
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmenttype",
+		url: window.serviceIP + "/api/basicdata/getequipmenttype",
 		type: "GET",
 
 		contentType: "application/json",
@@ -106,8 +138,14 @@ function getEquipmentInfoTable() {
 		"field": "id",
 		visible: false
 	});
+	columnsArray.push({
+		"title": "plantid",
+		"field": "plantid",
+		visible: false
+	});
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString()
+		+"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",

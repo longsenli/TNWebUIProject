@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.104:8080";
-window.netServiceIP = "http://192.168.1.104:8088";
+window.serviceIP = "http://192.168.1.100:8080";
+window.netServiceIP = "http://192.168.1.100:8088";
 Date.prototype.format = function(format) {
 	var o = {
 		"M+": this.getMonth() + 1, //month 

@@ -1,7 +1,40 @@
+
+function equipDataPlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+				headers: {
+					Token: $.cookie('token')
+				},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#equipDataPlantSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#equipDataPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+
+				}
+				$('#equipDataPlantSlct').selectpicker('refresh');
+				$('#equipDataPlantSlct').selectpicker('render');   
+				$('#equipDataPlantSlct').selectpicker('mobile');
+				getEquipmentInfo();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
 function getEquipmentType() {
 
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmenttype",
+		url: window.serviceIP + "/api/basicdata/getequipmenttype",
 		type: "GET",
 
 		contentType: "application/json",
@@ -17,7 +50,7 @@ function getEquipmentType() {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#equipmentType').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+					$('#equipmentType').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
 
 				}
 				$('#equipmentType').selectpicker('refresh');
@@ -34,7 +67,8 @@ function getEquipmentType() {
 
 function getEquipmentInfo() {
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString()
+		+ "&plantID=" +document.equipmentSelectForm.equipDataPlantSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -104,6 +138,11 @@ function getEquipmentParam() {
 };
 
 function saveEquipmentParam() {
+	if(document.equipmentSelectForm.equipmentInfo.value.toString().length < 1)
+	{
+		alert("请选择设备!");
+		return false;
+	}
 	var params = $("#equipmentParam input");
 	var picLoadName = "";
 	for(var i = 0; i < params.length; i++) {
