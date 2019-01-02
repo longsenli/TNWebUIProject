@@ -280,7 +280,7 @@ function deleteWorkOrder(orderid) {
 
 }
 
-function saveChange() {
+function saveWorkOrderChange() {
 	var formData = new FormData($("#workOrderManageForm")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",

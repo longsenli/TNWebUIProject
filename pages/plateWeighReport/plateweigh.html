@@ -5,24 +5,33 @@
 		<meta charset="utf-8">
 		<title>天能集团（濮阳）报表系统</title>
 		<!-- 引入 echarts.js -->
+		<script type="text/javascript" src="../../js/common.js"></script>
+		
 		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../../js/plateWeightReopt.js"></script>
+		<script type="text/javascript" src="../../js/plateweigh/plateWeightReopt.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
+		<script type="text/javascript">
+			window.onload = function(){
+				var today = new Date();
+			document.getElementById("startTime").value=today.format("yyyy-MM-dd");
+			document.getElementById("endTime").value=today.format("yyyy-MM-dd");
+		}
+		</script>
 		<br />
 		<div class="form-inline row">
 			<label>    时间： </label>
-			<input type="datetime-local" id="startTime" value="2018-11-26T16:59:59" />
+			<input type="date" id="startTime" />
 			<label>-</label>
-			<input type="datetime-local" id="endTime" value="2018-11-27T10:59:59" />
+			<input type="date" id="endTime"  />
 			<label> 产线： </label>
 			<select class="form-control  mmp-select" id="productLine" style="width:300px;" name="stat">
-				<option value="">全部</option>
+				<option value="-1">全部</option>
 				<option value="正板1号线">正板1号线</option>
 				<option value="正板2号线">正板2号线</option>
 				<option value="正板3号线">正板3号线</option>
@@ -32,7 +41,7 @@
 			</select>
 			<label> 极板： </label>
 			<select class="form-control  mmp-select" id="productType" style="width:300px;" name="stat">
-				<option value="">全部</option>
+				<option value="-1">全部</option>
 				<option value="1">正板</option>
 				<option value="2">负板</option>
 				<option value="3">边板</option>

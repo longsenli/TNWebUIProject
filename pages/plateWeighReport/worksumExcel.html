@@ -7,18 +7,28 @@
 		<!-- 引入 echarts.js -->
 		<script type="text/javascript" src="../js/echarts.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../../js/plateWeightReopt.js"></script>
+		<script type="text/javascript" src="../../js/plateweigh/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>		
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 	</head>
 
 	<body>
+		<script type="text/javascript">
+			window.onload = function(){
+				var today = new Date();
+			document.getElementById("startTime").value=today.format("yyyy-MM-dd");
+			document.getElementById("endTime").value=today.format("yyyy-MM-dd");
+		}
+		</script>
 		<br />
-		<input type="date" id="startTime" value="2018-11-26" />
+		<input type="date" id="startTime"  />
 		<label>-</label>
-		<input type="date" id="endTime" value="2018-11-27" />
+		<input type="date" id="endTime"  />
 
 		<button type="button" onclick="getWorkSummeryExcel()">工作详情查看</button>
+		<button type="button" onclick="getWorkSummeryByStaff()">人员工作统计</button>
+		<button type="button" onclick="getWorkSummeryExcel()">产线统计</button>
 
 		<table class = "table" frame="border" rules="all" id="mytable">
 			<caption>称重统计</caption>

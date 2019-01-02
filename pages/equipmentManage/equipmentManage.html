@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/equipmentJS/equipmentManage.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -29,7 +30,7 @@
 				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="getEquipmentInfoTable()">
 				</select>
 					<label> 类型： </label>
-					<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoTable()">
+					<select class="selectpicker"  id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoTable()">
 					</select>
 					<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 				</div>
@@ -60,7 +61,7 @@
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default" onclick="saveChange()">保存 </button>
+							<button type="button" class="btn btn-default" onclick="addEquipmentInfo()">保存 </button>
 						</div>
 					</div>
 					<!-- /.modal-content -->

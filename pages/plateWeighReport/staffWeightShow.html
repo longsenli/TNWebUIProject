@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>天能集团（濮阳）报表系统</title>
+		<!-- 引入 echarts.js -->
+		<script type="text/javascript" src="../../js/common.js"></script>
+		
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/plateweigh/plateWeightReopt.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+			<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			$(function() {
+				getWeighQualifyStaff("0");
+				var today = new Date();
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+			})
+		</script>
+		<br />
+		<form>
+			<div class="form-inline row">
+				<input type="date" id="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" />
+
+				<label> 机长： </label>
+				<select class="selectpicker" id="weighQualifyStaff" style="width:100px;" name="weighQualifyStaff">
+				</select>
+				<label> 型号： </label>
+				<select class="selectpicker" id="weighQualifyType" style="width:100px;" name="weighQualifyType">
+				</select>
+
+				<button type="button" class="btn btn-default" onclick="getStaffWeighShow()">查询     </button>
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+<div id="report"></div>
+	</body>
+
+</html>

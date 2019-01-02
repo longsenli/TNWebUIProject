@@ -69,9 +69,6 @@ $(function() {
 		})
 });
 
-function saveChange() {
-	addEquipmentInfo();
-}
 
 function selectedEquipRow(param) {
 

@@ -1,33 +1,10 @@
-function loadXMLDoc() {
-	var xmlhttp;
-	if(window.XMLHttpRequest) {
-		// IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-		xmlhttp = new XMLHttpRequest();
-	} else {
-		// IE6, IE5 浏览器执行代码
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange = function() {
-		document.getElementById("detail").innerHTML = xmlhttp.status;
-		if(xmlhttp.status == 200) {
-			document.getElementById("detail").innerHTML = xmlhttp.responseText;
-		}
-	}
-	xmlhttp.open("GET", window.netServiceIP+ "/api/UserInfo/get?id=2", true);
-	xmlhttp.send();
-};
-
-function changetext() {
-	$("#detail").html('<h2> data + </h2>');
-};
-
 function addAPI() {
 	window.alert("OK");
 	//var queryArray = "$("#formAdd").serializeArray()";
 	var queryArray = "{'str':'asdfdsf'}";
 	window.alert(queryArray);
 
-	var urlAPI = window.netServiceIP+ "/api/UserInfo/changedata?str=ewrrt";
+	var urlAPI = window.netServiceIP + "/api/UserInfo/changedata?str=ewrrt";
 	$.ajax({
 		url: urlAPI,
 		type: "POST",
@@ -49,7 +26,7 @@ function postTest() {
 		d[this.name] = this.value;
 	});
 
-	var urlAPI = window.netServiceIP+ "/api/UserInfo/changedata";
+	var urlAPI = window.netServiceIP + "/api/UserInfo/changedata";
 	$.ajax({
 		url: urlAPI,
 		type: "post",
@@ -69,7 +46,7 @@ function getWebAPI() {
 	var endTime = $("#endTime").val();
 	var productLine = $('#productLine option:selected').text();
 	var productType = $('#productType option:selected').text();
-	var urlAPI = window.netServiceIP+ "/api/UserInfo/get?startTime=";
+	var urlAPI = window.netServiceIP + "/api/UserInfo/get?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&procudtLine=" + productLine + "&productType=" + productType;
 	$.ajax({
 		url: urlAPI,
@@ -266,7 +243,7 @@ function uploadFile() {
 	formData.append("F_NAME", ofile.name);
 
 	$.ajax({
-		url: window.netServiceIP+ "/api/UserInfo/Test",
+		url: window.netServiceIP + "/api/UserInfo/Test",
 		type: "POST",
 		data: formData,
 		cache: false, //不需要缓存
@@ -290,7 +267,7 @@ function getWorkSum() {
 	var endTime = $("#endTime").val();
 	var staffName = $('#workerName option:selected').text();
 
-	var urlAPI = window.netServiceIP+ "/api/PlateWeigh/getStaffWorkSum?startTime=";
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/getStaffWorkSum?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + staffName;
 	$.ajax({
 		url: urlAPI,
@@ -377,7 +354,7 @@ function addOption() {
 	//添加一个选项 
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
-	var urlAPI = window.netServiceIP+ "/api/PlateWeigh/GetStaff?startTime=";
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaff?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime;
 	$.ajax({
 		url: urlAPI,
@@ -410,7 +387,7 @@ function getWorkDetail() {
 	var endTime = $("#endTime").val();
 	var staffName = $('#workerName option:selected').text();
 
-	var urlAPI = window.netServiceIP+ "/api/PlateWeigh/getStaffWorkSum?startTime=";
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/getStaffWorkSum?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + staffName;
 	$.ajax({
 		url: urlAPI,
@@ -498,7 +475,7 @@ function getWorkSummeryExcel() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 
-	var urlAPI = window.netServiceIP+ "/api/PlateWeigh/GetStaffWorkSummery?startTime=";
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWorkSummery?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime;
 	$.ajax({
 		url: urlAPI,
@@ -541,88 +518,264 @@ function getWorkSummeryExcel() {
 	});
 };
 
-function testCity() {
+function getWeighQualifyStaff(addAll) {
+	var today = new Date();
+	today.setMonth(today.getMonth() - 1);
 
-	$("#mytable tbody").html("");
-	$("#mytable tr:not(:first)").empty("");
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaff?startTime=";
+	urlAPI += today.format("yyyy-MM-dd hh:mm:ss") + "&endTime=" + (new Date()).format("yyyy-MM-dd hh:mm:ss");
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+			$("#weighQualifyStaff").find('option').remove();
+
+			var models = eval("(" + dataRes + ")");
+			if(addAll == 1)
+			{
+				$('#weighQualifyStaff').append(("<option value=" + "-1" + ">" + "全部"  + "</option>").toString());
+			}
+			
+			for (var  i  in  models)  {  
+				$('#weighQualifyStaff').append(("<option value=" + models[i].theOperator.toString() + ">" + models[i].theOperator.toString()  + "</option>").toString())
+			}
+			$('#weighQualifyStaff').selectpicker('refresh');
+			$('#weighQualifyStaff').selectpicker('render');   
+			$('#weighQualifyStaff').selectpicker('mobile');
+			getWeighQualifyLine(addAll);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getWeighQualifyLine(addAll) {
+	var today = new Date();
+	today.setMonth(today.getMonth() - 1);
+
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetLine?startTime=";
+	urlAPI += today.format("yyyy-MM-dd hh:mm:ss") + "&endTime=" + (new Date()).format("yyyy-MM-dd hh:mm:ss");
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+			$("#weighQualifyLine").find('option').remove();
+
+			var models = eval("(" + dataRes + ")");
+			if(addAll == 1)
+			{
+				$('#weighQualifyLine').append(("<option value=" + "-1" + ">" + "全部"  + "</option>").toString());
+			}
+
+			for (var  i  in  models)  {  
+				$('#weighQualifyLine').append(("<option value=" + models[i].ProdutionLine.toString() + ">" + models[i].ProdutionLine.toString()  + "</option>").toString())
+			}
+			$('#weighQualifyLine').selectpicker('refresh');
+			$('#weighQualifyLine').selectpicker('render');   
+			$('#weighQualifyLine').selectpicker('mobile');
+			getWeighQualifyType(addAll);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getWeighQualifyType(addAll) {
+	var today = new Date();
+	today.setMonth(today.getMonth() - 1);
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetSpecifications?startTime=";
+	urlAPI += today.format("yyyy-MM-dd hh:mm:ss") + "&endTime=" + (new Date()).format("yyyy-MM-dd hh:mm:ss");
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+			$("#weighQualifyType").find('option').remove();
+
+			var models = eval("(" + dataRes + ")");
+			if(addAll == 1)
+			{
+				$('#weighQualifyType').append(("<option value=" + "-1" + ">" + "全部"  + "</option>").toString());
+			}
+			for (var  i  in  models)  {  
+				$('#weighQualifyType').append(("<option value=" + models[i].Specifications.toString() + ">" + models[i].Specifications.toString()  + "</option>").toString())
+			}
+			$('#weighQualifyType').selectpicker('refresh');
+			$('#weighQualifyType').selectpicker('render');   
+			$('#weighQualifyType').selectpicker('mobile');
+			
+			$('#weighQualifyRange').selectpicker('refresh');
+			$('#weighQualifyRange').selectpicker('render');   
+			$('#weighQualifyRange').selectpicker('mobile');
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getWorkQualifiedRate() {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "日期",
+		"field": "realtime"
+	});
+	columnsArray.push({
+		"title": "线别",
+		"field": "ProdutionLine"
+	});
+	columnsArray.push({
+		"title": "机长",
+		"field": "theOperator"
+	});
+	columnsArray.push({
+		"title": "型号",
+		"field": "Specifications"
+	});
+	columnsArray.push({
+		"title": "称重次数",
+		"field": "weightCount"
+	});
+	columnsArray.push({
+		"title": "不良次数",
+		"field": "badNumber"
+	});
+	columnsArray.push({
+		"title": "平均重量",
+		"field": "avgWeight"
+	});
+	columnsArray.push({
+		"title": $('#weighQualifyRange option:selected').text(),
+		"field": "percentRes"
+	});
 
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 
-	var urlAPI = window.serviceIP+ "/api/allpeople";
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetWorkQualifiedRate?startTime=";
+	urlAPI += startTime + "&endTime=" + endTime + "&line=" + document.getElementById("weighQualifyLine").value
+	+ "&staff=" + document.getElementById("weighQualifyStaff").value 
+	+ "&type=" + document.getElementById("weighQualifyType").value
+	+ "&range=" + document.getElementById("weighQualifyRange").value;
 	$.ajax({
 		url: urlAPI,
 		type: "GET",
 		dataType: "json",
 		success: function(dataRes) {
-			console.log(dataRes);
-			//var models = eval("(" + dataRes + ")");
-			var models = dataRes;
-			console.log(models);
-			var c = document.getElementById('mytable'); //获得表格的信息
-			var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
+
+			var models = eval("(" + dataRes + ")");
+
+			$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar1',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "recordTime",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getStaffWeighShow() {
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWorkDetail?startTime=";
+	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + document.getElementById("weighQualifyStaff").value
+	+ "&specifications=" + document.getElementById("weighQualifyType").value;
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+
+			var models = eval("(" + dataRes + ")");
+			var xA = [];
+			var yA = [];
+			var minNum = 99999;
+			var maxNum = 0;
+
 			for(var i in models) {
-
-				var x = c.insertRow(c.rows.length);
-				for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
-					   
-					var y = x.insertCell(j);
-					if(j == 0)
-						y.innerHTML = models[i].id; 
-					if(j == 1)
-						y.innerHTML = models[i].name; 
-					if(j == 2)
-						y.innerHTML = models[i].sex; 
-					if(j == 3)
-						y.innerHTML = models[i].birthday; 
-				}
+				xA.push(models[i].W_Time);
+				yA.push(models[i].Weight);
+				if(maxNum < models[i].Weight)
+					maxNum = models[i].Weight;
+				if(minNum > models[i].Weight)
+					minNum = models[i].Weight;
 			}
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
-		}
-	});
-};
 
-function loginPage() {
+			var myChart = echarts.init(document.getElementById('report'));
+			var option = {
+				title: {
+					text: '个人称重趋势图'
+				},
+				  tooltip : {
+        trigger: 'axis'
+    },
+				legend: {
+					orient: 'vertical', // 'vertical'
+					x: 'right', // 'center' | 'left' | {number},
+					y: 'top', // 'center' | 'bottom' | {number}
+					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+					data: ['工作量']
+				},
+				xAxis: {
+					data: xA
+				},
+				yAxis: {
+					min: parseInt(minNum) - 1,
+					max: parseInt(maxNum) + 1,
+					splitNumber: parseInt((maxNum - minNum) / 5),
+					axisLine: {
+						lineStyle: {
+							color: '#dc143c'
+						}
+					}
+				},
+				series: [
 
-	var urlAPI = window.serviceIP+ "/tokentest/login?name=1&psd=1";
-	$.ajax({
-		url: urlAPI,
-		type: "GET",
-		headers: {
-			Token: '12334'
-		},
-		dataType: "json",
-		success: function(dataRes) {
-			console.log(dataRes);
-			//var models = eval("(" + dataRes + ")");
-			
-			$.cookie("token", dataRes.token)
-			window.location.href = "index.html";
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
-		}
-	});
-};
-
-function testToken() {
-
-	var urlAPI = window.serviceIP+ "/tokentest/mainpage";
-	$.ajax({
-		contentType: "application/json; charset=utf-8",
-		headers: {
-			Token: $.cookie('token')
-		},
-		url: urlAPI,
-		type: "GET",
-		dataType: "json",
-		success: function(dataRes) {
-			console.log(dataRes);
-			//var models = eval("(" + dataRes + ")");
-			　
-			alert(dataRes);
+					{
+						name: '工作量',
+						type: 'bar',
+						data: yA,
+						showAllSymbol: true,
+						itemStyle: {
+							normal: {
+								label: {
+									show: true
+								}
+							}
+						},
+						markLine: {
+							data: [{
+								type: 'average',
+								name: '平均值'
+							}]
+						}
+					}
+				]
+			};
+			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
