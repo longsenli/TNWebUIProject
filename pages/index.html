@@ -153,6 +153,12 @@
 									<li>
 										<a href="#" onclick="weighQualify()">称重合格率统计</a>
 									</li>
+									<li>
+										<a href="#" onclick="staffWeightDetail()">个人称重趋势图</a>
+									</li>
+									<li>
+										<a href="#" onclick="staffWeightTime()">个人称重时间间隔趋势图</a>
+									</li>
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -483,6 +489,18 @@
 				document.getElementById("container-page-text").innerHTML = "极板称重合格率统计";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/plateWeighReport/qualifiedRate.html');
+			};
+
+			function staffWeightDetail() {
+				document.getElementById("container-page-text").innerHTML = "个人称重趋势图";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/plateWeighReport/staffWeightShow.html');
+			};
+
+			function staffWeightTime() {
+				document.getElementById("container-page-text").innerHTML = "个人称重时间间隔趋势图";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/plateWeighReport/staffWeightTimeInterval.html');
 			};
 
 			function documentManage() {
