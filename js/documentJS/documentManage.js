@@ -45,6 +45,9 @@ function initFileData(){
 function filterFile() {
 	var columnsArray = [];
 	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
 		"title": "名称",
 		"field": "名称",
 		switchable: true,
@@ -68,6 +71,11 @@ function filterFile() {
 		switchable: true,
 		sortable: true
 	});
+	columnsArray.push({
+		"title": "存储路径",
+		"field": "存储路径",
+		visible: false
+	});
 	var formData = new FormData($("#form2")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/documentSelect",
@@ -88,10 +96,11 @@ function filterFile() {
 				for(var i = 0; i < models.length; i++) {
 					var obj = {};
 
-					obj["名称"] = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> "; 
+					obj["名称"] = "<a href=\""+models[i].location +"\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> "; 
 					obj["摘要"] = models[i].summary;
 					obj["创建人"] = models[i].creator;
 					obj["创建时间"] = models[i].createtime;
+					obj["存储路径"] = models[i].location;
 					dataShow.push(obj);
 				}
 				$('#mytable').bootstrapTable('destroy').bootstrapTable({
@@ -168,6 +177,10 @@ function filterFileOld() {
 
 function exportFile(obj) {  
 	//alert(obj.innerHTML);
+	var row = $.map($('#mytable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	//console.log($(obj).attr('href'));
 
 	var filename = obj.innerHTML;
 	var form = $("<form>"); //定义一个form表单
@@ -177,15 +190,9 @@ function exportFile(obj) {  
 	form.attr("action", window.serviceIP + "/api/downloadFile");
 	var input1 = $("<input>");
 	input1.attr("type", "hidden");
-	input1.attr("name", "filename");
-	input1.attr("value", filename);
+	input1.attr("name", "filelocation");
+	input1.attr("value", $(obj).attr('href'));
 	form.append(input1);
-	var input2 = $("<input>");
-	input2.attr("type", "hidden");
-	input2.attr("name", "filePath");
-	input2.attr("value", "D:/upload");
-	form.append(input2);
-
 	$("body").append(form); //将表单放置在web中
 	form.submit(); //表单提交
 

@@ -181,7 +181,7 @@ function getEquipmentInfoTable() {
 };
 
 function deleteEquipmentInfo( equipID) {
-	alert(equipID);
+//	alert(equipID);
 //	var jsonStr = {};
 //	jsonStr.push({
 //		"equipID": equipID
@@ -215,7 +215,7 @@ function deleteEquipmentInfo( equipID) {
 function addEquipmentInfo() {
 
 	var formData = new FormData($("#equipmentInfoManageForm")[0]);
-	console.log(formData);
+	//console.log(formData);
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/changeequipmentinfo",
 		type: "POST",

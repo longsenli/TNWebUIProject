@@ -744,6 +744,7 @@ function getStaffWeighShow() {
 				tooltip: {
 					trigger: 'axis'
 				},
+				color:['#009393','#ED7C30','#80FF80','#FF8096','#800080'],					
 				legend: {
 					orient: 'vertical', // 'vertical'
 					x: 'right', // 'center' | 'left' | {number},
@@ -866,12 +867,14 @@ function getStaffWeighTimeInterval() {
 				tooltip: {
 					trigger: 'axis'
 				},
+				color:['#009393','#ED7C30','#80FF80','#FF8096','#800080'],
+					
 				legend: {
 					orient: 'vertical', // 'vertical'
 					x: 'right', // 'center' | 'left' | {number},
 					y: 'top', // 'center' | 'bottom' | {number}
 					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-					data: ['称重时间间隔趋势图']
+					data: ['时间变化趋势']
 				},
 				calculable: true,
 				xAxis: {
@@ -897,16 +900,15 @@ function getStaffWeighTimeInterval() {
 				//					}
 				//				},
 				series: [
-
 					{
 						itemStyle: {
 							normal: {
 								lineStyle: {
-									color: '#d3a4ff'
+									color: '#009393'
 								}
 							}
 						},
-						name: '称重时间间隔趋势图',
+						name: '时间变化趋势',
 						type: 'line',
 						data: yA,
 						//showAllSymbol: true,
