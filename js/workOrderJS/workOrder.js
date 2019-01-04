@@ -205,7 +205,7 @@ function getWorkOrder(){
 					fixedColumns: true,//固定列
         			fixedNumber:2,//固定前两列
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
 				});
 
 			} else {
@@ -215,12 +215,7 @@ function getWorkOrder(){
 	});
 
 };
-$(function() {
-	$('#myModal').on('hide.bs.modal',
-		function() {
-			document.getElementById("workOrderManageForm").reset();
-		})
-});
+
 
 function setLineModal() {
 	$("#lineWorkOrderModal").find('option').remove();
@@ -247,10 +242,10 @@ function selectedWorkOrderRow(param) {
 	var optionType = param.getAttribute("id");
 	if(optionType == "workorder_add") {
 		//document.getElementById("workOrderManageForm").reset();
-		$("#workOrderManageForm" + " #orderid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-		$("#workOrderManageForm" + " #plantid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-		$("#workOrderManageForm" + " #processid").attr("value", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
-		$("#workOrderManageForm" + " #lineid").attr("value", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+		$("#workOrderManageForm" + " #orderid").val( document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		$("#workOrderManageForm" + " #plantid").val( document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		$("#workOrderManageForm" + " #processid").val( document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+		$("#workOrderManageForm" + " #lineid").val( document.PlantToLineSelectForm.productionLineSlct.value.toString());
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
@@ -263,7 +258,12 @@ function selectedWorkOrderRow(param) {
 			if(key == 0) {
 				continue;
 			}
-			$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
+			if(key == "scheduledstarttime") {
+				$("#workOrderManageForm" + " #" + key).val( window.stringToDatetimeLocalType(row[0][key]));
+				continue;
+			}
+			$("#workOrderManageForm" + " #" + key).val(row[0][key]);
+			//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 		}
 
 		$('#myModal').modal('show');

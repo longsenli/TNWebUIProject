@@ -148,10 +148,13 @@
 										<a href="#" onclick="workSummary()">称重月工作统计</a>
 									</li>
 									<li>
-										<a href="#" onclick="weighRecord()">称重记录查看</a>
+										<a href="#" onclick="weighRecord()">称重记录详情查看</a>
 									</li>
 									<li>
-										<a href="#" onclick="weighQualify()">称重合格率统计</a>
+										<a href="#" onclick="weighQualify()">称重合格率详情查看</a>
+									</li>
+									<li>
+										<a href="#" onclick="weighQualifySummary()">称重合格率统计报表</a>
 									</li>
 									<li>
 										<a href="#" onclick="staffWeightDetail()">个人称重趋势图</a>
@@ -486,9 +489,15 @@
 			};
 
 			function weighQualify() {
-				document.getElementById("container-page-text").innerHTML = "极板称重合格率统计";
+				document.getElementById("container-page-text").innerHTML = "极板称重合格率详情";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/plateWeighReport/qualifiedRate.html');
+			};
+
+			function weighQualifySummary() {
+				document.getElementById("container-page-text").innerHTML = "极板称重合格率统计";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/plateWeighReport/qualifiedRateSummary.html');
 			};
 
 			function staffWeightDetail() {

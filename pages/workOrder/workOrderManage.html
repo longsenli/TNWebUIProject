@@ -15,15 +15,14 @@
 
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
-		
+
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
-		
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 
-<!--<style>
+		<!--<style>
 			.table-responsive>.fixed-column {
     position: absolute;
     display: inline-block;
@@ -43,7 +42,13 @@
 		<script type="text/javascript">
 			workOrderIndustrialPlantSlctFun();
 			workOrderProductionProcessSlctFun();
-		//	getWorkOrder();
+			$(function() {
+				$('#myModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("workOrderManageForm").reset();
+					})
+			});
+			//	getWorkOrder();
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
@@ -76,12 +81,12 @@
 							<input type="text" id="processid" name="processid" style="display:none" />
 							<input type="text" id="lineid" name="lineid" style="display:none" />
 							<label for="name">工单号:</label>
-							<input type="text"  readonly="readonly" class="form-control" id="orderid" name="orderid" placeholder="工单号自动生成">
+							<input type="text" readonly="readonly" class="form-control" id="orderid" name="orderid" placeholder="工单号自动生成">
 							<label> 产线： </label>
 							<br />
-				<select class="selectpicker" id="lineWorkOrderModal" style="width:100px;" name="lineWorkOrderModal" >
-				</select>
-				<br />
+							<select class="selectpicker" id="lineWorkOrderModal" style="width:100px;" name="lineWorkOrderModal">
+							</select>
+							<br />
 							<label for="name">产品型号:</label>
 							<input type="text" class="form-control" id="materialid" name="materialid" placeholder="请输入产出产品">
 

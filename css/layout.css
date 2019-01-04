@@ -38,10 +38,18 @@ min-height:50px;
 /*border:1px #F00 solid;*/
 margin: auto;
 }
+#reportSummary {
+width:300px;
+height:700px;
+padding-left:20px;
+
+/*border:1px #F00 solid;*/
+}
 #report {
-width:900px;
-height:800px;
-margin:0 auto;
+width:800px;
+height:700px;
+padding-left:50px;
+/*margin:0 auto;*/
 /*border:1px #F00 solid;*/
 }
 

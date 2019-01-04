@@ -37,7 +37,7 @@ function publishIdea() {
 		},
 		cache: false, //不需要缓存
 		processData: false,
-		contentType: false,
+		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
@@ -61,7 +61,7 @@ function initConentData() {
 		dataType: "json",
 		processData: true,
 		success: function(dataRes) {
-			console.log(dataRes);
+			//console.log(dataRes);
 			//			$("#contentType option").remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
@@ -72,7 +72,7 @@ function initConentData() {
 
 					htmlStr += "<option value="  +  models[i].type  +  ">"  +  models[i].name  +  "</option>";    //$("#contentType").append("<option value=" + models[i].type + ">" + models[i].name + "</option>");  				        
 				}  
-				alert(htmlStr);
+
 				$('#contentType').html(htmlStr);
 				$('#contentType').selectpicker('refresh');
 
@@ -86,16 +86,8 @@ function initConentData() {
 	});
 };
 
-function getFormData(formDataOrign) {
-	var objData = {};
 
-	for(var entry of formDataOrign.entries()) {
-		objData[entry[0]] = entry[1];
-	}
-	return JSON.stringify(objData);
-};
-
-function initData() {
+function initContentTypeSlctData() {
 
 	$.ajax({
 		url: window.serviceIP + "/api/content/getcontenttype",
@@ -108,7 +100,7 @@ function initData() {
 		},
 		processData: true,
 		success: function(dataRes) {
-			console.log(dataRes);
+			
 			$("#typeAll").find('option').remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
@@ -135,62 +127,6 @@ function initData() {
 
 };
 
-function filterContentT() {
-
-	var formData = new FormData($("#form2")[0]);
-	$("#mytable tbody").html("");
-	$("#mytable tr:not(:first)").empty("");
-	$.ajax({
-		url: window.serviceIP + "/api/content/selectcontent",
-		type: "POST",
-		data: formData,
-		headers: {
-			Token: $.cookie('token')
-		},
-		cache: false, //不需要缓存
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) {
-				var models = eval("(" + dataRes.data + ")");
-
-				var c = document.getElementById('mytable'); //获得表格的信息
-				var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
-				for(var i in models) {
-
-					var x = c.insertRow(c.rows.length);
-					x.onclick = showDetail;
-					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
-						   
-						var y = x.insertCell(j);
-						//y.onclick = showDetail;
-						//					if(j ==0)
-						//						y.onclick = exportFile;
-						if(j == 0)
-							y.innerHTML = models[i].title;  //models[i].name
-						if(j == 1)
-							y.innerHTML = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
-						if(j == 2)
-							y.innerHTML = models[i].creator; 
-						if(j == 3)
-							y.innerHTML = models[i].createtime; 
-						if(j == 4)
-							y.innerHTML = models[i].context; 
-						if(j == 5)
-							y.innerHTML = models[i].id; 
-					}
-				}
-				$('#mytable tr').find('td:eq(4)').hide();
-				$('#mytable tr').find('th:eq(4)').hide();
-				$('#mytable tr').find('td:eq(5)').hide();
-				$('#mytable tr').find('th:eq(5)').hide();
-			} else {
-				alert("查询失败！" + dataRes.message);
-			}
-
-		}
-	});
-};
 
 function filterContent() {
 
@@ -352,13 +288,13 @@ function submitComment() {
 	$.ajax({
 		url: window.serviceIP + "/api/comment/insertcomment",
 		type: "POST",
-		data: getFormData(formData),
+		data: window.getFormDataToJson(formData),
 		headers: {
 			Token: $.cookie('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
-		contentType: false,
+		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');

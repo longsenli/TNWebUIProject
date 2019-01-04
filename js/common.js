@@ -31,3 +31,12 @@ function getFormDataToJson(formDataOrign) {
 	}
 	return JSON.stringify(objData);
 }
+
+function stringToDatetimeLocalType(str){
+	if(str==null || str =="undefined" || str.toString().length < 5)
+	{
+		return "";
+	}
+var dt = new Date(str)
+return dt.format("yyyy-MM-ddThh:mm:ss");
+}

@@ -608,6 +608,430 @@ function getWeighQualifyType(addAll) {
 			$('#weighQualifyRange').selectpicker('refresh');
 			$('#weighQualifyRange').selectpicker('render');   
 			$('#weighQualifyRange').selectpicker('mobile');
+			
+			$('#weighRateTypeSlct').selectpicker('refresh');
+			$('#weighRateTypeSlct').selectpicker('render');   
+			$('#weighRateTypeSlct').selectpicker('mobile');
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getQualifiedRateSummary() {
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	var param = "";
+	if(document.getElementById("weighRateTypeSlct").value == 1)
+		param = document.getElementById("weighQualifyStaff").value;
+	if(document.getElementById("weighRateTypeSlct").value == 2)
+		param = document.getElementById("weighQualifyLine").value;
+	if(document.getElementById("weighRateTypeSlct").value == 3)
+		param = document.getElementById("weighQualifyType").value;
+
+	var columnsArray = [];
+	//	columnsArray.push({
+	//		checkbox: true
+	//	});
+	columnsArray.push({
+		width: 100,
+		"title": $('#weighRateTypeSlct option:selected').text(),
+		"field": "slctClm"
+	});
+	var time1 = new Date(startTime);
+	var time2 = new Date(endTime);
+	for(var i = 0;; i++) {
+		if(time1.getTime() <= time2.getTime()) {
+			columnsArray.push({
+				width: 150,
+				"title": time1.format("yyyy-MM-dd"),
+				"field": time1.format("yyyy-MM-dd")
+			});
+			time1.setDate(time1.getDate() + 1)
+		} else
+			break;
+	}
+	console.log(columnsArray);
+
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetWorkQualifiedRateSummary?startTime=";
+	urlAPI += startTime + "&endTime=" + endTime + "&line=" + document.getElementById("weighQualifyLine").value +
+		"&param=" + param +
+		"&type=" + document.getElementById("weighRateTypeSlct").value +
+		"&range=" + document.getElementById("weighQualifyRange").value;
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+
+			var models = eval("(" + dataRes + ")");
+
+			$('#table').bootstrapTable('destroy').bootstrapTable({
+				data: models,
+				toolbar: '#toolbar1',
+				singleSelect: true,
+				clickToSelect: true,
+				//				sortName: "recordTime",
+				//				sortOrder: "desc",
+				pageSize: 15,
+				pageNumber: 1,
+				pageList: "[10, 25, 50, 100, All]",
+				//showToggle: true,
+				//showRefresh: true,
+				//showColumns: true,
+				//search: true,
+				fixedColumns: true, //固定列
+				fixedNumber: 1, //固定前几列
+				pagination: true,
+				columns: columnsArray
+			});
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getStaffWeighShow() {
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWorkDetail?startTime=";
+	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + document.getElementById("weighQualifyStaff").value +
+		"&specifications=" + document.getElementById("weighQualifyType").value;
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+
+			var models = eval("(" + dataRes + ")");
+			console.log(models);
+			var xA = [];
+			var yA = [];
+			var minNum = 99999;
+			var maxNum = 0;
+			var centerValue = 0;
+			var total = 0;
+			var overMin = 0;
+			var overMax = 0;
+			for(var i in models) {
+
+				centerValue = models[i].WeightCenterValue;
+				total++;
+				if(models[i].Weight - centerValue > 5) {
+					overMax++;
+				}
+				if(models[i].Weight - centerValue < -5) {
+					overMin++;
+				}
+				xA.push(models[i].W_Time);
+				yA.push(models[i].Weight);
+				if(maxNum < models[i].Weight)
+					maxNum = models[i].Weight;
+				if(minNum > models[i].Weight)
+					minNum = models[i].Weight;
+			}
+			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
+				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次" +
+				",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
+			var myChartSummary = echarts.init(document.getElementById("reportSummary"));
+			// 指定图表的配置项和数据
+			var optionSummary = {
+				title: {
+					text: "个人称重统计"
+				},
+				//鼠标触发提示数量
+				tooltip: {
+					trigger: "axis"
+				},
+				legend: {
+					orient: 'vertical', // 'vertical'
+					x: 'right', // 'center' | 'left' | {number},
+					y: 'top', // 'center' | 'bottom' | {number}
+					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+					data: ["低于重量", "标准重量", "高于重量"]
+				},
+				//x轴显示
+				xAxis: {
+					data: ["称重数量显示"],
+					splitLine: {　　　　
+						show: false　　
+					}
+				},
+				//y轴显示
+				yAxis: {
+					splitLine: {　　　　
+						show: false　　
+					}
+				},
+				series: [{
+						name: "低于重量",
+						type: "bar",
+						stack: "业务", //折叠显示
+						data: [overMin], //（此处的<%=zcfgData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
+						barWidth: 38,
+						//显示颜色
+						itemStyle: {
+							normal: {
+								color: "#005757",
+								label: {
+									show: true
+								}
+							}
+						}
+					},
+					{
+						name: "标准重量",
+						type: "bar",
+						stack: "业务",
+						data: [total - overMax - overMin], //（此处的<%=jbgcData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
+						barWidth: 38,
+						itemStyle: {
+							normal: {
+								color: "#FF8849",
+								label: {
+									show: true
+								}
+							}
+						}
+					},
+					{
+						name: "高于重量",
+						type: "bar",
+						stack: "业务",
+						data: [overMax], //（此处的<%=ywcjmnData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
+						barWidth: 38,
+						showAllSymbol: true,
+						itemStyle: {
+							normal: {
+								color: "#3FBB49",
+								label: {
+									show: true
+								}
+							}
+						}
+
+					}
+				]
+			};
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChartSummary.setOption(optionSummary);
+
+			var myChart = echarts.init(document.getElementById('report'));
+			var option = {
+				title: {
+					text: '个人称重趋势图'
+				},
+				tooltip: {
+					trigger: 'axis'
+				},
+				color: ['#009393', '#ED7C30', '#80FF80', '#FF8096', '#800080'],
+				legend: {
+					orient: 'vertical', // 'vertical'
+					x: 'right', // 'center' | 'left' | {number},
+					y: 'top', // 'center' | 'bottom' | {number}
+					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+					data: ['称重趋势图']
+				},
+				calculable: true,
+				xAxis: {
+					data: xA
+				},
+				//				yAxis: [{
+				//					type: 'value',
+				//					axisLabel: {
+				//						formatter: '{value} g'
+				//					}
+				//				}],
+				yAxis: {
+					min: parseInt(minNum) - 1,
+					max: parseInt(maxNum) + 1,
+					splitNumber: parseInt((maxNum - minNum) / 5),
+					//					axisLine: {
+					//						lineStyle: {
+					//							color: '#dc143c'
+					//						}
+					//					},
+					axisLabel: {
+						formatter: '{value} g'
+					}
+				},
+				series: [
+
+					{
+						itemStyle: {
+							normal: {
+								lineStyle: {
+									color: '#009393'
+								}
+							}
+						},
+						name: '称重趋势图',
+						type: 'line',
+						data: yA,
+						//showAllSymbol: true,
+
+						markLine: {
+							itemStyle: {
+								normal: {
+									borderWidth: 2,
+									lineStyle: {
+										type: 'solid',
+										color: '#000079'
+									},
+									label: {
+										show: true,
+										position: 'end'
+									}
+								},
+							},
+							data: [{
+									itemStyle: {
+										normal: {
+											lineStyle: {
+												color: '#FF0000'
+											}
+										}
+									},
+									name: '-5克合格线',
+									yAxis: centerValue - 5
+								},
+								{
+									itemStyle: {
+										normal: {
+											lineStyle: {
+												color: '#FF0000'
+											}
+										}
+									},
+									name: '+5克合格线',
+									yAxis: centerValue + 5
+								},
+								{
+									type: 'average',
+									name: '平均值'
+								}
+							]
+						}
+					}
+				]
+			};
+			myChart.setOption(option);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		}
+	});
+};
+
+function getStaffWeighTimeInterval() {
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+
+	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWeighInterval?startTime=";
+	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + document.getElementById("weighQualifyStaff").value;
+	$.ajax({
+		url: urlAPI,
+		type: "GET",
+		dataType: "json",
+		success: function(dataRes) {
+
+			var models = eval("(" + dataRes + ")");
+			console.log(models);
+			var xA = [];
+			var yA = [];
+			var minNum = 99999;
+			var maxNum = 0;
+
+			for(var i in models) {
+
+				xA.push(models[i].startTime1);
+				yA.push(models[i].timeInterval);
+				if(maxNum < models[i].timeInterval)
+					maxNum = models[i].timeInterval;
+				if(minNum > models[i].timeInterval)
+					minNum = models[i].timeInterval;
+			}
+			//			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
+			//				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次"
+			var myChart = echarts.init(document.getElementById('report'));
+			var option = {
+				title: {
+					text: '称重时间间隔趋势图'
+				},
+				tooltip: {
+					trigger: 'axis'
+				},
+				color: ['#009393', '#ED7C30', '#80FF80', '#FF8096', '#800080'],
+
+				legend: {
+					orient: 'vertical', // 'vertical'
+					x: 'right', // 'center' | 'left' | {number},
+					y: 'top', // 'center' | 'bottom' | {number}
+					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+					data: ['时间变化趋势']
+				},
+				calculable: true,
+				xAxis: {
+					data: xA
+				},
+				//				yAxis: [{
+				//					type: 'value',
+				//					axisLabel: {
+				//						formatter: '{value} s'
+				//					}
+				//				}],
+				yAxis: {
+					min: 0,
+					max: 300,
+					splitNumber: 300 / 60,
+					axisLine: {
+						lineStyle: {
+							color: '#dc143c'
+						}
+					},
+					axisLabel: {
+						formatter: '{value} s'
+					}
+				},
+				series: [{
+					itemStyle: {
+						normal: {
+							lineStyle: {
+								color: '#009393'
+							}
+						}
+					},
+					name: '时间变化趋势',
+					type: 'line',
+					data: yA,
+					//showAllSymbol: true,
+
+					markLine: {
+						itemStyle: {
+							normal: {
+								borderWidth: 5,
+								lineStyle: {
+									type: 'solid',
+									color: '#000079'
+								},
+								label: {
+									show: true,
+									position: 'end'
+								}
+							},
+						},
+						data: [{
+							type: 'average',
+							name: '平均值'
+						}]
+					}
+				}]
+			};
+			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
@@ -617,9 +1041,9 @@ function getWeighQualifyType(addAll) {
 
 function getWorkQualifiedRate() {
 	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true
-	});
+	//	columnsArray.push({
+	//		checkbox: true
+	//	});
 	columnsArray.push({
 		"title": "日期",
 		"field": "realtime"
@@ -686,256 +1110,6 @@ function getWorkQualifiedRate() {
 				pagination: true,
 				columns: columnsArray
 			});
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
-		}
-	});
-};
-
-function getStaffWeighShow() {
-	var startTime = $("#startTime").val();
-	var endTime = $("#endTime").val();
-
-	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWorkDetail?startTime=";
-	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + document.getElementById("weighQualifyStaff").value +
-		"&specifications=" + document.getElementById("weighQualifyType").value;
-	$.ajax({
-		url: urlAPI,
-		type: "GET",
-		dataType: "json",
-		success: function(dataRes) {
-
-			var models = eval("(" + dataRes + ")");
-			console.log(models);
-			var xA = [];
-			var yA = [];
-			var minNum = 99999;
-			var maxNum = 0;
-			var centerValue = 0;
-			var total = 0;
-			var overMin = 0;
-			var overMax = 0;
-			for(var i in models) {
-
-				centerValue = models[i].WeightCenterValue;
-				total++;
-				if(models[i].Weight - centerValue > 5) {
-					overMax++;
-				}
-				if(models[i].Weight - centerValue < -5) {
-					overMin++;
-				}
-				xA.push(models[i].W_Time);
-				yA.push(models[i].Weight);
-				if(maxNum < models[i].Weight)
-					maxNum = models[i].Weight;
-				if(minNum > models[i].Weight)
-					minNum = models[i].Weight;
-			}
-			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
-				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次" +
-				",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
-			var myChart = echarts.init(document.getElementById('report'));
-			var option = {
-				title: {
-					text: '个人称重趋势图'
-				},
-				tooltip: {
-					trigger: 'axis'
-				},
-				color:['#009393','#ED7C30','#80FF80','#FF8096','#800080'],					
-				legend: {
-					orient: 'vertical', // 'vertical'
-					x: 'right', // 'center' | 'left' | {number},
-					y: 'top', // 'center' | 'bottom' | {number}
-					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-					data: ['称重趋势图']
-				},
-				calculable: true,
-				xAxis: {
-					data: xA
-				},
-				//				yAxis: [{
-				//					type: 'value',
-				//					axisLabel: {
-				//						formatter: '{value} g'
-				//					}
-				//				}],
-				yAxis: {
-					min: parseInt(minNum) - 1,
-					max: parseInt(maxNum) + 1,
-					splitNumber: parseInt((maxNum - minNum) / 5),
-//					axisLine: {
-//						lineStyle: {
-//							color: '#dc143c'
-//						}
-//					},
-					axisLabel: {
-						formatter: '{value} g'
-					}
-				},
-				series: [
-
-					{
-						itemStyle: {
-							normal: {
-								lineStyle: {
-									color: '#009393'
-								}
-							}
-						},
-						name: '称重趋势图',
-						type: 'line',
-						data: yA,
-						//showAllSymbol: true,
-
-						markLine: {
-							itemStyle: {
-								normal: {
-									borderWidth: 2,
-									lineStyle: {
-										type: 'solid',
-										color: '#000079'
-									},
-									label: {
-										show: true,
-										position: 'end'
-									}
-								},
-							},
-							data: [{
-									name: '-5克合格线',
-									yAxis: centerValue - 5
-								},
-								{
-									name: '+5克合格线',
-									yAxis: centerValue + 5
-								},
-								{
-									type: 'average',
-									name: '平均值'
-								}
-							]
-						}
-					}
-				]
-			};
-			myChart.setOption(option);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
-		}
-	});
-};
-
-function getStaffWeighTimeInterval() {
-	var startTime = $("#startTime").val();
-	var endTime = $("#endTime").val();
-
-	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetStaffWeighInterval?startTime=";
-	urlAPI += startTime + "&endTime=" + endTime + "&staffName=" + document.getElementById("weighQualifyStaff").value;
-	$.ajax({
-		url: urlAPI,
-		type: "GET",
-		dataType: "json",
-		success: function(dataRes) {
-
-			var models = eval("(" + dataRes + ")");
-			console.log(models);
-			var xA = [];
-			var yA = [];
-			var minNum = 99999;
-			var maxNum = 0;
-
-			for(var i in models) {
-
-				xA.push(models[i].startTime1);
-				yA.push(models[i].timeInterval);
-				if(maxNum < models[i].timeInterval)
-					maxNum = models[i].timeInterval;
-				if(minNum > models[i].timeInterval)
-					minNum = models[i].timeInterval;
-			}
-			//			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
-			//				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次"
-			var myChart = echarts.init(document.getElementById('report'));
-			var option = {
-				title: {
-					text: '称重时间间隔趋势图'
-				},
-				tooltip: {
-					trigger: 'axis'
-				},
-				color:['#009393','#ED7C30','#80FF80','#FF8096','#800080'],
-					
-				legend: {
-					orient: 'vertical', // 'vertical'
-					x: 'right', // 'center' | 'left' | {number},
-					y: 'top', // 'center' | 'bottom' | {number}
-					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-					data: ['时间变化趋势']
-				},
-				calculable: true,
-				xAxis: {
-					data: xA
-				},
-				yAxis: [{
-					type: 'value',
-					axisLabel: {
-						formatter: '{value} s'
-					}
-				}],
-				//				yAxis: {
-				//					min: parseInt(minNum) - 1,
-				//					max: parseInt(maxNum) + 1,
-				//					splitNumber: parseInt((maxNum - minNum) / 5),
-				//					axisLine: {
-				//						lineStyle: {
-				//							color: '#dc143c'
-				//						}
-				//					},
-				//					axisLabel: {
-				//						formatter: '{value} s'
-				//					}
-				//				},
-				series: [
-					{
-						itemStyle: {
-							normal: {
-								lineStyle: {
-									color: '#009393'
-								}
-							}
-						},
-						name: '时间变化趋势',
-						type: 'line',
-						data: yA,
-						//showAllSymbol: true,
-
-						markLine: {
-							itemStyle: {
-								normal: {
-									borderWidth: 5,
-									lineStyle: {
-										type: 'solid',
-										color: '#000079'
-									},
-									label: {
-										show: true,
-										position: 'end'
-									}
-								},
-							},
-							data: [{
-								type: 'average',
-								name: '平均值'
-							}]
-						}
-					}
-				]
-			};
-			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
