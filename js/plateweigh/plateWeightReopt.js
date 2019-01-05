@@ -608,7 +608,7 @@ function getWeighQualifyType(addAll) {
 			$('#weighQualifyRange').selectpicker('refresh');
 			$('#weighQualifyRange').selectpicker('render');   
 			$('#weighQualifyRange').selectpicker('mobile');
-			
+
 			$('#weighRateTypeSlct').selectpicker('refresh');
 			$('#weighRateTypeSlct').selectpicker('render');   
 			$('#weighRateTypeSlct').selectpicker('mobile');
@@ -733,9 +733,10 @@ function getStaffWeighShow() {
 				if(minNum > models[i].Weight)
 					minNum = models[i].Weight;
 			}
-			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
-				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次" +
-				",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
+//			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
+//				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次" +
+//				",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
+			var percent = Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%";
 			var myChartSummary = echarts.init(document.getElementById("reportSummary"));
 			// 指定图表的配置项和数据
 			var optionSummary = {
@@ -744,9 +745,10 @@ function getStaffWeighShow() {
 				},
 				//鼠标触发提示数量
 				tooltip: {
-					trigger: "axis"
+					trigger: "axis",
 				},
 				legend: {
+					show: false,
 					orient: 'vertical', // 'vertical'
 					x: 'right', // 'center' | 'left' | {number},
 					y: 'top', // 'center' | 'bottom' | {number}
@@ -804,16 +806,54 @@ function getStaffWeighShow() {
 						data: [overMax], //（此处的<%=ywcjmnData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
 						barWidth: 38,
 						showAllSymbol: true,
+						//						label: {
+						//                  normal: {
+						//                      offset:['50', '80'],
+						//                      show: true,
+						//                      position: 'top',
+						//                      formatter:"总量:" + total + ",合格率:" + percent + "<br /> " + overMax,
+						//                      textStyle:{ color:'#f00' }
+						//                  }
+						//              },
 						itemStyle: {
 							normal: {
 								color: "#3FBB49",
 								label: {
 									show: true
 								}
+
 							}
 						}
+					},
+					{
+						name: '总量',
+						type: 'bar',
+						stack: '12',
+						barWidth: 1,
+						//				showAllSymbol: true,
 
+						label: {
+							normal: {
+								show: true,
+								position: 'top',
+								formatter: "总量:" + total + ",合格率:" + percent,
+								textStyle: {
+									color: '#f00',
+									fontSize: 16
+								}
+							}
+						},
+						itemStyle: {
+							normal: {
+								color: "#fff",
+								label: {
+									show: false
+								}
+							}
+						},
+						data: [total]
 					}
+
 				]
 			};
 
