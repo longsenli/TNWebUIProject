@@ -95,48 +95,48 @@ function equipStatusMntParamType() {
 };
 
 function equipStatusMntInit() {
-	$.ajax({
-		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" 
-		+ document.equipmentSelectForm.equipmentType.value.toString()
-		+ "&plantID=" +document.equipmentSelectForm.equipMngPlantSlct.value.toString()
-		+ "&paramID=" + document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0],
-		type: "GET",
-
-		contentType: "application/json",
-		dataType: "json",
-		headers: {
-			Token: $.cookie('token')
-		},
-		processData: true,
-		success: function(dataRes) {
-			var controller = "";
-			var units = document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[1];
-			if(units == "undefined")
-			{
-				units = "";
-			}
-				if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-				for(var i in models){
-				controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">"
-				+models[i].value + units +  "</div><br/><br/><br/>"
-		+ "<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder+"</label><label  class =\"fontStyle\">  &nbsp; 时间："
-		+ models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
-		
-				}
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-			document.getElementById("tempControlerShow").innerHTML = controller;
-		}
-	});
-
-//	var controller = "";
-//	for(var i = 0; i < 30; i++)
-//	{
-//		controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">35℃</div><br/><br/><br/>"
-//		+ "<label class =\"fontStyle\">&nbsp; 人员：** </label><label  class =\"fontStyle\">  &nbsp; 时间： **</label><label class =\"fontStyle\">  &nbsp; 位置： **</label></div>"
-//	}
+//	$.ajax({
+//		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" 
+//		+ document.equipmentSelectForm.equipmentType.value.toString()
+//		+ "&plantID=" +document.equipmentSelectForm.equipMngPlantSlct.value.toString()
+//		+ "&paramID=" + document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0],
+//		type: "GET",
+//
+//		contentType: "application/json",
+//		dataType: "json",
+//		headers: {
+//			Token: $.cookie('token')
+//		},
+//		processData: true,
+//		success: function(dataRes) {
+//			var controller = "";
+//			var units = document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[1];
+//			if(units == "undefined")
+//			{
+//				units = "";
+//			}
+//				if(dataRes.status == 1) { 
+//				var models = eval("(" + dataRes.data + ")");
+//				for(var i in models){
+//				controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">"
+//				+models[i].value + units +  "</div><br/><br/><br/>"
+//		+ "<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder+"</label><label  class =\"fontStyle\">  &nbsp; 时间："
+//		+ models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
 //		
-//	document.getElementById("tempControlerShow").innerHTML = controller;
+//				}
+//			} else {
+//				alert("初始化数据失败！" + dataRes.message);
+//			}
+//			document.getElementById("tempControlerShow").innerHTML = controller;
+//		}
+//	});
+
+	var controller = "";
+	for(var i = 0; i < 30; i++)
+	{
+		controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">35℃</div><br/><br/><br/>"
+		+ "<label class =\"fontStyle\">&nbsp; 人员：** </label><br/><label  class =\"fontStyle\">  &nbsp; 时间： **</label><br/><label class =\"fontStyle\">  &nbsp; 位置： **</label></div>"
+	}
+		
+	document.getElementById("tempControlerShow").innerHTML = controller;
 }
