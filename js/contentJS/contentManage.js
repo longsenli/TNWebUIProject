@@ -5,29 +5,11 @@ function publishIdea() {
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
 	formData.append("context", document.publishIdeaFrom.context.value);
-
-	//	var ofile = $("#file").get(0).files[0];
-	//	var formData = new FormData();
-	//	if(!ofile) {
-	//		$.messager.alert('提示', '请上传文件!', 'info');
-	//		return;
-	//	}
-	//	var size = ofile.size / 1024 / 1024;
-	//	if(size > 5) {
-	//		$.messager.alert('提示', '文件不能大于5M', 'info');
-	//		return;
-	//	}
-	//
-	//	formData.append("file", ofile); //这个是文件，这里只是演示上传了一个文件，如果要上传多个的话将[0]去掉
-	//	formData.append("F_ID", "123"); //这个是上传的其他参数
-	//	formData.append("F_NAME", ofile.name);
-
 	if($('#anonymity').is(':checked')) {
 		formData.append("creator", "匿名");
 	} else {
 		formData.append("creator", $.cookie('username'));
 	}
-	//	alert(getFormData(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
@@ -61,8 +43,6 @@ function initConentData() {
 		dataType: "json",
 		processData: true,
 		success: function(dataRes) {
-			//console.log(dataRes);
-			//			$("#contentType option").remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
@@ -81,7 +61,6 @@ function initConentData() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
-
 		}
 	});
 };
@@ -124,7 +103,6 @@ function initContentTypeSlctData() {
 			}
 		}
 	});
-
 };
 
 
@@ -217,12 +195,12 @@ function filterContent() {
 		}
 	});
 };
-//行点击事件
-$(function() {
-	 $("body").delegate('#mytable tr', 'click', function () {
-       showDetail(this);
-    });
-});
+////行点击事件
+//$(function() {
+//	 $("body").delegate('#mytable tr', 'click', function () {
+//     showDetail(this);
+//  });
+//});
 
 
 var selectedContentID = "";

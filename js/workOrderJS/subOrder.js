@@ -202,20 +202,36 @@ function SelectSubOrder() {
 		checkbox: true
 	});
 	columnsArray.push({
+		width:300,
 		"title": "工单号",
 		"field": "ordersplitid"
 	});
 	columnsArray.push({
 		"title": "产品",
-		"field": "materialid"
+		width:300,
+		"field": "materialName"
+	});
+		columnsArray.push({
+		"title": "产品",
+		width:300,
+		"field": "materialid",
+		visible: false
 	});
 	columnsArray.push({
+		width:300,
 		"title": "产量",
 		"field": "productionnum"
 	});
 	columnsArray.push({
+		width:300,
 		"title": "状态",
-		"field": "status"
+		"field": "statusName"
+	});
+	columnsArray.push({
+		width:300,
+		"title": "状态",
+		"field": "status",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "id",
@@ -228,7 +244,7 @@ function SelectSubOrder() {
 		visible: false
 	});
 	$.ajax({
-		url: window.serviceIP + "/api/order/getordersplit?orderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
+		url: window.serviceIP + "/api/order/getordersplitaftermap?orderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -272,15 +288,15 @@ function SelectMaterialRecord() {
 	});
 	columnsArray.push({
 		"title": "物料号",
-		"field": "materialID"
+		"field": "materialid"
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "orderID"
+		"field": "orderid"
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "subOrderID"
+		"field": "suborderid"
 	});
 	columnsArray.push({
 		"title": "数量",
@@ -363,15 +379,15 @@ function getUsableMaterialFun() {
 	});
 	columnsArray.push({
 		"title": "物料号",
-		"field": "materialID"
+		"field": "materialid"
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "orderID"
+		"field": "orderid"
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "subOrderID"
+		"field": "suborderid"
 	});
 	columnsArray.push({
 		"title": "数量",

@@ -1,4 +1,36 @@
 
+function equipParamEquipmentType() {
+
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getequipmenttype",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#equipmentType").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#equipmentType').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				$('#equipmentType').selectpicker('refresh');
+				$('#equipmentType').selectpicker('render');   
+				$('#equipmentType').selectpicker('mobile');
+				getEquipmentInfo();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
 function equipDataPlantSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
@@ -30,40 +62,40 @@ function equipDataPlantSlctFun() {
 		}
 	});
 };
-
-function getEquipmentType() {
-
-	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getequipmenttype",
-		type: "GET",
-
-		contentType: "application/json",
-		dataType: "json",
-		headers: {
-			Token: $.cookie('token')
-		},
-		processData: true,
-		success: function(dataRes) {
-
-			$("#equipmentType").find('option').remove();
-
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-				for (var  i  in  models)  {  
-					$('#equipmentType').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
-
-				}
-				$('#equipmentType').selectpicker('refresh');
-				$('#equipmentType').selectpicker('render');   
-				$('#equipmentType').selectpicker('mobile');
-				getEquipmentInfo();
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-
-};
+//
+//function getEquipmentType() {
+//
+//	$.ajax({
+//		url: window.serviceIP + "/api/basicdata/getequipmenttype",
+//		type: "GET",
+//
+//		contentType: "application/json",
+//		dataType: "json",
+//		headers: {
+//			Token: $.cookie('token')
+//		},
+//		processData: true,
+//		success: function(dataRes) {
+//
+//			$("#equipmentType").find('option').remove();
+//
+//			if(dataRes.status == 1) { 
+//				var models = eval("(" + dataRes.data + ")");
+//				for (var  i  in  models)  {  
+//					$('#equipmentType').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
+//
+//				}
+//				$('#equipmentType').selectpicker('refresh');
+//				$('#equipmentType').selectpicker('render');   
+//				$('#equipmentType').selectpicker('mobile');
+//				getEquipmentInfo();
+//			} else {
+//				alert("初始化数据失败！" + dataRes.message);
+//			}
+//		}
+//	});
+//
+//};
 
 function getEquipmentInfo() {
 	$.ajax({
@@ -101,7 +133,8 @@ function getEquipmentInfo() {
 function getEquipmentParam() {
 	var paramArray = new Array();
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" + document.equipmentSelectForm.equipmentType.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" 
+		+ document.equipmentSelectForm.equipmentType.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",

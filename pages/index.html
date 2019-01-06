@@ -52,7 +52,14 @@
 		<script type="text/javascript" src="../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table.js"></script>
-		<script type="text/javascript" src="../js/plateweigh/plateWeightReopt.js"></script>
+		<script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../vendor/qrcode/jquery.qrcode.js"></script>
+		<script type="text/javascript" src="../vendor/qrcode/qrcode.js"></script>
+		<script type="text/javascript" src="../vendor/jquery/jquery.jqprint-0.3.js"></script>
+		
+			<script type="text/javascript" src="../js/plateweigh/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
 		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
 		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
@@ -61,13 +68,8 @@
 		<script type="text/javascript" src="../js/basicinfo/basicinfo.js"></script>
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
-		<script type="text/javascript" src="../js/workOrderJS/subOrder.js"></script>
-		<script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
-		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-		<script type="text/javascript" src="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
-		<script type="text/javascript" src="../vendor/qrcode/jquery.qrcode.js"></script>
-		<script type="text/javascript" src="../vendor/qrcode/qrcode.js"></script>
-		<script type="text/javascript" src="../vendor/jquery/jquery.jqprint-0.3.js"></script>
+		<script type="text/javascript" src="../js/report/equipmentRunningStatusMonitor.js"></script>
+		
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -194,6 +196,9 @@
 									</li>
 									<li>
 										<a href="#" onclick="equipmentDataCollector()">设备数据采集</a>
+									</li>
+									<li>
+										<a href="#" onclick="equipmentDataMonitorShow()">设备状态监控</a>
 									</li>
 								</ul>
 								<!-- /.nav-second-level -->
@@ -537,7 +542,7 @@
 			};
 
 			function equipmentInfoManage() {
-				document.getElementById("container-page-text").innerHTML = "设备数据采集";
+				document.getElementById("container-page-text").innerHTML = "设备信息管理";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/equipmentManage/equipmentManage.html');
 			};
@@ -546,6 +551,12 @@
 				document.getElementById("container-page-text").innerHTML = "设备数据采集";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/equipmentManage/informationCollection.html');
+			};
+			
+			function equipmentDataMonitorShow() {
+				document.getElementById("container-page-text").innerHTML = "设备状态监控";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/report/equipmentRunningStatussMonitor.html');
 			};
 
 			function user() {
