@@ -330,7 +330,7 @@ function selectedWorkOrderRow(param) {
 		$("#workOrderManageForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 		$("#workOrderManageForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
 		//$("#workOrderManageForm" + " #lineid").val(document.PlantToLineSelectForm.productionLineSlct.value.toString());
-		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date()));
+		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(),"yyyy-MM-dd"));
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
@@ -345,7 +345,7 @@ function selectedWorkOrderRow(param) {
 				continue;
 			}
 			if(key == "scheduledstarttime") {
-				$("#workOrderManageForm" + " #" + key).val(window.stringToDatetimeLocalType(row[key]));
+				$("#workOrderManageForm" + " #" + key).val(window.stringToDatetimeLocalType(row[key],"yyyy-MM-dd"));
 				continue;
 			}
 			if(key == "status" || key == "lineid" || key == "materialid") {
