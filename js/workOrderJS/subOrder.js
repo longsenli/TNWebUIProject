@@ -47,7 +47,8 @@ function subOrderProductionProcessSlctFun() {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#productionProcessSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+					$('#productionProcessSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name.toString()  + "</option>").toString())
 				}
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
@@ -62,12 +63,6 @@ function subOrderProductionProcessSlctFun() {
 };
 
 function subOrderProductionLineSlctFun() {
-	//	return true;
-	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
-	//
-	//		return;
-	//	}
-	//alert("生产线选择");
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -91,7 +86,8 @@ function subOrderProductionLineSlctFun() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#productionLineSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
@@ -105,20 +101,12 @@ function subOrderProductionLineSlctFun() {
 };
 
 function lineWorkOrderSlct() {
-	//	return true;
-	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
-	//
-	//		return;
-	//	}
-	//var formData = new FormData();
-	//formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
-	//alert("订单选择");
+
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
-		//data: formData,
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
@@ -126,7 +114,6 @@ function lineWorkOrderSlct() {
 		//		},
 		//async: false,
 		processData: true,
-		//contentType: false,
 		success: function(dataRes) {
 
 			$("#workOrderSlct").find('option').remove();
@@ -135,8 +122,8 @@ function lineWorkOrderSlct() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#workOrderSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].orderid.toString()  + "</option>").toString())
-
+					$('#workOrderSlct').append(("<option value=" + models[i].id.toString() + ">" +
+						models[i].orderid.toString()  + "</option>").toString())
 				}
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
@@ -159,8 +146,7 @@ function FinishSubOrder() {
 		alert("请选择行数据!");
 		return;
 	}
-	if(row[0]["status"] > 3)
-	{
+	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		return;
 	}
@@ -177,13 +163,13 @@ function FinishSubOrder() {
 	}
 	var formData2 = new FormData();
 	formData2.append("name", $.cookie('username'));
-	formData2.append("jsonStr",window.getFormDataToJson(formData))
+	formData2.append("jsonStr", window.getFormDataToJson(formData))
 	$.ajax({
 		url: window.serviceIP + "/api/order/finishordersplit",
 		type: "POST",
 		//contentType: "application/json",
 		//dataType: "json",
-			processData: false,
+		processData: false,
 		contentType: false,
 		data: formData2,
 		//		headers: {
@@ -212,33 +198,33 @@ function SelectSubOrder() {
 		checkbox: true
 	});
 	columnsArray.push({
-		width:300,
+		width: 300,
 		"title": "工单号",
 		"field": "ordersplitid"
 	});
 	columnsArray.push({
 		"title": "产品",
-		width:300,
+		width: 300,
 		"field": "materialName"
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "产品",
-		width:300,
+		width: 300,
 		"field": "materialid",
 		visible: false
 	});
 	columnsArray.push({
-		width:300,
+		width: 300,
 		"title": "产量",
 		"field": "productionnum"
 	});
 	columnsArray.push({
-		width:300,
+		width: 300,
 		"title": "状态",
 		"field": "statusName"
 	});
 	columnsArray.push({
-		width:300,
+		width: 300,
 		"title": "状态",
 		"field": "status",
 		visible: false
@@ -402,7 +388,7 @@ function getUsableMaterialFun() {
 	columnsArray.push({
 		checkbox: true
 	});
-		columnsArray.push({
+	columnsArray.push({
 		"title": "物料号",
 		"field": "materialid",
 		visible: false
@@ -497,7 +483,7 @@ function gainMaterialRecord() {
 
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	formData.append("outputter", $.cookie('username')) //$.cookie('username');
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",
@@ -531,8 +517,8 @@ function createQRCode() {
 	jQuery('#QRCode').qrcode({
 		//render: "canva",
 		render: "canvas",
-		 width: 100, //宽度
-         height:100, //高度
+		width: 100, //宽度
+		height: 100, //高度
 		text: row[0]["id"]
 	});
 }
@@ -541,13 +527,22 @@ function printQRCode() {
 	createQRCode();
 	var img = document.getElementById("QRImage"); /// get image element
 	var canvas = document.getElementsByTagName("canvas")[0]; /// get canvas element
-	img.src = canvas.toDataURL(); /// update image
-document.getElementById("QRImage").style.display="block";
-	$("#QRImage").jqprint({
-		debug: false,
-		importCSS: true,
-		printContainer: true,
-		operaSupport: false
-	});
-	document.getElementById("QRImage").style.display="none";
+	img.src = canvas.toDataURL("image/png"); /// update image
+	var LODOP = getLodop(document.getElementById('LODOP_OB'), document
+		.getElementById('LODOP_EM'));
+	LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
+	//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
+	LODOP.ADD_PRINT_BARCODE(0,0,200,100,"QRCode","*123ABC4567890*");
+	//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
+	//LODOP.PREVIEW();
+LODOP.PRINT();                               //最后一个打印(或预览、维护、设计)语句
+	//document.getElementById("QRImage").style.display="block";
+	//	//document.getElementById("QRImage").ExecWB(6,2);
+	//	$("#QRImage").jqprint({
+	//		debug: false,
+	//		importCSS: true,
+	//		printContainer: true,
+	//		operaSupport: false
+	//	});
+	//	document.getElementById("QRImage").style.display="none";
 }

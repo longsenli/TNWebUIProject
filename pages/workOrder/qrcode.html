@@ -5,30 +5,25 @@
 
 		<title>上传图片</title>
 		<meta charset="UTF-8">
-		  <style>
-        @media screen
-        {
-            #canvas
-            {
-                display: block;
-            }
-            #image
-            {
-                display: none;
-            }
-        }
-        @media print
-        {
-            #canvas
-            {
-                display: none;
-            }
-            #image
-            {
-                display: block;
-            }
-        }
-    </style>
+		<style>
+			@media screen {
+				#canvas {
+					display: block;
+				}
+				#image {
+					display: none;
+				}
+			}
+			
+			@media print {
+				#canvas {
+					display: none;
+				}
+				#image {
+					display: block;
+				}
+			}
+		</style>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.jqprint-0.3.js"></script>
@@ -42,7 +37,7 @@
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/jquery.qrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/qrcode.js"></script>
-<script type="text/javascript" src="../../vendor/qrcode/qrscan.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/qrscan.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
@@ -52,151 +47,33 @@
 
 	<body>
 
-<div>
-       <div class="qr-btn" node-type="qr-btn">扫描二维码1
-           <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码1" />
-       </div>
-   </div>
- <script type="text/javascript">
- 	(function($) {
-    var Qrcode = function(tempBtn) {
-        var _this_ = this;
-        var isWeiboWebView = /__weibo__/.test(navigator.userAgent);
-        if (isWeiboWebView) {
-            if (window.WeiboJSBridge) {
-                _this_.bridgeReady(tempBtn);
-            } else {
-                document.addEventListener('WeiboJSBridgeReady', function() {
-                    _this_.bridgeReady(tempBtn);
-                });
-            }
-        } else {
-            _this_.nativeReady(tempBtn);
-        }
-    };
-    Qrcode.prototype = {
-        nativeReady: function(tempBtn) {
-            $('[node-type=jsbridge]',tempBtn).on('click',function(e){
-                e.stopPropagation();
-            });
-            $(tempBtn).bind('click',function(e){
-                $(this).find('input[node-type=jsbridge]').trigger('click');
-            });
-            $(tempBtn).bind('change', this.getImgFile);
-        },
-        bridgeReady: function(tempBtn) {
-            $(tempBtn).bind('click', this.weiBoBridge);
-        },
-        weiBoBridge: function() {
-            window.WeiboJSBridge.invoke('scanQRCode', null, function(params) {
-                //得到扫码的结果
-                $('.result-qrcode').append(params.result + '<br/>');
-            });
-        },
-        getImgFile: function() {
-            var _this_ = this;
-            var inputDom = $(this).find('input[node-type=jsbridge]');
-            var imgFile = inputDom[0].files;
-            var oFile = imgFile[0];
-            var oFReader = new FileReader();
-            var rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
-            if (imgFile.length === 0) {
-                return;
-            }
-            if (!rFilter.test(oFile.type)) {
-                alert("选择正确的图片格式!");
-                return;
-            }
-            oFReader.onload = function(oFREvent) {
-                qrcode.decode(oFREvent.target.result);
-                qrcode.callback = function(data) {
-                    //得到扫码的结果
-                    $('.result-qrcode').append(data + '<br/>');
-                };
-            };
-            oFReader.readAsDataURL(oFile);
-        },
-        destory: function() {
-            $(tempBtn).off('click');
-        }
-    };
-    Qrcode.init = function(tempBtn) {
-        var _this_ = this;
-        tempBtn.each(function() {
-            new _this_($(this));
-        });
-    };
-    window.Qrcode = Qrcode;
-})(window.Zepto ? Zepto : jQuery);
- </script>
- <br />
-  <br />
-   <br />
-		<!--startprint //便于部分打印时，找到开始点-->
-		<div id="codeHtml">
-			<div id="code"></div>
+		<div>
+			<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+					<button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="test()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>查询
+            </button>
 		</div>
-		<button id = "btnPrint" type="button" class="btn btn-default" onclick="print()">打印 </button>
-  <img id="image" src="" />
-		<!--endprint //便于部分打印时，找到结束点-->
 		<script type="text/javascript">
-			$("#codeHtml").html('<div id="code"></div>');
-			jQuery('#code').qrcode({
-				//render: "canva",
-				render: "canvas",
-				text: "htterwt//www.jq22.com"
-			});
-			//  $("#code").qrcode({ 
-			//      render: 'canva',
-			//      width: 200, //宽度 
-			//      height:200, //高度 
-			//      text: toUtf8("test123") //任意内容 :中文存在乱码，需要转换编码
-			//  });
-			//
-
-    function print(){
-        var img = document.getElementById("image"); /// get image element
-        var canvas  = document.getElementsByTagName("canvas")[0];  /// get canvas element
-        img.src = canvas.toDataURL();                     /// update image
-        
-        $("#image").jqprint({
-            debug:false,
-            importCSS:true,
-            printContainer:true,
-            operaSupport:false
-        });
-    }
-//    //canvas转img
-//    var qrcSrc = $("canvas")[0].toDataURL();
-//    var upLogSrc = "img/kaoshen.jpg";
-//    $("#qrcBodyImg .qrcImg").attr("src", qrcSrc);
-//     $("#qrcBodyImg .upLogo").attr("src", upLogSrc);
-//          $("#qrcBody").hide();//隐藏canvas部分
-//          $("#qrcBodyImg").show();//显示img部分
-//   });
-//  $("#btnPrint").click(function(){
-//     $("#codeHtml").print({
-//
-//     });
-//
-// });
-   
-   
-//			function stamp() {
-//				bdhtml = window.document.body.innerHTML;
-//				sprnstr = "<!--startprint-->";
-//				eprnstr = "<!--endprint-->";
-//				prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
-//				prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
-//
-//				var newWindow = window.open("打印二维码", "_blank");
-//				newWindow.document.write(prnhtml);
-//				newWindow.document.close();
-//				setTimeout(function() {
-//					newWindow.print();
-//					newWindow.close();
-//				}, 100);
-//			}
+			function test() {
+				var getObjectURL = function(file) {               
+					var url = null;      
+					if(window.createObjectURL != undefined) { // basic              
+						url = window.createObjectURL(file);                
+					} else if(window.URL != undefined) { // mozilla(firefox)
+						url = window.URL.createObjectURL(file);
+					} else if(window.webkitURL != undefined) { // webkit or chrome
+						          
+						url = window.webkitURL.createObjectURL(file);                
+					}           
+					return url;                 
+				}    
+				var temp = $("#pictureName").get(0).files[0];        
+				console.log(getObjectURL(temp)); // newfile[0]是通过input file上传的二维码图片文件    
+				qrcode.decode(getObjectURL(temp));             
+				qrcode.callback = function(imgMsg) {                  
+					console.log("imgMsg", imgMsg);                
+				}
+			}
 		</script>
 
 	</body>
