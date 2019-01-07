@@ -159,6 +159,11 @@ function FinishSubOrder() {
 		alert("请选择行数据!");
 		return;
 	}
+	if(row[0]["status"] > 3)
+	{
+		alert("该工单已完成!");
+		return;
+	}
 	for(var key in row[0]) {
 		if(key == 0) {
 			continue;
@@ -170,12 +175,17 @@ function FinishSubOrder() {
 		}
 		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 	}
+	var formData2 = new FormData();
+	formData2.append("name", $.cookie('username'));
+	formData2.append("jsonStr",window.getFormDataToJson(formData))
 	$.ajax({
 		url: window.serviceIP + "/api/order/finishordersplit",
 		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		data: window.getFormDataToJson(formData),
+		//contentType: "application/json",
+		//dataType: "json",
+			processData: false,
+		contentType: false,
+		data: formData2,
 		//		headers: {
 		//			Token: $.cookie('token')
 		//		},
@@ -288,15 +298,30 @@ function SelectMaterialRecord() {
 	});
 	columnsArray.push({
 		"title": "物料号",
-		"field": "materialid"
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialName"
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "orderid"
+		"field": "orderid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料工单",
+		"field": "inOrderName"
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "suborderid"
+		"field": "inSubOrderName"
+	});
+	columnsArray.push({
+		"title": "物料子工单",
+		"field": "suborderid",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "数量",
@@ -377,17 +402,32 @@ function getUsableMaterialFun() {
 	columnsArray.push({
 		checkbox: true
 	});
-	columnsArray.push({
+		columnsArray.push({
 		"title": "物料号",
-		"field": "materialid"
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialName"
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "orderid"
+		"field": "orderid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料工单",
+		"field": "inOrderName"
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "suborderid"
+		"field": "inSubOrderName"
+	});
+	columnsArray.push({
+		"title": "物料子工单",
+		"field": "suborderid",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "数量",
@@ -456,7 +496,8 @@ function gainMaterialRecord() {
 	formData.append("materialIDListStr", JSON.stringify(arrayObj));
 
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", "lls") //$.cookie('username');
+	formData.append("outputter", $.cookie('username')) //$.cookie('username');
+	
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",
