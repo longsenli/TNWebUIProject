@@ -57,7 +57,6 @@
 		<script type="text/javascript" src="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
-		
 
 		<script type="text/javascript" src="../js/plateweigh/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
@@ -65,7 +64,7 @@
 		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
 		<script type="text/javascript" src="../js/equipmentJS/equipmentManage.js"></script>
 		<script type="text/javascript" src="../js/common.js"></script>
-		<script type="text/javascript" src="../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../js/basicinfo/basicinfoCfg.js"></script>
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/subOrder.js"></script>
@@ -141,6 +140,24 @@
 							</li>
 							<li>
 								<a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 系统参数配置<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="productionLineManage()">产线配置</a>
+									</li>
+									<li>
+										<a href="#" onclick="materialManage()">物料配置</a>
+									</li>
+									<li>
+										<a href="#" onclick="processMaterialRelationManage()">产线物料关系配置</a>
+									</li>
+									<li>
+										<a href="#" onclick="materialRelationManage()">物料关系配置</a>
+									</li>
+								</ul>
+								<!-- /.nav-second-level -->
 							</li>
 							<li>
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 极板称重管理<span class="fa arrow"></span></a>
@@ -567,6 +584,30 @@
 				document.getElementById("container-page-text").innerHTML = "修改密码";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/rights/changepassword.html');
+			};
+
+			function productionLineManage() {
+				document.getElementById("container-page-text").innerHTML = "产线配置";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/basicInfoConfig/lineConfig.html');
+			};
+
+			function materialManage() {
+				document.getElementById("container-page-text").innerHTML = "物料配置";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/basicInfoConfig/materialConfig.html');
+			};
+
+			function processMaterialRelationManage() {
+				document.getElementById("container-page-text").innerHTML = "流程物料关系配置";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/basicInfoConfig/processMaterialConfig.html');
+			};
+
+			function materialRelationManage() {
+				document.getElementById("container-page-text").innerHTML = "物料关系配置";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/basicInfoConfig/materialMaterialConfig.html');
 			};
 
 			function logout() {

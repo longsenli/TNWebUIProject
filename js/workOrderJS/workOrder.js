@@ -12,12 +12,10 @@ function workOrderIndustrialPlantSlctFun() {
 		success: function(dataRes) {
 
 			$("#industrialPlantSlct").find('option').remove();
-			//console.log(dataRes);
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					$('#industrialPlantSlct').append(("<option value=" + models[i].id + "###" + models[i].shortname + ">" + models[i].name.toString()  + "</option>").toString())
-
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
@@ -406,7 +404,6 @@ function saveWorkOrderChange() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
 		}
 	});
 };
