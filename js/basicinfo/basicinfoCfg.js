@@ -139,6 +139,9 @@ function processMaterialProcessSlctFun() {
 				$('#processid').selectpicker('render');   
 				$('#processid').selectpicker('mobile');
 
+$('#inorout').selectpicker('refresh');
+				$('#inorout').selectpicker('render');   
+				$('#inorout').selectpicker('mobile');
 				processMaterialTableFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

@@ -1,4 +1,3 @@
-
 function equipParamEquipmentType() {
 
 	$.ajax({
@@ -38,9 +37,9 @@ function equipDataPlantSlctFun() {
 
 		contentType: "application/json",
 		dataType: "json",
-				headers: {
-					Token: $.cookie('token')
-				},
+		headers: {
+			Token: $.cookie('token')
+		},
 		processData: true,
 		success: function(dataRes) {
 
@@ -99,8 +98,8 @@ function equipDataPlantSlctFun() {
 
 function getEquipmentInfo() {
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString()
-		+ "&plantID=" +document.equipmentSelectForm.equipDataPlantSlct.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipDataPlantSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -133,8 +132,8 @@ function getEquipmentInfo() {
 function getEquipmentParam() {
 	var paramArray = new Array();
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" 
-		+ document.equipmentSelectForm.equipmentType.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" +
+			document.equipmentSelectForm.equipmentType.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -171,8 +170,7 @@ function getEquipmentParam() {
 };
 
 function saveEquipmentParam() {
-	if(document.equipmentSelectForm.equipmentInfo.value.toString().length < 1)
-	{
+	if(document.equipmentSelectForm.equipmentInfo.value.toString().length < 1) {
 		alert("请选择设备!");
 		return false;
 	}
@@ -255,19 +253,21 @@ function saveEquipmentParam() {
 function getEquipmentParamRecord() {
 
 	var columnsArray = [];
-
+	var columMap = {};
 	var columnsID = new Array();
 	var paramName = $("#equipmentParam label");
-	//var paramID = $("#equipmentParam input");
+	var paramID = $("#equipmentParam input");
 	var m = 0;
 	for(var i = 0; i < paramName.length; i++) {
 		//alert("labelName" + paramName[i].getAttribute("id"));
 		if("labelName" == (paramName[i].getAttribute("id"))) {
 			//columnsID[m] = paramID[m].name;
+			var clmName = paramName[i].innerHTML.replace(":", "").replace("：", "");
+			columMap[paramID[m].name] = clmName;
 
 			columnsArray.push({
-				"title": paramName[i].innerHTML.replace(":", "").replace("：", ""),
-				"field": paramName[i].innerHTML.replace(":", "").replace("：", ""),
+				"title": clmName,
+				"field": clmName
 				//				switchable: true,
 				//				sortable: true
 			});
@@ -276,21 +276,15 @@ function getEquipmentParamRecord() {
 	}
 	columnsArray.push({
 		"title": "记录者",
-		"field": "记录者",
-		switchable: true,
-		sortable: true
+		"field": "记录者"
 	});
 	columnsArray.push({
 		"title": "记录时间",
-		"field": "记录时间",
-		switchable: true,
-		sortable: true
+		"field": "记录时间"
 	});
 	columnsArray.push({
 		"title": "图片记录",
-		"field": "图片记录",
-		switchable: true,
-		sortable: true
+		"field": "图片记录"
 	});
 	$.ajax({
 		type: "GET",
@@ -313,7 +307,8 @@ function getEquipmentParamRecord() {
 						obj["记录时间"] = models[i + j].recordtime;
 						obj["图片记录"] = models[i + j].picturefile;
 					}
-					obj[columnsArray[j].title] = models[i + j].value;
+					//obj[columnsArray[j].title] = models[i + j].value;
+					obj[columMap[models[i + j].paramid]] = models[i + j].value;
 				}
 				dataShow.push(obj);
 				i += m;
@@ -342,4 +337,3 @@ function getEquipmentParamRecord() {
 	});
 
 };
-

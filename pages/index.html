@@ -215,6 +215,12 @@
 									<li>
 										<a href="#" onclick="equipmentDataMonitorShow()">设备状态监控</a>
 									</li>
+									<li>
+										<a href="#" onclick="equipParamRecordChartShow()">设备参数变化趋势图</a>
+									</li>
+									<li>
+										<a href="#" onclick="equipParamRecordTableShow()">设备历史参数查看</a>
+									</li>
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -572,6 +578,18 @@
 				document.getElementById("container-page-text").innerHTML = "设备状态监控";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/report/equipmentRunningStatussMonitor.html');
+			};
+
+			function equipParamRecordChartShow() {
+				document.getElementById("container-page-text").innerHTML = "设备参数变化趋势图";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/report/equipParamRecordShow.html');
+			};
+
+			function equipParamRecordTableShow() {
+				document.getElementById("container-page-text").innerHTML = "设备历史参数查看";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/report/equipParamRecordTable.html');
 			};
 
 			function user() {
