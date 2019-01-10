@@ -23,8 +23,9 @@
 			
 			$(function() {
 				var today = new Date();
+				document.getElementById("endTime").value =today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() -7)
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
 				equipStatusMntPlantSlctFun("equipParamRecordShow");	
 				
 			})

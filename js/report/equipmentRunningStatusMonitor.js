@@ -54,13 +54,13 @@ function equipStatusMntEquipmentType(webName) {
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
 				$('#equipmentType').selectpicker('mobile');
-				
+
 				if(webName == "equipmentRunningStatusMonitor")
-				equipStatusMntParamType(webName);
+					equipStatusMntParamType(webName);
 				else if(webName == "equipParamRecordShow")
-				getEquipmentInfo(webName);
+					getEquipmentInfo(webName);
 				else if(webName == "equipParamRecordTable")
-				getEquipmentInfo(webName);
+					getEquipmentInfo(webName);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -71,8 +71,8 @@ function equipStatusMntEquipmentType(webName) {
 function equipStatusMntParamType(webName) {
 
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID="
-		+ document.equipmentSelectForm.equipmentType.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" +
+			document.equipmentSelectForm.equipmentType.value.toString(),
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -87,21 +87,18 @@ function equipStatusMntParamType(webName) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#equipmentParamType').append(("<option value=" + models[i].id + "###" + models[i].units+ ">" + models[i].name.toString()  + "</option>").toString())
+					$('#equipmentParamType').append(("<option value=" + models[i].id + "###" + models[i].units + ">" + models[i].name.toString()  + "</option>").toString())
 				}
 				$('#equipmentParamType').selectpicker('refresh');
 				$('#equipmentParamType').selectpicker('render');   
 				$('#equipmentParamType').selectpicker('mobile');
 				if(webName == "equipmentRunningStatusMonitor")
-				equipStatusMntInit()
-				else if(webName == "equipParamRecordTable")
-				{
+					equipStatusMntInit()
+				else if(webName == "equipParamRecordTable") {
 					equipParamRecordTableInit();
 					$('#equipmentParamType').selectpicker('hide');   
-				}
-				
-				else if(webName == "equipParamRecordShow")
-				equipRecordChartShowInit();
+				} else if(webName == "equipParamRecordShow")
+					equipRecordChartShowInit();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -111,10 +108,10 @@ function equipStatusMntParamType(webName) {
 
 function equipStatusMntInit() {
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" 
-		+ document.equipmentSelectForm.equipmentType.value.toString()
-		+ "&plantID=" +document.equipmentSelectForm.equipMngPlantSlct.value.toString()
-		+ "&paramID=" + document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0],
+		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" +
+			document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString() +
+			"&paramID=" + document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0],
 		type: "GET",
 
 		contentType: "application/json",
@@ -126,18 +123,17 @@ function equipStatusMntInit() {
 		success: function(dataRes) {
 			var controller = "";
 			var units = document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[1];
-			if(units == "undefined")
-			{
+			if(units == "undefined") {
 				units = "";
 			}
-				if(dataRes.status == 1) { 
+			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				for(var i in models){
-				controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">"
-				+models[i].value + units +  "</div><br/><br/><br/>"
-		+ "<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder+"</label><label  class =\"fontStyle\">  &nbsp; 时间："
-		+ models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
-		
+				for(var i in models) {
+					controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">" +
+						models[i].value + units + "</div><br/><br/><br/>" +
+						"<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder + "</label><label  class =\"fontStyle\">  &nbsp; 时间：" +
+						models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
+
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -146,20 +142,20 @@ function equipStatusMntInit() {
 		}
 	});
 
-//	var controller = "";
-//	for(var i = 0; i < 30; i++)
-//	{
-//		controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">35℃</div><br/><br/><br/>"
-//		+ "<label class =\"fontStyle\">&nbsp; 人员：** </label><br/><label  class =\"fontStyle\">  &nbsp; 时间： **</label><br/><label class =\"fontStyle\">  &nbsp; 位置： **</label></div>"
-//	}
-//		
-//	document.getElementById("tempControlerShow").innerHTML = controller;
+	//	var controller = "";
+	//	for(var i = 0; i < 30; i++)
+	//	{
+	//		controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">35℃</div><br/><br/><br/>"
+	//		+ "<label class =\"fontStyle\">&nbsp; 人员：** </label><br/><label  class =\"fontStyle\">  &nbsp; 时间： **</label><br/><label class =\"fontStyle\">  &nbsp; 位置： **</label></div>"
+	//	}
+	//		
+	//	document.getElementById("tempControlerShow").innerHTML = controller;
 }
 
 function getEquipmentInfo(webName) {
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString()
-		+ "&plantID=" +document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -188,16 +184,16 @@ function getEquipmentInfo(webName) {
 	});
 
 };
-function equipRecordChartShowInit()
-{
-var formData = new FormData();
 
-//var formData = new FormData($("#equipmentSelectForm")[0]);
-	formData.append("paramID",document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0]);
-	formData.append("equipID",document.equipmentSelectForm.equipmentInfo.value.toString());
-	formData.append("startTime",$("#startTime").val());
-	formData.append("endTime",$("#endTime").val());
-	
+function equipRecordChartShowInit() {
+	var formData = new FormData();
+
+	//var formData = new FormData($("#equipmentSelectForm")[0]);
+	formData.append("paramID", document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0]);
+	formData.append("equipID", document.equipmentSelectForm.equipmentInfo.value.toString());
+	formData.append("startTime", $("#startTime").val());
+	formData.append("endTime", $("#endTime").val()+ "59:59:59");
+
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getoneequipparamrecord",
 		type: "POST",
@@ -211,124 +207,122 @@ var formData = new FormData();
 		processData: false,
 		contentType: false,
 		success: function(dataRes) {
-if(dataRes.status == 1) { 
-			var models = eval("(" + dataRes.data + ")");
-			console.log(models);
-			var xA = [];
-			var yA = [];
-			var minNum = 99999;
-			var maxNum = 0;
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				console.log(models);
+				var xA = [];
+				var yA = [];
+				var minNum = 99999;
+				var maxNum = 0;
 
-			for(var i in models) {
+				for(var i in models) {
 
-				xA.push(models[i].recordTime);
-				yA.push(models[i].value);
-				if(maxNum < models[i].value)
-					maxNum = models[i].value;
-				if(minNum > models[i].value)
-					minNum = models[i].value;
-			}
-			//			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
-			//				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次"
-			var myChart = echarts.init(document.getElementById('report'));
-			var option = {
-				title: {
-					text: '设备参数变化趋势图'
-				},
-				tooltip: {
-					trigger: 'axis'
-				},
-				color: ['#009393', '#ED7C30', '#80FF80', '#FF8096', '#800080'],
-
-				legend: {
-					orient: 'vertical', // 'vertical'
-					x: 'right', // 'center' | 'left' | {number},
-					y: 'top', // 'center' | 'bottom' | {number}
-					//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-					data: ['参数变化趋势图']
-				},
-				calculable: true,
-				xAxis: {
-					data: xA
-				},
-				//				yAxis: [{
-				//					type: 'value',
-				//					axisLabel: {
-				//						formatter: '{value} s'
-				//					}
-				//				}],
-				yAxis: {
-					min: parseInt(minNum) - 1,
-					max: parseInt(maxNum) + 1,
-					splitNumber: 5,
-					axisLine: {
-						lineStyle: {
-							color: '#dc143c'
-						}
+					xA.push(models[i].recordTime);
+					yA.push(models[i].value);
+					if(maxNum < models[i].value)
+						maxNum = models[i].value;
+					if(minNum > models[i].value)
+						minNum = models[i].value;
+				}
+				//			document.getElementById("showDetail").innerHTML = "共称重" + total + "次,低于标准重量" + overMin + "次" +
+				//				",高于标准重量" + overMax + ",合格次数为" + (total - overMax - overMin) + "次"
+				var myChart = echarts.init(document.getElementById('report'));
+				var option = {
+					title: {
+						text: '设备参数变化趋势图'
 					},
-					axisLabel: {
-						formatter: '{value} '
-					}
-				},
-				series: [{
-					itemStyle: {
-						normal: {
+					tooltip: {
+						trigger: 'axis'
+					},
+					color: ['#009393', '#ED7C30', '#80FF80', '#FF8096', '#800080'],
+
+					legend: {
+						orient: 'vertical', // 'vertical'
+						x: 'right', // 'center' | 'left' | {number},
+						y: 'top', // 'center' | 'bottom' | {number}
+						//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+						data: ['参数变化趋势图']
+					},
+					calculable: true,
+					xAxis: {
+						data: xA
+					},
+					//				yAxis: [{
+					//					type: 'value',
+					//					axisLabel: {
+					//						formatter: '{value} s'
+					//					}
+					//				}],
+					yAxis: {
+						min: parseInt(minNum) - 1,
+						max: parseInt(maxNum) + 1,
+						splitNumber: 5,
+						axisLine: {
 							lineStyle: {
-								color: '#009393'
+								color: '#dc143c'
 							}
+						},
+						axisLabel: {
+							formatter: '{value} '
 						}
 					},
-					name: '参数变化趋势图',
-					type: 'line',
-					data: yA,
-					//showAllSymbol: true,
-
-					markLine: {
+					series: [{
 						itemStyle: {
 							normal: {
-								borderWidth: 5,
 								lineStyle: {
-									type: 'solid',
-									color: '#000079'
-								},
-								label: {
-									show: true,
-									position: 'end'
+									color: '#009393'
 								}
-							},
+							}
 						},
-						data: [{
-							type: 'average',
-							name: '平均值'
-						}]
-					}
-				}]
-			};
-			myChart.setOption(option);
-		}
-else(
-	alert("查询失败!" +dataRes.message)
-)
-},
+						name: '参数变化趋势图',
+						type: 'line',
+						data: yA,
+						//showAllSymbol: true,
+
+						markLine: {
+							itemStyle: {
+								normal: {
+									borderWidth: 5,
+									lineStyle: {
+										type: 'solid',
+										color: '#000079'
+									},
+									label: {
+										show: true,
+										position: 'end'
+									}
+								},
+							},
+							data: [{
+								type: 'average',
+								name: '平均值'
+							}]
+						}
+					}]
+				};
+				myChart.setOption(option);
+			} else(
+				alert("查询失败!" + dataRes.message)
+			)
+		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 }
 
-function equipParamRecordTableInit()
-{
-var columMap = {};
-		var columnsArray = [];	
+function equipParamRecordTableInit() {
+	var columMap = {};
+	var columnsArray = [];
 	var m = 0;
 	$("#equipmentParamType option").each(function() {
 		columnsArray.push({
-				"title": $(this).text(),
-				//"field": $(this).val().split("###")[0]
-				"field": $(this).text()
-			});
-			columMap[$(this).val().split("###")[0]] = $(this).text();
-			m++;
+			"title": $(this).text(),
+			//"field": $(this).val().split("###")[0]
+			"field": $(this).text()
+		});
+		columMap[$(this).val().split("###")[0]] = $(this).text();
+		m++;
 	});
 
 	columnsArray.push({
@@ -345,14 +339,12 @@ var columMap = {};
 	});
 
 	var formData = new FormData();
-
-//var formData = new FormData($("#equipmentSelectForm")[0]);
-	formData.append("equipID",document.equipmentSelectForm.equipmentInfo.value.toString());
-	formData.append("startTime",$("#startTime").val());
-	formData.append("endTime",$("#endTime").val());
+	formData.append("equipID", document.equipmentSelectForm.equipmentInfo.value.toString());
+	formData.append("startTime", $("#startTime").val());
+	formData.append("endTime", $("#endTime").val() + "59:59:59");
 
 	$.ajax({
-		
+
 		url: window.serviceIP + "/api/equipment/getequipparamrecordbytime",
 		type: "POST",
 		data: formData,
@@ -365,7 +357,6 @@ var columMap = {};
 		processData: false,
 		contentType: false,
 		success: function(dataRes) {
-
 			var models = eval("(" + dataRes.data + ")");
 			var dataShow = [];
 			for(var i = 0; i < models.length;) {
@@ -376,12 +367,11 @@ var columMap = {};
 						obj["记录时间"] = models[i + j].recordtime;
 						obj["图片记录"] = models[i + j].picturefile;
 					}
-					obj[columMap[models[i + j].paramid] ] = models[i + j].value;
+					obj[columMap[models[i + j].paramid]] = models[i + j].value;
 				}
 				dataShow.push(obj);
 				i += m;
 			}
-			console.log(dataShow);
 			$('#table').bootstrapTable('destroy').bootstrapTable({
 				data: dataShow,
 				toolbar: '#toolbar1',
