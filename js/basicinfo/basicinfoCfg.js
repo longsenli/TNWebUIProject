@@ -952,3 +952,229 @@ function addProcessMaterial() {
 		}
 	});
 };
+
+function infoCfgEquipTypeSlctFun(){
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getequipmenttype",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#infoCfgEquipTypeSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#infoCfgEquipTypeSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				$('#infoCfgEquipTypeSlct').selectpicker('refresh');
+				$('#infoCfgEquipTypeSlct').selectpicker('render');   
+				$('#infoCfgEquipTypeSlct').selectpicker('mobile');
+				equipParamCfgTableFun();
+				basicParamCfgTableFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function changeEquipParamConfigFun(){
+	var row = $.map($('#basicParamTable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+var paramList = "";
+for(var i =0;i<row.length;i++)
+{
+	paramList += row[i]["id"] + "###";
+}
+var formData = new FormData();
+	formData.append("params", paramList);
+	formData.append("equipmentTypeID", document.basicInfoCfgSelectForm.infoCfgEquipTypeSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/updateequipmentparam",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				equipParamCfgTableFun();
+				
+			} else {
+				alert("跟新参数配置失败！" + dataRes.message);
+			}
+		}
+	});
+}
+function basicParamCfgTableFun()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "参数名",
+		"field": "name"
+	});
+	columnsArray.push({
+		"title": "描述",
+		"field": "description"
+	});
+	columnsArray.push({
+		"title": "值类型",
+		"field": "type"
+	});
+	columnsArray.push({
+		"title": "单位",
+		"field": "units"
+	});
+	columnsArray.push({
+		"title": "最大值",
+		"field": "max"
+	});
+	columnsArray.push({
+		"title": "最小值",
+		"field": "min"
+	});
+
+	var formData = new FormData();
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getparameterinfo",
+		type: "GET",
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#basicParamTable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar1',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "recordTime",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+function equipParamCfgTableFun()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "参数名",
+		"field": "name"
+	});
+	columnsArray.push({
+		"title": "描述",
+		"field": "description"
+	});
+	columnsArray.push({
+		"title": "值类型",
+		"field": "type"
+	});
+	columnsArray.push({
+		"title": "单位",
+		"field": "units"
+	});
+	columnsArray.push({
+		"title": "最大值",
+		"field": "max"
+	});
+	columnsArray.push({
+		"title": "最小值",
+		"field": "min"
+	});
+
+	var formData = new FormData();
+	formData.append("equipmentTypeID", document.basicInfoCfgSelectForm.infoCfgEquipTypeSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/getequipmentparam",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#equipParamTable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar1',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "recordTime",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}

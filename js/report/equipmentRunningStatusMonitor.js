@@ -192,7 +192,7 @@ function equipRecordChartShowInit() {
 	formData.append("paramID", document.equipmentSelectForm.equipmentParamType.value.toString().split("###")[0]);
 	formData.append("equipID", document.equipmentSelectForm.equipmentInfo.value.toString());
 	formData.append("startTime", $("#startTime").val());
-	formData.append("endTime", $("#endTime").val()+ "59:59:59");
+	formData.append("endTime", $("#endTime").val()+ " 59:59:59");
 
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getoneequipparamrecord",
@@ -314,6 +314,9 @@ function equipRecordChartShowInit() {
 function equipParamRecordTableInit() {
 	var columMap = {};
 	var columnsArray = [];
+	columnsArray.push({
+			checkbox: true
+		});
 	var m = 0;
 	$("#equipmentParamType option").each(function() {
 		columnsArray.push({
@@ -324,7 +327,7 @@ function equipParamRecordTableInit() {
 		columMap[$(this).val().split("###")[0]] = $(this).text();
 		m++;
 	});
-
+	
 	columnsArray.push({
 		"title": "记录者",
 		"field": "记录者"
@@ -337,11 +340,15 @@ function equipParamRecordTableInit() {
 		"title": "图片记录",
 		"field": "图片记录"
 	});
-
+columnsArray.push({
+		"title": "status",
+		"field": "status",
+		visible: false
+	});
 	var formData = new FormData();
 	formData.append("equipID", document.equipmentSelectForm.equipmentInfo.value.toString());
 	formData.append("startTime", $("#startTime").val());
-	formData.append("endTime", $("#endTime").val() + "59:59:59");
+	formData.append("endTime", $("#endTime").val() + " 59:59:59");
 
 	$.ajax({
 
@@ -361,11 +368,16 @@ function equipParamRecordTableInit() {
 			var dataShow = [];
 			for(var i = 0; i < models.length;) {
 				var obj = {};
+				var statusID = "0";
 				for(var j = 0; j < m; j++) {
 					if(j == 0) {
 						obj["记录者"] = models[i + j].recorder;
 						obj["记录时间"] = models[i + j].recordtime;
 						obj["图片记录"] = models[i + j].picturefile;
+					}
+					if(models[i + j].status >statusID)
+					{
+						obj["status"] = models[i + j].status;
 					}
 					obj[columMap[models[i + j].paramid]] = models[i + j].value;
 				}
@@ -387,6 +399,30 @@ function equipParamRecordTableInit() {
 				//showColumns: true,
 				//search: true,
 				pagination: true,
+				rowStyle: function (row, index) {
+					//这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+//					 var style = "";             
+//               style='danger';             
+//           return { classes: style }
+
+//             var style = {};             
+//               style={css:{'color':'#ed5565'}};                
+//           return style;
+             
+             var style = {};
+              if(row.status == "2")
+                 style={css:{'background-color':'#B15BFF'}}; 
+             else if(row.status == "3")
+                 style={css:{'background-color':'#FF0000'}}; 
+             else
+             {
+             	if(index %2 == 0)
+             	 style={css:{'background-color':'#d0d0d0'}}; 
+             	else
+             	style={css:{'background-color':'#F0F0F0'}}; 
+             }
+             return style
+         } ,
 				columns: columnsArray
 			});
 		},
