@@ -257,11 +257,11 @@ function equipRecordChartShowInit() {
 						min: parseInt(minNum) - 1,
 						max: parseInt(maxNum) + 1,
 						splitNumber: 5,
-						axisLine: {
-							lineStyle: {
-								color: '#dc143c'
-							}
-						},
+//						axisLine: {
+//							lineStyle: {
+//								color: '#dc143c'
+//							}
+//						},
 						axisLabel: {
 							formatter: '{value} '
 						}
