@@ -22,7 +22,7 @@ function equipParamEquipmentType() {
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
 				$('#equipmentType').selectpicker('mobile');
-				getEquipmentInfo();
+				getEquipmentInfoDataCollector();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -54,7 +54,7 @@ function equipDataPlantSlctFun() {
 				$('#equipDataPlantSlct').selectpicker('refresh');
 				$('#equipDataPlantSlct').selectpicker('render');   
 				$('#equipDataPlantSlct').selectpicker('mobile');
-				getEquipmentInfo();
+				getEquipmentInfoDataCollector();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -96,7 +96,7 @@ function equipDataPlantSlctFun() {
 //
 //};
 
-function getEquipmentInfo() {
+function getEquipmentInfoDataCollector() {
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString() +
 			"&plantID=" + document.equipmentSelectForm.equipDataPlantSlct.value.toString(),

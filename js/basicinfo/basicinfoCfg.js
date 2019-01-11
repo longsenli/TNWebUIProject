@@ -139,7 +139,7 @@ function processMaterialProcessSlctFun() {
 				$('#processid').selectpicker('render');   
 				$('#processid').selectpicker('mobile');
 
-$('#inorout').selectpicker('refresh');
+				$('#inorout').selectpicker('refresh');
 				$('#inorout').selectpicker('render');   
 				$('#inorout').selectpicker('mobile');
 				processMaterialTableFun();
@@ -953,7 +953,7 @@ function addProcessMaterial() {
 	});
 };
 
-function infoCfgEquipTypeSlctFun(){
+function infoCfgEquipTypeSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getequipmenttype",
 		type: "GET",
@@ -985,16 +985,15 @@ function infoCfgEquipTypeSlctFun(){
 	});
 }
 
-function changeEquipParamConfigFun(){
+function changeEquipParamConfigFun() {
 	var row = $.map($('#basicParamTable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-var paramList = "";
-for(var i =0;i<row.length;i++)
-{
-	paramList += row[i]["id"] + "###";
-}
-var formData = new FormData();
+	var paramList = "";
+	for(var i = 0; i < row.length; i++) {
+		paramList += row[i]["id"] + "###";
+	}
+	var formData = new FormData();
 	formData.append("params", paramList);
 	formData.append("equipmentTypeID", document.basicInfoCfgSelectForm.infoCfgEquipTypeSlct.value.toString());
 	$.ajax({
@@ -1011,19 +1010,18 @@ var formData = new FormData();
 		contentType: false,
 		success: function(dataRes) {
 
-			
 			//console.log(dataRes);
 			if(dataRes.status == 1) { 
 				equipParamCfgTableFun();
-				
+
 			} else {
 				alert("跟新参数配置失败！" + dataRes.message);
 			}
 		}
 	});
 }
-function basicParamCfgTableFun()
-{
+
+function basicParamCfgTableFun() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -1099,8 +1097,8 @@ function basicParamCfgTableFun()
 		}
 	});
 }
-function equipParamCfgTableFun()
-{
+
+function equipParamCfgTableFun() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true

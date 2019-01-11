@@ -44,36 +44,7 @@
 			<br />
 		</form>
 
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">x</button>
-						<h4 class="modal-title" id="myModalLabel"> 设备信息管理 </h4>
-					</div>
-					<div class="modal-body" id="modal-body">
-						<form ID="materialConfigForm">
-							<input type="text" id="id" name="id" style="display:none" />
-							<input type="text" id="typeid" name="typeid" style="display:none" />
-							<input type="text" id="status" name="status" style="display:none" />
-							<label for="name">物料名称:</label>
-							<input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
-							<label for="name">简称:</label>
-							<input type="text" class="form-control" id="shortname" name="shortname" placeholder="请输入简称">
-							<label for="name">描述:</label>
-							<input type="text" class="form-control" id="description" name="description" placeholder="请输入描述">
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick="addMaterialCfgInfo()">保存 </button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
-<p>基础参数</p>
+		<p>基础参数</p>
 		<div id="toolbar" class="btn-group">
 			<!--<button id="equipment_add" type="button" class="btn btn-default" onclick="selectedMaterialCfgRow(this)">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增

@@ -58,9 +58,9 @@ function equipStatusMntEquipmentType(webName) {
 				if(webName == "equipmentRunningStatusMonitor")
 					equipStatusMntParamType(webName);
 				else if(webName == "equipParamRecordShow")
-					getEquipmentInfo(webName);
+					getEquipmentInfoEquipReport(webName);
 				else if(webName == "equipParamRecordTable")
-					getEquipmentInfo(webName);
+					getEquipmentInfoEquipReport(webName);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -152,7 +152,7 @@ function equipStatusMntInit() {
 	//	document.getElementById("tempControlerShow").innerHTML = controller;
 }
 
-function getEquipmentInfo(webName) {
+function getEquipmentInfoEquipReport(webName) {
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString() +
 			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
