@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <title>Title</title>
+	<link rel="stylesheet" type="text/css" href="../../../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" >
+	<!-- <link rel="stylesheet" type="text/css" href="../../../vendor/jquery/ztree/css/demo.css" > -->
+	<script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		
+    <script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="../../../vendor/bootstrap/js/bootstrap-table-treegrid.js"></script>
+    <script type="text/javascript" src="../../../vendor/jquery/jquery.treegrid.min.js"></script>
+		<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.core.js"></script>
+		<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.excheck.js"></script>
+		<script type="text/javascript" src="../../../vendor/ry/ajax/libs/iCheck/icheck.min.js" ></script>
+		<script type="text/javascript" src="../../../vendor/ry/ajax/libs/select/select2.js" ></script>
+	<script type="text/javascript" src="../../../vendor/jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../../../js/common.js"></script>
+	<script type="text/javascript" src="../../../vendor/ry/ruoyi/js/ry-ui.min.js"></script>
+	<link href="../../../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="../../../vendor/bootstrap/css/jquery.treegrid.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap-datatable/bootstrap-table.css" >
+	<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap-treeview.css" >
+	<link type="text/css" media="screen" href="../../../vendor/ry/ajax/libs/iCheck/custom.css"  rel="stylesheet"/>
+	<link href="../../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="../../../vendor/bootstrap/js/bootstrap-treeview.js"></script>
+	
+	<!-- <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script> -->
+	<!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css" /> -->
+</head>
+<body>
+	<section class="content table-content">
+				<form class="form-inline" >
+				<!-- 工具栏 -->
+				<div id="toolbar">
+						<input type="button" value="新增菜单" id="addBtn" data-toggle="modal" data-target="#addModal" onclick="" class="btn btn-primary"/>
+				</div>
+				<!-- bootstrapTable -->
+				</form>
+				<table id="dataGrid">
+				</table>
+			</section>
+			
+			
+			<div class="navbar-default sidebar" role="navigation">
+								<div class="sidebar-nav navbar-collapse">
+									<div id="tree" style="" class="col-sm-2">范德萨范德萨
+									<ul class="nav" id="side-menu">
+										<li class="sidebar-search">
+											<div class="input-group custom-search-form">
+												<input type="text" class="form-control" placeholder="查询...">
+												<span class="input-group-btn">
+			                                <button class="btn btn-default" type="button">
+			                                    <i class="fa fa-search"></i>
+			                                </button>
+			                            </span>
+											</div>
+											<!-- /input-group -->
+										</li>
+										<li>
+											<a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+										</li>
+										<li>
+											<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 极板称重管理<span class="fa arrow"></span></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#" onclick="workSummary()">称重月工作统计</a>
+												</li>
+												<li>
+													<a href="#" onclick="weighRecord()">称重记录查看</a>
+												</li>
+												<li>
+													<a href="#" onclick="weighQualify()">称重合格率统计</a>
+												</li>
+												<li>
+													<a href="#" onclick="staffWeightDetail()">个人称重趋势图</a>
+												</li>
+												<li>
+													<a href="#" onclick="staffWeightTime()">个人称重时间间隔趋势图</a>
+												</li>
+											</ul>
+											<!-- /.nav-second-level -->
+										</li>
+										<li>
+											<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 文档管理<span class="fa arrow"></span></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#" onclick="documentManage()">文档管理</a>
+												</li>
+											</ul>
+											<!-- /.nav-second-level -->
+										</li>
+										</li>
+										<li>
+											<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 心声社区<span class="fa arrow"></span></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#" onclick="contentManage()">心声社区</a>
+												</li>
+			
+											</ul>
+											<!-- /.nav-second-level -->
+										</li>
+										<li>
+											<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>设备管理<span class="fa arrow"></span></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#" onclick="equipmentInfoManage()">设备信息管理</a>
+												</li>
+												<li>
+													<a href="#" onclick="equipmentDataCollector()">设备数据采集</a>
+												</li>
+											</ul>
+											<!-- /.nav-second-level -->
+										</li>
+										<li>
+											<a href="#"><i class="fa fa-table fa-fw"></i> 权限管理<span class="fa arrow"></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#"  onclick="user()")>用户管理</a>
+												</li>
+												<li>
+													<a href="#" onclick="role()">角色管理</a>
+													<a href="#" onclick="menu()">菜单管理</a>
+												</li>
+											</ul>
+										</li>
+													<li>
+											<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 工单管理<span class="fa arrow"></span></a>
+											<ul class="nav nav-second-level">
+												<li>
+													<a href="#" onclick="workOrderManage()">工单管理</a>
+												</li>
+												<li>
+													<a href="#" onclick="subOrderManage()">工单批次管理</a>
+												</li>
+											</ul>
+											<!-- /.nav-second-level -->
+										</li>
+									</ul>
+									<!-- </div> -->
+								</div>
+								<!-- /.sidebar-collapse -->
+							</div>
+			
+			
+			
+			
+			
+			
+			
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+						<!-- <div id="tree" class="col-sm-2">范德萨范德萨</div> -->
+				</div>
+			</div>
+			
+			<!-- 新增菜单的模态框，在修改菜单中将获取一行的值放入input中，改变一些参数继续使用 -->
+					<div class="modal fade" id="addModal" tabindex="-1" Menu="dialog">
+						<div class="modal-dialog" Menu="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h3>新增菜单</h3>
+								</div>
+								<div class="modal-body">
+									<form class="form-horizontal m" id="form-menu-add">
+										<input id="addParentId" name="parentId" type="hidden"  />
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">上级菜单：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" onclick="addListParent()" id="addParentName" name="parentName" readonly="true" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">菜单类型：</label>
+											<div class="col-sm-8">
+												<label class="checkbox-inline i-checks"> <input type="radio" name="menuType" value="M" /> 目录 </label> 
+												<label class="checkbox-inline i-checks"> <input type="radio" name="menuType" value="C" /> 菜单 </label> 
+												<label class="checkbox-inline i-checks" style="display: none;"> <input type="radio" name="menuType" value="F" /> 按钮 </label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">菜单名称：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" name="menuName" id="addMenuName">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">请求地址：</label>
+											<div class="col-sm-8">
+												<input id="addUrl" name="url" class="form-control" type="text">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label">权限标识：</label>
+											<div class="col-sm-8">
+												<input id="perms" name="perms" class="form-control" type="text">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label" >显示排序：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" name="orderNum">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label">图标：</label>
+											<div class="col-sm-8">
+												<input id="icon" name="icon" class="form-control" type="text" placeholder="选择图标">
+																	<div class="ms-parent" style="width: 100%;">
+																			<div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
+																					<div data-th-include="icon.html"></div>
+																			</div>
+																	</div>
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label">菜单状态：</label>
+											<div class="col-sm-8">
+												<label class="checkbox-inline i-checks"> <input type="radio" name="menuType" value="1" /> 显示 </label> 
+												<label class="checkbox-inline i-checks"> <input type="radio" name="menuType" value="0" /> 隐藏 </label> 
+											</div>
+										</div>
+										<div class="form-group" style="display: none;" >
+											<div class="form-control-static col-sm-offset-9">
+												<button type="submit" class="btn btn-primary">提交</button>
+												<button onclick="" class="btn btn-danger" type="button">关闭</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="conf" class="btn btn-primary" onclick="addMenu()">确定</button>
+									<!-- <button type="button" id="conf" class="btn btn-default" onclick="addMenu()">确定</button> -->
+									<!-- <button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button> -->
+									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
+								</div>
+							</div>				
+						</div>
+					</div>
+			<!-- 修改菜单的模态框 -->
+					<div class="modal fade" id="editModal" tabindex="-1" Menu="dialog">
+						<div class="modal-dialog" Menu="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h3>修改菜单</h3>
+								</div>
+								<div class="modal-body">
+									<form class="form-horizontal m" id="form-menu-edit">
+										<input name="menuId" id="editMenuId"   type="hidden"  />
+										<input id="editParentId" name="parentId"  type="hidden" />
+										<div class="form-group">
+											<label class="col-sm-3 control-label ">上级菜单：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" onclick="editListParent()" id="editParentName" name="parentName" readonly="true" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">菜单类型：</label>
+											<div class="col-sm-8">
+												<label class="checkbox-inline i-checks"> <input type="radio" id="editMulu"  name="menuType" value="M" /> 目录 </label> 
+												<label class="checkbox-inline i-checks"> <input type="radio" id="editCaidan" name="menuType" value="C" /> 菜单 </label> 
+												<label class="checkbox-inline i-checks" style="display: none;"> <input type="radio" name="menuType" value="F" /> 按钮 </label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">菜单名称：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" name="menuName" id="editMenuName" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">请求地址：</label>
+											<div class="col-sm-8">
+												<input id="editUrl" name="url" class="form-control" type="text" th:field="*{url}">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label">权限标识：</label>
+											<div class="col-sm-8">
+												<input id="perms" name="perms" class="form-control" type="text" th:field="*{perms}">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<label class="col-sm-3 control-label">显示排序：</label>
+											<div class="col-sm-8">
+												<input class="form-control" type="text" name="orderNum" th:field="*{orderNum}">
+											</div>
+										</div>
+										<div class="form-group" style="display: none;" >
+											<label class="col-sm-3 control-label">图标：</label>
+											<div class="col-sm-8">
+												<input id="icon" name="icon" class="form-control" type="text" placeholder="选择图标" th:field="*{icon}">
+												<div class="ms-parent" style="width: 100%;">
+													<div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
+														<div data-th-include="icon.html"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group" style="">
+											<label class="col-sm-3 control-label">菜单状态：</label>
+											<div class="col-sm-8">
+												<label class="checkbox-inline i-checks"> <input type="radio" id="editXianshi" name="visible" value="1"  /> 显示 </label> 
+												<label class="checkbox-inline i-checks"> <input type="radio" id="editYincang" name="visible" value="0" /> 隐藏 </label> 
+											</div>
+										</div>
+										<div class="form-group" style="display: none;">
+											<div class="form-control-static col-sm-offset-9">
+												<button type="submit" class="btn btn-primary">提交</button>
+												<button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="conf" class="btn btn-primary" onclick="updateMenu()">确定</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
+								</div>
+							</div>				
+						</div>
+					</div>
+					
+					<div class="modal fade" id="listParent" Menu="dialog">
+						<div class="modal-dialog" Menu="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h3>菜单列表</h3>
+								</div>
+								<div class="modal-body" align="center">
+									<div class="content_wrap">
+										<div class="zTreeDemoBackground left">
+											<ul id="treeDemo" class="ztree"></ul>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary"  >确定</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
+								</div>
+							</div>
+						</div>
+					</div>
+</body>
+</html>
+<script type="text/javascript">
+	//设置ztree setting
+// 	var setting = {
+// 							data: {
+// 								simpleData: {
+// 									enable: true,
+// 									idKey: "menuId",
+// 									pIdKey: "parentId",
+// 									name: "menuName",
+// 									rootPId: 0
+// 								}},
+// 								check: {
+// 									//chkboxType: { "Y": "ps", "N": "ps" },
+// 									chkStyle: "checkbox", //复选框类型
+// 									enable: true //每个节点上是否显示 CheckBox
+// 								},
+// 								callback: {
+// 									beforeCheck: true,
+// 									onClick: onCheck
+// 								}
+// 							};
+var addsetting = {
+	view:{selectedMulti:false},
+	data: {
+		simpleData: {
+			enable: true,
+			idKey: "menuId",
+			pIdKey: "parentId",
+			name: "menuName",
+			rootPId: 0
+		}},
+	callback:{onClick:addSetParent
+	}
+};
+var editsetting = {
+	view:{selectedMulti:false},
+	data: {
+		simpleData: {
+			enable: true,
+			idKey: "menuId",
+			pIdKey: "parentId",
+			name: "menuName",
+			rootPId: 0
+		}},
+	callback:{onClick:editSetParent
+	}
+};
+/*新增菜单modal加载上级菜单展示tree*/
+	function addListParent() {
+	 // var allTableData = $("#dataGrid").bootstrapTable('getData');//获取表格的所有内容行
+	 // var zNodes = new Array(allTableData.length);
+	 var zNodes = new Array();
+	 $.ajax({
+						type : 'POST',
+						url : window.serviceIP+ '/menu/listFolders',
+						dataType: "json",
+						async:false,
+						success : function(result){
+							for( i=0;i<result.length;i++)
+								{
+									zNodes[i]={menuId:result[i].menuId, parentId:result[i].parentId, name:result[i].menuName };	
+								}
+								$.fn.zTree.init($("#treeDemo"), addsetting, zNodes);
+								$("#listParent").modal('show');
+						}
+					});
+	}
+	/*修改菜单modal加载上级菜单展示tree*/
+		function editListParent() {
+		 // var allTableData = $("#dataGrid").bootstrapTable('getData');//获取表格的所有内容行
+		 // var zNodes = new Array(allTableData.length);
+		 var zNodes = new Array();
+		 $.ajax({
+							type : 'POST',
+							url : window.serviceIP+ '/menu/listFolders',
+							dataType: "json",
+							async:false,
+							success : function(result){
+								for( i=0;i<result.length;i++)
+									{
+										zNodes[i]={menuId:result[i].menuId, parentId:result[i].parentId, name:result[i].menuName };	
+									}
+									$.fn.zTree.init($("#treeDemo"), editsetting, zNodes);
+									$("#listParent").modal('show');
+							}
+						});
+		}
+	/*add设置上级菜单方法*/
+	function addSetParent(event, treeId, treeNode){
+						var treeId = treeNode.menuId;
+						var treeName = treeNode.name;
+						$("#listParent").modal('hide');
+						
+						alert($("#addParentId").val());
+						alert(treeId);
+						$("#addParentId").val(treeId);
+						$("#addParentName").val(treeName);
+          }
+/*edit设置上级菜单方法*/
+	function editSetParent(event, treeId, treeNode){
+						var treeId = treeNode.menuId;
+						var treeName = treeNode.name;
+						//获取自己的menuId与后台接收到的ParentId比较,若一致则提示用户
+						var menuId = $("#editMenuId").val();
+						if(menuId==treeId){
+							alert("不能将自己设置为上级菜单");
+							return;
+						}
+						$("#listParent").modal('hide');
+						$("#editParentId").val(treeId);
+						$("#editParentName").val(treeName);
+          }
+
+	/*初始化bootstraptable数据选项*/
+	var options = {
+		columns: [{
+			title: '菜单名称',
+			field: 'menuName',
+			width: '20%',
+			align: "center",
+			formatter: function(index,row) {
+				// console.log(row);
+				if (row.icon == null || row == "") {
+					return row.menuName;
+				} else {
+					return '<i class="' + row.icon + '"></i> <span class="nav-label">' + row.menuName + '</span>';
+					}
+			}
+		},
+		{
+			field: 'parentName',
+			title: '上级菜单名称',
+			width: '10',
+			align: "center",
+			formatter: function(index,row) {
+				// console.log(row);
+				if (row.parentName == null || row.parentName == "" || row =="") {
+					return "主菜单";
+				} else {
+					return '<i class="' + row.icon + '"></i> <span class="nav-label">' + row.parentName + '</span>';
+					}
+			}
+		},
+		{
+			field: 'orderNum',
+			title: '排序',
+			width: '10%',
+			align: "center",
+			visible:false
+		},
+		{
+			field: 'url',
+			title: '请求地址',
+			width: '15%',
+			align: "center"
+		},
+		{
+			title: '类型',
+			field: 'menuType',
+			width: '10%',
+			align: "center",
+			formatter: function(value,item, index) {
+				if (item.menuType == 'M') {
+					return '<span class="label label-success">目录</span>';
+				}
+				else if (item.menuType == 'C') {
+					return '<span class="label label-primary">菜单</span>';
+				}
+				else if (item.menuType == 'F') {
+					return '<span class="label label-warning">按钮</span>';
+				}
+			}
+		},
+		{
+			field: 'visible',
+			title: '可见',
+			width: '10%',
+			align: "center",
+			formatter: function(value,row, index) {
+				if (row.visible == 1) {
+					return '<span class="badge badge-primary">显示</span>';
+				} else if (row.visible == 0) {
+					return '<span class="badge badge-danger">隐藏</span>';
+				}
+			}
+		},
+		{
+			field: 'perms',
+			title: '权限标识',
+			width: '15%',
+			align: "center",
+			"visible":false
+		},
+		{
+			title: '操作',
+			width: '20%',
+			align: "center",
+			formatter: function(value,row, index) {
+				var actions = [];
+				actions.push('<a class="btn btn-success btn-xs " id="aaaa" href="#" onclick="loadEditMenu(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+				actions.push('<a class="btn btn-info btn-xs " href="#" onclick="loadAddMenu(\'' + row.parentId + '\',\'' + row.parentName + '\')"><i class="fa fa-plus"></i>新增</a> ');
+				// onclick=\"showInfo('"+A+"','"+B+"')\"
+				actions.push('<a class="btn btn-danger btn-xs " href="#" onclick="deleteMenu(\'' + row.menuId + '\')"><i class="fa fa-remove"></i>删除</a>');
+				return actions.join('');
+			}
+		}]
+	};
+	/*执行初始化bootstraptable方法*/
+	initDataGrid();
+	/*初始化bootstraptable数据方法*/
+	function initDataGrid(){
+	var $table = $("#dataGrid");
+		$table.bootstrapTable('destroy').bootstrapTable({
+			  url: window.serviceIP + "/menu/listMenus",
+				striped:true,
+				type: "POST",
+				contentType: "application/json",
+				// dataType: "json",
+				//		headers: {
+				//			Token: $.cookie('token')
+				//		},
+				processData: true,
+				sidePagenation:'server',
+				idField:'menuId',
+				columns:options.columns,
+				treeShowField: 'menuName',
+				parentIdField: 'parentId',
+				// clickToSelect: true,
+				// showToggle: true,
+				// showRefresh: true,
+				// showColumns: true,
+				// search: true,
+				singleClick: true,
+				onLoadSuccess: function(data) {
+					// alert(data[4].parentName);
+						$table.treegrid({
+								initialState: 'collapsed',//收缩
+								treeColumn: 0,//指明第几列数据改为树形
+								expanderExpandedClass: 'glyphicon glyphicon-triangle-bottom',
+								expanderCollapsedClass: 'glyphicon glyphicon-triangle-right',
+								onChange: function() {
+										$table.bootstrapTable('resetWidth');
+								}
+						});
+				}
+		});
+		//初始化icheck显示
+		$('.i-checks').iCheck({
+			checkboxClass: 'icheckbox_square-green',
+			radioClass: 'iradio_square-green',
+		});
+	}
+	
+	
+$(function () {
+      $.ajax({
+          type: "Post",
+          url: window.serviceIP + "/menu/getAllMenuList", 
+          dataType: "json",
+          success: function (result) {
+						// alert(result);
+						// alert('chenggongle');
+						// $('#tree').treeview({data: result});
+              $('#tree').treeview({
+									// backColor: 'pink',
+                  data: result.data,         // 数据源
+									// onhoverColor: "#E8E8E8",
+                  // showCheckbox: true,   //是否显示复选框
+                  // highlightSelected: true,    //是否高亮选中
+                  // multiSelect: true,    //多选
+									// color: "#428bca", 
+									showBorder:false,
+									borderColor: "red",//边框颜色 
+    expandIcon: 'glyphicon glyphicon-chevron-right',//展开图标 
+    collapseIcon: 'glyphicon glyphicon-chevron-down',//合并图标 
+    nodeIcon: 'glyphicon glyphicon-bookmark',//无节点图标 
+                  levels : 2,
+                  enableLinks : true,//必须在节点属性给出href属性
+                  // color: "#010A0E",
+                  onNodeChecked : function (event,node) {
+                      var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+                      if (selectNodes) { //子节点不为空，则选中所有子节点
+                          $('#tree').treeview('checkNode', [selectNodes, { silent: true }]);
+                      }
+                  },
+                  onNodeUnchecked : function(event, node) { //取消选中节点
+                      var selectNodes = getChildNodeIdArr(node); //获取所有子节点
+                      if (selectNodes) { //子节点不为空，则取消选中所有子节点
+                          $('#tree').treeview('uncheckNode', [selectNodes, { silent: true }]);
+                      }
+                  },
+                  
+                  onNodeExpanded : function(event, data) {
+                          
+                  },
+                      
+                  onNodeSelected: function (event, data) {
+                      //alert(data.nodeId);
+                  }
+                      
+              });
+          },
+          error: function () {
+              alert("菜单加载失败！")
+          }
+      });
+  })
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// 	$(document).ready(function () {
+// 		$('.i-checks').iCheck({
+// 			checkboxClass: 'icheckbox_square-green',
+// 			radioClass: 'iradio_square-green',
+// 		});
+// 	});
+/*
+修改菜单页面加载方法
+*/
+function loadEditMenu(menuId){
+				// alert(menuId);
+				$.ajax({
+					url:window.serviceIP + "/menu/listByMenuId?menuId="+menuId,
+					method:"POST",
+					// data:param,
+					//		headers: {
+					//			Token: $.cookie('token')
+					//		},
+					dataType:"json",
+					success:function(data){
+						// var data1 = eval("(" + data.data + ")");
+						var data1 = JSON.parse(data.data); 
+						// alert(data1[0].menuId);
+						if(data.status=="1"){
+							
+							// var newObj = JSON.parse(JSON.stringify(obj)); 
+							// alert(data1);
+							$("#editMenuId").attr("value", data1[0].menuId);
+							$("#editParentId").attr("value", data1[0].parentId);
+							var parentName = ( data1[0].parentName==null|| data1[0].parentName=="")?"主菜单": data1[0].parentName;
+							$('#editParentName').val(parentName);
+							$("#editMenuName").attr("value", data1[0].menuName);
+							$("#editUrl").attr("value", data1[0].url);
+							if(data1[0].menuType!=null&&data1[0].menuType!=""){
+								if(data1[0].menuType=="M"){$("#editMulu").iCheck('check');}
+								if(data1[0].menuType=="C"){$("#editCaidan").iCheck('check');}
+							}
+							var vflag = data1[0].visible=="1"?true:false;
+							if(vflag){$("#editXianshi").iCheck('check');}
+							if(!vflag){$("#editYincang").iCheck('check');}
+							$("#editModal").modal("show");
+						}
+					},
+					error:function(data){
+						alert("出现未知错误");
+					}
+				});
+			
+}
+/**
+ * 提交修改调用方法
+ */
+function updateMenu(){
+	var param = $("#form-menu-edit").serializeArray();
+	// alert(param);
+	//设为disable则无法获取
+	$.ajax({
+		url:window.serviceIP + "/menu/updateMenu",
+		method:"post",
+		data:param,
+		dataType:"json",
+		success:function(data){
+			// alert(data.status);
+			if(data.status=="1"){
+				// alert("修改成功");
+				$("#editModal").modal("hide");
+				initDataGrid();
+				
+			}
+		},
+		error:function(data){
+			alert("wrong");
+		}
+	});
+}
+/*
+新增菜单页面加载方法
+*/
+function loadAddMenu(parentId,parentName){
+							// alert(parentId);
+							// alert(parentName);
+							$("#addParentId").attr("value", parentId);
+							var addParentName = ( parentName==null|| parentName==""||parentName=="undefined")?"主菜单": parentName;
+							$('#addParentName').val(addParentName);
+							$("#addModal").modal("show");
+}
+/**
+ * 提交新增调用方法
+ */
+function addMenu(){
+	var param = $("#form-menu-add").serializeArray();
+	// $("#addParentId").val();
+	// $("#addParentName").val();
+	alert($("#addParentId").val());
+	//设为disable则无法获取
+	$.ajax({
+		url:window.serviceIP + "/menu/addMenu",
+		method:"post",
+		data:param,
+		dataType:"json",
+		success:function(data){
+			alert(data.status);
+			if(data.status=="1"){
+				alert("新增成功");
+				$("#addModal").modal("hide");
+				// initDataGrid();
+				$("#dataGrid").bootstrapTable("refresh");
+				
+			}
+		},
+		error:function(data){
+			alert("出现错误！");
+		}
+	});
+}
+/**
+ * 
+ */
+function deleteMenu(menuId){
+		var allTableData = $("#dataGrid").bootstrapTable('getData');
+		var len = allTableData.length;
+		// alert(len);
+		// alert(allTableData[0].parentId);
+		for(var i=0;i<len;i++){
+			var pid = allTableData[i].parentId;
+			if(menuId==pid){
+				alert('该菜单下存在子菜单，请先删除子菜单！');
+				return ;
+			}
+		}
+		$.ajax({
+			url:window.serviceIP + "/menu/deleteMenu?menuId="+menuId,
+			dataType:"json",
+			traditional: true,//属性在这里设置
+			method:"post",
+// 			data:{
+// 				"ids":ids
+// 			},
+			success:function(data){
+				// alert(data.state);
+				if(data.status == '1'){
+					alert('删除成功');
+					// initDataGrid();
+					$("#dataGrid").bootstrapTable("refresh");
+				}
+			},
+			error:function(data){
+				alert("出现错误！");
+			}
+		});
+}
+				
+//关闭modal清空数据
+$(function() {
+	$('#addModal').on('hide.bs.modal',
+		function() {
+			document.getElementById("form-menu-add").reset();
+		})
+});
+//关闭modal清空数据
+$(function() {
+	$('#editModal').on('hide.bs.modal',
+		function() {
+			document.getElementById("form-menu-edit").reset();
+		})
+});
+
+function itemOnclick(target){
+	// alert('dianle');
+	//找到当前节点id
+	var nodeid = $(target).attr('data-nodeid');
+	var tree = $('#tree');
+	//获取当前节点对象
+	var node = tree.treeview('getNode', nodeid);
+	// alert(nodeid);
+	if(node.state.expanded){ 
+	    //处于展开状态则折叠
+	    tree.treeview('collapseNode', node.nodeId);  
+	} else {
+	    //展开
+	    tree.treeview('expandNode', node.nodeId);
+	}
+}
+</script>
