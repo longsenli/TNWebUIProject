@@ -21,8 +21,21 @@
 	</head>
 
 	<body>
-		<script type="text/javascript ">
-			initData();
+		<script type="text/javascript">
+			$(function() {
+
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setMonth(today.getMonth() - 1);
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+			});
+			initContentTypeSlctData();
+			//行点击事件
+			$(function() {
+				$("body").delegate('#mytable tr', 'click', function() {
+					showDetail(this);
+				});
+			});
 		</script>
 
 		<div id="myCollapsibleExample">
@@ -69,9 +82,9 @@
 					<input type="text" class="form-control" id="name" name="creator" style="width:150px;" placeholder="请输入创建人 ">
 				</div>
 				<label>    时间： </label>
-				<input type="date " id="startTime" name="startTime" value="2018-12-12" />
+				<input type="date" id="startTime" name="startTime" />
 				<label>-</label>
-				<input type="date" id="endTime" name="endTime" value="2018-12-29" />
+				<input type="date" id="endTime" name="endTime" />
 				<input type="button" class="btn btn-default" value="查询 " onclick="filterContent()">
 			</div>
 		</form>

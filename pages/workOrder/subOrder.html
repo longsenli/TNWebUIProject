@@ -4,20 +4,21 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>工单批次管理</title>
+
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../../js/workOrderJS/subOrder.js"></script>
-
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
-		<script type="text/javascript" src="../../vendor/qrcode/jquery.qrcode.js"></script>
-		<script type="text/javascript" src="../../vendor/qrcode/qrcode.js"></script>
-		<script type="text/javascript" src="../../vendor/jquery/jquery.jqprint-0.3.js"></script>
-		
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -25,7 +26,6 @@
 	</head>
 
 	<body>
-		<div id="qrcode"></div>
 		<script type="text/javascript">
 			//			   jQuery(function(){
 			//  jQuery('#qrcode').qrcode("http://www.jq22.com");
@@ -35,7 +35,20 @@
 			//				text: "http://www.jq22.com"
 			//			});
 			subOrderIndustrialPlantSlctFun();
-			subOrderProductionProcessSlctFun();
+			$(function() {
+				$('#myModal').on('hide.bs.modal',
+					function() {
+						canvas = null;
+						context = null;
+						video = null;
+						document.getElementById("video").pause();
+						document.getElementById("video").src = '';
+						if(mediaStreamTrack != null && mediaStreamTrack.getTracks().length > 0) {
+							mediaStreamTrack.getTracks()[0].stop();
+						}
+					})
+			});
+			//subOrderProductionProcessSlctFun();
 			//			setTimeout(function() {
 			//				//add your code
 			//				lineWorkOrderSlct();
@@ -52,7 +65,7 @@
 				<label> 产线： </label>
 				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" ondatasetchanged="SelectProductinLineFun()" onchange="lineWorkOrderSlct()">
 				</select>
-				</select>
+
 				<label> 单号： </label>
 				<select class="selectpicker" id="workOrderSlct" style="width:100px;" name="workOrderSlct" onchange="SelectWorkOrderFun()">
 				</select>
@@ -62,9 +75,10 @@
 		</form>
 
 		<div id="QRCodeHtml" style="display:none">
-			<div id="QRCode" ></div>
+			<div id="QRCode"></div>
 		</div>
 		<img id="QRImage" style="display:none" src="" />
+
 		<div id="toolbar" class="btn-group">
 			<button id="workorder_add" type="button" class="btn btn-default" onclick="FinishSubOrder()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成
@@ -72,10 +86,13 @@
 			<button id="workorder_add" type="button" class="btn btn-default" onclick="printQRCode()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印
             </button>
+			<button id="workorder_add" type="button" class="btn btn-default" onclick="scanQR()">
+                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描领料
+            </button>
+
 		</div>
 		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
-		</form>
 
 		<div id="MaterialFormCollapsible">
 			<a href="#gainMaterialForm" onclick="getUsableMaterialFun()" data-toggle="collapse">领料</a>
@@ -90,13 +107,42 @@
 				<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>领料
             </button>
+
 				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 				</table>
 			</div>
 		</form>
-
-		</form>
 		<br />
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 订单管理 </h4>
+					</div>
+					<div class="modal-body" id="modal-body">
+						<form id="workOrderManageForm">
+
+							<div id="support"></div>
+							<div id="contentHolder">
+
+								<video id="video" width="320" height="320" loop="loop" autoplay="autoplay"></video>
+								<canvas id="canvas" style="display: none; background-color:#F00;" width="320" height="320"></canvas><br/>
+								<!--<button id="workordersdf" type="button" class="btn btn-default" onclick="startScanQR()">
+                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描
+            </button>-->
+								</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="closeQRScan()">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
 
 		<!--<div id="materialidToolbar" class="btn-group">
 			<button id="workorder_add" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
@@ -106,7 +152,7 @@
 		</div>-->
 		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
-		</form>
+
 	</body>
 
 </html>

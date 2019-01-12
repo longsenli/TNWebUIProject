@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>设备参数变化趋势查看</title>
+			<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/report/equipmentRunningStatusMonitor.js"></script><link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
+	
+	</head>
+	<body>
+		<script type="text/javascript ">
+			
+			$(function() {
+				var today = new Date();
+				document.getElementById("endTime").value =today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() -7)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				equipStatusMntPlantSlctFun("equipParamRecordShow");	
+				
+			})
+		</script>
+			<form ID="equipmentSelectForm" name="equipmentSelectForm">
+			<div class="form-inline row">
+				
+				<label> 厂区： </label>
+				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="equipMngPlantSlct" onchange="getEquipmentInfoEquipReport('equipParamRecordShow')">
+				</select>
+				<label> 类型： </label>
+				<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoEquipReport('equipParamRecordShow')">
+				</select>
+				<label> 设备： </label>
+						<select class="selectpicker" id="equipmentInfo" style="width:100px;" name="equipID" onchange="equipRecordChartShowInit()">
+						</select>
+				<label> 指标： </label>
+				<select class="selectpicker" id="equipmentParamType" style="width:100px;" name="paramID" onchange="equipRecordChartShowInit()">
+				</select>
+				<label> 时间： </label>
+				<input type="date" id="startTime" name ="startTime" onchange="equipRecordChartShowInit()" />
+				<label>-</label>
+				<input type="date" id="endTime" name ="endTime" onchange="equipRecordChartShowInit()"/>
+
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+		<div id="report" style="background:gainsboro;margin:0 auto; padding-left: 0px"></div>
+	</body>
+</html>

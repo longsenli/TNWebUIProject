@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>称重合格率报表</title>
+		<!-- 引入 echarts.js -->
+		<script type="text/javascript" src="../js/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/plateweigh/plateWeightReopt.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			$(function() {
+				getWeighQualifyStaff("1");
+				var today = new Date();
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+			})
+		</script>
+		<form>
+			<div class="form-inline row">
+				<input type="date" id="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" />
+				<label> 产线： </label>
+				<select class="selectpicker " id="weighQualifyLine"  data-width="auto" name="weighQualifyLine">
+				</select>
+				<label> 机长： </label>
+				<select class="selectpicker" id="weighQualifyStaff" data-width="auto" name="weighQualifyStaff">
+				</select>
+				<label> 型号： </label>
+				<select class="selectpicker" id="weighQualifyType" data-width="auto" name="weighQualifyType">
+				</select>
+				<label> 规格： </label>
+				
+				<select class="selectpicker" id="weighQualifyRange" data-width="auto" name="weighQualifyRange">
+					<option value=1>±1克合格率</option>
+					<option value=2>±2克合格率</option>
+					<option value=3>±3克合格率</option>
+					<option value=5>±5克合格率</option>
+				</select>
+				<label> 统计方式： </label>
+				<select class="selectpicker" id="weighRateTypeSlct" data-width="auto" name="weighQualifyRange">
+					<option value=1>机长</option>
+					<option value=2>产线</option>
+					<option value=3>型号</option>
+				</select>
+				<button type="button" class="btn btn-default" onclick="getQualifiedRateSummary()">查询     </button>
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+
+		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed" style="table-layout: fixed;">
+			<thead>
+				
+			</thead>
+			<tbody></tbody>
+		</table>
+	</body>
+
+</html>

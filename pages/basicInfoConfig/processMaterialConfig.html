@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/equipmentJS/equipmentManage.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfoCfg.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
@@ -21,26 +21,26 @@
 	<body>
 		<!--	<div class="container">-->
 		<script type="text/javascript ">
-			equipMngPlantSlctFun();
-			getEquipmentTypeTable();
+			processMaterialMaterialTypeSlctFun();
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
 					function() {
 
 						//$("#equipmentInfoManageForm").val("");
-						$("#equipmentInfoManageForm")[0].reset();
+						$("#ProcessMaterialTypeForm")[0].reset();
 						//document.getElementById("equipmentInfoManageForm").reset();
 					})
 			});
 		</script>
-		<form ID="equipmentSelectForm" name="equipmentSelectForm">
+		<form ID="basicInfoCfgSelectForm" name="basicInfoCfgSelectForm">
 			<div class="form-inline row">
-				<label> 厂区： </label>
-				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="getEquipmentInfoTable()">
+				<label name="processSlctTypeLabel"> 流程： </label>
+				<select class="selectpicker" id="processSlctType" style="width:100px;" name="processSlctType" onchange="processMaterialTableFun()">
 				</select>
-				<label> 类型： </label>
+
+				<!--<label> 类型： </label>
 				<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoTable()">
-				</select>
+				</select>-->
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
@@ -55,22 +55,30 @@
 						<h4 class="modal-title" id="myModalLabel"> 设备信息管理 </h4>
 					</div>
 					<div class="modal-body" id="modal-body">
-						<form ID="equipmentInfoManageForm">
+						<form ID="ProcessMaterialTypeForm">
 							<input type="text" id="id" name="id" style="display:none" />
-							<input type="text" id="typeid" name="typeid" style="display:none" />
-							<input type="text" id="plantid" name="plantid" style="display:none" />
-							<label for="name">机器名称:</label>
-							<input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
-							<label for="name">购买时间:</label>
-							<input type="datetime-local" class="form-control" id="buytime" name="buytime" >
-							<label for="name">厂商:</label>
-							<input type="text" class="form-control" id="manufacturers" name="manufacturers" placeholder="请输入厂商">
-							<label for="name">位置:</label>
-							<input type="text" class="form-control" id="location" name="location" placeholder="请输入位置">
+							<input type="text" id="status" name="status" style="display:none" />
+							<label for="name">流程:</label>
+							<br />
+							<select class="selectpicker" id="processid" style="width:100px;" name="processid">
+							</select>
+							<br />
+							<label for="name">物料类型:</label>
+							<br />
+							<select class="selectpicker" id="materialtypeid" style="width:100px;" name="materialtypeid">
+							</select>
+							<br />
+							<label for="name">输入产出:</label>
+							<br />
+							<select class="selectpicker" id="inorout" style="width:100px;" name="inorout">
+								<option value=1>输入</option>
+								<option value=2>产出</option>
+							</select>
+							<br />
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick="addEquipmentInfo()">保存 </button>
+						<button type="button" class="btn btn-default" onclick="addProcessMaterial()">保存 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
@@ -79,13 +87,13 @@
 		</div>
 
 		<div id="toolbar" class="btn-group">
-			<button id="equipment_add" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+			<button id="equipment_add" type="button" class="btn btn-default" onclick="selectedProcessMaterialRow(this)">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
-			<button id="equipment_edit" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+			<!--<button id="equipment_edit" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
-            </button>
-			<button id="equipment_delete" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+            </button>-->
+			<button id="equipment_delete" type="button" class="btn btn-default" onclick="selectedProcessMaterialRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
             </button>
 		</div>

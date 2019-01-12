@@ -16,11 +16,21 @@
 
 	<body>
 		<script type="text/javascript">
+			
+			$(function() {
+
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setMonth(today.getMonth() - 1 );
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+			});
 			initFileData();
 		</script>
-		<div id="myCollapsibleExample"><a href="#form1" data-toggle="collapse">文件上传</a></div>
+		<div id="myCollapsibleExample">
+			<a href="#form1" data-toggle="collapse">文件上传</a>
+		</div>
 
-		<form  ID="form1"  class="collapse">
+		<form ID="form1" class="collapse">
 			<div class="form-inline row">
 				<label> 类型： </label>
 				<select class="form-control  mmp-select" id="type" style="width:100px;" name="type">
@@ -28,20 +38,20 @@
 					<option value=2>维修</option>
 					<option value=3>架构</option>
 				</select>
-			
+
 				<div class="form-group">
 					<label for="name">摘要</label>
 					<input type="text" class="form-control" id="name" name="summary" style="width:300px;" placeholder="请输入摘要">
 				</div>
-				<input type="file" id="file" name="fileUpload" style="display: inline-block;" value = "文档" accept=".txt,.doc,.docx,.xls,.xlsx">
+				<input type="file" id="file" name="fileUpload" style="display: inline-block;" value="文档" accept=".txt,.doc,.docx,.xls,.xlsx">
 				<input type="button" class="btn btn-default" value="提交" onclick="uploadFile()">
 			</div>
 		</form>
-		
-		<form  ID="form2"  >
+
+		<form ID="form2">
 			<div class="form-inline row">
 				<label> 类型： </label>
-				<select class="form-control  mmp-select"  id="typeAll" style="width:100px;" name="type">
+				<select class="form-control  mmp-select" id="typeAll" style="width:100px;" name="type">
 					<option value=0>全部</option>
 					<option value=1>开发</option>
 					<option value=2>维修</option>
@@ -56,17 +66,17 @@
 					<input type="text" class="form-control" id="name" name="creator" style="width:150px;" placeholder="请输入作者姓名">
 				</div>
 				<label>    时间： </label>
-			<input type="date" id="startTime"  name = "startTime" value="2018-12-12" />
-			<label>-</label>
-			<input type="date" id="endTime" name = "endTime"  value="2018-12-29"/>
+				<input type="date" id="startTime" name="startTime" value="2018-12-12" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" value="2018-12-29" />
 				<input type="button" class="btn btn-default" value="查询" onclick="filterFile()">
 			</div>
 		</form>
 		<br />
-		<table class = "table table-responsive table-striped    table-bordered table-hover table-condensed "  id="mytable">
+		<table class="table table-responsive table-striped    table-bordered table-hover table-condensed " id="mytable">
 		</table>
 
-			<!--<input type="button" class="btn btn-default" value="下载" onclick="exportFile()">-->
+		<!--<input type="button" class="btn btn-default" value="下载" onclick="exportFile()">-->
 	</body>
 
 </html>

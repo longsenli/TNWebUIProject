@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/equipmentJS/equipmentManage.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfoCfg.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
@@ -21,26 +21,29 @@
 	<body>
 		<!--	<div class="container">-->
 		<script type="text/javascript ">
-			equipMngPlantSlctFun();
-			getEquipmentTypeTable();
+			infoCfgPlantSlctFun();
+			infoCfgProcessSlctFun();
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
 					function() {
 
 						//$("#equipmentInfoManageForm").val("");
-						$("#equipmentInfoManageForm")[0].reset();
+						$("#lineConfigForm")[0].reset();
 						//document.getElementById("equipmentInfoManageForm").reset();
 					})
 			});
 		</script>
-		<form ID="equipmentSelectForm" name="equipmentSelectForm">
+		<form ID="basicInfoCfgSelectForm" name="basicInfoCfgSelectForm">
 			<div class="form-inline row">
-				<label> 厂区： </label>
-				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="getEquipmentInfoTable()">
+				<label name="infoCfgPlantSlctLabel"> 厂区： </label>
+				<select class="selectpicker" id="infoCfgPlantSlct" style="width:100px;" name="infoCfgPlantSlct" onchange="LineCfgDatatbleFun()">
 				</select>
-				<label> 类型： </label>
+				<label name="processSlctTypeLabel"> 流程： </label>
+				<select class="selectpicker" id="processSlctType" style="width:100px;" name="processSlctType" onchange="LineCfgDatatbleFun()">
+				</select>
+				<!--<label> 类型： </label>
 				<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoTable()">
-				</select>
+				</select>-->
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
@@ -55,22 +58,22 @@
 						<h4 class="modal-title" id="myModalLabel"> 设备信息管理 </h4>
 					</div>
 					<div class="modal-body" id="modal-body">
-						<form ID="equipmentInfoManageForm">
+						<form ID="lineConfigForm">
 							<input type="text" id="id" name="id" style="display:none" />
-							<input type="text" id="typeid" name="typeid" style="display:none" />
+							<input type="text" id="processid" name="processid" style="display:none" />
 							<input type="text" id="plantid" name="plantid" style="display:none" />
-							<label for="name">机器名称:</label>
+							<label for="name">产线名称:</label>
 							<input type="text" class="form-control" id="name" name="name" placeholder="请输入名称">
-							<label for="name">购买时间:</label>
-							<input type="datetime-local" class="form-control" id="buytime" name="buytime" >
-							<label for="name">厂商:</label>
-							<input type="text" class="form-control" id="manufacturers" name="manufacturers" placeholder="请输入厂商">
-							<label for="name">位置:</label>
-							<input type="text" class="form-control" id="location" name="location" placeholder="请输入位置">
+							<label for="name">简称:</label>
+							<input type="text" class="form-control" id="shortname" name="shortname" placeholder="请输入简称">
+							<label for="name">排列顺序:</label>
+							<input type="text" class="form-control" id="ordinal" name="ordinal" placeholder="请输入排列次序">
+							<label for="name">描述:</label>
+							<input type="text" class="form-control" id="description" name="description" placeholder="请输入描述">
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick="addEquipmentInfo()">保存 </button>
+						<button type="button" class="btn btn-default" onclick="addLineCfgInfo()">保存 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
@@ -79,13 +82,13 @@
 		</div>
 
 		<div id="toolbar" class="btn-group">
-			<button id="equipment_add" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+			<button id="equipment_add" type="button" class="btn btn-default" onclick="selectedLineCfgRow(this)">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
             </button>
-			<button id="equipment_edit" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+			<button id="equipment_edit" type="button" class="btn btn-default" onclick="selectedLineCfgRow(this)">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
             </button>
-			<button id="equipment_delete" type="button" class="btn btn-default" onclick="selectedEquipRow(this)">
+			<button id="equipment_delete" type="button" class="btn btn-default" onclick="selectedLineCfgRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
             </button>
 		</div>

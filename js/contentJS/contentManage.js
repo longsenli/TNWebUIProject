@@ -5,29 +5,11 @@ function publishIdea() {
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
 	formData.append("context", document.publishIdeaFrom.context.value);
-
-	//	var ofile = $("#file").get(0).files[0];
-	//	var formData = new FormData();
-	//	if(!ofile) {
-	//		$.messager.alert('提示', '请上传文件!', 'info');
-	//		return;
-	//	}
-	//	var size = ofile.size / 1024 / 1024;
-	//	if(size > 5) {
-	//		$.messager.alert('提示', '文件不能大于5M', 'info');
-	//		return;
-	//	}
-	//
-	//	formData.append("file", ofile); //这个是文件，这里只是演示上传了一个文件，如果要上传多个的话将[0]去掉
-	//	formData.append("F_ID", "123"); //这个是上传的其他参数
-	//	formData.append("F_NAME", ofile.name);
-
 	if($('#anonymity').is(':checked')) {
 		formData.append("creator", "匿名");
 	} else {
 		formData.append("creator", $.cookie('username'));
 	}
-	//	alert(getFormData(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
@@ -37,7 +19,7 @@ function publishIdea() {
 		},
 		cache: false, //不需要缓存
 		processData: false,
-		contentType: false,
+		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
@@ -61,8 +43,6 @@ function initConentData() {
 		dataType: "json",
 		processData: true,
 		success: function(dataRes) {
-			console.log(dataRes);
-			//			$("#contentType option").remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
@@ -72,7 +52,7 @@ function initConentData() {
 
 					htmlStr += "<option value="  +  models[i].type  +  ">"  +  models[i].name  +  "</option>";    //$("#contentType").append("<option value=" + models[i].type + ">" + models[i].name + "</option>");  				        
 				}  
-				alert(htmlStr);
+
 				$('#contentType').html(htmlStr);
 				$('#contentType').selectpicker('refresh');
 
@@ -81,21 +61,12 @@ function initConentData() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
-
 		}
 	});
 };
 
-function getFormData(formDataOrign) {
-	var objData = {};
 
-	for(var entry of formDataOrign.entries()) {
-		objData[entry[0]] = entry[1];
-	}
-	return JSON.stringify(objData);
-};
-
-function initData() {
+function initContentTypeSlctData() {
 
 	$.ajax({
 		url: window.serviceIP + "/api/content/getcontenttype",
@@ -108,7 +79,7 @@ function initData() {
 		},
 		processData: true,
 		success: function(dataRes) {
-			console.log(dataRes);
+			
 			$("#typeAll").find('option').remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
@@ -132,65 +103,8 @@ function initData() {
 			}
 		}
 	});
-
 };
 
-function filterContentT() {
-
-	var formData = new FormData($("#form2")[0]);
-	$("#mytable tbody").html("");
-	$("#mytable tr:not(:first)").empty("");
-	$.ajax({
-		url: window.serviceIP + "/api/content/selectcontent",
-		type: "POST",
-		data: formData,
-		headers: {
-			Token: $.cookie('token')
-		},
-		cache: false, //不需要缓存
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) {
-				var models = eval("(" + dataRes.data + ")");
-
-				var c = document.getElementById('mytable'); //获得表格的信息
-				var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
-				for(var i in models) {
-
-					var x = c.insertRow(c.rows.length);
-					x.onclick = showDetail;
-					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
-						   
-						var y = x.insertCell(j);
-						//y.onclick = showDetail;
-						//					if(j ==0)
-						//						y.onclick = exportFile;
-						if(j == 0)
-							y.innerHTML = models[i].title;  //models[i].name
-						if(j == 1)
-							y.innerHTML = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
-						if(j == 2)
-							y.innerHTML = models[i].creator; 
-						if(j == 3)
-							y.innerHTML = models[i].createtime; 
-						if(j == 4)
-							y.innerHTML = models[i].context; 
-						if(j == 5)
-							y.innerHTML = models[i].id; 
-					}
-				}
-				$('#mytable tr').find('td:eq(4)').hide();
-				$('#mytable tr').find('th:eq(4)').hide();
-				$('#mytable tr').find('td:eq(5)').hide();
-				$('#mytable tr').find('th:eq(5)').hide();
-			} else {
-				alert("查询失败！" + dataRes.message);
-			}
-
-		}
-	});
-};
 
 function filterContent() {
 
@@ -281,12 +195,12 @@ function filterContent() {
 		}
 	});
 };
-//行点击事件
-$(function() {
-	 $("body").delegate('#mytable tr', 'click', function () {
-       showDetail(this);
-    });
-});
+////行点击事件
+//$(function() {
+//	 $("body").delegate('#mytable tr', 'click', function () {
+//     showDetail(this);
+//  });
+//});
 
 
 var selectedContentID = "";
@@ -352,13 +266,13 @@ function submitComment() {
 	$.ajax({
 		url: window.serviceIP + "/api/comment/insertcomment",
 		type: "POST",
-		data: getFormData(formData),
+		data: window.getFormDataToJson(formData),
 		headers: {
 			Token: $.cookie('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
-		contentType: false,
+		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');

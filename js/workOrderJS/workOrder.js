@@ -12,12 +12,10 @@ function workOrderIndustrialPlantSlctFun() {
 		success: function(dataRes) {
 
 			$("#industrialPlantSlct").find('option').remove();
-			//console.log(dataRes);
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
-
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id + "###" + models[i].shortname + ">" + models[i].name.toString()  + "</option>").toString())
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
@@ -47,7 +45,7 @@ function workOrderProductionProcessSlctFun() {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#productionProcessSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+					$('#productionProcessSlct').append(("<option value=" + models[i].id + "###" + models[i].shortname + ">" + models[i].name.toString()  + "</option>").toString())
 				}
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
@@ -60,16 +58,17 @@ function workOrderProductionProcessSlctFun() {
 		}
 	});
 };
-function workOrderProductionLineSlctFun(){
-//	return true;
-//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
-//
-//		return;
-//	}
-//alert("生产线选择");
+
+function workOrderProductionLineSlctFun() {
+	//	return true;
+	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
+	//
+	//		return;
+	//	}
+	//alert("生产线选择");
 	var formData = new FormData();
-	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionline",
 		type: "POST",
@@ -85,12 +84,13 @@ function workOrderProductionLineSlctFun(){
 		success: function(dataRes) {
 
 			$("#productionLineSlct").find('option').remove();
+			$('#productionLineSlct').append(("<option value=" + "-1" + ">" + "全部产线"  + "</option>").toString());
 
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#productionLineSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#productionLineSlct').append(("<option value=" + models[i].id + "###" + models[i].shortname + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
@@ -103,53 +103,71 @@ function workOrderProductionLineSlctFun(){
 	});
 };
 
-function getWorkOrder(){
+function getWorkOrder() {
 	var columnsArray = [];
+	//	columnsArray.push({
+	//		checkbox: true
+	//	});
 	columnsArray.push({
-		checkbox: true
-	});
-	columnsArray.push({
-		 width:300,
+		width: 200,
 		"title": "工单号",
 		"field": "orderid"
 	});
 	columnsArray.push({
-		width:300,
+		width: 150,
 		"title": "产线",
-		"field": "lineid"
+		"field": "lineid",
+		visible: false
 	});
 	columnsArray.push({
-		width:300,
+		width: 150,
+		"title": "产线",
+		"field": "lineName",
+	});
+	columnsArray.push({
+		width: 300,
 		"title": "状态",
-		"field": "status"
+		"field": "status",
+		visible: false
 	});
 	columnsArray.push({
-		width:300,
+		width: 100,
+		"title": "状态",
+		"field": "statusName"
+	});
+	columnsArray.push({
+		width: 70,
 		"title": "批次数量",
 		"field": "batchnum"
 	});
 	columnsArray.push({
-		width:300,
+		width: 70,
 		"title": "总产量",
 		"field": "totalproduction"
 	});
 	columnsArray.push({
-		width:300,
+		width: 70,
 		"title": "报废数量",
 		"field": "scrapnum"
 	});
 	columnsArray.push({
-		width:300,
+		width: 200,
 		"title": "输出产物",
-		"field": "materialid"
+		"field": "materialid",
+		visible: false
 	});
 	columnsArray.push({
-		width:300,
+		width: 200,
+		"title": "输出产物",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		width: 300,
 		"title": "计划开始时间",
 		"field": "scheduledstarttime"
 	});
 	columnsArray.push({
-		width:300,
+		width: 300,
 		"title": "计划结束时间",
 		"field": "scheduledendtime"
 	});
@@ -174,16 +192,22 @@ function getWorkOrder(){
 		"field": "finishstaff",
 		visible: false
 	});
-	$.ajax({
-		url: window.serviceIP + "/api/order/getworkorder",
-		type: "GET",
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0]);
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString().split("###")[0]);
 
-		contentType: "application/json",
+	$.ajax({
+		url: window.serviceIP + "/api/order/getcustomworkorderbyparam",
+		type: "POST",
+		data: formData,
 		dataType: "json",
 		//		headers: {
 		//			Token: $.cookie('token')
 		//		},
-		processData: true,
+		cache: false, //不需要缓存
+		processData: false,
+		contentType: false,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
@@ -193,6 +217,7 @@ function getWorkOrder(){
 					toolbar: '#toolbar1',
 					singleSelect: true,
 					clickToSelect: true,
+					striped: true,
 					sortName: "recordTime",
 					sortOrder: "desc",
 					pageSize: 15,
@@ -202,10 +227,16 @@ function getWorkOrder(){
 					//showRefresh: true,
 					//showColumns: true,
 					//search: true,
-					fixedColumns: true,//固定列
-        			fixedNumber:2,//固定前两列
+					fixedColumns: true, //固定列
+					fixedNumber: 1, //固定前两列
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+						//$(row).addClass('changeTableRowColor');
+						workOrderSelectedRow = row;
+					}
 				});
 
 			} else {
@@ -215,55 +246,123 @@ function getWorkOrder(){
 	});
 
 };
-$(function() {
-	$('#myModal').on('hide.bs.modal',
-		function() {
-			document.getElementById("workOrderManageForm").reset();
-		})
-});
 
 function setLineModal() {
-	$("#lineWorkOrderModal").find('option').remove();
+	$("#lineid").find('option').remove();
 
 	$("#productionLineSlct option").each(function() {
-		$('#lineWorkOrderModal').append(("<option value=" + $(this).val() + ">" + $(this).text()  + "</option>").toString());
-
+		if($(this).val() == "-1") {
+			return;
+		}
+		$('#lineid').append(("<option value=" + $(this).val() + ">" + $(this).text()  + "</option>").toString());
 	})
-	$('#lineWorkOrderModal').selectpicker('refresh');
-	$('#lineWorkOrderModal').selectpicker('render');  
+	$('#lineid').selectpicker('refresh');
+	$('#lineid').selectpicker('render'); 
+	$('#lineid').selectpicker('mobile');
+
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0],
+		type: "GET",
+
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+
+			$("#materialid").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#materialid').selectpicker('refresh');
+				$('#materialid').selectpicker('render');   
+				$('#materialid').selectpicker('mobile');
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	}); 
 };
 
-    
- 
- 
-   
+function createWorkOrderID() {
+	//console.log()
+	//alert(document.workOrderManageForm.lineWorkOrderModal.value);
+	//document.workOrderManageForm.lineWorkOrderModal.value.toString().split("###")[1];
+
+	var orderID = document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[1];
+	orderID += document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[1];
+	orderID += $("#workOrderManageForm" + " #lineid").find("option:selected").selectpicker('val').get('0').value.split("###")[1];
+	orderID += (new Date()).format("yyyyMMdd");
+	return orderID;
+}
+
+function lineWorkOrderModalChange() {
+	var newOrder = createWorkOrderID();
+	$("#workOrderManageForm" + " #orderid").val(newOrder.toString());
+}
+
 function selectedWorkOrderRow(param) {
 
 	//使用getSelections即可获得，row是json格式的数据
-	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
-		return row;
-	});
+	//	var row1 = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+	//		return row;
+	//	});
+
+	var row = workOrderSelectedRow;
 	setLineModal();
 	var optionType = param.getAttribute("id");
 	if(optionType == "workorder_add") {
 		//document.getElementById("workOrderManageForm").reset();
-		$("#workOrderManageForm" + " #orderid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-		$("#workOrderManageForm" + " #plantid").attr("value", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-		$("#workOrderManageForm" + " #processid").attr("value", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
-		$("#workOrderManageForm" + " #lineid").attr("value", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+		$("#workOrderManageForm" + " #orderid").val(createWorkOrderID());
+		$("#workOrderManageForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		$("#workOrderManageForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+		//$("#workOrderManageForm" + " #lineid").val(document.PlantToLineSelectForm.productionLineSlct.value.toString());
+		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(),"yyyy-MM-dd"));
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
-		if(row.length < 1) {
+		if(row == null || row == 'undefined' || row.length < 1) {
 			alert("请选择行数据!");
 			return;
 		}
-
-		for(var key in row[0]) {
+		console.log(row);
+		for(var key in row) {
+			//alert(key +" " +row[key] );
 			if(key == 0) {
 				continue;
 			}
-			$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
+			if(key == "scheduledstarttime") {
+				$("#workOrderManageForm" + " #" + key).val(window.stringToDatetimeLocalType(row[key],"yyyy-MM-dd"));
+				continue;
+			}
+			if(key == "status" || key == "lineid" || key == "materialid") {
+				//				$("#workOrderManageForm" + " #" + key).selectpicker('deselectAll');
+				var numbers = $("#workOrderManageForm" + " #" + key).find("option"); //获取select下拉框的所有值
+				for(var j = 1; j < numbers.length; j++) {
+					console.log($(numbers[j]).val().toString().split("###")[0] + " ==== " + row[key]);
+					if($(numbers[j]).val().toString().split("###")[0] == row[key]) {
+						$(numbers[j]).attr("selected", "selected");
+						//$(numbers[j]).selected = true;
+					}
+				}
+				$('#' + key).selectpicker('refresh');
+				$('#' + key).selectpicker('render'); 
+				continue;
+				// $("#workOrderManageForm" + " #" + key).selectpicker('val',"");
+			}
+			$("#workOrderManageForm" + " #" + key).val(row[key]);
+			//$("#workOrderManageForm" + " #" + key).attr("value", row[key]);
 		}
 
 		$('#myModal').modal('show');
@@ -282,6 +381,10 @@ function deleteWorkOrder(orderid) {
 
 function saveWorkOrderChange() {
 	var formData = new FormData($("#workOrderManageForm")[0]);
+	formData.append("lineid", formData.get("lineid").split("###")[0]);
+	formData.append("plantid", formData.get("plantid").split("###")[0]);
+	formData.append("processid", formData.get("processid").split("###")[0]);
+	console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
 		type: "POST",
@@ -301,17 +404,15 @@ function saveWorkOrderChange() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
 		}
 	});
 };
-//$(function(){
-//	var $table = $('.table');
-//var $fixedColumn = $table.clone().insertBefore($table).addClass('fixed-column');
-// 
-//$fixedColumn.find('th:not(:first-child),td:not(:first-child)').remove();
-// 
-//$fixedColumn.find('tr').each(function (i, elem) {
-//  $(this).height($table.find('tr:eq(' + i + ')').height());
-//});
-//});
+
+var workOrderSelectedRow;
+
+function workOrderRowClick(row) {
+
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	$(row).addClass('changeTableRowColor');
+	$($(row).find("td")[0]).addClass('changeTableRowColor');
+}

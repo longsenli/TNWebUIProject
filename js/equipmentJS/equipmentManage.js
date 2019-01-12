@@ -1,4 +1,3 @@
-
 function equipMngPlantSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
@@ -30,6 +29,7 @@ function equipMngPlantSlctFun() {
 		}
 	});
 };
+
 function getEquipmentTypeTable() {
 
 	$.ajax({
@@ -43,7 +43,7 @@ function getEquipmentTypeTable() {
 		//		},
 		processData: true,
 		success: function(dataRes) {
-	
+
 			$("#equipmentType").find('option').remove();
 
 			if(dataRes.status == 1) { 
@@ -62,13 +62,6 @@ function getEquipmentTypeTable() {
 	});
 
 };
-$(function() {
-	$('#myModal').on('hide.bs.modal',
-		function() {
-			document.getElementById("equipmentInfoManageForm").reset();
-		})
-});
-
 
 function selectedEquipRow(param) {
 
@@ -79,21 +72,28 @@ function selectedEquipRow(param) {
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
-		$("#equipmentInfoManageForm" + " #typeid"  ).attr("value",document.equipmentSelectForm.equipmentType.value.toString());
+		$("#equipmentInfoManageForm" + " #plantid").val(document.equipmentSelectForm.equipMngPlantSlct.value.toString());
+		$("#equipmentInfoManageForm" + " #buytime").val((new Date()).format("yyyy-MM-ddThh:mm:ss"));
+
+		$("#equipmentInfoManageForm" + " #typeid").val(document.equipmentSelectForm.equipmentType.value.toString());
 		$('#myModal').modal('show');
 	} else if(optionType == "equipment_edit") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
 		}
-
 		for(var key in row[0]) {
 			if(key == 0) {
 				continue;
 			}
-			$("#equipmentInfoManageForm" + " #" + key).attr("value", row[0][key]);
+			if(key == "buytime") {
+				$("#equipmentInfoManageForm" + " #" + key).val( window.stringToDatetimeLocalType(row[0][key]));
+				continue;
+			}
+			$("#equipmentInfoManageForm" + " #" + key).val(row[0][key])
+			//$("#equipmentInfoManageForm" + " #" + key).attr("value", row[0][key]);
+			//$("#equipmentInfoManageForm" + " #" + key).attr("value", row[0][key]);
 		}
-
 		$('#myModal').modal('show');
 	} else if(optionType == "equipment_delete") {
 		if(row.length < 1) {
@@ -141,8 +141,8 @@ function getEquipmentInfoTable() {
 		visible: false
 	});
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString()
-		+"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
+		url: window.serviceIP + "/api/equipment/getequipmentinfo?typeID=" + document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -154,7 +154,6 @@ function getEquipmentInfoTable() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				console.log(models);
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
@@ -180,12 +179,12 @@ function getEquipmentInfoTable() {
 
 };
 
-function deleteEquipmentInfo( equipID) {
-//	alert(equipID);
-//	var jsonStr = {};
-//	jsonStr.push({
-//		"equipID": equipID
-//	});
+function deleteEquipmentInfo(equipID) {
+	//	alert(equipID);
+	//	var jsonStr = {};
+	//	jsonStr.push({
+	//		"equipID": equipID
+	//	});
 	//JSON.stringify(jsonStr);,
 	var formData = new FormData();
 	formData.append("equipID", equipID);

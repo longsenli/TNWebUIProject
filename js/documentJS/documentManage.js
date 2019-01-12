@@ -128,53 +128,6 @@ function filterFile() {
 	});
 };
 
-function filterFileOld() {
-
-	var formData = new FormData($("#form2")[0]);
-	$("#mytable tbody").html("");
-	$("#mytable tr:not(:first)").empty("");
-	$.ajax({
-		url: window.serviceIP + "/api/documentSelect",
-		type: "POST",
-		data: formData,
-		headers: {
-			Token: $.cookie('token')
-		},
-		cache: false, //不需要缓存
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) {
-
-				var models = eval("(" + dataRes.data + ")");
-				var c = document.getElementById('mytable'); //获得表格的信息
-				var z = c.rows[0].cells; //如果不是空表，首先获得表格有多少列，先获取再插入新行
-				for(var i in models) {
-
-					var x = c.insertRow(c.rows.length);
-					for(var j = 0; j < z.length; j++) { //依次向新行插入表格列数的单元格
-						   
-						var y = x.insertCell(j);
-						//	if(j ==0)
-						//	y.onclick = exportFile;
-						if(j == 0)
-							y.innerHTML = "<a href=\"#\"  onclick=\"exportFile(this)\" >" + models[i].name + "</a> "; 
-						if(j == 1)
-							y.innerHTML = models[i].summary; 
-						if(j == 2)
-							y.innerHTML = models[i].creator; 
-						if(j == 3)
-							y.innerHTML = models[i].createtime; 
-					}
-				}
-
-			} else {
-				alert("查询失败！" + dataRes.message);
-			}
-		}
-	});
-};
-
 function exportFile(obj) {  
 	//alert(obj.innerHTML);
 	var row = $.map($('#mytable').bootstrapTable('getSelections'), function(row) {

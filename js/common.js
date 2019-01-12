@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.100:8080";
-window.netServiceIP = "http://192.168.1.100:8088";
+window.serviceIP = "http://192.168.1.105:8080";
+window.netServiceIP = "http://192.168.1.105:8088";
 Date.prototype.format = function(format) {
 	var o = {
 		"M+": this.getMonth() + 1, //month 
@@ -30,4 +30,17 @@ function getFormDataToJson(formDataOrign) {
 		objData[entry[0]] = entry[1];
 	}
 	return JSON.stringify(objData);
+}
+
+function stringToDatetimeLocalType(str,style){
+	if(str==null || str =="undefined" || str.toString().length < 5)
+	{
+		return "";
+	}
+var dt = new Date(str)
+if(style ==null || style.length < 2)
+{
+	style = "yyyy-MM-ddThh:mm:ss";
+}
+return dt.format(style);
 }
