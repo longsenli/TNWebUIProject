@@ -177,12 +177,12 @@
 							<li>
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 极板称重管理<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
-									<li>
+									<!--<li>
 										<a href="#" onclick="workSummary()">称重月工作统计</a>
 									</li>
 									<li>
 										<a href="#" onclick="weighRecord()">称重记录详情查看</a>
-									</li>
+									</li>-->
 									<li>
 										<a href="#" onclick="weighQualify()">称重合格率详情查看</a>
 									</li>
@@ -517,17 +517,17 @@
 		<script>
 			document.getElementById("loginname").innerText = $.cookie("username");
 
-			function workSummary() {
-				document.getElementById("container-page-text").innerHTML = "极板称重月度统计";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/plateWeighReport/worksumExcel.html');
-			};
-
-			function weighRecord() {
-				document.getElementById("container-page-text").innerHTML = "极板称重记录";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
-			};
+//			function workSummary() {
+//				document.getElementById("container-page-text").innerHTML = "极板称重月度统计";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/plateWeighReport/worksumExcel.html');
+//			};
+//
+//			function weighRecord() {
+//				document.getElementById("container-page-text").innerHTML = "极板称重记录";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
+//			};
 
 			function weighQualify() {
 				document.getElementById("container-page-text").innerHTML = "极板称重合格率详情";
@@ -552,29 +552,29 @@
 				$("#containerHTML").load('../pages/plateWeighReport/staffWeightTimeInterval.html');
 			};
 
-			function documentManage() {
-				document.getElementById("container-page-text").innerHTML = "文档管理";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/documentManage/document.html');
-			};
-
-			function contentManage() {
-				document.getElementById("container-page-text").innerHTML = "心声社区";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
-			};
-
-			function workOrderManage() {
-				document.getElementById("container-page-text").innerHTML = "工单管理";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/workOrder/workOrderManage.html');
-			};
-
-			function subOrderManage() {
-				document.getElementById("container-page-text").innerHTML = "工单批次";
-				$("#containerHTML").empty();
-				$("#containerHTML").load('../pages/workOrder/subOrder.html');
-			};
+//			function documentManage() {
+//				document.getElementById("container-page-text").innerHTML = "文档管理";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/documentManage/document.html');
+//			};
+//
+//			function contentManage() {
+//				document.getElementById("container-page-text").innerHTML = "心声社区";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
+//			};
+//
+//			function workOrderManage() {
+//				document.getElementById("container-page-text").innerHTML = "工单管理";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/workOrder/workOrderManage.html');
+//			};
+//
+//			function subOrderManage() {
+//				document.getElementById("container-page-text").innerHTML = "工单批次";
+//				$("#containerHTML").empty();
+//				$("#containerHTML").load('../pages/workOrder/subOrder.html');
+//			};
 
 			function equipmentInfoManage() {
 				document.getElementById("container-page-text").innerHTML = "设备信息管理";
