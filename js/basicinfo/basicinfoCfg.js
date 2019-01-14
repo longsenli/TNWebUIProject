@@ -371,11 +371,11 @@ function selectedLineCfgRow(param) {
 			alert("请选择行数据!");
 			return;
 		}
-		deleteEquipmentInfo(row[0]["id"]);
+		deleteLineCfgInfo(row[0]["id"]);
 	}
 }
 
-function deleteEquipmentInfo(equipID) {
+function deleteLineCfgInfo(equipID) {
 	//	alert(equipID);
 	//	var jsonStr = {};
 	//	jsonStr.push({

@@ -54,7 +54,7 @@ function equipDataPlantSlctFun() {
 				$('#equipDataPlantSlct').selectpicker('refresh');
 				$('#equipDataPlantSlct').selectpicker('render');   
 				$('#equipDataPlantSlct').selectpicker('mobile');
-				getEquipmentInfoDataCollector();
+				//getEquipmentInfoDataCollector();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -149,7 +149,8 @@ function getEquipmentParam() {
 				var paramStr = "";
 				var file = document.getElementById('pictureName');
 				file.value = '';
-				for (var  i  in  models)  {  
+				for (var  i  in  models)  { 
+					paramStr += "<div style=' margin-top:10px;float:left'>" 
 					paramStr += "&nbsp;&nbsp;&nbsp;&nbsp;<label id = \"labelName\"> " + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
 						models[i].id + "\" name=\"" + models[i].id + "\" style=\"width:100px;\" >";
 					if(models[i].units == null) {
@@ -157,6 +158,7 @@ function getEquipmentParam() {
 					} else {
 						paramStr += "&nbsp; <label> " + models[i].units + " </label>&nbsp;&nbsp;";
 					}
+					paramStr+="</div>";
 				}
 
 				document.getElementById("equipmentParam").innerHTML = paramStr;
