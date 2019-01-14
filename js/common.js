@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.106:8080";
-window.netServiceIP = "http://192.168.1.106:8088";
+window.serviceIP = "http://127.0.0.1:8080";
+window.netServiceIP = "http://127.0.0.1:8848/TNWebUIProject";
 Date.prototype.format = function(format) {
 	var o = {
 		"M+": this.getMonth() + 1, //month 
@@ -25,8 +25,8 @@ Date.prototype.format = function(format) {
 
 function getFormDataToJson(formDataOrign) {
 	var objData = {};
-
-	for(var entry of formDataOrign.entries()) {
+	var entries = formDataOrign.entries();
+	for(var entry in entries) {
 		objData[entry[0]] = entry[1];
 	}
 	return JSON.stringify(objData);

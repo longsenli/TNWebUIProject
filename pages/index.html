@@ -12,28 +12,30 @@
 		<title>天能濮阳IMS生产管理系统</title>
 
 		<!-- Bootstrap Core CSS -->
-		<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
 		<!-- MetisMenu CSS -->
-		<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+		<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
 
 		<!-- Custom CSS -->
-		<link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+		<link href="../dist/css/sb-admin-2.css" rel="stylesheet" type="text/css">
 
 		<!-- Morris Charts CSS -->
-		<link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+		<link href="../vendor/morrisjs/morris.css" rel="stylesheet" type="text/css">
 
 		<!-- Custom Fonts -->
 		<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 		<link href="../css/layout.css" rel="stylesheet" type="text/css">
 
 		<link rel="stylesheet" type="text/css" href="../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 		<link rel="stylesheet" href="../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
-		<link type="text/css" media="screen" href="../vendor/iCheck/custom.css"  rel="stylesheet"/>
+		<link type="text/css"  href="../vendor/iCheck/custom.css"  rel="stylesheet"/>
 		<link href="../vendor/bootstrap/css/jquery.treegrid.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="../js/navLoad/sidebar-menu.css" >
+		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap-treeview.css" >
+		<link href="../vendor/animate.css" rel="stylesheet" type="text/css">
 		<!-- jQuery -->
 		<script type="text/javascript" src="../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script>
@@ -58,9 +60,10 @@
 		<script type="text/javascript" src="../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../js/plateweigh/plateWeightReopt.js"></script>
 		<script type="text/javascript" src="../js/documentJS/documentManage.js"></script>
-		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script> 
+		<script type="text/javascript" src="../js/contentJS/contentManage.js"></script>
 		<script type="text/javascript" src="../js/equipmentJS/informationCollection.js"></script>
 		<script type="text/javascript" src="../js/equipmentJS/equipmentManage.js"></script>
+		<!-- <script type="text/javascript" src="../js/systemJS/menuManage.js"></script> -->
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript" src="../js/basicinfo/basicinfoCfg.js"></script>
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
@@ -75,12 +78,10 @@
 		<script type="text/javascript" src="../vendor/jquery/jquery.jqprint-0.3.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/ztree/js/jquery.ztree.core.js"></script>
 		<script type="text/javascript" src="../vendor/iCheck/icheck.min.js" ></script>
-
 		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap-table-treegrid.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/jquery.treegrid.min.js"></script>
-		
-		
-		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap-treeview.css" >
+		<script type="text/javascript" src="../js/navLoad/navLoad.js"></script>
+		<script type="text/javascript" src="../js/navLoad/sidebar-menu.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap-treeview.js"></script>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -88,7 +89,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+	
 	</head>
 
 	<body>
@@ -96,6 +97,11 @@
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
 			}
+			//初始化icheck显示
+			$('.i-checks').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
 		</script>
 
 		<div id="wrapper">
@@ -135,25 +141,49 @@
 					<!-- /.dropdown -->
 				</ul>
 				<!-- /.navbar-top-links -->
-
-				<div class="navbar-default sidebar" role="navigation" id="menuList">
+				<div class="navbar-default sidebar" role="navigation" >
 					<div class="sidebar-nav navbar-collapse" style="" >
+						<ul class="nav" id="ajax-side-menu" style="display: none;">
+							<li class="sidebar-search">
+								<div class="input-group custom-search-form">
+									<input type="text" class="form-control" placeholder="查询...">
+									<span class="input-group-btn">
+																<button class="btn btn-default" type="button">
+																		<i class="fa fa-search"></i>
+																</button>
+														</span>
+								</div>
+								<!-- /input-group -->
+							</li>
+						</ul>
+						<section id="ajax-load-menu" >
+						</section>
 						<ul class="nav" id="side-menu">
 							<li class="sidebar-search">
 								<div class="input-group custom-search-form">
 									<input type="text" class="form-control" placeholder="查询...">
 									<span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+																<button class="btn btn-default" type="button">
+																		<i class="fa fa-search"></i>
+																</button>
+														</span>
 								</div>
 								<!-- /input-group -->
 							</li>
 							<li>
-								<a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+								<a href="index.html"><i class="fa fa-dashboard fa-fw" id="testLi"></i> 首页</a>
 							</li>
 							<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 极板称重管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="workSummary()">称重月工作统计</a>
+									</li>
+									<li>
+										<a href="#" onclick="weighRecord()">称重记录查看</a>
+									</li>
+									<li>
+										<a href="#" onclick="weighQualify()">称重合格率统计</a>
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 系统参数配置<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li>
@@ -269,7 +299,6 @@
 				</div>
 				<!-- /.navbar-static-side -->
 			</nav>
-
 			<div id="page-wrapper">
 				<div class="row">
 					<div class="col-lg-12">
@@ -517,17 +546,17 @@
 		<script>
 			document.getElementById("loginname").innerText = $.cookie("username");
 
-//			function workSummary() {
-//				document.getElementById("container-page-text").innerHTML = "极板称重月度统计";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/plateWeighReport/worksumExcel.html');
-//			};
-//
-//			function weighRecord() {
-//				document.getElementById("container-page-text").innerHTML = "极板称重记录";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
-//			};
+			function workSummary() {
+				document.getElementById("container-page-text").innerHTML = "极板称重月度统计";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/plateWeighReport/worksumExcel.html');
+			};
+
+			function weighRecord() {
+				document.getElementById("container-page-text").innerHTML = "极板称重记录";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/plateWeighReport/plateweigh.html');
+			};
 
 			function weighQualify() {
 				document.getElementById("container-page-text").innerHTML = "极板称重合格率详情";
@@ -552,29 +581,29 @@
 				$("#containerHTML").load('../pages/plateWeighReport/staffWeightTimeInterval.html');
 			};
 
-//			function documentManage() {
-//				document.getElementById("container-page-text").innerHTML = "文档管理";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/documentManage/document.html');
-//			};
-//
-//			function contentManage() {
-//				document.getElementById("container-page-text").innerHTML = "心声社区";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
-//			};
-//
-//			function workOrderManage() {
-//				document.getElementById("container-page-text").innerHTML = "工单管理";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/workOrder/workOrderManage.html');
-//			};
-//
-//			function subOrderManage() {
-//				document.getElementById("container-page-text").innerHTML = "工单批次";
-//				$("#containerHTML").empty();
-//				$("#containerHTML").load('../pages/workOrder/subOrder.html');
-//			};
+			function documentManage() {
+				document.getElementById("container-page-text").innerHTML = "文档管理";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/documentManage/document.html');
+			};
+
+			function contentManage() {
+				document.getElementById("container-page-text").innerHTML = "心声社区";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/contentManage/publishIdea.html');
+			};
+
+			function workOrderManage() {
+				document.getElementById("container-page-text").innerHTML = "工单管理";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/workOrderManage.html');
+			};
+
+			function subOrderManage() {
+				document.getElementById("container-page-text").innerHTML = "工单批次";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/subOrder.html');
+			};
 
 			function equipmentInfoManage() {
 				document.getElementById("container-page-text").innerHTML = "设备信息管理";
@@ -667,101 +696,6 @@
 				});
 				window.location.href = "login.html";
 			};
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-//			
-//		$(function () {
-//		      $.ajax({
-//		          type: "Post",
-//		          url: window.serviceIP + "/menu/getAllMenuList", 
-//		          dataType: "json",
-//		          success: function (result) {
-//								// alert(result.status);
-//								// alert('chenggongle');
-//								// $('#tree').treeview({data: result});
-//		              $('#menuList').treeview({
-//						// backColor: 'gray',
-//		                  data: result.data,         // 数据源
-//						  // backColor: "purple",//背景色 \
-//						  // color: "blue",//文字和图标颜色 
-//						  color: "#428bca",
-//											// onhoverColor: "#E8E8E8",
-//		                  // showCheckbox: true,   //是否显示复选框
-//		                  // highlightSelected: true,    //是否高亮选中
-//		                  // multiSelect: true,    //多选
-//											// color: "#428bca", 
-//											showBorder:false,
-//											// borderColor: "red",//边框颜色 
-//		    expandIcon: 'glyphicon glyphicon-chevron-right',//展开图标 
-//		    collapseIcon: 'glyphicon glyphicon-chevron-down',//合并图标 
-//		    nodeIcon: 'glyphicon glyphicon-bookmark',//无节点图标 
-//		                  levels : 2,
-//		                  enableLinks : true,//必须在节点属性给出href属性
-//		                  // color: "#010A0E",
-//		                  onNodeChecked : function (event,node) {
-//		                      var selectNodes = getChildNodeIdArr(node); //获取所有子节点
-//		                      if (selectNodes) { //子节点不为空，则选中所有子节点
-//		                          $('#menuList').treeview('checkNode', [selectNodes, { silent: true }]);
-//		                      }
-//		                  },
-//		                  onNodeUnchecked : function(event, node) { //取消选中节点
-//		                      var selectNodes = getChildNodeIdArr(node); //获取所有子节点
-//		                      if (selectNodes) { //子节点不为空，则取消选中所有子节点
-//		                          $('#menuList').treeview('uncheckNode', [selectNodes, { silent: true }]);
-//		                      }
-//		                  },
-//		                  
-//		                  onNodeExpanded : function(event, data) {
-//		                          
-//		                  },
-//		                      
-//		                  onNodeSelected: function (event, data) {
-//		                      //alert(data.nodeId);
-//		                  }
-//		                      
-//		              });
-//		          },
-//		          error: function () {
-//		              alert("菜单加载失败！")
-//		          }
-//		      });
-//		  });
-//		  
-//		  function itemOnclick(target){
-//		  	// alert('dianle');
-//		  	//找到当前节点id
-//		  	var nodeid = $(target).attr('data-nodeid');
-//		  	var tree = $('#tree');
-//		  	//获取当前节点对象
-//		  	var node = tree.treeview('getNode', nodeid);
-//		  	// alert(nodeid);
-//		  	if(node.state.expanded){ 
-//		  	    //处于展开状态则折叠
-//		  	    tree.treeview('collapseNode', node.nodeId);  
-//		  	} else {
-//		  	    //展开
-//		  	    tree.treeview('expandNode', node.nodeId);
-//		  	}
-//		  }
 		</script>
 
 	</body>
