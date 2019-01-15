@@ -292,6 +292,9 @@
 									<li>
 										<a href="#" onclick="subOrderManage()">工单批次管理</a>
 									</li>
+									<li>
+										<a href="#" onclick="solidifyProcessManage()">固化管理</a>
+									</li>	
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -691,6 +694,12 @@
 				document.getElementById("container-page-text").innerHTML = "设备采集参数配置";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/basicInfoConfig/equipmentParamConfig.html');
+			};
+			
+			function solidifyProcessManage() {
+				document.getElementById("container-page-text").innerHTML = "固化管理";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/solidifyProcess.html');
 			};
 			function logout() {
 				$.cookie("token", "", {

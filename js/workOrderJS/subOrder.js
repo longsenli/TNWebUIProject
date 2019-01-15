@@ -14,7 +14,7 @@ function subOrderIndustrialPlantSlctFun() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				console.log(models);
+				//console.log(models);
 				for (var  i  in  models)  {  
 					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" +
 						models[i].name.toString() + "</option>").toString())
@@ -23,6 +23,76 @@ function subOrderIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
 				subOrderProductionProcessSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function solidifyRoomSlctFun()
+{
+		var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", "1004");
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionline",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#solidifyRoomSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#solidifyRoomSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name + "</option>").toString());
+				}
+				$('#solidifyRoomSlct').selectpicker('refresh');
+				$('#solidifyRoomSlct').selectpicker('render');   
+				$('#solidifyRoomSlct').selectpicker('mobile');
+				getSolidifyRoomOrder();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+function solidifyPlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#industrialPlantSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+			//	console.log(models);
+				for (var  i  in  models)  {  
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" +
+						models[i].name.toString() + "</option>").toString())
+				}
+				$('#industrialPlantSlct').selectpicker('refresh');
+				$('#industrialPlantSlct').selectpicker('render');   
+				$('#industrialPlantSlct').selectpicker('mobile');
+				solidifyRoomSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -565,7 +635,7 @@ function printHtml(content) {       
 	$(window.document.body).append(content + "<br/>");   
 }    //开始拍照
 
-function startScanQR() {
+function startScanQR(webName) {
 	if(context) {         
 		context.drawImage(video, 0, 0, 320, 320);               
 		if(canvas != null) {            //以下开始编 数据  
@@ -573,15 +643,21 @@ function startScanQR() {
 			qrcode.decode(imgData);             
 			qrcode.callback = function(imgMsg) {
 				if(imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
-					gainMaterialByQR(imgMsg);
+					recognitionQR(webName,imgMsg);
 				} else {
-					setTimeout(startScanQR(), 500);
+					setTimeout(startScanQR(webName), 500);
 				}
 			}       
 		}          
 	}  
 }
-
+function recognitionQR(webName,imgMsg)
+{
+	if(webName == 'subOrder')
+		gainMaterialByQR(imgMsg);
+	else if('solidifyProcess' == webName)
+	gotoNextSolidifyRoomByQR(imgMsg);
+}
 function startsScanQRPat() { 
 	var getQR = false; 
 
@@ -620,7 +696,7 @@ function CatchCode() { 
 	return resQR;   
 }
 
-function scanQR() {
+function scanQR(webName) {
 	$('#myModal').modal('show');
 	if(context == null) { 
 		//window.addEventListener("DOMContentLoaded", function() {       
@@ -696,8 +772,8 @@ function scanQR() {
 		}   
 		//}, false);    //打印内容到页面
 	} 
-	console.log("start");
-	setTimeout(startScanQR(), 10000) ; 
+	//console.log("start");
+	setTimeout(startScanQR(webName), 1000) ; 
 }
 
 function closeQRScan() {
@@ -731,4 +807,169 @@ function gainMaterialByQR(recordID) {
 			}
 		}
 	});
+}
+function getSolidifyRoomOrder()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "ordersplitname"
+	});
+	columnsArray.push({
+		"title": "一段操作人",
+		width: 300,
+		"field": "recorder1"
+	});
+	columnsArray.push({
+		"title": "一段开始时间",
+		width: 300,
+		"field": "starttime1"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "一段结束时间",
+		"field": "endtime1"
+	});
+	columnsArray.push({
+		"title": "二段操作人",
+		width: 300,
+		"field": "recorder2"
+	});
+	columnsArray.push({
+		"title": "二段开始时间",
+		width: 300,
+		"field": "starttime2"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "二段结束时间",
+		"field": "endtime2"
+	});
+	columnsArray.push({
+		"title": "三段操作人",
+		width: 300,
+		"field": "recorder3"
+	});
+	columnsArray.push({
+		"title": "三段开始时间",
+		width: 300,
+		"field": "starttime3"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "三段结束时间",
+		"field": "endtime3"
+	});
+
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "status",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "orderid",
+		"field": "orderid",
+		visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/api/solidifyrecord/selectbyroom?roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString()
+		+ "&plantID=" +document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#solidifyRecordTable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+function gotoNextSolidifyRoom()
+{
+	//使用getSelections即可获得，row是json格式的数据
+	var row = $.map($('#solidifyRecordTable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+
+	if(row.length < 1) {
+			alert("请选择行数据!");
+			return;
+		}
+console.log(row);
+	var stageNum = 1;
+	if(row[0]["endtime3"] != null && row[0]["endtime3"].toString().length > 8 )
+	{
+		alert("该工单已固化结束!");
+		return;
+	}
+	if(row[0]["starttime3"] != null && row[0]["starttime3"].toString().length > 8 )
+	{
+		stageNum =4;
+	}
+	else if(row[0]["starttime2"] != null && row[0]["starttime2"].toString().length > 8 )
+	{
+		stageNum =3;
+	}
+	else if(row[0]["starttime1"] != null && row[0]["starttime1"].toString().length > 8 )
+	{
+		stageNum =2;
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"]
+		+ "&status=" +stageNum +"&recorder=" + "张三&roomID=" +  document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				getSolidifyRoomOrder();
+				
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+function gotoNextSolidifyRoomByQR()
+{
+	
 }

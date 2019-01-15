@@ -260,6 +260,10 @@ function setLineModal() {
 	$('#lineid').selectpicker('render'); 
 	$('#lineid').selectpicker('mobile');
 
+	$('#status').selectpicker('refresh');
+	$('#status').selectpicker('render'); 
+	$('#status').selectpicker('mobile');
+
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
 			document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0],

@@ -409,7 +409,6 @@ function deleteLineCfgInfo(equipID) {
 function addLineCfgInfo() {
 
 	var formData = new FormData($("#lineConfigForm")[0]);
-	//console.log(formData);
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/changeproductionline",
 		type: "POST",
@@ -927,7 +926,7 @@ function deleteMaterialMaterial(materialID) {
 	});
 };
 
-function addProcessMaterial() {
+function addMaterialMaterialRelation() {
 
 	var formData = new FormData($("#MaterialMaterialForm")[0]);
 	//console.log(formData);
