@@ -63,5 +63,5 @@ function showTab(menuName, url) {
 				document.getElementById("container-page-text").innerHTML = menuName;
 				$("#containerHTML").empty();
 				// alert(window.netServiceIP+url);
-				$("#containerHTML").load(window.netServiceIP + url);
+				$("#containerHTML").load(window.webUiService + url);
 			}
