@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function initSystemMenu(){
 	var isFirstMenu;
 			$.ajax({
 					type: "Post",
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
 // "<a href=\"javascript:;\" onclick=\"addTab('" + obj.menuName + "','" + obj.url + "')\" >" + obj.menuName + "</a>";
 
-});
+};
 function showTab(menuName, url) {
 				document.getElementById("container-page-text").innerHTML = menuName;
 				$("#containerHTML").empty();

@@ -97,11 +97,17 @@
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
 			}
+			else
+			{
+				initSystemMenu();
+				initSidebarMenu();
+			}
+			
 			//初始化icheck显示
-			$('.i-checks').iCheck({
-				checkboxClass: 'icheckbox_square-green',
-				radioClass: 'iradio_square-green',
-			});
+//			$('.i-checks').iCheck({
+//				checkboxClass: 'icheckbox_square-green',
+//				radioClass: 'iradio_square-green',
+//			});
 		</script>
 
 		<div id="wrapper">

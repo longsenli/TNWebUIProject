@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function initSidebarMenu(){
   var animationSpeed = 300;
   
   $(document.body).on('click', '.sidebar-menu li a', function(e){
@@ -36,4 +36,4 @@ $(document).ready(function () {
         e.preventDefault();
       }
     });
-});
+}
