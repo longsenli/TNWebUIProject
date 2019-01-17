@@ -13,7 +13,7 @@ function publishIdea() {
 	$.ajax({
 		url: window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
-		data: getFormData(formData),
+		data: window.getFormDataToJson(formData),
 		headers: {
 			Token: $.cookie('token')
 		},
@@ -136,6 +136,7 @@ function filterContent() {
 		//	visible: false
 	});
 	var formData = new FormData($("#form2")[0]);
+	formData.append('endTime', document.getElementById("endTime").value +  " 23:59:59");
 	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
 	$.ajax({

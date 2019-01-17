@@ -340,7 +340,7 @@ function selectedWorkOrderRow(param) {
 			alert("请选择行数据!");
 			return;
 		}
-		console.log(row);
+		//console.log(row);
 		for(var key in row) {
 			//alert(key +" " +row[key] );
 			if(key == 0) {
@@ -354,7 +354,7 @@ function selectedWorkOrderRow(param) {
 				//				$("#workOrderManageForm" + " #" + key).selectpicker('deselectAll');
 				var numbers = $("#workOrderManageForm" + " #" + key).find("option"); //获取select下拉框的所有值
 				for(var j = 1; j < numbers.length; j++) {
-					console.log($(numbers[j]).val().toString().split("###")[0] + " ==== " + row[key]);
+					//console.log($(numbers[j]).val().toString().split("###")[0] + " ==== " + row[key]);
 					if($(numbers[j]).val().toString().split("###")[0] == row[key]) {
 						$(numbers[j]).attr("selected", "selected");
 						//$(numbers[j]).selected = true;

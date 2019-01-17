@@ -342,7 +342,7 @@ function getWorkSum() {
 			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -462,7 +462,7 @@ function getWorkDetail() {
 			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -513,7 +513,7 @@ function getWorkSummeryExcel() {
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+			//alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -545,7 +545,7 @@ function getWeighQualifyStaff(addAll) {
 			getWeighQualifyLine(addAll);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -577,7 +577,7 @@ function getWeighQualifyLine(addAll) {
 			getWeighQualifyType(addAll);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -614,7 +614,7 @@ function getWeighQualifyType(addAll) {
 			$('#weighRateTypeSlct').selectpicker('mobile');
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -652,7 +652,7 @@ function getQualifiedRateSummary() {
 		} else
 			break;
 	}
-	console.log(columnsArray);
+	//console.log(columnsArray);
 
 	var urlAPI = window.netServiceIP + "/api/PlateWeigh/GetWorkQualifiedRateSummary?startTime=";
 	urlAPI += startTime + "&endTime=" + endTime + "&line=" + document.getElementById("weighQualifyLine").value +
@@ -688,7 +688,7 @@ function getQualifiedRateSummary() {
 			});
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+			//alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -962,7 +962,7 @@ function getStaffWeighShow() {
 			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+			//alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -1074,7 +1074,7 @@ function getStaffWeighTimeInterval() {
 			myChart.setOption(option);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+			//alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };
@@ -1152,7 +1152,7 @@ function getWorkQualifiedRate() {
 			});
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
+			//alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);
 		}
 	});
 };

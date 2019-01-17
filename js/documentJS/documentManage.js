@@ -40,6 +40,10 @@ function uploadFile() {
 };
 
 function initFileData(){
+	var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setMonth(today.getMonth() - 1 );
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 	filterFile();
 }
 function filterFile() {
@@ -77,6 +81,10 @@ function filterFile() {
 		visible: false
 	});
 	var formData = new FormData($("#form2")[0]);
+	//console.log(window.getFormDataToJson(formData));
+	//console.log(document.getElementById("endTime").value);
+	formData.append('endTime', document.getElementById("endTime").value +  " 23:59:59");
+	//console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/documentSelect",
 		type: "POST",
