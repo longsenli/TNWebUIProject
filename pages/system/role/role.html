@@ -9,21 +9,24 @@
 	<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 	<script type="text/javascript" src="../../../js/common.js"></script>
 	<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-	<script type="text/javascript" src="../../../vendor/ry/ajax/libs/iCheck/icheck.min.js" ></script>
-	<script type="text/javascript" src="../../../vendor/ry/ajax/libs/select/select2.js" ></script>
+	<!-- <script type="text/javascript" src="../../../vendor/ry/ajax/libs/iCheck/icheck.min.js" ></script> -->
+	<!-- <script type="text/javascript" src="../../../vendor/ry/ajax/libs/select/select2.js" ></script> -->
+	<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.excheck.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap-switch.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="../../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 	<link type="text/css" media="screen" href="../../../vendor/ry/ajax/libs/iCheck/custom.css"  rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="../../../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" >
 </head>
 	<body>
 		<section class="content table-content">
 			<form class="form-inline" >
 			<!-- 工具栏 -->
 			<div id="toolbar">
-					<input type="button" value="新增角色" id="addBtn" data-toggle="modal" data-target="#addRoleModal" class="btn btn-primary"></input>
-					<input type="button" value="修改角色" id="editBtn" data-toggle="modal" data-target="#editRoleModal" class="btn btn-primary" onclick="editRole()"></input>
+					<input type="button" value="新增角色" id="addBtn" onclick="showAddModal()" class="btn btn-primary"></input>
+					<input type="button" value="修改角色" id="editBtn" onclick="showEditModal()" class="btn btn-primary"></input>
 					<input type="button" value="删除角色" id="deleteBtn" data-toggle="modal" data-target="#deleteRoleModal" class="btn btn-primary" onclick="deleteRole()"></input>
 			</div>
 
@@ -32,7 +35,7 @@
 			<table id="dataGrid">
 			</table>
 		</section>
-		<!-- 新增用户的模态框，在修改用户中将获取一行的值放入input中，改变一些参数继续使用 -->
+		<!-- 新增角色的模态框，在修改角色中将获取一行的值放入input中，改变一些参数继续使用 -->
 		<div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -42,18 +45,25 @@
 					<div class="modal-body">
 						<form id="addRoleForm" action="" method="post" class="form-horizontal">
 							<div class="form-group">
-								<label for="inputRoleName" class="col-sm-2 control-label">角色名</label>
+								<label for="inputRoleName" class="col-sm-2 control-label">角色名: </label>
 								<div class="col-sm-7">
 									<input type="text" name="roleName" class="form-control" id="inputRoleName" placeholder="角色名"/>
 								</div>
 								<label id="errorRoleName" for="inputRoleName" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
-								<label for="inputRemark" class="col-sm-2 control-label">备注</label>
+								<label for="inputRemark" class="col-sm-2 control-label">备注: </label>
 								<div class="col-sm-7">
 									<input type="text" name="remark" class="col-sm-4 form-control" id="inputRemark" placeholder="备注"/>
 								</div>
 								<label id="errorRemark" for="inputRemark" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="priMenu" class="col-sm-2 control-label">菜单权限: </label>
+								<div class="col-sm-7">
+									<ul id="addMenuTree" class="ztree"></ul>
+									<input type="text" name="menuIds" class="hidden" id="addMenuIds" />
+								</div>
 							</div>
 						</form>
 					</div>
@@ -64,7 +74,66 @@
 				</div>				
 			</div>
 		</div>
-<!-- 修改用户的模态框 -->
+<script>
+	//新增角色页面设置ztree setting
+	var addsetting = {
+		check: {
+		enable: true,
+		chkStyle: "checkbox"
+			},
+		view:{
+			selectedMulti:false,
+			},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "menuId",
+				pIdKey: "parentId",
+				name: "menuName",
+				rootPId: 0,
+			}},
+		callback:{
+			// onClick:addSetParent
+			onCheck:addCheckMenuIds
+		}
+	};
+	/*新增角色modal加载并加载权限菜单展示tree*/
+	function showAddModal() {
+	 // var allTableData = $("#dataGrid").bootstrapTable('getData');//获取表格的所有内容行
+	 // var zNodes = new Array(allTableData.length);
+	 var zNodes = new Array();
+	 $.ajax({
+			type : 'POST',
+			url : window.serviceIP+ '/menu/listMenus',
+			dataType: "json",
+			async:false,
+			success : function(result){
+				for( i=0;i<result.length;i++)
+					{
+						zNodes[i]={menuId:result[i].menuId, parentId:result[i].parentId, name:result[i].menuName };	
+					}
+					$.fn.zTree.init($("#addMenuTree"), addsetting, zNodes);
+					$("#addRoleModal").modal('show');
+			}
+		});
+	}
+	/*新增页面设置上级菜单方法*/
+	function addCheckMenuIds(event, treeId, treeNode){
+		var menuIds = "";
+		    var treeNodes = $.fn.zTree.getZTreeObj("treeDemo").getCheckedNodes(true);
+		    for (var i = 0; i < treeNodes.length; i++) {
+		        if (0 == i) {
+		        	menuIds = treeNodes[i].menuId;
+		        } else {
+		        	menuIds += ("," + treeNodes[i].menuId);
+		        }
+		    }
+				// alert(menuIds);
+				$("#addMenuIds").val(menuIds);
+		    return menuIds;
+	}
+</script>
+<!-- 修改角色的模态框 -->
 		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -108,6 +177,13 @@
 								</div>
 								<label id="errorCreated_at" for="inputCreated_at" class="col-sm-3 control-label"></label>
 							</div>
+							<div class="form-group">
+								<label for="priMenu" class="col-sm-2 control-label">菜单权限: </label>
+								<div class="col-sm-7">
+									<ul id="editMenuTree" class="ztree"></ul>
+									<input type="text" name="menuIds" class="hidden" id="editMenuIds" />
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -149,7 +225,68 @@
 		</div>
 </body>
 </html>
-
+<script>
+	//新增角色页面设置ztree setting
+	var editsetting = {
+		check: {
+		enable: true,
+		chkStyle: "checkbox"
+			},
+		view:{
+			selectedMulti:false,
+			},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "menuId",
+				pIdKey: "parentId",
+				name: "menuName",
+				rootPId: 0,
+			}},
+		callback:{
+			// onClick:addSetParent
+			onCheck:editCheckMenuIds
+		}
+	};
+	/*修改角色modal加载并加载权限菜单展示tree*/
+	function showEditModal() {
+	 // var allTableData = $("#dataGrid").bootstrapTable('getData');//获取表格的所有内容行
+	 // var zNodes = new Array(allTableData.length);
+	 var zNodes = new Array();
+	 //加载修改角色页面数据
+	 editRole();
+	 $.ajax({
+			type : 'POST',
+			url : window.serviceIP+ '/menu/listMenus',
+			dataType: "json",
+			async:false,
+			success : function(result){
+				for( i=0;i<result.length;i++)
+					{
+						zNodes[i]={menuId:result[i].menuId, parentId:result[i].parentId, name:result[i].menuName };	
+					}
+					$.fn.zTree.init($("#editMenuTree"), editsetting, zNodes);
+					$("#editRoleModal").modal('show');
+			}
+		});
+		
+	}
+	/*新增页面设置上级菜单方法*/
+	function editCheckMenuIds(event, treeId, treeNode){
+		var menuIds = "";
+		    var treeNodes = $.fn.zTree.getZTreeObj("treeDemo").getCheckedNodes(true);
+		    for (var i = 0; i < treeNodes.length; i++) {
+		        if (0 == i) {
+		        	menuIds = treeNodes[i].menuId;
+		        } else {
+		        	menuIds += ("," + treeNodes[i].menuId);
+		        }
+		    }
+				// alert(menuIds);
+				$("#editMenuIds").val(menuIds);
+		    return menuIds;
+	}
+</script>
 
 <script type="text/javascript">
 			initDataGrid();
@@ -221,29 +358,18 @@
 			});
 		}
 		
-		
-		
-		
-			function queryParam(params){
-		    	var param = {
-		    			limit : this.limit, // 页面大小
-		    	        offset : this.offset, // 页码
-		    	        pageNumber : this.pageNumber,
-		    	        pageSize : this.pageSize
-		    	};
-		    	return param;
-		    }
+
 			//点击取消后清空表单中已写信息
 			function resetAddModal(){
 				document.getElementById("addRoleForm").reset();
 			}
-			//新增用户
+			//新增角色
 			function addRole(){
 				var param = $("#addRoleForm").serializeArray();
+				// alert(param);
 				debugger;
 				$("#conf").attr("onclick","addRole()");
 				$.ajax({
-					// url:"http://localhost:80/Role/addRole",
 					url: window.serviceIP + "/role/addRole",
 					method:"post",
 					data:param,
@@ -255,8 +381,6 @@
 							alert("保存成功");
 							
 							document.getElementById("addRoleForm").reset();
-							// console.log(data);
-							// $("#Tip").modal('show');
 							$("#addRoleModal").modal('hide');
 							initDataGrid();
 							// $("#dataGrid").bootstrapTable('refresh');
@@ -271,46 +395,46 @@
 					}
 				});
 			}
-			//修改角色
-			function editRole(){
-				//获取选中行的数据
-				var rows = $("#dataGrid").bootstrapTable('getSelections');
-				if(rows.length!=1){
-					document.getElementById("tipContent").innerText="请选择一行数据";
-					$("#Tip").modal('show');
-				}
-				else{
-				var row = rows[0];
-				$('#editRoleId').val(row.roleId);
-				$('#editRoleName').val(row.roleName);
-				$('#editRemark').val(row.remark);
-				$('#editStatus').val(row.status);
-				$('#editCreated_at').val(row.created_at);
-				$("#editModal").modal("show");
-				}
+//修改角色
+function editRole(){
+	//获取选中行的数据
+	var rows = $("#dataGrid").bootstrapTable('getSelections');
+	if(rows.length!=1){
+		document.getElementById("tipContent").innerText="请选择一行数据";
+		$("#Tip").modal('show');
+	}
+	else{
+	var row = rows[0];
+	$('#editRoleId').val(row.roleId);
+	$('#editRoleName').val(row.roleName);
+	$('#editRemark').val(row.remark);
+	$('#editStatus').val(row.status);
+	$('#editCreated_at').val(row.created_at);
+	$("#editModal").modal("show");
+	}
+}
+function updateRole(){
+	var param = $("#editForm").serializeArray();
+	alert(param);
+	//设为disable则无法获取
+	$.ajax({
+		url:window.serviceIP + "/role/updateRole",
+		method:"post",
+		data:param,
+		dataType:"json",
+		success:function(data){
+			if(data.status=="1"){
+				$("#editModal").modal("hide");
+				document.getElementById("tipContent").innerText="修改成功";
+				$("#Tip").modal('show');
+				initDataGrid();
 			}
-			function updateRole(){
-				var param = $("#editForm").serializeArray();
-				alert(param);
-				//设为disable则无法获取
-				$.ajax({
-					url:window.serviceIP + "/role/updateRole",
-					method:"post",
-					data:param,
-					dataType:"json",
-					success:function(data){
-						if(data.status=="1"){
-							$("#editModal").modal("hide");
-							document.getElementById("tipContent").innerText="修改成功";
-							$("#Tip").modal('show');
-							initDataGrid();
-						}
-					},
-					error:function(data){
-						alert("wrong");
-					}
-				});
-			}
+		},
+		error:function(data){
+			alert("wrong");
+		}
+	});
+}
 		/**
 		 * 
 		 */
@@ -348,6 +472,26 @@
 					}
 				});
 			}
-		
 
+//关闭addmodal清空数据
+$(function() {
+	$('#addRoleModal').on('hidden.bs.modal',
+		function() {
+			$(this).removeData("bs.modal");
+// 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+// 			alert(treeObj);
+// 			treeObj.cancelSelectedNode();
+			document.getElementById("addRoleForm").reset();
+		})
+});
+
+//关闭editmodal清空数据
+$(function() {
+	$('#editRoleModal').on('hidden.bs.modal',
+		function() {
+			$("#editIconFlag").val("");
+			$(this).removeData("bs.modal");
+			// document.getElementById("form-menu-edit").reset();
+		})
+});
 </script>
