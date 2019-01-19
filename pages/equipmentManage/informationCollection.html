@@ -22,30 +22,35 @@
 	<body>
 		<script type="text/javascript ">
 			equipDataPlantSlctFun();
-			setTimeout(function(){
+			setTimeout(function() {
 				equipParamEquipmentType();
-			},200);
+			}, 200);
 		</script>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<form ID="equipmentSelectForm" name="equipmentSelectForm">
 					<div class="form-inline row">
-						<div class="row">
+
 						<div class="col-lg-2 ">
-						<label> 厂区： </label>
-						<select class="selectpicker" id="equipDataPlantSlct"  data-width="220px"  name="equipDataPlantSlct" onchange="getEquipmentInfoDataCollector()">
-						</select>
+							<div class="form-inline row">
+								<label> 厂区： </label>
+								<select class="selectpicker" id="equipDataPlantSlct" data-width="220px" name="equipDataPlantSlct" onchange="getEquipmentInfoDataCollector()">
+								</select>
+							</div>
 						</div>
-						<div class="col-lg-2 ">
-						<label> 类型： </label>
-						<select class="selectpicker" id="equipmentType"  data-width="220px"  name="equipmentType" onchange="getEquipmentInfoDataCollector()">
-						</select>
+						<div class="col-lg-2">
+							<div class="form-inline row">
+								<label> 类型： </label>
+								<select class="selectpicker" id="equipmentType" data-width="220px" name="equipmentType" onchange="getEquipmentInfoDataCollector()">
+								</select>
+							</div>
 						</div>
-						<div class="col-lg-2 ">
-						<label> 设备： </label>
-						<select class="selectpicker" id="equipmentInfo"  data-width="220px"  name="equipmentInfo" onchange="getEquipmentParam()">
-						</select>
-						</div>
+						<div class="col-lg-2">
+							<div class="form-inline row">
+								<label> 设备： </label>
+								<select class="selectpicker" id="equipmentInfo" data-width="220px" name="equipmentInfo" onchange="getEquipmentParam()">
+								</select>
+							</div>
 						</div>
 						<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 					</div>

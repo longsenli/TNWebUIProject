@@ -31,10 +31,10 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 		<link rel="stylesheet" href="../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
-		<link type="text/css"  href="../vendor/iCheck/custom.css"  rel="stylesheet"/>
+		<link type="text/css" href="../vendor/iCheck/custom.css" rel="stylesheet" />
 		<link href="../vendor/bootstrap/css/jquery.treegrid.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="../js/navLoad/sidebar-menu.css" >
-		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap-treeview.css" >
+		<link rel="stylesheet" type="text/css" href="../js/navLoad/sidebar-menu.css">
+		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap-treeview.css">
 		<link href="../vendor/animate.css" rel="stylesheet" type="text/css">
 		<!-- jQuery -->
 		<script type="text/javascript" src="../vendor/jquery/jquery.min.js"></script>
@@ -77,7 +77,7 @@
 		<script type="text/javascript" src="../vendor/qrcode/qrcode.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/jquery.jqprint-0.3.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/ztree/js/jquery.ztree.core.js"></script>
-		<script type="text/javascript" src="../vendor/iCheck/icheck.min.js" ></script>
+		<script type="text/javascript" src="../vendor/iCheck/icheck.min.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap-table-treegrid.js"></script>
 		<script type="text/javascript" src="../vendor/jquery/jquery.treegrid.min.js"></script>
 		<script type="text/javascript" src="../js/navLoad/navLoad.js"></script>
@@ -89,25 +89,23 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	
+
 	</head>
 
 	<body>
 		<script>
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
+			} else {
+				//				initSystemMenu();
+				//				initSidebarMenu();
 			}
-			else
-			{
-				initSystemMenu();
-				initSidebarMenu();
-			}
-			
+
 			//初始化icheck显示
-//			$('.i-checks').iCheck({
-//				checkboxClass: 'icheckbox_square-green',
-//				radioClass: 'iradio_square-green',
-//			});
+			//			$('.i-checks').iCheck({
+			//				checkboxClass: 'icheckbox_square-green',
+			//				radioClass: 'iradio_square-green',
+			//			});
 		</script>
 
 		<div id="wrapper">
@@ -147,8 +145,8 @@
 					<!-- /.dropdown -->
 				</ul>
 				<!-- /.navbar-top-links -->
-				<div class="navbar-default sidebar" role="navigation" >
-					<div class="sidebar-nav navbar-collapse" style="" >
+				<div class="navbar-default sidebar" role="navigation">
+					<div class="sidebar-nav navbar-collapse" style="">
 						<ul class="nav" id="ajax-side-menu" style="display: none;">
 							<li class="sidebar-search">
 								<div class="input-group custom-search-form">
@@ -162,7 +160,7 @@
 								<!-- /input-group -->
 							</li>
 						</ul>
-						<section id="ajax-load-menu" >
+						<section id="ajax-load-menu">
 						</section>
 						<ul class="nav" id="side-menu">
 							<li class="sidebar-search">
@@ -269,7 +267,7 @@
 								<a href="#"><i class="fa fa-table fa-fw"></i> 权限管理<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li>
-										<a href="#"  onclick="user()")>用户管理</a>
+										<a href="#" onclick="user()" )>用户管理</a>
 									</li>
 									<li>
 										<a href="#" onclick="role()">角色管理</a>
@@ -288,7 +286,7 @@
 									</li>
 									<li>
 										<a href="#" onclick="solidifyProcessManage()">固化管理</a>
-									</li>	
+									</li>
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -568,6 +566,7 @@
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/plateWeighReport/qualifiedRateSummary.html');
 			};
+
 			function staffWeightDetail() {
 				document.getElementById("container-page-text").innerHTML = "个人称重趋势图";
 				$("#containerHTML").empty();
@@ -633,25 +632,27 @@
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/report/equipParamRecordTable.html');
 			};
+
 			function user() {
 				document.getElementById("container-page-text").innerHTML = "用户管理";
 				$("#containerHTML").empty();
 				// $("#containerHTML").load('../pages/rights/user.html');
 				$("#containerHTML").load('../pages/system/user/user.html');
 			};
-			
+
 			function role() {
 				document.getElementById("container-page-text").innerHTML = "角色管理";
 				$("#containerHTML").empty();
 				// $("#containerHTML").load('../pages/rights/user.html');
 				$("#containerHTML").load('../pages/system/role/role.html');
 			};
+
 			function menu() {
 				document.getElementById("container-page-text").innerHTML = "菜单管理";
 				$("#containerHTML").empty();
 				// $("#containerHTML").load('../pages/rights/user.html');
 				$("#containerHTML").load('../pages/system/menu/menu.html');
-				
+
 			};
 
 			function changepassword() {
@@ -689,18 +690,71 @@
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/basicInfoConfig/equipmentParamConfig.html');
 			};
-			
+
 			function solidifyProcessManage() {
 				document.getElementById("container-page-text").innerHTML = "固化管理";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/workOrder/solidifyProcess.html');
 			};
+
 			function logout() {
 				$.cookie("token", "", {
 					expires: -1
 				});
 				window.location.href = "login.html";
 			};
+
+			var websocket = null;
+
+			//判断当前浏览器是否支持WebSocket
+			if('WebSocket' in window) {
+				websocket = new WebSocket("ws://192.168.1.106:8080/websocket");
+			} else {
+				alert('Not support websocket')
+			}
+
+			//连接发生错误的回调方法
+			websocket.onerror = function() {
+				setMessageInnerHTML("error");
+			};
+
+			//连接成功建立的回调方法
+			websocket.onopen = function(event) {
+				setMessageInnerHTML("open");
+				send($.cookie('token'));
+			}
+
+			//接收到消息的回调方法
+			websocket.onmessage = function(event) {
+				setMessageInnerHTML(event.data);
+			}
+
+			//连接关闭的回调方法
+			websocket.onclose = function() {
+				setMessageInnerHTML("close");
+			}
+
+			//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+			window.onbeforeunload = function() {
+				websocket.close();
+			}
+
+			//将消息显示在网页上
+			function setMessageInnerHTML(innerHTML) {
+				//alert(innerHTML);
+				// document.getElementById('message').innerHTML += innerHTML + '<br/>';
+			}
+
+			//关闭连接
+			function closeWebSocket() {
+				websocket.close();
+			}
+
+			//发送消息
+			function send(message) {
+				//var message = document.getElementById('text').value;
+				websocket.send(message);
+			}
 		</script>
 
 	</body>

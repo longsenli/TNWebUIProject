@@ -130,7 +130,7 @@ function getEquipmentInfoDataCollector() {
 };
 
 function getEquipmentParam() {
-	
+
 	var paramArray = new Array();
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" +
@@ -160,13 +160,11 @@ function getEquipmentParam() {
 					} else {
 						paramStr += "<label style=' float:left;' > &nbsp;" + models[i].units + " &nbsp;&nbsp;</label>";
 					}
-					paramStr+="</div>";
+					paramStr += "</div>";
 				}
-//paramStr+="</div>";
+				//paramStr+="</div>";
 				document.getElementById("equipmentParam").innerHTML = paramStr;
-				
-				
-				
+
 				getEquipmentParamRecord();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -260,8 +258,7 @@ function saveEquipmentParam() {
 
 function getEquipmentParamRecord() {
 
-if(document.equipmentSelectForm.equipmentInfo.value == null || document.equipmentSelectForm.equipmentInfo.value.toString().length <1 )
-	{
+	if(document.equipmentSelectForm.equipmentInfo.value == null || document.equipmentSelectForm.equipmentInfo.value.toString().length < 1) {
 		$('#table').bootstrapTable('destroy');
 		return;
 	}
