@@ -3,23 +3,18 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../../vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
-		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<script type="text/javascript" src="../../../js/common.js"></script>
+		<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 	</head>
 <body>
-		<!-- <section class="content-header">
-		<h1>用户管理</h1>
-		</section> -->
-		
-
 		<section class="content table-content">
 			<form class="form-inline" >
 			<!-- 工具栏 -->
@@ -266,7 +261,7 @@
 				"field": "email",
 				// visible: false
 			});
-			
+			alert(window.serviceIP + "/user/pageInfo");
 			$.ajax({
 				url: window.serviceIP + "/user/pageInfo",
 				type: "POST",
