@@ -30,7 +30,7 @@
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 				initContentTypeSlctData();
 			});
-			
+
 			//行点击事件
 			$(function() {
 				$("body").delegate('#mytable tr', 'click', function() {
@@ -41,11 +41,13 @@
 
 		<div id="myCollapsibleExample">
 			<a href="#publishIdeaFrom" data-toggle="collapse">说出心声</a>
+			<br />
 		</div>
+		<br />
 		<form ID="publishIdeaFrom" class="collapse" name="publishIdeaFrom">
 			<label> 心声： </label>
 			<textarea class="form-control" style="resize:none;" rows="3" name="context"></textarea>
-			<br>
+			<br />
 			<div class="form-inline row">
 				<div class="form-group">
 					<label for="name">标题</label>
@@ -63,6 +65,7 @@
 
 				<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">
 			</div>
+			<br />
 		</form>
 
 		<form ID="form2">

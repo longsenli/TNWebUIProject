@@ -130,6 +130,7 @@ function getEquipmentInfoDataCollector() {
 };
 
 function getEquipmentParam() {
+	
 	var paramArray = new Array();
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" +
@@ -146,22 +147,26 @@ function getEquipmentParam() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+				//var paramStr = "<div class='form-inline row'>";
 				var paramStr = "";
 				var file = document.getElementById('pictureName');
 				file.value = '';
 				for (var  i  in  models)  { 
-					paramStr += "<div style=' margin-top:10px;float:left'>" 
-					paramStr += "&nbsp;&nbsp;&nbsp;&nbsp;<label id = \"labelName\"> " + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
-						models[i].id + "\" name=\"" + models[i].id + "\" style=\"width:100px;\" >";
+					paramStr += "<div  style=' margin-top:10px;float:left;'>" 
+					paramStr += "<label style=' float:left;' id = \"labelName\"> &nbsp;&nbsp;&nbsp;&nbsp;" + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
+						models[i].id + "\" name=\"" + models[i].id + "\" style=\"  float:left; width:100px;\" >";
 					if(models[i].units == null) {
-						paramStr += "&nbsp;&nbsp;";
+						paramStr += "<label style=' float:left;' > &nbsp; </label>";
 					} else {
-						paramStr += "&nbsp; <label> " + models[i].units + " </label>&nbsp;&nbsp;";
+						paramStr += "<label style=' float:left;' > &nbsp;" + models[i].units + " &nbsp;&nbsp;</label>";
 					}
 					paramStr+="</div>";
 				}
-
+//paramStr+="</div>";
 				document.getElementById("equipmentParam").innerHTML = paramStr;
+				
+				
+				
 				getEquipmentParamRecord();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -203,6 +208,7 @@ function saveEquipmentParam() {
 			success: function(dataRes) {
 				if(dataRes.status == 1) {
 					picLoadName = dataRes.data.toString();
+					document.getElementById("pictureName").value = "";
 				} else {
 					alert("保存失败！" + dataRes.message);
 					return;
@@ -253,6 +259,12 @@ function saveEquipmentParam() {
 };
 
 function getEquipmentParamRecord() {
+
+if(document.equipmentSelectForm.equipmentInfo.value == null || document.equipmentSelectForm.equipmentInfo.value.toString().length <1 )
+	{
+		$('#table').bootstrapTable('destroy');
+		return;
+	}
 
 	var columnsArray = [];
 	var columMap = {};

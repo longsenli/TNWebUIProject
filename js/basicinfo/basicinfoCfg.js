@@ -427,7 +427,6 @@ function addLineCfgInfo() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
 		}
 	});
 };

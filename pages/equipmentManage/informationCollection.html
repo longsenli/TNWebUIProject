@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>设备信息采集</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -29,15 +30,23 @@
 			<div class="panel-body">
 				<form ID="equipmentSelectForm" name="equipmentSelectForm">
 					<div class="form-inline row">
+						<div class="row">
+						<div class="col-lg-2 ">
 						<label> 厂区： </label>
-						<select class="selectpicker" id="equipDataPlantSlct" style="width:100px;" name="equipDataPlantSlct" onchange="getEquipmentInfoDataCollector()">
+						<select class="selectpicker" id="equipDataPlantSlct"  data-width="220px"  name="equipDataPlantSlct" onchange="getEquipmentInfoDataCollector()">
 						</select>
+						</div>
+						<div class="col-lg-2 ">
 						<label> 类型： </label>
-						<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="getEquipmentInfoDataCollector()">
+						<select class="selectpicker" id="equipmentType"  data-width="220px"  name="equipmentType" onchange="getEquipmentInfoDataCollector()">
 						</select>
+						</div>
+						<div class="col-lg-2 ">
 						<label> 设备： </label>
-						<select class="selectpicker" id="equipmentInfo" style="width:100px;" name="equipmentInfo" onchange="getEquipmentParam()">
+						<select class="selectpicker" id="equipmentInfo"  data-width="220px"  name="equipmentInfo" onchange="getEquipmentParam()">
 						</select>
+						</div>
+						</div>
 						<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 					</div>
 					<br />
