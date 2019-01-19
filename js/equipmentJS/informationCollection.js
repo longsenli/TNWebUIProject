@@ -146,6 +146,14 @@ function getEquipmentParam() {
 		success: function(dataRes) {
 
 			if(dataRes.status == 1) { 
+				var mobile_flag = window.judgeAgentInfo();
+				var floatFlag = "";
+				var textFlag = "style=' width:100px;'"
+				if(mobile_flag) {
+					floatFlag = "style=' float:left;'";
+					textFlag = "style=' width:100px;float:left;'";
+				}
+
 				var models = eval("(" + dataRes.data + ")");
 				//var paramStr = "<div class='form-inline row'>";
 				var paramStr = "";
@@ -153,12 +161,12 @@ function getEquipmentParam() {
 				file.value = '';
 				for (var  i  in  models)  { 
 					paramStr += "<div  style=' margin-top:10px;float:left;'>" 
-					paramStr += "<label style=' float:left;' id = \"labelName\"> &nbsp;&nbsp;&nbsp;&nbsp;" + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
-						models[i].id + "\" name=\"" + models[i].id + "\" style=\"  float:left; width:100px;\" >";
+					paramStr += "<label " + floatFlag + " id = \"labelName\"> &nbsp;&nbsp;&nbsp;&nbsp;" + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
+						models[i].id + "\" name=\"" + models[i].id + "\" " + textFlag + ">";
 					if(models[i].units == null) {
-						paramStr += "<label style=' float:left;' > &nbsp; </label>";
+						paramStr += "<label  " + floatFlag + " > &nbsp; </label>";
 					} else {
-						paramStr += "<label style=' float:left;' > &nbsp;" + models[i].units + " &nbsp;&nbsp;</label>";
+						paramStr += "<label  " + floatFlag + " > &nbsp;" + models[i].units + " &nbsp;&nbsp;</label>";
 					}
 					paramStr += "</div>";
 				}

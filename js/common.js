@@ -1,6 +1,9 @@
 window.serviceIP = "http://192.168.1.106:8080";
 window.netServiceIP = "http://192.168.1.106:8088/";
 window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
+//window.webUiService = "http://192.168.1.106:8081";
+
+//设置时间格式
 Date.prototype.format = function(format) {
 	var o = {
 		"M+": this.getMonth() + 1, //month 
@@ -24,6 +27,7 @@ Date.prototype.format = function(format) {
 	return format;
 }
 
+//将form数据转为json格式
 function getFormDataToJson(formDataOrign) {
 	var objData = {};
 	var entries = formDataOrign.entries();
@@ -33,15 +37,31 @@ function getFormDataToJson(formDataOrign) {
 	return JSON.stringify(objData);
 }
 
-function stringToDatetimeLocalType(str,style){
-	if(str==null || str =="undefined" || str.toString().length < 5)
-	{
+//将时间字符串转换为指定格式的时间字符串
+function stringToDatetimeLocalType(str, style) {
+	if(str == null || str == "undefined" || str.toString().length < 5) {
 		return "";
 	}
-var dt = new Date(str)
-if(style ==null || style.length < 2)
-{
-	style = "yyyy-MM-ddThh:mm:ss";
+	var dt = new Date(str)
+	if(style == null || style.length < 2) {
+		style = "yyyy-MM-ddThh:mm:ss";
+	}
+	return dt.format(style);
 }
-return dt.format(style);
+//判断浏览器是手机还是PC
+function judgeAgentInfo() {
+	var userAgentInfo = navigator.userAgent;
+
+	var mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+
+	var mobile_flag = false;
+
+	//根据userAgent判断是否是手机
+	for(var v = 0; v < mobileAgents.length; v++) {
+		if(userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+			mobile_flag = true;
+			break;
+		}
+	}
+	return mobile_flag;
 }
