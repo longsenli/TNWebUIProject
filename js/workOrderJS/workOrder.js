@@ -388,7 +388,7 @@ function saveWorkOrderChange() {
 	formData.append("lineid", formData.get("lineid").split("###")[0]);
 	formData.append("plantid", formData.get("plantid").split("###")[0]);
 	formData.append("processid", formData.get("processid").split("###")[0]);
-	console.log(window.getFormDataToJson(formData));
+	//console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
 		type: "POST",
