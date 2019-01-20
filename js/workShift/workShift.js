@@ -23,9 +23,10 @@ function workShiftPlantSlctFun(htmlName) {
 				$('#workShiftPlantSlct').selectpicker('render');   
 				$('#workShiftPlantSlct').selectpicker('mobile');
 				if("shiftTeamManage" == htmlName) {
-					workShiftProcessSlctFun('shiftTeamManage');
-					initShiftTeamTable();
+					workShiftProcessSlctFun(htmlName);
+
 				} else if("workShiftManage" == htmlName) {
+
 					workShiftTeamSlctFun(htmlName);
 				} else if("workShiftRecordManage" == htmlName) {
 					$('#dayNightType').selectpicker('refresh');
@@ -64,10 +65,15 @@ function workShiftProcessSlctFun(htmlName) {
 				$('#processSlctType').selectpicker('refresh');
 				$('#processSlctType').selectpicker('render');   
 				$('#processSlctType').selectpicker('mobile');
-				if("shiftTeamManage" == htmlName)
+				if("shiftTeamManage" == htmlName) {
 					$('#processSlctType').selectpicker('hide');
-				else if("workShiftRecordManage" == htmlName)
+					initShiftTeamTable();
+				} else if("workShiftRecordManage" == htmlName)
 					workShiftLineSlctFun(htmlName);
+				else if("workShiftManage" == htmlName) {
+					workShiftLineSlctFun(htmlName);
+					$('#processSlctType').selectpicker('hide');
+				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -111,8 +117,9 @@ function workShiftLineSlctFun(htmlName) {
 				$('#lineSlctType').selectpicker('hide');
 				if("workShiftRecordManage" == htmlName) {
 					initWorkShiftRecordTable(htmlName);
+				} else if("workShiftManage" == htmlName) {
+					initWorkShiftTable();
 				}
-
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -143,8 +150,9 @@ function workShiftTeamSlctFun(htmlName) {
 				$('#workShiftTeamSlct').selectpicker('refresh');
 				$('#workShiftTeamSlct').selectpicker('render');   
 				$('#workShiftTeamSlct').selectpicker('mobile');
-				workShiftLineSlctFun(htmlName);
-				initWorkShiftTable();
+
+				workShiftProcessSlctFun(htmlName);
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -168,7 +176,15 @@ function initShiftTeamTable() {
 	});
 	columnsArray.push({
 		"title": "流程",
-		"field": "processid"
+		"field": "processid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程名称",
+		"field": "流程名称",
+		formatter: function(value, row, index) {
+			return $("#processSlctType option[value='" + row.processid + "']").text();
+		}
 	});
 	columnsArray.push({
 		"title": "plantid",
@@ -355,7 +371,8 @@ function initWorkShiftTable() {
 	});
 	columnsArray.push({
 		"title": "名称",
-		"field": "shiftteamid"
+		"field": "shiftteamid",
+		visible: false
 	});
 
 	columnsArray.push({
@@ -364,7 +381,15 @@ function initWorkShiftTable() {
 	});
 	columnsArray.push({
 		"title": "流程",
-		"field": "processid"
+		"field": "processid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程名称",
+		"field": "流程名称",
+		formatter: function(value, row, index) {
+			return $("#processSlctType option[value='" + row.processid + "']").text();
+		}
 	});
 	columnsArray.push({
 		"title": "plantid",
@@ -373,7 +398,15 @@ function initWorkShiftTable() {
 	});
 	columnsArray.push({
 		"title": "产线",
-		"field": "lineid"
+		"field": "lineid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线名称",
+		"field": "产线名称",
+		formatter: function(value, row, index) {
+			return $("#lineSlctType option[value='" + row.lineid + "']").text();
+		}
 	});
 	columnsArray.push({
 		"title": "staffid",
@@ -577,11 +610,27 @@ function initWorkShiftRecordTable() {
 	});
 	columnsArray.push({
 		"title": "流程",
-		"field": "processid"
+		"field": "processid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程名称",
+		"field": "流程名称",
+		formatter: function(value, row, index) {
+			return $("#processSlctType option[value='" + row.processid + "']").text();
+		}
 	});
 	columnsArray.push({
 		"title": "产线",
-		"field": "lineid"
+		"field": "lineid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线名称",
+		"field": "产线名称",
+		formatter: function(value, row, index) {
+			return $("#lineSlctType option[value='" + row.lineid + "']").text();
+		}
 	});
 	columnsArray.push({
 		"title": "上班时间",
