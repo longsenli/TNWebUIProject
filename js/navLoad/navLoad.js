@@ -1,8 +1,11 @@
 function initSystemMenu() {
 	var isFirstMenu;
+	var userName = $.cookie('username');
+	var userID = $.cookie('userID');
+	alert(userName + userID);
 	$.ajax({
 		type: "Post",
-		url: window.serviceIP + "/menu/getAllMenuList",
+		url: window.serviceIP + "/menu/getUserMenuList?userID="+userID,
 		dataType: "json",
 		success: function(result) {
 			// alert(result.data);
