@@ -982,15 +982,29 @@ function infoCfgEquipTypeSlctFun() {
 		}
 	});
 }
-
+function changeEquipParamConfirm(msg) {  
+          
+            if (confirm(msg)==true){  
+                return true;  
+            }else{  
+                return false;  
+            }  
+        }  
 function changeEquipParamConfigFun() {
 	var row = $.map($('#basicParamTable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 	var paramList = "";
+	var paramNameList = "";
 	for(var i = 0; i < row.length; i++) {
 		paramList += row[i]["id"] + "###";
+		paramNameList += row[i]["name"]+ ";"
 	}
+	if(!changeEquipParamConfirm("确认修改设备"+ $("#infoCfgEquipTypeSlct option:selected").text()+"的参数为:"+ paramNameList))
+	{
+		return;
+	}
+	
 	var formData = new FormData();
 	formData.append("params", paramList);
 	formData.append("equipmentTypeID", document.basicInfoCfgSelectForm.infoCfgEquipTypeSlct.value.toString());
