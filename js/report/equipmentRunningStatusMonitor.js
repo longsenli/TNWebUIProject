@@ -129,8 +129,20 @@ function equipStatusMntInit() {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for(var i in models) {
-					controller += "<div class =\"TempContral\"><div class =\"TempContralInner\">" +
-						models[i].value + units + "</div><br/><br/><br/>" +
+					controller += "<div class =\"TempContral\"><div class =\"TempContralInner\" "; 
+	
+					 if("1" == models[i].status)
+					{
+						controller += " style =\"background-color:#FFD306 !important;\""
+						//alert(controller);
+					}
+					
+					if("3" == models[i].status)
+					{
+						controller += " style =\"background-color:#CE0000  !important;\""
+						//alert(controller);
+					}
+					controller +=	">" + models[i].value + units + "</div><br/><br/><br/>" +
 						"<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder + "</label><label  class =\"fontStyle\">  &nbsp; 时间：" +
 						models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
 
@@ -139,6 +151,7 @@ function equipStatusMntInit() {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 			document.getElementById("tempControlerShow").innerHTML = controller;
+			setTimeout("equipStatusMntInit()",60000 * 5);
 		}
 	});
 

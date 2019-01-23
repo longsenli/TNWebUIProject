@@ -1100,6 +1100,8 @@ function basicParamCfgTableFun() {
 					//showRefresh: true,
 					//showColumns: true,
 					//search: true,
+					search: true,
+					//strictSearch: true,
 					pagination: true,
 					columns: columnsArray
 				});
@@ -1178,7 +1180,8 @@ function equipParamCfgTableFun() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+//					search: true,
+//					strictSearch: true,
 					pagination: true,
 					columns: columnsArray
 				});
