@@ -35,10 +35,15 @@
 				<form class="form-inline" >
 				<!-- 工具栏 -->
 				<div id="toolbar">
-						<input type="button" value="新增菜单" id="addBtn" data-toggle="modal" data-target="#addMenuModal" onclick="" class="btn btn-primary"/>
+						<!--<input type="button" value="" id="addBtn" data-toggle="modal" data-target="#addMenuModal" onclick="" class="btn btn-success">
+							<i class="glyphicon glyphicon-plus" aria-hidden="true">新增菜单</i>
+						</input>-->
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMenuModal">
+              <i class="glyphicon glyphicon-plus" aria-hidden="true">新增菜单</i>
+            </button>
 				</div>
-				<!-- bootstrapTable -->
 				</form>
+				<!-- bootstrapTable -->
 				<table id="dataGrid">
 				</table>
 			</section>
@@ -111,8 +116,8 @@
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" id="conf" class="btn btn-primary" onclick="addMenu()">确定</button>
-									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
+									<button type="button" id="conf" class="btn btn-success" onclick="addMenu()"><i class="fa fa-check"></i>&nbsp;提交</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick=""><i class="fa fa-undo"></i>&nbsp;取消</button>
 								</div>
 							</div>				
 						</div>
@@ -188,8 +193,8 @@
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" id="conf" class="btn btn-primary" onclick="updateMenu()">确定</button>
-									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
+									<button type="button" id="conf" class="btn btn-primary" onclick="updateMenu()"><i class="fa fa-check"></i>&nbsp;提交</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal" onclick=""><i class="fa fa-undo"></i>&nbsp;关闭</button>
 								</div>
 							</div>				
 						</div>
@@ -231,8 +236,8 @@
 					        </form>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-					        <button type="button" class="btn btn-primary" onclick="deleteMenu()">确认</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-undo"></i>&nbsp;取消删除</button>
+					        <button type="button" class="btn btn-danger" onclick="deleteMenu()"><i class="fa fa-check"></i>&nbsp;确认删除</button>
 					      </div>
 					    </div>
 					  </div>
@@ -327,8 +332,8 @@ var options = {
 		align: "center",
 		formatter: function(value,row, index) {
 			var actions = [];
-			actions.push('<a class="btn btn-success btn-xs " id="aaaa" href="#" onclick="loadEditMenu(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-			actions.push('<a class="btn btn-info btn-xs " href="#" onclick="loadAddMenu(\'' + row.menuId + '\',\'' + row.menuName + '\')"><i class="fa fa-plus"></i>新增</a> ');
+			actions.push('<a class="btn btn-warning btn-xs " id="aaaa" href="#" onclick="loadEditMenu(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+			actions.push('<a class="btn btn-success btn-xs " href="#" onclick="loadAddMenu(\'' + row.menuId + '\',\'' + row.menuName + '\')"><i class="fa fa-plus"></i>新增</a> ');
 			// onclick=\"showInfo('"+A+"','"+B+"')\"
 			
 			// actions.push('<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addMenuModal" data-whatever="@mdo11">删除</button>');

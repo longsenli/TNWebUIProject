@@ -22,9 +22,18 @@
 			<form class="form-inline" >
 			<!-- 工具栏 -->
 			<div id="toolbar">
-					<input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary"></input>
-					<input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-primary" onclick="editUser()"></input>
-					<input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" data-target="#deleteUserModal" class="btn btn-primary" onclick="deleteUser()"></input>
+					<!--<input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-success"></input>
+					<input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-warning" onclick="editUser()"></input>
+					<input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" data-target="#confirmDelModal" class="btn btn-danger" ></input>-->
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal">
+		              <i class="glyphicon glyphicon-plus" aria-hidden="true">新增用户</i>
+		            </button>
+		            <button type="button" class="btn btn-warning" onclick="editUser()">
+		              <i class="glyphicon glyphicon-edit" aria-hidden="true">修改用户</i>
+		            </button>
+		            <button type="button" class="btn btn-danger"  onclick="confirmDel()">
+		              <i class="glyphicon glyphicon-remove" aria-hidden="true">删除用户</i>
+		            </button>
 			</div>
 			<!-- bootstrapTable -->
 			</form>
@@ -100,8 +109,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="addUser()">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+						<button type="button" id="conf" class="btn btn-success" onclick="addUser()">确定</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>				
 			</div>
@@ -120,7 +129,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary"  >确定</button>
+						<button type="button" class="btn btn-success"  >提交</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
 					</div>
 				</div>
@@ -202,8 +211,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="updateUser()">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+						<button type="button" id="conf" class="btn btn-success" onclick="updateUser()">提交</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="resetAddModal()">取消</button>
 					</div>
 				</div>				
 			</div>
@@ -222,7 +231,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary"  >确定</button>
+						<button type="button" class="btn btn-success"  >确定</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">取消</button>
 					</div>
 				</div>
@@ -238,7 +247,7 @@
 						<h4 id="tipContent">新增成功</h4>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>
@@ -257,6 +266,28 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="modal fade" id="confirmDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			        <h4 class="modal-title" id="exampleModalLabel">确认框</h4>
+			      </div>
+			      <div class="modal-body">
+			        <form>
+							<input id="delMenuId" name="parentId" type="hidden"  />
+			       	<div class="form-group">
+			            <label for="message-text" class="control-label">确定要删除吗？</label>
+			          </div>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+			        <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="deleteUser()">确认</button>
+			      </div>
+			    </div>
+			  </div>
 		</div>
 </body>
 
@@ -357,6 +388,19 @@ function initDataGrid(){
 			//点击取消后清空表单中已写信息
 			function resetAddModal(){
 				document.getElementById("addUserForm").reset();
+			}
+			
+			
+			function confirmDel(){
+				//获取选中行的数据
+				var rows = $("#dataGrid").bootstrapTable('getSelections');
+				if(rows.length!=1){
+					document.getElementById("tipContent").innerText="请选择一行数据";
+					$("#Tip").modal('show');
+				}
+				else{
+					$("#confirmDelModal").modal('show');
+				}
 			}
 			
 		/**

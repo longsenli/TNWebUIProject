@@ -23,9 +23,18 @@
 			<form class="form-inline" >
 			<!-- 工具栏 -->
 			<div id="toolbar">
-					<input type="button" value="新增角色" id="addBtn" onclick="showAddModal()" class="btn btn-primary"></input>
-					<input type="button" value="修改角色" id="editBtn" onclick="showEditModal()" class="btn btn-primary"></input>
-					<input type="button" value="删除角色" id="deleteBtn" data-toggle="modal" data-target="#deleteRoleModal" class="btn btn-primary" onclick="deleteRole()"></input>
+					<!--<input type="button" value="新增角色" id="addBtn" onclick="showAddModal()" class="btn btn-success"></input>
+					<input type="button" value="修改角色" id="editBtn" onclick="showEditModal()" class="btn btn-warning"></input>
+					<input type="button" value="删除角色" id="deleteBtn" data-toggle="modal" data-target="#confirmDelModal" class="btn btn-danger" ></input>-->
+					<button type="button" class="btn btn-success" onclick="showAddModal()">
+		              <i class="glyphicon glyphicon-plus" aria-hidden="true">新增角色</i>
+		            </button>
+		            <button type="button" class="btn btn-warning" onclick="showEditModal()">
+		              <i class="glyphicon glyphicon-edit" aria-hidden="true">修改角色</i>
+		            </button>
+		            <button type="button" class="btn btn-danger"  onclick="confirmDel()">
+		              <i class="glyphicon glyphicon-remove" aria-hidden="true">删除角色</i>
+		            </button>
 			</div>
 			<!-- bootstrapTable -->
 			</form>
@@ -65,8 +74,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="addRole()">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+						<button type="button" id="conf" class="btn btn-success" onclick="addRole()"><i class="fa fa-check"></i>&nbsp;提交</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="resetAddModal()"><i class="fa fa-undo"></i>&nbsp;关闭</button>
 					</div>
 				</div>				
 			</div>
@@ -217,8 +226,8 @@ function addRole(){
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="conf" class="btn btn-default" onclick="updateRole()">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetAddModal()">取消</button>
+						<button type="button" id="conf" class="btn btn-success" onclick="updateRole()">提交</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">关闭</button>
 					</div>
 				</div>				
 			</div>
@@ -233,7 +242,7 @@ function addRole(){
 						<h4 id="tipContent">新增成功</h4>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>
@@ -248,10 +257,32 @@ function addRole(){
 						<h4 id="al">修改成功</h4>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="modal fade" id="confirmDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			        <h4 class="modal-title" id="exampleModalLabel">确认框</h4>
+			      </div>
+			      <div class="modal-body">
+			        <form>
+							<input id="delMenuId" name="parentId" type="hidden"  />
+			       	<div class="form-group">
+			            <label for="message-text" class="control-label">确定要删除吗？</label>
+			          </div>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">取消删除</button>
+			        <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="deleteRole()">确定删除</button>
+			      </div>
+			    </div>
+			  </div>
 		</div>
 </body>
 </html>
@@ -316,7 +347,7 @@ function editCheckMenuIds(event, treeId, treeNode){
 				menuIds += ("," + treeNodes[i].id);
 			}
 		}
-			alert(menuIds);
+			// alert(menuIds);
 			$("#editMenuIds").val(menuIds);
 		return menuIds;
 }
@@ -343,7 +374,7 @@ function loadEditModal(){
 /*修改页面提交修改方法*/
 function updateRole(){
 	var param = $("#editForm").serializeArray();
-	alert(param);
+	// alert(param);
 	//设为disable则无法获取
 	$.ajax({
 		url:window.serviceIP + "/role/updateRole",
@@ -440,6 +471,17 @@ function resetAddModal(){
 }	
 
 
+function confirmDel(){
+	//获取选中行的数据
+	var rows = $("#dataGrid").bootstrapTable('getSelections');
+	if(rows.length!=1){
+		document.getElementById("tipContent").innerText="请选择一行数据";
+		$("#Tip").modal('show');
+	}
+	else{
+		$("#confirmDelModal").modal('show');
+	}
+}
 
 /**
  * 删除角色提交方法
