@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.106:8080";
-window.netServiceIP = "http://192.168.1.106:8088/";
+window.serviceIP = "http://192.168.1.108:8080";
+window.netServiceIP = "http://192.168.1.108:8088/";
 window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
 //window.webUiService = "http://192.168.1.106:8081";
 
@@ -64,4 +64,27 @@ function judgeAgentInfo() {
 		}
 	}
 	return mobile_flag;
+}
+
+function mesgNotice(tagmsg,message,linkedURL) {
+	if(window.Notification && Notification.permission !== "denied") {
+		Notification.requestPermission(function(status) {
+			var notice_ = new Notification('新的消息', {
+				tag: tagmsg,
+				body: message,
+				icon: '../image/logo.jpg',
+				data: {
+					url: linkedURL
+				}
+				//requireInteraction: true
+			});
+			setTimeout(function() {
+				n.close();
+			}, 10000);
+			notice_.onclick = function() { //单击消息提示框，进入浏览器页面
+				window.open(notice_.data.url, '_blank');
+				// notice_.close(); 
+			}
+		});
+	}
 }
