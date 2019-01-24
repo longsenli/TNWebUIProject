@@ -1,4 +1,4 @@
-function workOrderIndustrialPlantSlctFun() {
+function workOrderIndustrialPlantSlctFun(flag) {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
 		type: "GET",
@@ -20,7 +20,10 @@ function workOrderIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
-				workOrderProductionLineSlctFun();
+				if(flag = "1")
+					workOrderProductionProcessSlctFun();
+				else
+					workOrderProductionLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
