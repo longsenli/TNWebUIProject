@@ -89,11 +89,11 @@
 							</select>
 							<br />
 							<label for="name">批次数量:</label>
-							<input type="text" class="form-control" id="batchnum" name="batchnum" placeholder="请输入批次数量">
+							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="batchnum" name="batchnum" placeholder="请输入批次数量">
 							<label for="name">总产量:</label>
-							<input type="text" class="form-control" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
+							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
 							<label for="name">报废数量:</label>
-							<input type="text" class="form-control" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
+							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
 							<label for="name">订单状态:</label>
 							<br />
 							<select class="selectpicker" id="status" name="status" style="width:100px;">
@@ -106,8 +106,14 @@
 							</select>
 							<br />
 							<label for="name">计划开始时间:</label>
-							<input type="date" class="form-control" id="scheduledstarttime" name="scheduledstarttime">
-
+							<input type="date" class="form-control" id="scheduledstarttime" name="scheduledstarttime" onchange="lineWorkOrderModalChange()">
+							<label for="name">班次:</label>
+							<br />
+							<select class="selectpicker" id="workshift" name="workshift" style="width:100px;" onchange="lineWorkOrderModalChange()">
+								<option value=BB>白班</option>
+								<option value=YB>夜班</option>
+							</select>
+							<br />
 						</form>
 					</div>
 					<div class="modal-footer">

@@ -264,6 +264,10 @@ function setLineModal() {
 	$('#status').selectpicker('render'); 
 	$('#status').selectpicker('mobile');
 
+	$('#workshift').selectpicker('refresh');
+	$('#workshift').selectpicker('render'); 
+	$('#workshift').selectpicker('mobile');
+
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
 			document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0],
@@ -307,7 +311,9 @@ function createWorkOrderID() {
 	var orderID = document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[1];
 	orderID += document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[1];
 	orderID += $("#workOrderManageForm" + " #lineid").find("option:selected").selectpicker('val').get('0').value.split("###")[1];
-	orderID += (new Date()).format("yyyyMMdd");
+	orderID += $("#workOrderManageForm" + " #workshift").find("option:selected").selectpicker('val').get('0').value;
+
+	orderID += window.stringToDatetimeLocalType(document.getElementById("scheduledstarttime").value, "yyyyMMdd");
 	return orderID;
 }
 
@@ -328,11 +334,20 @@ function selectedWorkOrderRow(param) {
 	var optionType = param.getAttribute("id");
 	if(optionType == "workorder_add") {
 		//document.getElementById("workOrderManageForm").reset();
+
+		//$(workOrderManageForm.elements).each(function() {
+		//			$(this).attr('disabled', false);
+		//		});
+		$(workOrderManageForm.elements).each(function() {
+			if($(this).attr("name") != "orderid")
+				$(this).attr('readonly', false);
+		});
 		$("#workOrderManageForm" + " #orderid").val(createWorkOrderID());
 		$("#workOrderManageForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 		$("#workOrderManageForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
 		//$("#workOrderManageForm" + " #lineid").val(document.PlantToLineSelectForm.productionLineSlct.value.toString());
-		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(),"yyyy-MM-dd"));
+		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(), "yyyy-MM-dd"));
+		lineWorkOrderModalChange();
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
@@ -346,14 +361,31 @@ function selectedWorkOrderRow(param) {
 			if(key == 0) {
 				continue;
 			}
+			if(key != "status" && key != "scrapnum") {
+				$("#workOrderManageForm" + " #" + key).attr('readonly', true);
+			}
 			if(key == "scheduledstarttime") {
-				$("#workOrderManageForm" + " #" + key).val(window.stringToDatetimeLocalType(row[key],"yyyy-MM-dd"));
+				$("#workOrderManageForm" + " #" + key).val(window.stringToDatetimeLocalType(row[key], "yyyy-MM-dd"));
+				var shiftName = "BB";
+
+				if(window.stringToDatetimeLocalType(row[key], "hh") == "19") {
+					shiftName = "YB";
+				}
+				var numbers = $("#workOrderManageForm" + " #workshift").find("option"); //获取select下拉框的所有值
+				for(var j = 0; j < numbers.length; j++) {
+					if($(numbers[j]).val().toString() == shiftName) {
+						$(numbers[j]).attr("selected", "selected");
+					}
+				}
+				$('#workshift').selectpicker('refresh');
+				$('#workshift').selectpicker('render'); 
+				$("#workOrderManageForm" + " #workshift").attr('readonly', 'true');
 				continue;
 			}
 			if(key == "status" || key == "lineid" || key == "materialid") {
 				//				$("#workOrderManageForm" + " #" + key).selectpicker('deselectAll');
 				var numbers = $("#workOrderManageForm" + " #" + key).find("option"); //获取select下拉框的所有值
-				for(var j = 1; j < numbers.length; j++) {
+				for(var j = 0; j < numbers.length; j++) {
 					//console.log($(numbers[j]).val().toString().split("###")[0] + " ==== " + row[key]);
 					if($(numbers[j]).val().toString().split("###")[0] == row[key]) {
 						$(numbers[j]).attr("selected", "selected");
@@ -366,6 +398,7 @@ function selectedWorkOrderRow(param) {
 				// $("#workOrderManageForm" + " #" + key).selectpicker('val',"");
 			}
 			$("#workOrderManageForm" + " #" + key).val(row[key]);
+
 			//$("#workOrderManageForm" + " #" + key).attr("value", row[key]);
 		}
 
@@ -384,10 +417,15 @@ function deleteWorkOrder(orderid) {
 }
 
 function saveWorkOrderChange() {
+
 	var formData = new FormData($("#workOrderManageForm")[0]);
 	formData.append("lineid", formData.get("lineid").split("###")[0]);
 	formData.append("plantid", formData.get("plantid").split("###")[0]);
 	formData.append("processid", formData.get("processid").split("###")[0]);
+	if(formData.get("workshift") == "BB")
+		formData.append("scheduledstarttime", formData.get("scheduledstarttime") + " 07:00:00");
+	else
+		formData.append("scheduledstarttime", formData.get("scheduledstarttime") + " 19:00:00");
 	//console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",

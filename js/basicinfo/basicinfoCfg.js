@@ -982,14 +982,7 @@ function infoCfgEquipTypeSlctFun() {
 		}
 	});
 }
-function changeEquipParamConfirm(msg) {  
-          
-            if (confirm(msg)==true){  
-                return true;  
-            }else{  
-                return false;  
-            }  
-        }  
+  
 function changeEquipParamConfigFun() {
 	var row = $.map($('#basicParamTable').bootstrapTable('getSelections'), function(row) {
 		return row;
@@ -1000,7 +993,7 @@ function changeEquipParamConfigFun() {
 		paramList += row[i]["id"] + "###";
 		paramNameList += row[i]["name"]+ ";"
 	}
-	if(!changeEquipParamConfirm("确认修改设备"+ $("#infoCfgEquipTypeSlct option:selected").text()+"的参数为:"+ paramNameList))
+	if(!window.changeConfirmDlg("确认修改设备"+ $("#infoCfgEquipTypeSlct option:selected").text()+"的参数为:"+ paramNameList))
 	{
 		return;
 	}

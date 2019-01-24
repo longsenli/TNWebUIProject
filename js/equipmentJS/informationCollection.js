@@ -161,8 +161,9 @@ function getEquipmentParam() {
 				file.value = '';
 				for (var  i  in  models)  { 
 					paramStr += "<div  style=' margin-top:10px;float:left;'>" 
-					paramStr += "<label " + floatFlag + " id = \"labelName\"> &nbsp;&nbsp;&nbsp;&nbsp;" + models[i].name + "： </label>" + "<input type=\"text\" class=\"form-control\" id=\"" +
-						models[i].id + "\" name=\"" + models[i].id + "\" " + textFlag + ">";
+					paramStr += "<label " + floatFlag + " id = \"labelName\"> &nbsp;&nbsp;&nbsp;&nbsp;" + models[i].name +
+						"： </label>" + "<input type=\"text\" onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" class=\"form-control\" id=\"" +
+						models[i].id + "\" name=\"" + models[i].id + "### " + models[i].min + "### " + models[i].max + "\" " + textFlag + ">";
 					if(models[i].units == null) {
 						paramStr += "<label  " + floatFlag + " > &nbsp; </label>";
 					} else {
@@ -228,16 +229,41 @@ function saveEquipmentParam() {
 	}
 
 	var paramArray = new Array();
-
+ 	var reg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+ 
 	for(var i = 0; i < params.length; i++) {
-
+		if(!reg.test(params[i].value.trim())) {
+			alert("参数:" + params[i].name.split("###")[0].trim() + "的值输入不是数值类型!,请确认!");
+			return;
+		}
+		var status = "2";
+		var valueParam = parseFloat(params[i].value.trim());
+		if(reg.test(params[i].name.split("###")[1].trim())) {
+			var result = parseFloat(params[i].name.split("###")[1].trim());
+			if(valueParam < result)
+				status = "1";
+		}
+		if(reg.test(params[i].name.split("###")[2].trim())) {
+			var result = parseFloat(params[i].name.split("###")[2].trim());
+			if(valueParam > result)
+				status = "3";
+		}
+		if(status != '2')
+		{
+			var strMGS = "参数:" + params[i].name.split("###")[0].trim() + ",当前值为:" 
+			+ params[i].value.trim() + ",设定最小值为:" + params[i].name.split("###")[1].trim() 
+			+ ",设定最大值为:" + params[i].name.split("###")[2].trim() + ",请确认是否保存!";
+			if(!window.changeConfirmDlg(strMGS))
+			return;
+		}
 		paramArray.push({
 			recorder: $.cookie('username'),
 			equipmentTypeID: document.equipmentSelectForm.equipmentType.value.toString(),
 			equipmentID: document.equipmentSelectForm.equipmentInfo.value.toString(),
-			paramID: params[i].name,
+			paramID: params[i].name.split("###")[0].trim(),
 			pictureFile: picLoadName,
-			value: params[i].value
+			status: status,
+			value: params[i].value.trim()
 		});
 	}
 
@@ -282,7 +308,7 @@ function getEquipmentParamRecord() {
 		if("labelName" == (paramName[i].getAttribute("id"))) {
 			//columnsID[m] = paramID[m].name;
 			var clmName = paramName[i].innerHTML.replace(":", "").replace("：", "");
-			columMap[paramID[m].name] = clmName;
+			columMap[paramID[m].name.split("###")[0]] = clmName;
 
 			columnsArray.push({
 				"title": clmName,

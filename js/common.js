@@ -88,3 +88,12 @@ function mesgNotice(tagmsg,message,linkedURL) {
 		});
 	}
 }
+
+function changeConfirmDlg(msg) {  
+          
+            if (confirm(msg)==true){  
+                return true;  
+            }else{  
+                return false;  
+            }  
+        }
