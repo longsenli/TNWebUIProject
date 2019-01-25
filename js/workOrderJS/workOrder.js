@@ -125,7 +125,7 @@ function getWorkOrder() {
 	columnsArray.push({
 		width: 150,
 		"title": "产线",
-		"field": "lineName",
+		"field": "lineName"
 	});
 	columnsArray.push({
 		width: 300,
