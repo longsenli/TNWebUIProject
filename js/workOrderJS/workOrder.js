@@ -293,7 +293,7 @@ function setLineModal() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].description + "</option>").toString());
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
@@ -331,10 +331,14 @@ function selectedWorkOrderRow(param) {
 	//	var row1 = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 	//		return row;
 	//	});
-
-	var row = workOrderSelectedRow;
-	setLineModal();
 	var optionType = param.getAttribute("id");
+	var row = workOrderSelectedRow;
+	if(optionType == "workorder_scrap") {
+		createScrapModel();
+		return;
+	}
+	setLineModal();
+
 	if(optionType == "workorder_add") {
 		//document.getElementById("workOrderManageForm").reset();
 
@@ -460,4 +464,75 @@ function workOrderRowClick(row) {
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	$(row).addClass('changeTableRowColor');
 	$($(row).find("td")[0]).addClass('changeTableRowColor');
+}
+
+function workOrderSetCount() {
+	if($("#workOrderManageForm" + " #materialid").text().split("###").length < 2) {
+		return;
+	}
+
+	var result1 = parseInt($("#workOrderManageForm" + " #materialid").text().split("###")[1].trim());
+	var result2 = parseInt($("#workOrderManageForm" + " #batchnum").val().trim());
+	$("#workOrderManageForm" + " #totalproduction").val(result1 * result2);
+}
+
+function createScrapModel() {
+	var row = workOrderSelectedRow;
+	$.ajax({
+		url: window.serviceIP + "/api/scrapinfo/getmaterialscrapinfo?materialID=" + row["materialid"] + "&orderID="+ row["id"],
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#scrapModalForm" + " #orderid").val(row["id"]);
+			$("#scrapModalForm" + " #ordername").val(row["orderid"]);
+			$("#scrapModalForm" + " #ordertime").val(window.stringToDatetimeLocalType(row["scheduledstarttime"], "yyyy-MM-dd"));
+			var htmlInner = "";
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					htmlInner += "<label >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " +
+						"onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id +"###" +models[i].name + "\" name=\"" + models[i].id +
+						"###" +models[i].name +"\"  value = \"" +models[i].description  +"\"  placeholder=\"请输入报废数量\">";
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+			//console.log(htmlInner);
+			document.getElementById("scrapContent").innerHTML =htmlInner;
+			$('#scrapModal').modal('show');
+		}
+	});
+}
+
+function saveScrap() {
+var formData = new FormData($("#scrapModalForm")[0]);
+	
+	console.log(window.getFormDataToJson(formData));
+	$.ajax({
+		url: window.serviceIP + "/api/scrapinfo/savescrapinfo",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: window.getFormDataToJson(formData),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				alert('保存成功!');
+				$("#scrapModal").modal('hide');
+			} else {
+				alert("保存失败！" + data.message);
+			}
+		}
+	});
 }
