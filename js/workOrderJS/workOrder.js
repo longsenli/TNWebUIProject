@@ -479,7 +479,7 @@ function workOrderSetCount() {
 function createScrapModel() {
 	var row = workOrderSelectedRow;
 	$.ajax({
-		url: window.serviceIP + "/api/scrapinfo/getmaterialscrapinfo?materialID=" + row["materialid"] + "&orderID="+ row["id"],
+		url: window.serviceIP + "/api/scrapinfo/getmaterialscrapinfo?materialID=" + row["materialid"] + "&orderID=" + row["id"],
 		type: "GET",
 
 		contentType: "application/json",
@@ -498,22 +498,22 @@ function createScrapModel() {
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					htmlInner += "<label >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " +
-						"onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id +"###" +models[i].name + "\" name=\"" + models[i].id +
-						"###" +models[i].name +"\"  value = \"" +models[i].description  +"\"  placeholder=\"请输入报废数量\">";
+						"onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id + "###" + models[i].name + "\" name=\"" + models[i].id +
+						"###" + models[i].name + "\"  value = \"" + models[i].description + "\"  placeholder=\"请输入报废数量\">";
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 			//console.log(htmlInner);
-			document.getElementById("scrapContent").innerHTML =htmlInner;
+			document.getElementById("scrapContent").innerHTML = htmlInner;
 			$('#scrapModal').modal('show');
 		}
 	});
 }
 
 function saveScrap() {
-var formData = new FormData($("#scrapModalForm")[0]);
-	
+	var formData = new FormData($("#scrapModalForm")[0]);
+
 	console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/scrapinfo/savescrapinfo",

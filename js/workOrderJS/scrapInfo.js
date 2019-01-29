@@ -106,8 +106,7 @@ function scrapProductionLineSlctFun() {
 	});
 };
 
-function scrapSelect()
-{
+function scrapSelect() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -130,7 +129,7 @@ function scrapSelect()
 		"title": "物料",
 		"field": "materialname"
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "报废数量",
 		"field": "value"
 	});
@@ -138,11 +137,11 @@ columnsArray.push({
 		"title": "订单日期",
 		"field": "ordertime"
 	});
-var urlStr = window.serviceIP + "/api/scrapinfo/getscrapinfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
-		+"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString()
-		+"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString()
-		+ "&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
-	
+	var urlStr = window.serviceIP + "/api/scrapinfo/getscrapinfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+
 	$.ajax({
 		url: urlStr,
 		type: "GET",

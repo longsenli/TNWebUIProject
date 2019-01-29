@@ -69,6 +69,7 @@
 		<script type="text/javascript" src="../js/userJS/user.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/subOrder.js"></script>
+		<script type="text/javascript" src="../js/workOrderJS/scrapInfo.js"></script>
 		<script type="text/javascript" src="../js/report/equipmentRunningStatusMonitor.js"></script>
 		<script type="text/javascript" src="../js/workShift/workShift.js"></script>
 		<script type="text/javascript" src="../js/salesOrderJS/salesOrderTable.js"></script>
@@ -286,6 +287,9 @@
 									</li>
 									<li>
 										<a href="#" onclick="subOrderManage()">工单批次管理</a>
+									</li>
+									<li>
+										<a href="#" onclick="orderScrapManage()">工单报废查询</a>
 									</li>
 									<li>
 										<a href="#" onclick="solidifyProcessManage()">固化管理</a>
@@ -630,6 +634,12 @@
 				$("#containerHTML").load('../pages/workOrder/subOrder.html');
 			};
 
+			function orderScrapManage() {
+				document.getElementById("container-page-text").innerHTML = "工单报废查询";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/scrapInfo.html');
+			};
+
 			function equipmentInfoManage() {
 				document.getElementById("container-page-text").innerHTML = "设备信息管理";
 				$("#containerHTML").empty();
@@ -741,13 +751,13 @@
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/workShift/workShiftRecordManage.html');
 			};
-			 
-			function salesOrderShowTable()
-			{
+
+			function salesOrderShowTable() {
 				document.getElementById("container-page-text").innerHTML = "丝网订单查询";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/salesOrder/salesOrderInfoTable.html');
 			}
+
 			function logout() {
 				$.cookie("token", "", {
 					expires: -1
