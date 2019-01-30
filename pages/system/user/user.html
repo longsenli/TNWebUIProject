@@ -41,10 +41,11 @@
 			</table>
 		</section>
 		<!-- 新增用户的模态框，在修改用户中将获取一行的值放入input中，改变一些参数继续使用 -->
-		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop='static' >
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
 						<h3>新增用户</h3>
 					</div>
 					<div class="modal-body">
@@ -59,7 +60,7 @@
 							<div class="form-group" >
 								<label for="inputPassword" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-7">
-									<input type="text" name="password" class="form-control" id="inputPassword" placeholder="密码"/>
+									<input type="password" name="password" class="form-control" id="inputPassword" placeholder="密码"/>
 								</div>
 								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
 							</div>
@@ -136,7 +137,7 @@
 			</div>
 		</div>
 <!-- 修改用户的模态框 -->
-		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" data-backdrop='static'>
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -154,7 +155,7 @@
 							<div class="form-group" >
 								<label for="inputPassword" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-7">
-									<input type="text" name="password" class="form-control" id="editPassword" placeholder="密码"/>
+									<input type="password" name="password" class="form-control" id="editPassword" placeholder="密码"/>
 								</div>
 								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
 							</div>
@@ -283,8 +284,8 @@
 			        </form>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
-			        <button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="deleteUser()">确认</button>
+			      	<button type="button" class="btn btn-danger"  data-dismiss="modal" onclick="deleteUser()">确定删除</button>
+			        <button type="button" class="btn btn-success" data-dismiss="modal">取消删除</button>
 			      </div>
 			    </div>
 			  </div>

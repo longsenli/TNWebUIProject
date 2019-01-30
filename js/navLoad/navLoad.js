@@ -13,7 +13,7 @@ function initSystemMenu() {
 			// alert(res[0].nodes);
 			var showlist = $("<ul class=\"sidebar-menu\"></ul>");
 
-			$("<li><a href=\"#\"><i class=\"fa fa-dashboard fa-fw\" ></i> 首页</a></li>").appendTo(showlist);
+			$("<li><a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\" ></i> 首页</a></li>").appendTo(showlist);
 			isFirstMenu = res.length;
 			// alert(res);
 			showall(res[0].nodes, showlist);
@@ -65,6 +65,6 @@ function initSystemMenu() {
 function showTab(menuName, url) {
 	document.getElementById("container-page-text").innerHTML = menuName;
 	$("#containerHTML").empty();
-	// alert(window.netServiceIP+url);
+	// alert(window.webUiService+url);
 	$("#containerHTML").load(window.webUiService + url);
 }
