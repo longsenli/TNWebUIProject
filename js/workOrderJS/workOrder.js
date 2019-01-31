@@ -493,11 +493,11 @@ function workOrderRowClick(row) {
 }
 
 function workOrderSetCount() {
-	if($("#workOrderManageForm" + " #materialid").text().split("###").length < 2) {
+	if($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("###").length < 2) {
 		return;
 	}
 
-	var result1 = parseInt($("#workOrderManageForm" + " #materialid").text().split("###")[1].trim());
+	var result1 = parseInt($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("###")[1].trim());
 	var result2 = parseInt($("#workOrderManageForm" + " #batchnum").val().trim());
 	$("#workOrderManageForm" + " #totalproduction").val(result1 * result2);
 }

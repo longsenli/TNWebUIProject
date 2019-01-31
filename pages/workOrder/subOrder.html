@@ -79,13 +79,13 @@
 		<img id="QRImage" style="display:none" src="" />
 
 		<div id="toolbar" class="btn-group">
-			<button id="workorder_add" type="button" class="btn btn-default" onclick="FinishSubOrder()">
+			<button id="subOrderFinishBT" type="button" class="btn btn-default" onclick="FinishSubOrder()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成
             </button>
-			<button id="workorder_add" type="button" class="btn btn-default" onclick="printQRCode()">
+			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印
             </button>
-			<button id="workorder_add" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
+			<button id="subOrderScanQRBT" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫描领料
             </button>
 
@@ -130,7 +130,7 @@
 				<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
                 <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>领料
             </button>
-				<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
+				<button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
                 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分领料
             </button>
 				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
