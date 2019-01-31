@@ -254,7 +254,7 @@ function FinishSubOrder() {
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
-				alert('保存成功!');
+				alert('保存成功! ' + data.message);
 				SelectSubOrder()
 
 			} else {
@@ -277,6 +277,32 @@ function SelectWorkOrderFun() {
 };
 
 function SelectSubOrder() {
+	var dataStr = "----";
+	var dateNow = new Date();
+	if(dateNow.getHours() < 7) {
+		dateNow.setDate(today.getDate() - 1);
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
+		dataStr = "BB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 19) {
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+
+	if($("#PlantToLineSelectForm #workOrderSlct").find("option:selected").text().toString().indexOf(dataStr) < 0) {
+		$("#subOrderFinishBT").attr('disabled', true);
+		$("#subOrderScanQRBT").attr('disabled', true);
+		$("#getUsableMaterialBT").attr('disabled', true);
+		$("#gainMaterialRecordBT").attr('disabled', true);
+		$("#gainPartMaterialRecordBT").attr('disabled', true);
+	} else {
+		$("#subOrderFinishBT").attr('disabled', false);
+		$("#subOrderScanQRBT").attr('disabled', false);
+		$("#getUsableMaterialBT").attr('disabled', false);
+		$("#gainMaterialRecordBT").attr('disabled', false);
+		$("#gainPartMaterialRecordBT").attr('disabled', false);
+	}
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -339,7 +365,7 @@ function SelectSubOrder() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: false,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -569,8 +595,8 @@ function gainMaterialRecord() {
 		alert("请确认已选择物料和订单!")
 		return;
 	}
-	formData.append("materialIDListStr", JSON.stringify(arrayObj));
-
+	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
+	formData.append("materialOrderID", selectRow[0].orderid);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	formData.append("outputter", $.cookie('username')) //$.cookie('username');
 
@@ -1014,11 +1040,11 @@ function gainPartMaterialRecord() {
 		alert("领料数量必须小于库存数量!");
 		return;
 	}
-	formData.append("materialID", selectRow[0].id);
+	formData.append("materialRecordID", selectRow[0].id);
 	formData.append("number", result1);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	formData.append("outputter", $.cookie('username')) //$.cookie('username');
-
+	formData.append("materialOrderID", selectRow[0].orderid);
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainpartmaterialrecord",
 		type: "POST",
