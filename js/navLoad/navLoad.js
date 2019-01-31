@@ -13,7 +13,7 @@ function initSystemMenu() {
 			// alert(res[0].nodes);
 			var showlist = $("<ul class=\"sidebar-menu\"></ul>");
 
-			$("<li><a href=\"#\"><i class=\"fa fa-dashboard fa-fw\" ></i> 首页</a></li>").appendTo(showlist);
+			$("<li><a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\" ></i> 首页</a></li>").appendTo(showlist);
 			isFirstMenu = res.length;
 			// alert(res);
 			showall(res[0].nodes, showlist);
@@ -21,6 +21,8 @@ function initSystemMenu() {
 			// console.log(showlist)
 			$("#ajax-side-menu").attr("style", "display:true;");
 			$("#side-menu").attr("style", "display:none;");
+			//添加雷立mes超连接
+			$("<li><a href=\"http://192.168.82.253\"><i class=\"fa fa-mail-forward\" ></i> 镭立MES链接</a></li>").appendTo(showlist);
 			// side-menu
 			$("#ajax-load-menu").append(showlist);
 		},
