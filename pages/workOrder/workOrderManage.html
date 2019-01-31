@@ -100,8 +100,8 @@
 							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
 							<label for="name">报废数量:</label>
 							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
-							<label for="name">订单状态:</label>
-							<br />
+							<!--<label for="name">订单状态:</label>
+							-->
 							<select class="selectpicker" id="status" name="status" style="width:100px;">
 								<option value=1>已下单</option>
 								<option value=2>已打印</option>
@@ -110,7 +110,7 @@
 								<option value=5>已关闭</option>
 								<option value=6>已删除</option>
 							</select>
-							<br />
+							
 							<label for="name">计划开始时间:</label>
 							<input type="date" class="form-control" id="scheduledstarttime" name="scheduledstarttime" onchange="lineWorkOrderModalChange()">
 							<label for="name">班次:</label>

@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.108:8080";
-window.netServiceIP = "http://192.168.1.108:8088/";
+window.serviceIP = "http://192.168.1.107:8080";
+window.netServiceIP = "http://192.168.1.107:8088/";
 window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
 //window.webUiService = "http://192.168.1.106:8081";
 
@@ -66,7 +66,7 @@ function judgeAgentInfo() {
 	return mobile_flag;
 }
 
-function mesgNotice(tagmsg,message,linkedURL) {
+function mesgNotice(tagmsg, message, linkedURL) {
 	if(window.Notification && Notification.permission !== "denied") {
 		Notification.requestPermission(function(status) {
 			var notice_ = new Notification('新的消息', {
@@ -89,11 +89,20 @@ function mesgNotice(tagmsg,message,linkedURL) {
 	}
 }
 
-function changeConfirmDlg(msg) {  
-          
-            if (confirm(msg)==true){  
-                return true;  
-            }else{  
-                return false;  
-            }  
-        }
+function changeConfirmDlg(msg) {
+
+	if(confirm(msg) == true) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var windowOrderStatusEnum = {
+	ordered: 1,
+	printed: 2,
+	doing: 3,
+	finished: 4,
+	closed: 5,
+	deleted: 6
+}

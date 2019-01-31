@@ -242,6 +242,7 @@ function getWorkOrder() {
 					}
 				});
 
+				workOrderSelectedRow = null;
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -266,6 +267,7 @@ function setLineModal() {
 	$('#status').selectpicker('refresh');
 	$('#status').selectpicker('render'); 
 	$('#status').selectpicker('mobile');
+	$('#status').selectpicker('hide');
 
 	$('#workshift').selectpicker('refresh');
 	$('#workshift').selectpicker('render'); 
@@ -334,6 +336,10 @@ function selectedWorkOrderRow(param) {
 	var optionType = param.getAttribute("id");
 	var row = workOrderSelectedRow;
 	if(optionType == "workorder_scrap") {
+		if(row["status"] != windowOrderStatusEnum.doing) {
+			alert("该工单未在生产状态,不能报废!");
+			return;
+		}
 		createScrapModel();
 		return;
 	}
@@ -363,6 +369,10 @@ function selectedWorkOrderRow(param) {
 			return;
 		}
 		//console.log(row);
+		if(row["status"] != windowOrderStatusEnum.ordered) {
+			alert("该工单已进入生产,不能修改!");
+			return;
+		}
 		for(var key in row) {
 			//alert(key +" " +row[key] );
 			if(key == 0) {
@@ -425,6 +435,22 @@ function deleteWorkOrder(orderid) {
 
 function saveWorkOrderChange() {
 
+	if(isNaN(parseInt($("#batchnum").val())) || parseInt($("#batchnum").val()) < 1) {
+		alert("请正确输入批次数量!");
+		return;
+	}
+	if(isNaN(parseInt($("#totalproduction").val())) || parseInt($("#totalproduction").val()) < 1) {
+		alert("请正确输入生产总量!");
+		return;
+	}
+	if($("#materialid").val() == "undefind" || $("#materialid").val() < 1 || $("#materialid").val() == "null") {
+		alert("未选择输出物料!");
+		return;
+	}
+	if($("#lineid").val() == "undefind" || $("#lineid").val() < 1 || $("#lineid").val() == "null") {
+		alert("未选择产线!");
+		return;
+	}
 	var formData = new FormData($("#workOrderManageForm")[0]);
 	formData.append("lineid", formData.get("lineid").split("###")[0]);
 	formData.append("plantid", formData.get("plantid").split("###")[0]);
