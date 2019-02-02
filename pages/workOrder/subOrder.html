@@ -40,8 +40,8 @@
 						canvas = null;
 						context = null;
 						video = null;
-						document.getElementById("video").pause();
-						document.getElementById("video").src = '';
+						document.getElementById("videoSubOrderScanQR").pause();
+						document.getElementById("videoSubOrderScanQR").src = '';
 						if(mediaStreamTrack != null && mediaStreamTrack.getTracks().length > 0) {
 							mediaStreamTrack.getTracks()[0].stop();
 						}
@@ -152,8 +152,8 @@
 							<div id="support"></div>
 							<div id="contentHolder">
 
-								<video id="video" width="320" height="320" loop="loop" autoplay="autoplay"></video>
-								<canvas id="canvas" style="display: none; background-color:#F00;" width="320" height="320"></canvas><br/>
+								<video id="videoSubOrderScanQR" width="320" height="320" loop="loop" autoplay="autoplay" controls style="object-fit:fill" webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-orientation="h5" x5-video-player-fullscreen="true"></video>
+								<canvas id="canvasSubOrderScanQR" style="display: none; background-color:#F00;" width="320" height="320"></canvas><br/>
 								<!--<button id="workordersdf" type="button" class="btn btn-default" onclick="startScanQR()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描
             </button>-->
@@ -161,6 +161,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
+						<!--<button type="button" class="btn btn-default" onclick="startQRScan()">扫码 </button>-->
 						<button type="button" class="btn btn-default" onclick="closeQRScan()">关闭 </button>
 					</div>
 				</div>

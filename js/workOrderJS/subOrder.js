@@ -495,6 +495,7 @@ function getUsableMaterialFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
 	formData.append("materialID", $("#table").bootstrapTable('getData')[0].materialid)
+	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString())
 	//$('#table').dataTable().row.data();
 
 	var columnsArray = [];
@@ -742,60 +743,132 @@ function CatchCode() { 
 	return resQR;   
 }
 
+function startQRScan() {
+	alert("kaishi");
+	alert(video.src);
+	$("#workOrderManageForm #videoSubOrderScanQR").play();
+
+}
+
 function scanQR(webName) {
 	$('#myModal').modal('show');
 	if(context == null) { 
 		//window.addEventListener("DOMContentLoaded", function() {       
 		try {           
-			canvas = document.getElementById("canvas");           
+			canvas = document.getElementById("canvasSubOrderScanQR");           
 			context = canvas.getContext("2d");           
-			video = document.getElementById("video");           
+			video = document.getElementById("videoSubOrderScanQR");           
 			var videoObj = {
-					"video": true,
-					audio: false
-				},
-				               flag = true,
-				               MediaErr = function(error) {                   
-					flag = false;                   
-					if(error.PERMISSION_DENIED) {                       
-						alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
-					} else if(error.NOT_SUPPORTED_ERROR) {                       
-						alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-					} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
-						alert('指定的媒体类型未接收到媒体流', '提示');                   
-					} else {                       
-						alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试', '提示');                   
-					}               
-				};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
-			           
-			if(navigator.getUserMedia) {                //qq浏览器不支持
-				               
-				if(navigator.userAgent.indexOf('MQQBrowser') > -1) {                   
-					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-					return false;               
-				}               
-				navigator.getUserMedia(videoObj, function(stream) { 
-					mediaStreamTrack = stream;                   
-					video.src = stream;                   
-					video.play();
+				audio: false,
+				"video": true
 
-				}, MediaErr);           
+			};              
+			//			var videoObj = {
+			//				"video": true
+			//			};    
+			var  flag = true;             
+			var   MediaErr = function(error) {                   
+				flag = false;                   
+				if(error.PERMISSION_DENIED) {                       
+					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
+				} else if(error.NOT_SUPPORTED_ERROR) {                       
+					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
+				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
+					alert('指定的媒体类型未接收到媒体流', '提示');                   
+				} else {                       
+					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
+				}               
+			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
+			      
+			//			var promisifiedOldGUM = function(constraints) {
+			//
+			//				// 第一个拿到getUserMedia，如果存在
+			//				var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+			//
+			//				// 有些浏览器只是不实现它-返回一个不被拒绝的承诺与一个错误保持一致的接口
+			//				if(!getUserMedia) {
+			//					return Promise.reject(new Error('getUserMedia is not implemented in this browser-getUserMedia是不是在这个浏览器实现'));
+			//				}
+			//
+			//				// 否则，调用包在一个旧navigator.getusermedia承诺
+			//				return new Promise(function(resolve, reject) {
+			//					getUserMedia.call(navigator, constraints, resolve, reject);
+			//				});
+			//
+			//			}
+			//			if(navigator.mediaDevices === undefined) {
+			//				navigator.mediaDevices = {};
+			//			}
+			//			if(navigator.mediaDevices.getUserMedia === undefined) {
+			//				alert("getDlg");
+			//				navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
+			//			}   
+
+			//		  navigator.getUserMedia  = navigator.mediaDevices.getUserMedia ||navigator.getUserMedia ||
+			//      navigator.webkitGetUserMedia ||
+			//      navigator.mozGetUserMedia ||
+			//      navigator.msGetUserMedia;//获取媒体对象（这里指摄像头）
+			//  navigator.getUserMedia({video:true}, gotStream, noStream);//参数1获取用户打开权限；参数二成功打开后调用，并传一个视频流对象，参数三打开失败后调用，传错误信息
+			//
+			//  function gotStream(stream) {
+			//  	alert("mediaDevicesgetUserMedia");    
+			//      video.src = URL.createObjectURL(stream);
+			//      alert("mediaDevicesgetUserMedia");    
+			//      video.onerror = function () {
+			//      	alert("Errot");  
+			//          stream.stop();
+			//      };
+			//      alert("mediaDevicesgetUserMedia");    
+			//      stream.onended = noStream;
+			//      video.onloadedmetadata = function () {
+			//      };
+			//  }
+			//  function noStream(err) {
+			//      alert(err);
+			//  }
+			  
+			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
+				//				if(navigator.userAgent.indexOf('MQQBrowser') > -1) {                   
+				//					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
+				//					return false;               
+				//				}     
+				try {  
+					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
+						//mediaStreamTrack = stream;                  
+						//video.src = window.URL.createObjectURL(stream);;                   
+						//video.play();
+
+						video.srcObject = stream;
+						video.onloadedmetadata = function(e) {
+							video.play();
+						};
+					}, MediaErr);   
+				} catch(err) {
+					alert(err);
+				}        
+			}    
+			else if(navigator.getUserMedia) { // Standard   
+				navigator.getUserMedia(videoObj, function(stream) {   
+					mediaStreamTrack = stream;       
+					video.src = stream;
+					video.play();
+				}, MediaErr);
 			}           
-			else if(navigator.webkitGetUserMedia) {               
+			else if(navigator.webkitGetUserMedia) {              
 				navigator.webkitGetUserMedia(videoObj, function(stream) {  
 					mediaStreamTrack = stream;                  
 					video.src = window.webkitURL.createObjectURL(stream);                   
-					video.play();        
+					video.play();      
 				}, MediaErr);           
-			}           
-			else if(navigator.mozGetUserMedia) {               
+			}       
+			else if(navigator.mozGetUserMedia) {              
 				navigator.mozGetUserMedia(videoObj, function(stream) { 
 					mediaStreamTrack = stream;                   
 					video.src = window.URL.createObjectURL(stream);                   
 					video.play();               
 				}, MediaErr);           
 			}           
-			else if(navigator.msGetUserMedia) {               
+			else if(navigator.msGetUserMedia) {           
 				navigator.msGetUserMedia(videoObj, function(stream) { 
 					mediaStreamTrack = stream;                   
 					$(document).scrollTop($(window).height());                   
