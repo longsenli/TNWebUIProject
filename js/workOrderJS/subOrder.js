@@ -754,7 +754,8 @@ function scanQR(webName) {
 	$('#myModal').modal('show');
 	if(context == null) { 
 		//window.addEventListener("DOMContentLoaded", function() {       
-		try {           
+		try {    
+
 			canvas = document.getElementById("canvasSubOrderScanQR");           
 			context = canvas.getContext("2d");           
 			video = document.getElementById("videoSubOrderScanQR");           
@@ -837,6 +838,7 @@ function scanQR(webName) {
 						//mediaStreamTrack = stream;                  
 						//video.src = window.URL.createObjectURL(stream);;                   
 						//video.play();
+						mediaStreamTrack = stream; 
 
 						video.srcObject = stream;
 						video.onloadedmetadata = function(e) {
