@@ -132,7 +132,15 @@
 							$.cookie('userID', username);
 							$.cookie('roleID', result.message.split("###")[1].trim());
 							$.cookie('password', password);
-							window.location.href="index.html"; 
+							if(result.message.split("###")[1].trim() == "24")
+							{
+								window.location.href="productionIndex.html"; 
+							}
+							else
+							{
+								window.location.href="index.html"; 
+							}
+							
 						}else{
 							var hintinfo=document.getElementById("hintinfo");
 							hintinfo.innerText="用户名或密码错误，请重新填写。";

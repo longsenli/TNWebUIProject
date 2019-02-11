@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工单批次管理</title>
+
+		<script type="text/javascript" src="../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<style>
+			/*web background*/
+			
+			.container {
+				display: table;
+				height: 100%;
+			}
+			
+			.row {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			/* centered columns styles */
+			
+			.row-centered {
+				text-align: center;
+			}
+			
+			.col-centered {
+				display: inline-block;
+				float: none;
+				text-align: left;
+				margin-right: -4px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<div class="container">
+			<div class="row row-centered">
+				<div class="well col-md-6 col-centered">
+
+					<h2>功能菜单</h2>
+
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+
+						<button type="button" class="btn  btn-primary btn-lg" onclick="suborderManageIndex()">
+							<span class="glyphicon glyphicon-list-alt"></span> 批次管理</button>
+					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="orderScrapIndex()">
+							<span class="glyphicon glyphicon-trash"></span> 工单报废</button>
+					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="scanOrderScrapIndex()">
+							<span class="glyphicon glyphicon-th"></span> 报废信息查询</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			
+			function suborderManageIndex(){
+				window.location.href="../pages/workOrder/subOrder.html"; 
+			}
+			function orderScrapIndex(){
+				window.location.href="../pages/workOrder/workOrderManage.html"; 
+			}
+			function scanOrderScrapIndex(){
+				window.location.href="../pages/workOrder/scrapInfo.html"; 
+			}
+		</script>
+	</body>
+
+</html>
