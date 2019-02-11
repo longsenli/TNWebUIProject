@@ -1070,7 +1070,7 @@ function gotoNextSolidifyRoom() {
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + "张三&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+			"&status=" + stageNum + "&recorder=" + $.cookie('username') +  "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",

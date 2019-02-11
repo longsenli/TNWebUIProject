@@ -126,9 +126,11 @@
 					success : function(result){
 
 						if(result.status=="1"){
+							//alert(result.token)
 							$.cookie('token', result.token); 
-							$.cookie('username', result.message);
+							$.cookie('username', result.message.split("###")[0].trim());
 							$.cookie('userID', username);
+							$.cookie('roleID', result.message.split("###")[1].trim());
 							$.cookie('password', password);
 							window.location.href="index.html"; 
 						}else{
