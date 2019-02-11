@@ -57,14 +57,13 @@ function initConentData() {
 				$('#contentType').selectpicker('refresh');
 
 				$('#contentType').selectpicker('render');  
-			    $('.selectpicker').selectpicker('mobile'); 
+				$('.selectpicker').selectpicker('mobile'); 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
 };
-
 
 function initContentTypeSlctData() {
 
@@ -79,7 +78,7 @@ function initContentTypeSlctData() {
 		},
 		processData: true,
 		success: function(dataRes) {
-			
+
 			$("#typeAll").find('option').remove();
 			$("#contentType").find('option').remove();
 			if(dataRes.status == 1) { 
@@ -105,7 +104,6 @@ function initContentTypeSlctData() {
 	});
 };
 
-
 function filterContent() {
 
 	var columnsArray = [];
@@ -128,15 +126,15 @@ function filterContent() {
 	columnsArray.push({
 		"title": "内容",
 		"field": "内容",
-		//	visible: false
+		visible: false
 	});
 	columnsArray.push({
 		"title": "ID",
 		"field": "ID",
-		//	visible: false
+		visible: false
 	});
 	var formData = new FormData($("#form2")[0]);
-	formData.append('endTime', document.getElementById("endTime").value +  " 23:59:59");
+	formData.append('endTime', document.getElementById("endTime").value + " 23:59:59");
 	$("#mytable tbody").html("");
 	$("#mytable tr:not(:first)").empty("");
 	$.ajax({
@@ -167,6 +165,16 @@ function filterContent() {
 					obj["ID"] = models[i].id;
 					dataShow.push(obj);
 				}
+				//				columnsArray.splice(5, 1, {
+				//					"title": "ID",
+				//					"field": "ID",
+				//					visible: false
+				//				});
+				//				columnsArray.splice(4, 1, {
+				//					"title": "内容",
+				//					"field": "内容",
+				//					visible: false
+				//				});
 				$('#mytable').bootstrapTable('destroy').bootstrapTable({
 					data: dataShow,
 					toolbar: '#toolbar',
@@ -182,12 +190,19 @@ function filterContent() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+						//$(row).addClass('changeTableRowColor');
+						//workOrderSelectedRow = row;
+						showDetail(row);
+					}
 				});
-				$('#mytable tr').find('td:eq(4)').hide();
-				$('#mytable tr').find('th:eq(4)').hide();
-				$('#mytable tr').find('td:eq(5)').hide();
-				$('#mytable tr').find('th:eq(5)').hide();
+				//				$('#mytable tr').find('td:eq(4)').hide();
+				//				$('#mytable tr').find('th:eq(4)').hide();
+				//				$('#mytable tr').find('td:eq(5)').hide();
+				//				$('#mytable tr').find('th:eq(5)').hide();
 
 			} else {
 				alert("查询失败！" + dataRes.message);
@@ -203,17 +218,26 @@ function filterContent() {
 //  });
 //});
 
-
 var selectedContentID = "";
+
+function changeColorPublishIdea(row) {
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	$(row).addClass('changeTableRowColor');
+}
 
 function showDetail(row) {
 
-	$('.changeTableRowColor').removeClass('changeTableRowColor');
-	$(row).addClass('changeTableRowColor');
-	
-	selectedContentID = row.cells[5].childNodes[0].textContent;
+	//使用getSelections即可获得，row是json格式的数据
+	//		var row1 = $.map($('#mytable').bootstrapTable('getSelections'), function(rowSlct) {
+	//			return rowSlct;
+	//		});
+	//		console.log(row1[0]);
+	//		console.log(row["ID"]);
+	selectedContentID = row["ID"];
+	document.getElementById("selectedDetail").innerHTML = row["内容"];
+	//selectedContentID = row.cells[5].childNodes[0].textContent;
 
-	document.getElementById("selectedDetail").innerHTML = row.cells[4].childNodes[0].textContent;
+	//document.getElementById("selectedDetail").innerHTML = row.cells[4].childNodes[0].textContent;
 	$.ajax({
 		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
@@ -277,10 +301,10 @@ function submitComment() {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
-				
+
 				document.commentForm.context.value = "";
 
-				var dataHtml =""; 				
+				var dataHtml = "";
 				var nowTime = new Date();
 				var nowStr = nowTime.format("yyyy-MM-dd hh:mm:ss");
 				dataHtml += "<span>" + submitName + "</span><span style=\"float:right\">" + nowStr +

@@ -15,9 +15,12 @@
 		<script type="text/javascript" src="../../js/contentJS/contentManage.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 	</head>
 
 	<body>
@@ -34,7 +37,7 @@
 			//行点击事件
 			$(function() {
 				$("body").delegate('#mytable tr', 'click', function() {
-					showDetail(this);
+					changeColorPublishIdea(this);
 				});
 			});
 		</script>
@@ -92,18 +95,10 @@
 				<input type="button" class="btn btn-default" value="查询 " onclick="filterContent()">
 			</div>
 		</form>
-
-		<table class="table table-responsive table-striped    table-bordered table-hover table-condensed "  frame="border" rules="all" id="mytable">
-			<thead>
-				<td>标题</td>
-				<td>类型</td>
-				<td>创建人</td>
-				<td>创建时间</td>
-				<td style=" display: none;">内容</td>
-				<td style=" display: none;">ID</td>
-			</thead>
-			<tbody></tbody>
+		<table id="mytable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
+		<!--<table class="table table-responsive table-striped    table-bordered table-hover table-condensed "  frame="border" rules="all" id="mytable">
+		</table>-->
 
 		<div id="contentDetail" style="min-height:50px; max-height:400px;overflow:auto;overflow-x:hidden;">
 			<textarea class="form-control" style="background:gray; resize:none;" readonly="readonly" rows="3" id="selectedDetail"></textarea>
