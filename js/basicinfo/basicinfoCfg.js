@@ -385,7 +385,7 @@ function deleteLineCfgInfo(equipID) {
 	var formData = new FormData();
 	formData.append("id", id);
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/deleteproductionline",
+		url: window.serviceIP + "/api/basicdata/deleteproductionline",
 		type: "POST",
 		data: formData,
 		processData: false,
@@ -510,7 +510,7 @@ function materialCfgTableFun() {
 function selectedMaterialCfgRow(param) {
 
 	//使用getSelections即可获得，row是json格式的数据
-	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+	var row = $.map($('#materialTable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 

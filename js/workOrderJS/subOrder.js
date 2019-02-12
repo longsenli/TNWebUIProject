@@ -838,7 +838,8 @@ function scanQR(webName) {
 						//mediaStreamTrack = stream;                  
 						//video.src = window.URL.createObjectURL(stream);;                   
 						//video.play();
-						mediaStreamTrack = stream; 
+						
+						//mediaStreamTrack = stream; 
 
 						video.srcObject = stream;
 						video.onloadedmetadata = function(e) {

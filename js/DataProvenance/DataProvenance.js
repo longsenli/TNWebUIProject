@@ -1,91 +1,3 @@
-function getUsableMaterialFun() {
-
-	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true
-	});
-	columnsArray.push({
-		"title": "物料号",
-		"field": "materialid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料名称",
-		"field": "materialName"
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "orderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "inOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "inSubOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "suborderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
-	columnsArray.push({
-		"title": "入库人员",
-		"field": "inputer"
-	});
-	columnsArray.push({
-		"title": "入库时间",
-		"field": "inputtime"
-	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
-	$.ajax({
-		url: window.serviceIP + "/api/dataprovenance/getprovenancebyorderid?orderID=" + document.getElementById("stringData").value,
-		type: "GET",
-		processData: false,
-		contentType: false,
-		//data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		//processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-
-				$('#table').bootstrapTable('destroy').bootstrapTable({
-					data: models,
-					//toolbar: '#materialidToolbar',
-					singleSelect: true,
-					clickToSelect: true,
-					sortName: "orderSplitid",
-					sortOrder: "asc",
-					pageSize: 15,
-					pageNumber: 1,
-					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					//search: true,
-					pagination: true,
-					columns: columnsArray
-				});
-
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-};
 
 var canvasDataProvenance = null,
 	contextDataProvenance = null,
@@ -160,7 +72,7 @@ function DataProvenanceScanQR() {
 			}    
 			else if(navigator.getUserMedia) { // Standard   
 				navigator.getUserMedia(videoObj, function(stream) {   
-					mediaStreamTrackDataProvenance = stream;       
+					//mediaStreamTrackDataProvenance = stream;       
 					videoDataProvenance.src = stream;
 					videoDataProvenance.play();
 				}, MediaErr);

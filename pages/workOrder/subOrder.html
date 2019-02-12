@@ -37,10 +37,13 @@
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
 					function() {
+						//canvas.clearRect( 0, 0, 320, 320);
 						canvas = null;
 						context = null;
 						video = null;
 						document.getElementById("videoSubOrderScanQR").pause();
+						//document.getElementById("videoSubOrderScanQR").srcObject = '';
+						
 						document.getElementById("videoSubOrderScanQR").src = '';
 						if(mediaStreamTrack != null && mediaStreamTrack.getTracks().length > 0) {
 							mediaStreamTrack.getTracks()[0].stop();

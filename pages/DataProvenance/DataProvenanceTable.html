@@ -31,6 +31,7 @@
 						contextDataProvenance = null;
 						videoDataProvenance = null;
 						document.getElementById("videoDataProvenanceScanQR").pause();
+						//document.getElementById("videoDataProvenanceScanQR").srcObject = '';
 						document.getElementById("videoDataProvenanceScanQR").src = '';
 						if(mediaStreamTrackDataProvenance != null && mediaStreamTrackDataProvenance.getTracks().length > 0) {
 							mediaStreamTrackDataProvenance.getTracks()[0].stop();
