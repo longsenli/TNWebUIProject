@@ -213,6 +213,10 @@ function lineWorkOrderSlct() {
 	});
 };
 
+function subOrderChangeOrderNum() {
+	$("#changeOrderProductionNum").attr("readonly", false);
+}
+
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -231,11 +235,17 @@ function FinishSubOrder() {
 		if(key == 0) {
 			continue;
 		}
+		if(key == "productionnum") {
+			formData.append(key, $("#changeOrderProductionNum").val());
+			continue;
+		}
+
 		if(key == "status") {
 			formData.append(key, "3");
-		} else {
-			formData.append(key, row[0][key]);
+			continue;
 		}
+		formData.append(key, row[0][key]);
+
 		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 	}
 	var formData2 = new FormData();
@@ -256,7 +266,7 @@ function FinishSubOrder() {
 			if(data.status == 1) {
 				alert('保存成功! ' + data.message);
 				SelectSubOrder()
-
+				$("#changeOrderProductionNum").attr("readonly", true);
 			} else {
 				alert("保存失败！" + data.message);
 			}
@@ -377,7 +387,12 @@ function SelectSubOrder() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						$("#changeOrderProductionNum").val(row["productionnum"]);
+						$("#changeOrderProductionNum").attr("readonly", true);
+					}
 				});
 				setTimeout(function() {
 					getUsableMaterialFun();
@@ -838,7 +853,7 @@ function scanQR(webName) {
 						//mediaStreamTrack = stream;                  
 						//video.src = window.URL.createObjectURL(stream);;                   
 						//video.play();
-						
+
 						//mediaStreamTrack = stream; 
 
 						video.srcObject = stream;
@@ -1071,7 +1086,7 @@ function gotoNextSolidifyRoom() {
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + $.cookie('username') +  "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+			"&status=" + stageNum + "&recorder=" + $.cookie('username') + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
