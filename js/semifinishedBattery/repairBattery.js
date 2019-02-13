@@ -69,10 +69,10 @@ function repairBatteryProductionLineSlctFun() {
 	//		return;
 	//	}
 	//alert("生产线选择");
-	
+
 	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getproductionline?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
-		+ "&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+		url: window.serviceIP + "/api/basicdata/getproductionline?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "Get",
 		//data: formData,
 		contentType: "application/json",
@@ -81,7 +81,7 @@ function repairBatteryProductionLineSlctFun() {
 		//			Token: $.cookie('token')
 		//		},
 		//processData: true,
-		
+
 		success: function(dataRes) {
 			$("#lineid").find('option').remove();
 
@@ -102,7 +102,7 @@ function repairBatteryProductionLineSlctFun() {
 				$('#lineid').selectpicker('refresh');
 				$('#lineid').selectpicker('render');   
 				$('#lineid').selectpicker('mobile');
-				
+
 				getRepairBatteryRecord();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -121,10 +121,10 @@ function selectedRepairBatteryRow(param) {
 	if(optionType == "repairBattery_add") {
 		$("#batteryid").attr("readonly", false);
 		repairBateryHTMLFlag = "add";
-		$("#repairBatteryCollapseForm").collapse('show') ;
+		$("#repairBatteryCollapseForm").collapse('show');
 	}
 	if(optionType == "repairBattery_edit") {
-		
+
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
@@ -136,11 +136,12 @@ function selectedRepairBatteryRow(param) {
 			if(key == 0) {
 				continue;
 			}
+
 			if(key == "repairtime" || key == "backtime") {
 				$("#repairBatteryCollapseForm" + " #" + key).val(window.stringToDatetimeLocalType(row[0][key].toString(), "yyyy-MM-ddThh:mm"));
 				continue;
 			}
-			if(key == "lineid" ) {
+			if(key == "lineid") {
 
 				var numbers = $("#repairBatteryCollapseForm" + " #" + key).find("option"); //获取select下拉框的所有值
 				for(var j = 0; j < numbers.length; j++) {
@@ -155,7 +156,7 @@ function selectedRepairBatteryRow(param) {
 			$("#repairBatteryCollapseForm" + " #" + key).val(row[0][key]);
 		}
 
-		$("#repairBatteryCollapseForm").collapse('show') ;
+		$("#repairBatteryCollapseForm").collapse('show');
 	}
 	if(optionType == "repairBattery_delete") {
 		if(row.length < 1) {
@@ -188,13 +189,13 @@ function deleteRepairBatteryRecord(batteryID) {
 	});
 }
 var repairBateryHTMLFlag = "";
+
 function addRepairBatteryRecord() {
 	var formData = new FormData();
 	var formDataClps = new FormData($("#repairBatteryCollapseForm")[0]);
 	formData.append("jsonStr", window.getFormDataToJson(formDataClps));
 	formData.append("type", repairBateryHTMLFlag);
-	
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addrepairbattery",
 		type: "POST",
@@ -215,7 +216,7 @@ function addRepairBatteryRecord() {
 				repairBateryHTMLFlag = "";
 				document.getElementById("repairBatteryCollapseForm").reset();
 				$("#batteryid").attr("readonly", false);
-				$("#repairBatteryCollapseForm").collapse('hide') ;
+				$("#repairBatteryCollapseForm").collapse('hide');
 				alert("报废成功！");
 			} else {
 				alert("报废失败！" + dataRes.message);
@@ -302,3 +303,129 @@ function getRepairBatteryRecord() {
 		}
 	});
 };
+
+function closeQRScanRepairBattery() {
+	$("#myModal").modal('hide');
+}
+var canvasRepairBattery = null,
+	contextRepairBattery = null,
+	videoRepairBattery = null;  
+var mediaStreamTrackRepairBattery = null;   
+function findRepairBatteryByQR(repairBatteryID) {
+	$("#repairBatteryCollapseForm" + " #batteryid").val(repairBatteryID);
+	$("#myModal").modal('hide');
+}
+
+function startScanQRRepairBattery() {
+	if(contextRepairBattery) {         
+		contextRepairBattery.drawImage(videoRepairBattery, 0, 0, 320, 320);               
+		if(canvasRepairBattery != null) {            //以下开始编 数据  
+			var imgData = canvasRepairBattery.toDataURL("image/jpeg");            //将图像转换为base64数据
+			qrcode.decode(imgData);             
+			qrcode.callback = function(imgMsg) {
+				if(imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
+					findRepairBatteryByQR(imgMsg);
+				} else {
+					setTimeout(startScanQRRepairBattery(), 500);
+				}
+			}       
+		}          
+	}  
+}
+
+function RepairBatteryScanQR() {
+	$('#myModal').modal('show');
+	if(contextRepairBattery == null) { 
+		//window.addEventListener("DOMContentLoaded", function() {       
+		try {    
+
+			canvasRepairBattery = document.getElementById("canvasRepairBatteryScanQR");           
+			contextRepairBattery = canvasRepairBattery.getContext("2d");           
+			videoRepairBattery = document.getElementById("videoRepairBatteryScanQR");           
+			var videoObj = {
+				audio: false,
+				"video": true
+			};              
+			//			var videoObj = {
+			//				"video": true
+			//			};    
+			var  flag = true;             
+			var   MediaErr = function(error) {                   
+				flag = false;                   
+				if(error.PERMISSION_DENIED) {                       
+					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
+				} else if(error.NOT_SUPPORTED_ERROR) {                       
+					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
+				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
+					alert('指定的媒体类型未接收到媒体流', '提示');                   
+				} else {                       
+					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
+				}               
+			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
+			      
+
+			  
+			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
+				 
+				try {  
+					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
+						//mediaStreamTrack = stream;                  
+						//video.src = window.URL.createObjectURL(stream);;                   
+						//video.play();
+						//mediaStreamTrackRepairBattery = stream;  
+						videoRepairBattery.srcObject = stream;
+						videoRepairBattery.onloadedmetadata = function(e) {
+							videoRepairBattery.play();
+						};
+					}, MediaErr);   
+				} catch(err) {
+					alert(err);
+				}        
+			}    
+			else if(navigator.getUserMedia) { // Standard   
+				navigator.getUserMedia(videoObj, function(stream) {   
+					//mediaStreamTrackRepairBattery = stream;       
+					videoRepairBattery.src = stream;
+					videoRepairBattery.play();
+				}, MediaErr);
+			}           
+			else if(navigator.webkitGetUserMedia) {              
+				navigator.webkitGetUserMedia(videoObj, function(stream) {  
+					mediaStreamTrackRepairBattery = stream;                  
+					videoRepairBattery.src = window.webkitURL.createObjectURL(stream);                   
+					videoRepairBattery.play();      
+				}, MediaErr);           
+			}       
+			else if(navigator.mozGetUserMedia) {              
+				navigator.mozGetUserMedia(videoObj, function(stream) { 
+					mediaStreamTrackRepairBattery = stream;                   
+					videoRepairBattery.src = window.URL.createObjectURL(stream);                   
+					videoRepairBattery.play();               
+				}, MediaErr);           
+			}           
+			else if(navigator.msGetUserMedia) {           
+				navigator.msGetUserMedia(videoObj, function(stream) { 
+					mediaStreamTrackRepairBattery = stream;                   
+					$(document).scrollTop($(window).height());                   
+					videoRepairBattery.src = window.URL.createObjectURL(stream);                   
+					videoRepairBattery.play();               
+				}, MediaErr);           
+			} else {               
+				alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器');               
+				return false;           
+			}           
+			if(flag) {                // alert('为了获得更准确的测试结果，请尽量将二维码置于框中，然后进行拍摄、扫描。 请确保浏览器有权限使用摄像功能');
+				          }            //这个是拍照按钮的事件，
+			           
+
+			//				$("#snap").click(function() {
+			//					startPat();
+			//				}).show();       
+		} catch(e) {           
+			//printHtml("浏览器不支持HTML5 CANVAS");       
+		}   
+		//}, false);    //打印内容到页面
+	} 
+	//console.log("start");
+	setTimeout(startScanQRRepairBattery(), 1000) ; 
+}

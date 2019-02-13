@@ -6,7 +6,7 @@ var mediaStreamTrackDataProvenance = null;   
 
 function startScanQRDataProvenance() {
 	if(contextDataProvenance) {         
-		contextDataProvenance.drawImage(video, 0, 0, 320, 320);               
+		contextDataProvenance.drawImage(videoDataProvenance, 0, 0, 320, 320);               
 		if(canvasDataProvenance != null) {            //以下开始编 数据  
 			var imgData = canvasDataProvenance.toDataURL("image/jpeg");            //将图像转换为base64数据
 			qrcode.decode(imgData);             
@@ -14,7 +14,7 @@ function startScanQRDataProvenance() {
 				if(imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
 					findDataProvenanceByQR(imgMsg);
 				} else {
-					setTimeout(startScanQR(), 500);
+					setTimeout(startScanQRDataProvenance(), 500);
 				}
 			}       
 		}          
@@ -28,7 +28,7 @@ function DataProvenanceScanQR() {
 		try {    
 
 			canvasDataProvenance = document.getElementById("canvasDataProvenanceScanQR");           
-			contextDataProvenance = canvas.getContext("2d");           
+			contextDataProvenance = canvasDataProvenance.getContext("2d");           
 			videoDataProvenance = document.getElementById("videoDataProvenanceScanQR");           
 			var videoObj = {
 				audio: false,
@@ -60,7 +60,7 @@ function DataProvenanceScanQR() {
 						//mediaStreamTrack = stream;                  
 						//video.src = window.URL.createObjectURL(stream);;                   
 						//video.play();
-						mediaStreamTrackDataProvenance = stream;  
+						//mediaStreamTrackDataProvenance = stream;  
 						videoDataProvenance.srcObject = stream;
 						videoDataProvenance.onloadedmetadata = function(e) {
 							videoDataProvenance.play();
