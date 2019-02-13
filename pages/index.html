@@ -70,6 +70,7 @@
 		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/subOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/scrapInfo.js"></script>
+		<script type="text/javascript" src="../js/workOrderJS/productionStatistics.js"></script>
 		<script type="text/javascript" src="../js/semifinishedBattery/repairBattery.js"></script>
 		<script type="text/javascript" src="../js/semifinishedBattery/scrapBattery.js"></script>
 		<script type="text/javascript" src="../js/report/equipmentRunningStatusMonitor.js"></script>
@@ -104,8 +105,8 @@
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
 			} else {
-				initSystemMenu();
-				initSidebarMenu();
+				//				initSystemMenu();
+				//				initSidebarMenu();
 			}
 
 			//初始化icheck显示
@@ -290,6 +291,9 @@
 									</li>
 									<li>
 										<a href="#" onclick="subOrderManage()">工单批次管理</a>
+									</li>
+									<li>
+										<a href="#" onclick="productStatisticsManage()">物料统计</a>
 									</li>
 									<li>
 										<a href="#" onclick="orderScrapManage()">工单报废查询</a>
@@ -660,6 +664,12 @@
 				document.getElementById("container-page-text").innerHTML = "工单批次";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/workOrder/subOrder.html');
+			};
+
+			function productStatisticsManage() {
+				document.getElementById("container-page-text").innerHTML = "物料统计";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/productionStatistics.html');
 			};
 
 			function orderScrapManage() {
