@@ -99,9 +99,11 @@ function repairBatteryProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
 
-				$('#lineid').selectpicker('refresh');
-				$('#lineid').selectpicker('render');   
-				$('#lineid').selectpicker('mobile');
+				if(repairBateryHTMLFlag != 'change') {
+					$('#lineid').selectpicker('refresh');
+					$('#lineid').selectpicker('render');   
+					$('#lineid').selectpicker('mobile');
+				}
 
 				getRepairBatteryRecord();
 			} else {
@@ -121,6 +123,7 @@ function selectedRepairBatteryRow(param) {
 	if(optionType == "repairBattery_add") {
 		$("#batteryid").attr("readonly", false);
 		repairBateryHTMLFlag = "add";
+		$("#repairBatteryCollapseForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 		$("#repairBatteryCollapseForm").collapse('show');
 	}
 	if(optionType == "repairBattery_edit") {
@@ -193,6 +196,9 @@ var repairBateryHTMLFlag = "";
 function addRepairBatteryRecord() {
 	var formData = new FormData();
 	var formDataClps = new FormData($("#repairBatteryCollapseForm")[0]);
+	if("add" == repairBateryHTMLFlag) {
+		formDataClps.append("plantid", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	}
 	formData.append("jsonStr", window.getFormDataToJson(formDataClps));
 	formData.append("type", repairBateryHTMLFlag);
 
@@ -261,8 +267,16 @@ function getRepairBatteryRecord() {
 
 	});
 
+	columnsArray.push({
+		"title": "报废产线",
+		"field": "plantid",
+		visible: false
+
+	});
+
 	$.ajax({
-		url: window.serviceIP + "/api/semifinishedbattery/getrepairbatterybyline?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
+		url: window.serviceIP + "/api/semifinishedbattery/getrepairbatterybyline?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
 		type: "GET",
 		contentType: "application/json",
 

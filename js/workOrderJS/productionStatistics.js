@@ -228,3 +228,89 @@ function remnantProductStatistics() {
 		}
 	});
 }
+
+function batteryStatisInventory()
+{
+		var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "盘点时间",
+		"field": "updatetime"
+	});
+	columnsArray.push({
+		"title": "电池类型",
+		"field": "batterytype"
+	});
+	columnsArray.push({
+		"title": "最新库存",
+		"field": "currentstorage"
+	});
+	columnsArray.push({
+		"title": "上次结余",
+		"field": "laststorage"
+	});
+	columnsArray.push({
+		"title": "报废数量",
+		"field": "scrapnum"
+	});
+	columnsArray.push({
+		"title": "报修数量",
+		"field": "repairnum"
+	});
+	columnsArray.push({
+		"title": "维修入库",
+		"field": "repairbacknum"
+	});
+	
+	columnsArray.push({
+		"title": "借出数量",
+		"field": "loannum"
+	});
+	columnsArray.push({
+		"title": "借入数量",
+		"field": "borrownum"
+	});
+	var urlStr = window.serviceIP + "/api/material/batterystatisinventory?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}

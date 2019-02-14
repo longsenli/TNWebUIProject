@@ -158,7 +158,7 @@ function deleteScrapBatteryRecord(batteryID) {
 function addScrapBatteryRecord() {
 	var formData = new FormData($("#scrapBatteryCollapseForm")[0]);
 	formData.append("scrapStaff", $.cookie('username'));
-
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addscrapbattery",
 		type: "POST",
@@ -218,9 +218,15 @@ function getScrapBatteryRecord() {
 		visible: false
 
 	});
+	columnsArray.push({
+		"title": "报废厂区",
+		"field": "plantid",
+		visible: false
 
+	});
 	$.ajax({
-		url: window.serviceIP + "/api/semifinishedbattery/getscrapbatterybyline?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
+		url: window.serviceIP + "/api/semifinishedbattery/getscrapbatterybyline?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
 		type: "GET",
 		contentType: "application/json",
 
