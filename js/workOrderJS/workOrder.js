@@ -239,9 +239,10 @@ function getWorkOrder() {
 						//$('.changeTableRowColor').removeClass('changeTableRowColor');
 						//$(row).addClass('changeTableRowColor');
 						workOrderSelectedRow = row;
+						initSplitDetailWorkOrder(row["id"]);
 					}
 				});
-
+				$('#orderSplitTable').bootstrapTable('destroy');
 				workOrderSelectedRow = null;
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -558,6 +559,91 @@ function saveScrap() {
 				$("#scrapModal").modal('hide');
 			} else {
 				alert("保存失败！" + data.message);
+			}
+		}
+	});
+}
+
+function initSplitDetailWorkOrder(orderID) {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "ordersplitid"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "产量",
+		"field": "productionnum"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "statusName"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "status",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "orderid",
+		"field": "orderid",
+		visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/api/order/getordersplitaftermap?orderID=" + orderID,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#orderSplitTable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					//toolbar: '#toolbar',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
