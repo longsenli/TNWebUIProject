@@ -21,7 +21,10 @@ function productionStatisticsPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
 				if(flag = "1")
+				{
+					productionStatisBatteryTypeSlctFun();
 					productionStatisticsProcessSlctFun();
+				}
 				else
 					productionStatisticsLineSlctFun();
 			} else {
@@ -29,6 +32,41 @@ function productionStatisticsPlantSlctFun(flag) {
 			}
 		}
 	});
+};
+
+function productionStatisBatteryTypeSlctFun(flag) {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=1008",
+		type: "GET",
+
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+
+			$("#batterytype").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#batterytype').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#batterytype').selectpicker('refresh');
+				$('#batterytype').selectpicker('render');   
+				$('#batterytype').selectpicker('mobile');
+				$('#batterytype').selectpicker('hide');
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	}); 
 };
 
 function productionStatisticsProcessSlctFun() {
@@ -240,8 +278,16 @@ function batteryStatisInventory()
 		"field": "updatetime"
 	});
 	columnsArray.push({
-		"title": "电池类型",
-		"field": "batterytype"
+		"title": "电池型号",
+		"field": "电池型号",
+		formatter: function(value, row, index) {
+			return $("#batterytype option[value='" + row.batterytype + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "batterytype",
+		"field": "batterytype",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "最新库存",
