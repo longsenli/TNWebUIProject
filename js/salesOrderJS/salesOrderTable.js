@@ -24,11 +24,11 @@ function salesOrderPlantSlctFun() {
 				$('#salesOrderPlantSlct').selectpicker('refresh');
 				$('#salesOrderPlantSlct').selectpicker('render');   
 				$('#salesOrderPlantSlct').selectpicker('mobile');
-				
+
 				$('#salesOrderStatus').selectpicker('refresh');
 				$('#salesOrderStatus').selectpicker('render');   
 				$('#salesOrderStatus').selectpicker('mobile');
-				
+
 				salesOrderProductSlct();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -72,14 +72,13 @@ function salesOrderProductSlct() {
 	});
 };
 
-function getSalesOrderDetail()
-{
+function getSalesOrderDetail() {
 	var columnsArray = [];
 	//	columnsArray.push({
 	//		checkbox: true
 	//	});
 	columnsArray.push({
-//		width: 200,
+		//		width: 200,
 		"title": "工作中心名称",
 		"field": "workshopname"
 	});
@@ -100,7 +99,7 @@ function getSalesOrderDetail()
 		"field": "productinfo"
 	});
 
-columnsArray.push({
+	columnsArray.push({
 		"title": "区域名称",
 		"field": "zonename"
 	});
@@ -124,8 +123,7 @@ columnsArray.push({
 		"title": "发货时间",
 		"field": "deliverytime"
 	});
-	
-	
+
 	var formData = new FormData($("#salesOrderSelectForm")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/salesorder/getsalesorderdetail",
@@ -161,12 +159,12 @@ columnsArray.push({
 					fixedNumber: 1, //固定前两列
 					pagination: true,
 					columns: columnsArray,
-//					onClickRow: function(row) {
-//
-//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
-//						//$(row).addClass('changeTableRowColor');
-//						workOrderSelectedRow = row;
-//					}
+					//					onClickRow: function(row) {
+					//
+					//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+					//						//$(row).addClass('changeTableRowColor');
+					//						workOrderSelectedRow = row;
+					//					}
 				});
 
 			} else {
@@ -176,15 +174,13 @@ columnsArray.push({
 	});
 }
 
-
-function salesOrderStatusAnalysis()
-{
+function salesOrderStatusAnalysis() {
 	var columnsArray = [];
 	//	columnsArray.push({
 	//		checkbox: true
 	//	});
 	columnsArray.push({
-//		width: 200,
+		//		width: 200,
 		"title": "日期",
 		"field": "日期"
 	});
@@ -205,7 +201,7 @@ function salesOrderStatusAnalysis()
 		"field": "生产订单总量"
 	});
 
-columnsArray.push({
+	columnsArray.push({
 		"title": "已完成",
 		"field": "已完成"
 	});
@@ -213,9 +209,7 @@ columnsArray.push({
 		"title": "未完成",
 		"field": "未完成"
 	});
-	
-	
-	
+
 	var formData = new FormData($("#salesOrderSelectForm")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/salesorder/getsalesorderstatusanalysis",
@@ -231,7 +225,7 @@ columnsArray.push({
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-console.log(models);
+				//console.log(models);
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
@@ -251,12 +245,12 @@ console.log(models);
 					fixedNumber: 1, //固定前两列
 					pagination: true,
 					columns: columnsArray,
-//					onClickRow: function(row) {
-//
-//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
-//						//$(row).addClass('changeTableRowColor');
-//						workOrderSelectedRow = row;
-//					}
+					//					onClickRow: function(row) {
+					//
+					//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+					//						//$(row).addClass('changeTableRowColor');
+					//						workOrderSelectedRow = row;
+					//					}
 				});
 
 			} else {
@@ -266,15 +260,13 @@ console.log(models);
 	});
 }
 
-
-function salesOrderDailyWork()
-{
+function salesOrderDailyWork() {
 	var columnsArray = [];
 	//	columnsArray.push({
 	//		checkbox: true
 	//	});
 	columnsArray.push({
-//		width: 200,
+		//		width: 200,
 		"title": "日期",
 		"field": "日期"
 	});
@@ -295,7 +287,7 @@ function salesOrderDailyWork()
 		"field": "生产订单总量"
 	});
 
-columnsArray.push({
+	columnsArray.push({
 		"title": "已完成",
 		"field": "已完成"
 	});
@@ -303,9 +295,7 @@ columnsArray.push({
 		"title": "未完成",
 		"field": "未完成"
 	});
-	
-	
-	
+
 	var formData = new FormData($("#salesOrderSelectForm")[0]);
 	$.ajax({
 		url: window.serviceIP + "/api/salesorder/getsalesorderdailywork",
@@ -321,7 +311,7 @@ columnsArray.push({
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-console.log(models);
+				console.log(models);
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
@@ -341,12 +331,12 @@ console.log(models);
 					fixedNumber: 1, //固定前两列
 					pagination: true,
 					columns: columnsArray,
-//					onClickRow: function(row) {
-//
-//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
-//						//$(row).addClass('changeTableRowColor');
-//						workOrderSelectedRow = row;
-//					}
+					//					onClickRow: function(row) {
+					//
+					//						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+					//						//$(row).addClass('changeTableRowColor');
+					//						workOrderSelectedRow = row;
+					//					}
 				});
 
 			} else {

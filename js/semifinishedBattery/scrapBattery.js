@@ -21,7 +21,7 @@ function scrapBatteryIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
 				if(flag = "1")
-					scrapBatteryProductionProcessSlctFun();
+					scrapBatteryProductionProcessSlctFun(flag);
 				else
 					scrapBatteryProductionLineSlctFun();
 			} else {
@@ -31,7 +31,7 @@ function scrapBatteryIndustrialPlantSlctFun(flag) {
 	});
 };
 
-function scrapBatteryProductionProcessSlctFun() {
+function scrapBatteryProductionProcessSlctFun(flag) {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
 		type: "GET",
@@ -54,12 +54,51 @@ function scrapBatteryProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
-				scrapBatteryProductionLineSlctFun();
+				if(flag = "1")
+					scrapBatteryBatteryTypeSlctFun(flag);
+				else
+					scrapBatteryProductionLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
+};
+
+function scrapBatteryBatteryTypeSlctFun(flag) {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=1008",
+		type: "GET",
+
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+
+			$("#batteryType").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#batteryType').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#batteryType').selectpicker('refresh');
+				$('#batteryType').selectpicker('render');   
+				$('#batteryType').selectpicker('mobile');
+				if(flag = "1")
+					scrapBatteryProductionLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	}); 
 };
 
 function scrapBatteryProductionLineSlctFun() {
@@ -197,6 +236,13 @@ function getScrapBatteryRecord() {
 		"field": "batteryid"
 	});
 	columnsArray.push({
+		"title": "电池型号",
+		"field": "电池型号",
+		formatter: function(value, row, index) {
+			return $("#batteryType option[value='" + row.batterytype + "']").text();
+		}
+	});
+	columnsArray.push({
 		"title": "报废类型",
 		"field": "scraptype"
 	});
@@ -211,6 +257,12 @@ function getScrapBatteryRecord() {
 	columnsArray.push({
 		"title": "报废时间",
 		"field": "scraptime"
+	});
+
+	columnsArray.push({
+		"title": "batterytype",
+		"field": "batterytype",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "报废产线",
