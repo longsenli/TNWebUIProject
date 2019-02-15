@@ -670,24 +670,27 @@ function printQRCode() {
 		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
 		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
-		LODOP.ADD_PRINT_BARCODE(0, 0, 200, 200, "QRCode", selectRow[i].id);
-		LODOP.ADD_PRINT_TEXT(205, 10, 200, 100, selectRow[i].ordersplitid); //增加纯文本项
+		LODOP.ADD_PRINT_BARCODE(15, 15, 140, 140, "QRCode", selectRow[i].id);
+		LODOP.ADD_PRINT_TEXT(150, 5, 160, 50, selectRow[i].ordersplitid); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
-		LODOP.SET_PRINT_STYLEA(0, "Bold", 0);
-		LODOP.ADD_PRINT_TEXT(230, 10, 200, 100, "日期: " + selectRow[i].ordersplitid.substr(orderLength - 11, 4) + "年" +
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].ordersplitid.substr(orderLength - 11, 4) + "年" +
 			selectRow[i].ordersplitid.substr(orderLength - 7, 2) + "月" + selectRow[i].ordersplitid.substr(orderLength - 5, 2) + "日"); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
-		LODOP.SET_PRINT_STYLEA(0, "Bold", 0);
-
-		LODOP.ADD_PRINT_TEXT(255, 10, 200, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-		LODOP.SET_PRINT_STYLEA(0, "FontSize", 16);
-		LODOP.SET_PRINT_STYLEA(0, "Bold", 0);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
 		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
-		LODOP.PREVIEW();
+		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
 	}
 
