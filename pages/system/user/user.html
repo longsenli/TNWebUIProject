@@ -71,6 +71,20 @@
 								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
+								<label for="inputDutyid" class="col-sm-2 control-label">职务</label>
+								<div class="col-sm-7">
+									<input type="name" name="dutyid" class="col-sm-4 form-control" id="inputDutyid" placeholder="职务"/>
+								</div>
+								<label id="errorName" for="inputDutyid" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="inputWorkplace" class="col-sm-2 control-label">工作地点</label>
+								<div class="col-sm-7">
+									<input type="name" name="workplace" class="col-sm-4 form-control" id="inputWorkplace" placeholder="工作地点"/>
+								</div>
+								<label id="errorName" for="inputWorkplace" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
 								<label for="inputSex" class="col-sm-2 control-label">性别</label>
 								<div class="col-sm-7">
 									<input type="sex" name="sex" class="col-sm-4 form-control" id="inputSex" placeholder="性别"/>
@@ -164,6 +178,20 @@
 									<input type="name" name="name" class="col-sm-4 form-control" id="editName" placeholder="姓名"/>
 								</div>
 								<label id="errorName" for="inputName" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="editDutyid" class="col-sm-2 control-label">职务</label>
+								<div class="col-sm-7">
+									<input type="name" name="dutyid" class="col-sm-4 form-control" id="editDutyid" placeholder="职务"/>
+								</div>
+								<label id="errorName" for="editDutyid" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+								<label for="editWorkplace" class="col-sm-2 control-label">工作地点</label>
+								<div class="col-sm-7">
+									<input type="name" name="workplace" class="col-sm-4 form-control" id="editWorkplace" placeholder="工作地点"/>
+								</div>
+								<label id="errorName" for="editWorkplace" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
 								<label for="inputSex" class="col-sm-2 control-label">性别</label>
@@ -325,9 +353,17 @@ function initDataGrid(){
 		"field": "name"
 	});
 	columnsArray.push({
+		"title": "职务",
+		"field": "dutyid"
+	});
+	columnsArray.push({
+		"title": "工作地点",
+		"field": "workplace"
+	});
+	columnsArray.push({
 		"title": "性别",
 		"field": "sex",
-		// visible: false
+		 visible: false
 	});
 	columnsArray.push({
 		"title": "手机",
@@ -597,6 +633,8 @@ function initDataGrid(){
 		$('#editCreated_at').val(row.created_at);
 		$('#editRoleId').val(row.roleid);
 		$('#editRoleName').val(row.roleName);
+		$('#editDutyid').val(row.dutyid);
+		$('#editWorkplace').val(row.workplace);
 		$("#editModal").modal("show");
 		}
 	}
