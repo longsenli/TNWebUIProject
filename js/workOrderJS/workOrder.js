@@ -20,6 +20,21 @@ function workOrderIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
+				
+				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#industrialPlantSlct').selectpicker('refresh');
+					$('#industrialPlantSlct').selectpicker('render'); 
+					$('#industrialPlantSlct').selectpicker('hide');
+					
+					$("#industrialPlantLabel").css("display","none");
+				}
+
 				if(flag = "1")
 					workOrderProductionProcessSlctFun();
 				else
@@ -54,6 +69,21 @@ function workOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
+				
+				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('processID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#productionProcessSlct').selectpicker('refresh');
+					$('#productionProcessSlct').selectpicker('render'); 
+					$('#productionProcessSlct').selectpicker('hide');
+					
+					$("#productionProcessLabel").css("display","none");
+				}
+				
 				workOrderProductionLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -68,7 +98,7 @@ function workOrderProductionLineSlctFun() {
 	//
 	//		return;
 	//	}
-	//alert("生产线选择");
+	//alert(document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0]);
@@ -98,6 +128,22 @@ function workOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
+				
+				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
+					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#productionLineSlct').selectpicker('refresh');
+					$('#productionLineSlct').selectpicker('render'); 
+					$('#productionLineSlct').selectpicker('hide');
+					
+					$("#productionLineLabel").css("display","none");
+				}
+
+
 				getWorkOrder();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
