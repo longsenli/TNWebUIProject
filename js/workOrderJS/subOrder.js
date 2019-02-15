@@ -671,10 +671,12 @@ function printQRCode() {
 		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
 		LODOP.ADD_PRINT_BARCODE(15, 15, 140, 140, "QRCode", selectRow[i].id);
+		
 		LODOP.ADD_PRINT_TEXT(150, 5, 160, 50, selectRow[i].ordersplitid); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		
 		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
@@ -684,6 +686,7 @@ function printQRCode() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		
 		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
