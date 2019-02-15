@@ -227,6 +227,11 @@ function FinishSubOrder() {
 		alert("请选择行数据!");
 		return;
 	}
+	if(row.length>1)
+	{
+		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
+		return;
+	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		return;
@@ -375,7 +380,7 @@ function SelectSubOrder() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: true,
+					singleSelect: false,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -672,7 +677,7 @@ function printQRCode() {
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
 		LODOP.ADD_PRINT_BARCODE(15, 15, 140, 140, "QRCode", selectRow[i].id);
 		
-		LODOP.ADD_PRINT_TEXT(150, 5, 160, 50, selectRow[i].ordersplitid); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(140, 5, 160, 50, selectRow[i].ordersplitid); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
