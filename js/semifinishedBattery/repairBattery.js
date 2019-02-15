@@ -271,7 +271,7 @@ function addRepairBatteryRecord() {
 
 				getRepairBatteryRecord();
 				repairBateryHTMLFlag = "";
-				document.getElementById("repairBatteryCollapseForm").reset();
+				//document.getElementById("repairBatteryCollapseForm").reset();
 				$("#batteryid").attr("readonly", false);
 				$("#repairBatteryCollapseForm").collapse('hide');
 				alert("报废成功！");

@@ -73,6 +73,7 @@
 		<script type="text/javascript" src="../js/workOrderJS/productionStatistics.js"></script>
 		<script type="text/javascript" src="../js/semifinishedBattery/repairBattery.js"></script>
 		<script type="text/javascript" src="../js/semifinishedBattery/scrapBattery.js"></script>
+		<script type="text/javascript" src="../js/semifinishedBattery/batteryBorrowRerutn.js"></script>
 		<script type="text/javascript" src="../js/report/equipmentRunningStatusMonitor.js"></script>
 		<script type="text/javascript" src="../js/workShift/workShift.js"></script>
 		<script type="text/javascript" src="../js/salesOrderJS/salesOrderTable.js"></script>
@@ -320,7 +321,7 @@
 								<!-- /.nav-second-level -->
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 半成品电池报废与维修<span class="fa arrow"></span></a>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 电池管理<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
 									<li>
 										<a href="#" onclick="scrapBatteryManage()">半成品电池报废</a>
@@ -328,7 +329,9 @@
 									<li>
 										<a href="#" onclick="repairBatteryManage()">半成品电池维修</a>
 									</li>
-
+									<li>
+										<a href="#" onclick="batteryBorrowReturnManage()">电池流动管理</a>
+									</li>
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
@@ -812,6 +815,12 @@
 				document.getElementById("container-page-text").innerHTML = "电池报修";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/semifinishedBattery/batteryRepair.html');
+			}
+
+			function batteryBorrowReturnManage() {
+				document.getElementById("container-page-text").innerHTML = "电池流动记录";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/semifinishedBattery/batteryBorrowReturn.html');
 			}
 
 			function logout() {

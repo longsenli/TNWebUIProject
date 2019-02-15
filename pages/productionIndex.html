@@ -66,6 +66,30 @@
 						<button type="button" class="btn  btn-primary btn-lg" onclick="scanOrderScrapIndex()">
 							<span class="glyphicon glyphicon-th"></span> 报废信息查询</button>
 					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="batteryRepairIndex()">
+							<span class="glyphicon glyphicon-wrench"></span> 电池报修</button>
+					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="batteryScrapIndex()">
+							<span class="glyphicon glyphicon-remove-circle"></span> 电池报废</button>
+					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="batteryFlowIndex()">
+							<span class="glyphicon glyphicon-transfer"></span> 电池流动</button>
+					</div>
+					<br />
+					<br />
+					<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+						<button type="button" class="btn  btn-primary btn-lg" onclick="materialStatisIndex()">
+							<span class="glyphicon glyphicon-th"></span>物料统计</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -80,6 +104,18 @@
 			}
 			function scanOrderScrapIndex(){
 				window.location.href="../pages/workOrder/scrapInfo.html"; 
+			}
+			function batteryRepairIndex(){
+				window.location.href="../pages/semifinishedBattery/batteryRepair.html"; 
+			}
+			function batteryScrapIndex(){
+				window.location.href="../pages/semifinishedBattery/batteryScrap.html"; 
+			}
+			function batteryFlowIndex(){
+				window.location.href="../pages/semifinishedBattery/batteryBorrowReturn.html"; 
+			}
+			function materialStatisIndex(){
+				window.location.href="../pages/workOrder/productionStatistics.html"; 
 			}
 		</script>
 	</body>

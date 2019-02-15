@@ -25,7 +25,7 @@ function scrapIndustrialPlantSlctFun(flag) {
 				else
 					scrapProductionLineSlctFun();
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("初始化厂区数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -56,7 +56,7 @@ function scrapProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('mobile');
 				scrapProductionLineSlctFun();
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("初始化流程数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -100,13 +100,13 @@ function scrapProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('mobile');
 				scrapSelect();
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("初始化产线数据失败！" + dataRes.message);
 			}
 		}
 	});
 };
 
-function scrapSelect() {
+function scrapSelectScrapInfo() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true

@@ -216,8 +216,8 @@ function addScrapBatteryRecord() {
 
 			if(dataRes.status == 1) { 
 				getScrapBatteryRecord();
-				document.getElementById("scrapBatteryCollapseForm").reset();
-				//$("#scrapBatteryCollapseForm").collapse('hide') 
+				//document.getElementById("scrapBatteryCollapseForm").reset();
+				$("#scrapBatteryCollapseForm").collapse('hide');
 				alert("报废成功！");
 			} else {
 				alert("报废失败！" + dataRes.message);

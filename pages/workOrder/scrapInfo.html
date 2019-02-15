@@ -27,9 +27,9 @@
 		<script type="text/javascript">
 			$(function() {
 				var today = new Date();
-				today.setDate(today.getDate() - 1)
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
 
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
+				today.setDate(today.getDate() - 1)
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
 
 				scrapIndustrialPlantSlctFun("1");
@@ -50,13 +50,13 @@
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="scrapProductionLineSlctFun()">
 				</select>
 				<label> 产线： </label>
-				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="scrapSelect()">
+				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="scrapSelectScrapInfo()">
 				</select>
 				<label> 时间： </label>
 				<input type="datetime-local" id="startTime" name="startTime" />
 				<label>-</label>
 				<input type="datetime-local" id="endTime" name="endTime" />
-				<input type="button" class="btn btn-default" value="查询 " onclick="scrapSelect()">
+				<input type="button" class="btn btn-default" value="查询 " onclick="scrapSelectScrapInfo()">
 			</div>
 			<br />
 		</form>
