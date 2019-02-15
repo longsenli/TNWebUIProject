@@ -217,6 +217,97 @@ function subOrderChangeOrderNum() {
 	$("#changeOrderProductionNum").attr("readonly", false);
 }
 
+function finishSubOrderByQR(qrCode){
+	$("#myModal").modal('hide');
+		var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "ordersplitid"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "产量",
+		"field": "productionnum"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "statusName"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "status",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "orderid",
+		"field": "orderid",
+		visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + qrCode,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						$("#changeOrderProductionNum").val(row["productionnum"]);
+						$("#changeOrderProductionNum").attr("readonly", true);
+					}
+				});
+				$('#materialTable').bootstrapTable('destroy');
+				$('#usableMaterialTable').bootstrapTable('destroy');
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -738,11 +829,13 @@ function startScanQR(webName) {
 	}  
 }
 
-function recognitionQR(webName, imgMsg) {
+function recognitionQR(webName, qrCode) {
 	if(webName == 'subOrder')
-		gainMaterialByQR(imgMsg);
+		gainMaterialByQR(qrCode);
 	else if('solidifyProcess' == webName)
-		gotoNextSolidifyRoomByQR(imgMsg);
+		gotoNextSolidifyRoomByQR(qrCode);
+	else if('finishSubOrder' == webName)
+		finishSubOrderByQR(qrCode);
 }
 
 function startsScanQRPat() { 
