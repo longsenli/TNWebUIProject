@@ -70,6 +70,10 @@
 		<script type="text/javascript" src="../js/workOrderJS/workOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/subOrder.js"></script>
 		<script type="text/javascript" src="../js/workOrderJS/scrapInfo.js"></script>
+		<script type="text/javascript" src="../js/workOrderJS/productionStatistics.js"></script>
+		<script type="text/javascript" src="../js/semifinishedBattery/repairBattery.js"></script>
+		<script type="text/javascript" src="../js/semifinishedBattery/scrapBattery.js"></script>
+		<script type="text/javascript" src="../js/semifinishedBattery/batteryBorrowRerutn.js"></script>
 		<script type="text/javascript" src="../js/report/equipmentRunningStatusMonitor.js"></script>
 		<script type="text/javascript" src="../js/workShift/workShift.js"></script>
 		<script type="text/javascript" src="../js/salesOrderJS/salesOrderTable.js"></script>
@@ -102,8 +106,8 @@
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
 			} else {
-				//												initSystemMenu();
-				//												initSidebarMenu();
+				//				initSystemMenu();
+				//				initSidebarMenu();
 			}
 
 			//初始化icheck显示
@@ -290,6 +294,9 @@
 										<a href="#" onclick="subOrderManage()">工单批次管理</a>
 									</li>
 									<li>
+										<a href="#" onclick="productStatisticsManage()">物料统计</a>
+									</li>
+									<li>
 										<a href="#" onclick="orderScrapManage()">工单报废查询</a>
 									</li>
 									<li>
@@ -309,6 +316,21 @@
 									</li>
 									<li>
 										<a href="#" onclick="workShiftRecordManage()">排班记录</a>
+									</li>
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 电池管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="scrapBatteryManage()">半成品电池报废</a>
+									</li>
+									<li>
+										<a href="#" onclick="repairBatteryManage()">半成品电池维修</a>
+									</li>
+									<li>
+										<a href="#" onclick="batteryBorrowReturnManage()">电池流动管理</a>
 									</li>
 								</ul>
 								<!-- /.nav-second-level -->
@@ -647,6 +669,12 @@
 				$("#containerHTML").load('../pages/workOrder/subOrder.html');
 			};
 
+			function productStatisticsManage() {
+				document.getElementById("container-page-text").innerHTML = "物料统计";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/workOrder/productionStatistics.html');
+			};
+
 			function orderScrapManage() {
 				document.getElementById("container-page-text").innerHTML = "工单报废查询";
 				$("#containerHTML").empty();
@@ -775,6 +803,24 @@
 				document.getElementById("container-page-text").innerHTML = "订单追溯";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/dataProvenance/dataProvenanceTable.html');
+			}
+
+			function scrapBatteryManage() {
+				document.getElementById("container-page-text").innerHTML = "电池报废";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/semifinishedBattery/batteryScrap.html');
+			}
+
+			function repairBatteryManage() {
+				document.getElementById("container-page-text").innerHTML = "电池报修";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/semifinishedBattery/batteryRepair.html');
+			}
+
+			function batteryBorrowReturnManage() {
+				document.getElementById("container-page-text").innerHTML = "电池流动记录";
+				$("#containerHTML").empty();
+				$("#containerHTML").load('../pages/semifinishedBattery/batteryBorrowReturn.html');
 			}
 
 			function logout() {

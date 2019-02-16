@@ -31,6 +31,7 @@
 						contextDataProvenance = null;
 						videoDataProvenance = null;
 						document.getElementById("videoDataProvenanceScanQR").pause();
+						//document.getElementById("videoDataProvenanceScanQR").srcObject = '';
 						document.getElementById("videoDataProvenanceScanQR").src = '';
 						if(mediaStreamTrackDataProvenance != null && mediaStreamTrackDataProvenance.getTracks().length > 0) {
 							mediaStreamTrackDataProvenance.getTracks()[0].stop();
@@ -45,7 +46,7 @@
 				<button id="DataProvenanceScanQRBT" type="button" class="btn btn-default" onclick="findDataProvenanceByQR('-1')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>数据溯源  </button>
 
-<button id="DataProvenanceScanQRBT" type="button" class="btn btn-default" onclick="DataProvenanceScanQR()">
+				<button id="DataProvenanceScanQRBT" type="button" class="btn btn-default" onclick="DataProvenanceScanQR()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码查询  </button>
 			</div>
 			<br />
