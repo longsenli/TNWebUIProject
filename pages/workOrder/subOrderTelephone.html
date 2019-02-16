@@ -16,6 +16,9 @@
 				color: black;
 			}
 		</style>
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />-->
+		<meta name="viewport" content="user-scalable=0">
+		
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -120,7 +123,7 @@
            <br />
 			<div class="form-inline row">
 				<label style="font-size:36px"> 订单数量： </label>
-				<input type="text" style="font-size:36px;width: 200px;height: 140px;" readonly="true" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="changeOrderProductionNum" name="changeOrderProductionNum">
+				<input type="text" style="font-size:36px  !important;width: 200px;height: 140px;" readonly="true" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="changeOrderProductionNum" name="changeOrderProductionNum">
 				&nbsp&nbsp
 				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 350px;height: 150px;" onclick="subOrderChangeOrderNum()">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改订单数量
