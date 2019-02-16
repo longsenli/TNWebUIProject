@@ -26,6 +26,9 @@
 
 	<body>
 		<script type="text/javascript">
+			if($.cookie('token') == null) {
+				window.location.href = "../login.html";
+			}
 			//			   jQuery(function(){
 			//  jQuery('#qrcode').qrcode("http://www.jq22.com");
 			//})
@@ -58,13 +61,13 @@
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
-				<label id ='industrialPlantLabel'> 厂区： </label>
+				<label id='industrialPlantLabel'> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="subOrderProductionLineSlctFun()">
 				</select>
-				<label  id ='productionProcessLabel'> 流程： </label>
+				<label id='productionProcessLabel'> 流程： </label>
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="subOrderProductionLineSlctFun()">
 				</select>
-				<label  id ='productionLineLabel'> 产线： </label>
+				<label id='productionLineLabel'> 产线： </label>
 				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="lineWorkOrderSlct()">
 				</select>
 
@@ -86,7 +89,7 @@
 			<button id="subOrderFinishBT" type="button" class="btn btn-default" onclick="FinishSubOrder()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成
             </button>
-            <button id="subOrderFinishScanQRBT" type="button" class="btn btn-default" onclick="scanQR('finishSubOrder')">
+			<button id="subOrderFinishScanQRBT" type="button" class="btn btn-default" onclick="scanQR('finishSubOrder')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码切换批次
            </button>
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
@@ -150,8 +153,8 @@
 		</form>
 		<br />
 		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog">
+		<div class="modal fade" id="myModal" role="dialog"  aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog" style="width:350px" >
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
@@ -162,8 +165,9 @@
 
 							<div id="support"></div>
 							<div id="contentHolder">
-
-								<video id="videoSubOrderScanQR" width="320" height="320" loop="loop" autoplay="autoplay" controls style="object-fit:fill" webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-orientation="h5" x5-video-player-fullscreen="true"></video>
+								<video id="videoSubOrderScanQR" width="320px" height="320px" loop="loop" autoplay="autoplay" controls style="object-fit:fill"></video>
+								<!--<video id="videoSubOrderScanQR" width="320" height="320" loop="loop" autoplay="autoplay" controls style="object-fit:fill" 
+									webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-orientation="h5" x5-video-player-fullscreen="true"></video>-->
 								<canvas id="canvasSubOrderScanQR" style="display: none; background-color:#F00;" width="320" height="320"></canvas><br/>
 								<!--<button id="workordersdf" type="button" class="btn btn-default" onclick="startScanQR()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描

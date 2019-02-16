@@ -25,6 +25,9 @@
 
 	<body>
 		<script type="text/javascript">
+			if($.cookie('token') == null) {
+				window.location.href = "../login.html";
+			}
 			scrapBatteryIndustrialPlantSlctFun("1");
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
@@ -123,7 +126,7 @@
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog">
+			<div class="modal-dialog" style="width:350px">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
