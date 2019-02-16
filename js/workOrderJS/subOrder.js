@@ -1368,3 +1368,8 @@ function showChangeGainModal() {
 	$("#changeGainProductionNum").val(selectRow[0]["number"]);
 	$('#changeGainProductionModal').modal('show');
 }
+
+function closeChangeGainProductionModal()
+{
+	$('#changeGainProductionModal').modal('hide');
+}

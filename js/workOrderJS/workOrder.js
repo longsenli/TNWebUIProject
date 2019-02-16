@@ -570,9 +570,17 @@ function createScrapModel() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+				var labelStyle = "";
+				var textStyle = "";
+				//alert($("#scrapModalForm #ordername").css("height").toString() + "----------" +$("#scrapModalForm #ordername").css("font-size").toString() );
+				if($("#scrapModalForm #ordername").css("height").toString() == "80px" && $("#scrapModalForm #ordername").css("font-size").toString() == "36px") {
+					labelStyle = " style=\"font-size:36px\" ";
+					textStyle = " style=\"font-size:36px;height: 80px;\" ";
+					
+				}
 				for (var  i  in  models)  {  
-					htmlInner += "<label >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " +
-						"onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id + "###" + models[i].name + "\" name=\"" + models[i].id +
+					htmlInner += "<label " + labelStyle + " >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " + textStyle +
+						" onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id + "###" + models[i].name + "\" name=\"" + models[i].id +
 						"###" + models[i].name + "\"  value = \"" + models[i].description + "\"  placeholder=\"请输入报废数量\">";
 				}
 			} else {
@@ -694,4 +702,8 @@ function initSplitDetailWorkOrder(orderID) {
 			}
 		}
 	});
+}
+
+function closeScrapModal() {
+	$("#scrapModal").modal('hide');
 }

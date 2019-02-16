@@ -133,13 +133,16 @@ function deleteBatteryBorrowRerutnRecord(id) {
 }
 
 function addBatteryBorrowRerutnRecord() {
-	if(document.batteryBorrowRerutnCollapseForm.outPlantID.value.toString() == document.batteryBorrowRerutnCollapseForm.inPlantID.value.toString())
-	{
+	if(document.batteryBorrowRerutnCollapseForm.outPlantID.value.toString() == document.batteryBorrowRerutnCollapseForm.inPlantID.value.toString()) {
 		alert("出入库一样,请修改!")
 		return;
 	}
+	if($("#changeNum").val().toString().length < 1) {
+		alert("请正确输入电池流动数量!");
+		return;
+	}
 	var formData = new FormData($("#batteryBorrowRerutnCollapseForm")[0]);
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addborrowreturnrecord",
 		type: "POST",
@@ -197,8 +200,8 @@ function getBatteryBorrowRerutnRecord() {
 			return $("#industrialPlantOutSlct option[value='" + row.inplantid + "']").text();
 		}
 	});
-	
-		columnsArray.push({
+
+	columnsArray.push({
 		"title": "电池型号",
 		"field": "batterytype",
 		visible: false
@@ -210,7 +213,7 @@ function getBatteryBorrowRerutnRecord() {
 			return $("#batteryType option[value='" + row.batterytype + "']").text();
 		}
 	});
-	
+
 	columnsArray.push({
 		"title": "流动数量",
 		"field": "changenum"
@@ -228,13 +231,13 @@ function getBatteryBorrowRerutnRecord() {
 		"field": "id",
 		visible: false
 	});
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/getborrowreturnrecord?outPlantID=" + document.PlantToLineSelectForm.industrialPlantOutSlct.value.toString() +
-			"&inPlantID=" + document.PlantToLineSelectForm.industrialPlantInSlct.value.toString()
-			+ "&startTime=" + document.getElementById("startTime").value
-			+ "&endTime=" + document.getElementById("endTime").value
-			+ "&batteryType=" +document.PlantToLineSelectForm.batteryTypeSlct.value.toString() ,
+			"&inPlantID=" + document.PlantToLineSelectForm.industrialPlantInSlct.value.toString() +
+			"&startTime=" + document.getElementById("startTime").value +
+			"&endTime=" + document.getElementById("endTime").value +
+			"&batteryType=" + document.PlantToLineSelectForm.batteryTypeSlct.value.toString(),
 		type: "GET",
 		contentType: "application/json",
 

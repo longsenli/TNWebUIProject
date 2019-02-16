@@ -245,6 +245,11 @@ function deleteRepairBatteryRecord(batteryID) {
 var repairBateryHTMLFlag = "";
 
 function addRepairBatteryRecord() {
+	if($("#batteryid").val().toString().length <2)
+	{
+		alert("请正确输入底壳二维码!");
+		return;
+	}
 	var formData = new FormData();
 	var formDataClps = new FormData($("#repairBatteryCollapseForm")[0]);
 	if("add" == repairBateryHTMLFlag) {

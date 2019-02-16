@@ -195,6 +195,11 @@ function deleteScrapBatteryRecord(batteryID) {
 }
 
 function addScrapBatteryRecord() {
+	if($("#batteryID").val().toString().length <2)
+	{
+		alert("请正确输入底壳二维码!");
+		return;
+	}
 	var formData = new FormData($("#scrapBatteryCollapseForm")[0]);
 	formData.append("scrapStaff", $.cookie('username'));
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())

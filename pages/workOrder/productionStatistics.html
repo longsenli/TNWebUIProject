@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>报废信息查询</title>
+		<title>物料统计信息查询</title>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -25,9 +25,9 @@
 	<body>
 
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
-				window.location.href = "login.html";
-			}
+//			if($.cookie('token') == null) {
+//				window.location.href = "login.html";
+//			}
 			$(function() {
 				var today = new Date();
 
@@ -42,8 +42,8 @@
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
-				<select class="selectpicker" id="batterytype" style="width:100px;" name="batterytype">	
-					</select>
+				<select class="selectpicker" id="batterytype" style="width:100px;" name="batterytype">
+				</select>
 				<label> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="productionStatisticsLineSlctFun()">
 				</select>
