@@ -385,7 +385,7 @@ function deleteLineCfgInfo(equipID) {
 	var formData = new FormData();
 	formData.append("id", id);
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/deleteproductionline",
+		url: window.serviceIP + "/api/basicdata/deleteproductionline",
 		type: "POST",
 		data: formData,
 		processData: false,
@@ -510,7 +510,7 @@ function materialCfgTableFun() {
 function selectedMaterialCfgRow(param) {
 
 	//使用getSelections即可获得，row是json格式的数据
-	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+	var row = $.map($('#materialTable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 
@@ -718,6 +718,18 @@ function selectedProcessMaterialRow(param) {
 		return row;
 	});
 
+	$('#materialtypeid').selectpicker('refresh');
+	$('#materialtypeid').selectpicker('render');   
+	$('#materialtypeid').selectpicker('mobile');
+
+	$('#processid').selectpicker('refresh');
+	$('#processid').selectpicker('render');   
+	$('#processid').selectpicker('mobile');
+
+	$('#inorout').selectpicker('refresh');
+	$('#inorout').selectpicker('render');   
+	$('#inorout').selectpicker('mobile');
+
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
 		$("#ProcessMaterialTypeForm" + " #status").val(1);
@@ -880,7 +892,13 @@ function selectedMaterialMaterialRow(param) {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
+	$('#inmaterialid').selectpicker('refresh');
+	$('#inmaterialid').selectpicker('render');   
+	$('#inmaterialid').selectpicker('mobile');
 
+	$('#outmaterialid').selectpicker('refresh');
+	$('#outmaterialid').selectpicker('render');   
+	$('#outmaterialid').selectpicker('mobile');
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
 
@@ -982,7 +1000,7 @@ function infoCfgEquipTypeSlctFun() {
 		}
 	});
 }
-  
+
 function changeEquipParamConfigFun() {
 	var row = $.map($('#basicParamTable').bootstrapTable('getSelections'), function(row) {
 		return row;
@@ -991,13 +1009,12 @@ function changeEquipParamConfigFun() {
 	var paramNameList = "";
 	for(var i = 0; i < row.length; i++) {
 		paramList += row[i]["id"] + "###";
-		paramNameList += row[i]["name"]+ ";"
+		paramNameList += row[i]["name"] + ";"
 	}
-	if(!window.changeConfirmDlg("确认修改设备"+ $("#infoCfgEquipTypeSlct option:selected").text()+"的参数为:"+ paramNameList))
-	{
+	if(!window.changeConfirmDlg("确认修改设备" + $("#infoCfgEquipTypeSlct option:selected").text() + "的参数为:" + paramNameList)) {
 		return;
 	}
-	
+
 	var formData = new FormData();
 	formData.append("params", paramList);
 	formData.append("equipmentTypeID", document.basicInfoCfgSelectForm.infoCfgEquipTypeSlct.value.toString());
@@ -1173,8 +1190,8 @@ function equipParamCfgTableFun() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-//					search: true,
-//					strictSearch: true,
+					//					search: true,
+					//					strictSearch: true,
 					pagination: true,
 					columns: columnsArray
 				});

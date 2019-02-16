@@ -22,6 +22,19 @@ function subOrderIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
+				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#industrialPlantSlct').selectpicker('refresh');
+					$('#industrialPlantSlct').selectpicker('render'); 
+					$('#industrialPlantSlct').selectpicker('hide');
+
+					$("#industrialPlantLabel").css("display", "none");
+				}
 				subOrderProductionProcessSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -123,6 +136,21 @@ function subOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
+
+				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('processID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#productionProcessSlct').selectpicker('refresh');
+					$('#productionProcessSlct').selectpicker('render'); 
+					$('#productionProcessSlct').selectpicker('hide');
+
+					$("#productionProcessLabel").css("display", "none");
+				}
+
 				setTimeout(function() {
 					subOrderProductionLineSlctFun();
 				}, 100);
@@ -163,6 +191,21 @@ function subOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
+
+				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
+					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+						}
+					}
+					$('#productionLineSlct').selectpicker('refresh');
+					$('#productionLineSlct').selectpicker('render'); 
+					$('#productionLineSlct').selectpicker('hide');
+
+					$("#productionLineLabel").css("display", "none");
+				}
+
 				setTimeout(function() {
 					lineWorkOrderSlct();
 				}, 100);
@@ -213,6 +256,134 @@ function lineWorkOrderSlct() {
 	});
 };
 
+function subOrderChangeOrderNum() {
+	$("#changeOrderProductionNum").attr("readonly", false);
+}
+
+function finishSubOrderByQR(qrCode) {
+	$("#myModal").modal('hide');
+
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "ordersplitid"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产品",
+		width: 300,
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "产量",
+		"field": "productionnum"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "statusName"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "status",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "orderid",
+		"field": "orderid",
+		visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + qrCode,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				if(models.length < 1); {
+					alert("未找到选定批次,请确认条码信息:" + qrCode);
+					return;
+				}
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						$("#changeOrderProductionNum").val(row["productionnum"]);
+						$("#changeOrderProductionNum").attr("readonly", true);
+					}
+				});
+				var dataStr = "----";
+				var dateNow = new Date();
+				if(dateNow.getHours() < 7) {
+					dateNow.setDate(today.getDate() - 1);
+					dataStr = "YB" + dateNow.format("yyyyMMdd");
+				}
+				if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
+					dataStr = "BB" + dateNow.format("yyyyMMdd");
+				}
+				if(dateNow.getHours() > 19) {
+					dataStr = "YB" + dateNow.format("yyyyMMdd");
+				}
+
+				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
+					$("#subOrderFinishBT").attr('disabled', true);
+					$("#subOrderScanQRBT").attr('disabled', false);
+					$("#getUsableMaterialBT").attr('disabled', false);
+					$("#gainMaterialRecordBT").attr('disabled', false);
+					$("#gainPartMaterialRecordBT").attr('disabled', false);
+				} else {
+					$("#subOrderFinishBT").attr('disabled', false);
+					$("#subOrderScanQRBT").attr('disabled', false);
+					$("#getUsableMaterialBT").attr('disabled', false);
+					$("#gainMaterialRecordBT").attr('disabled', false);
+					$("#gainPartMaterialRecordBT").attr('disabled', false);
+				}
+				$('#materialTable').bootstrapTable('destroy');
+				$('#usableMaterialTable').bootstrapTable('destroy');
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -223,6 +394,10 @@ function FinishSubOrder() {
 		alert("请选择行数据!");
 		return;
 	}
+	if(row.length > 1) {
+		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
+		return;
+	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		return;
@@ -231,11 +406,17 @@ function FinishSubOrder() {
 		if(key == 0) {
 			continue;
 		}
+		if(key == "productionnum") {
+			formData.append(key, $("#changeOrderProductionNum").val());
+			continue;
+		}
+
 		if(key == "status") {
 			formData.append(key, "3");
-		} else {
-			formData.append(key, row[0][key]);
+			continue;
 		}
+		formData.append(key, row[0][key]);
+
 		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 	}
 	var formData2 = new FormData();
@@ -256,7 +437,7 @@ function FinishSubOrder() {
 			if(data.status == 1) {
 				alert('保存成功! ' + data.message);
 				SelectSubOrder()
-
+				$("#changeOrderProductionNum").attr("readonly", true);
 			} else {
 				alert("保存失败！" + data.message);
 			}
@@ -362,10 +543,11 @@ function SelectSubOrder() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: true,
+					singleSelect: false,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -377,8 +559,14 @@ function SelectSubOrder() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						$("#changeOrderProductionNum").val(row["productionnum"]);
+						$("#changeOrderProductionNum").attr("readonly", true);
+					}
 				});
+
 				setTimeout(function() {
 					getUsableMaterialFun();
 				}, 100);
@@ -650,13 +838,33 @@ function printQRCode() {
 	var selectRow = $("#table").bootstrapTable('getSelections');
 	//var arrayObj = new Array();
 	for(var i = 0; i < selectRow.length; i++) {
-		console.log("dayin");
-
+		//console.log("dayin");
+		var orderLength = selectRow[i].ordersplitid.length;
 		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
 		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
-		LODOP.ADD_PRINT_BARCODE(0, 0, 200, 200, "QRCode", selectRow[i].id);
-		LODOP.ADD_PRINT_TEXT(205, 10, 200, 100, selectRow[i].ordersplitid); //增加纯文本项
+		LODOP.ADD_PRINT_BARCODE(15, 15, 140, 140, "QRCode", selectRow[i].id);
+
+		LODOP.ADD_PRINT_TEXT(140, 5, 160, 50, selectRow[i].ordersplitid); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].ordersplitid.substr(orderLength - 11, 4) + "年" +
+			selectRow[i].ordersplitid.substr(orderLength - 7, 2) + "月" + selectRow[i].ordersplitid.substr(orderLength - 5, 2) + "日"); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
 		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
 		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
@@ -698,11 +906,13 @@ function startScanQR(webName) {
 	}  
 }
 
-function recognitionQR(webName, imgMsg) {
+function recognitionQR(webName, qrCode) {
 	if(webName == 'subOrder')
-		gainMaterialByQR(imgMsg);
+		gainMaterialByQR(qrCode);
 	else if('solidifyProcess' == webName)
-		gotoNextSolidifyRoomByQR(imgMsg);
+		gotoNextSolidifyRoomByQR(qrCode);
+	else if('finishSubOrder' == webName)
+		finishSubOrderByQR(qrCode);
 }
 
 function startsScanQRPat() { 
@@ -838,7 +1048,8 @@ function scanQR(webName) {
 						//mediaStreamTrack = stream;                  
 						//video.src = window.URL.createObjectURL(stream);;                   
 						//video.play();
-						mediaStreamTrack = stream; 
+
+						//mediaStreamTrack = stream; 
 
 						video.srcObject = stream;
 						video.onloadedmetadata = function(e) {
@@ -1070,7 +1281,7 @@ function gotoNextSolidifyRoom() {
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + $.cookie('username') +  "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+			"&status=" + stageNum + "&recorder=" + $.cookie('username') + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -1156,4 +1367,9 @@ function showChangeGainModal() {
 	//	document.getElementById("changeGainProductionNum").val(selectRow[0]["number"]);
 	$("#changeGainProductionNum").val(selectRow[0]["number"]);
 	$('#changeGainProductionModal').modal('show');
+}
+
+function closeChangeGainProductionModal()
+{
+	$('#changeGainProductionModal').modal('hide');
 }

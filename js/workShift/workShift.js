@@ -311,7 +311,7 @@ function selectedShiftTeamRow(param) {
 				var numbers = $("#workShiftForm" + " #" + key).find("option"); //获取select下拉框的所有值
 				for(var j = 1; j < numbers.length; j++) {
 
-					if($(numbers[j]).val().toString() == row[key]) {
+					if($(numbers[j]).val().toString() == row[0][key]) {
 						$(numbers[j]).attr("selected", "selected");
 					}
 				}
