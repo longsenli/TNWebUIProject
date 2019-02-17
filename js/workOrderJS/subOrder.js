@@ -549,6 +549,7 @@ function SelectSubOrder() {
 					toolbar: '#toolbar',
 					singleSelect: false,
 					clickToSelect: true,
+					striped: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
 					pageSize: 15,
@@ -1372,4 +1373,18 @@ function showChangeGainModal() {
 function closeChangeGainProductionModal()
 {
 	$('#changeGainProductionModal').modal('hide');
+}
+
+function subOrderRowClick(row)
+{
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	//alert($(row).find("td:eq(0)")[0].checked);
+	if($(row).hasClass('selected'))
+	{
+		$(row).find("td").addClass('changeTableRowColor');
+	}
+//	if($(row).find("td:eq")[0])
+//	$(row).addClass('changeTableRowColor');
+//	$($(row).find("td")[1]).addClass('changeTableRowColor');
+//	$(row).find("td").addClass('changeTableRowColor');
 }
