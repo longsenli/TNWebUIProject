@@ -12,20 +12,23 @@
 		<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.core.js"></script>
 		<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.excheck.js"></script>
+		<script type="text/javascript" src="../../../js/systemJS/LSworkOrder_Add.js"></script>
+		<script type="text/javascript" src="../../../js/systemJS/LSworkOrder_Edit.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" >
 		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 	</head>
+	<script type="text/javascript">
+//			LSworkOrderIndustrialPlantSlctFun("1");
+			//	getWorkOrder();
+		</script>
 <body>
 		<section class="content table-content">
 			<form class="form-inline" >
 			<!-- 工具栏 -->
 			<div id="toolbar">
-					<!--<input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal" class="btn btn-success"></input>
-					<input type="button" value="修改用户" id="editBtn" data-toggle="modal" data-target="#editUserModal" class="btn btn-warning" onclick="editUser()"></input>
-					<input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" data-target="#confirmDelModal" class="btn btn-danger" ></input>-->
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal" onclick="LSworkOrderIndustrialPlantSlctFun('1')">
 		              <i class="glyphicon glyphicon-plus" aria-hidden="true">新增用户</i>
 		            </button>
 		            <button type="button" class="btn btn-warning" onclick="editUser()">
@@ -48,7 +51,7 @@
 						<h3>新增用户</h3>
 					</div>
 					<div class="modal-body">
-						<form id="addUserForm" action="" method="post" class="form-horizontal">
+						<form id="addUserForm" action="" name="addUserForm" method="post" class="form-horizontal">
 							<div class="form-group">
 								<label for="inputAccount" class="col-sm-2 control-label">登录名</label>
 								<div class="col-sm-7">
@@ -76,6 +79,27 @@
 									<input type="name" name="dutyid" class="col-sm-4 form-control" id="inputDutyid" placeholder="职务"/>
 								</div>
 								<label id="errorName" for="inputDutyid" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">厂区</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="industrialplant_id" style="width:100px;" name="industrialplant_id" onchange="LSworkOrderProductionLineSlctFun()">
+									</select>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">流程</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="productionprocess_id" style="width:100px;" name="productionprocess_id" onchange="LSworkOrderProductionLineSlctFun()">
+									</select>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">产线</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="productionline_id" style="width:100px;" name="productionline_id" onchange="LSgetWorkOrder()">
+									</select>
+							    </div>
 							</div>
 							<div class="form-group">
 								<label for="inputWorkplace" class="col-sm-2 control-label">工作地点</label>
@@ -185,6 +209,27 @@
 									<input type="name" name="dutyid" class="col-sm-4 form-control" id="editDutyid" placeholder="职务"/>
 								</div>
 								<label id="errorName" for="editDutyid" class="col-sm-3 control-label"></label>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">厂区</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="edit_industrialplant_id" style="width:100px;" name="industrialplant_id" onchange="LSworkOrderProductionLineSlctFunEdit()">
+									</select>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">流程</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="edit_productionprocess_id" style="width:100px;" name="productionprocess_id" onchange="LSworkOrderProductionLineSlctFunEdit()">
+									</select>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="email" class="col-sm-2 control-label">产线</label>	
+							    <div class="col-sm-6">	
+							    	<select class="selectpicker" id="edit_productionline_id" style="width:100px;" name="productionline_id" onchange="LSgetWorkOrderEdit()">
+									</select>
+							    </div>
 							</div>
 							<div class="form-group">
 								<label for="editWorkplace" class="col-sm-2 control-label">工作地点</label>
@@ -355,6 +400,33 @@ function initDataGrid(){
 	columnsArray.push({
 		"title": "职务",
 		"field": "dutyid"
+	});
+	columnsArray.push({
+		"title": "厂区id",
+		"field": "industrialplant_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "厂区",
+		"field": "industrialplant_name",
+	});
+	columnsArray.push({
+		"title": "流程id",
+		"field": "productionprocess_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程",
+		"field": "productionprocess_name",
+	});
+	columnsArray.push({
+		"title": "产线id",
+		"field": "productionline_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "productionline_name",
 	});
 	columnsArray.push({
 		"title": "工作地点",
@@ -533,6 +605,20 @@ function initDataGrid(){
 	//新增用户
 	function addUser(){
 		var param = $("#addUserForm").serializeArray();
+//		alert($("#industrialplant_id").find("option:selected").text());
+			param.push({
+				"name": "industrialplant_name",
+				"value": $("#industrialplant_id").find("option:selected").text()
+			});
+			param.push({
+				"name": "productionline_name",
+				"value": $("#productionline_id").find("option:selected").text()
+			});
+			param.push({
+				"name": "productionprocess_name",
+				"value": $("#productionprocess_id").find("option:selected").text()
+			});
+		console.log(param)
 		debugger;
 		$("#conf").attr("onclick","addUser()");
 		$.ajax({
@@ -634,9 +720,18 @@ function initDataGrid(){
 		$('#editRoleId').val(row.roleid);
 		$('#editRoleName').val(row.roleName);
 		$('#editDutyid').val(row.dutyid);
+//		console.log("产线id:"+row.productionline_id);
+		LSworkOrderIndustrialPlantSlctFunEdit(1, row.industrialplant_id, row.productionprocess_id, row.productionline_id);
+//		$('#edit_industrialplant_id').val(row.industrialplant_id);
+//		$("#edit_industrialplant_id").find("option[text="+row.industrialplant_name+"]").attr("selected",true);
+//		$("#edit_industrialplant_id").attr("value",row.industrialplant_id);
+//		console.log(row.industrialplant_id + $('#edit_industrialplant_id').val() +row.industrialplant_name);
+//		$('#edit_productionprocess_id').val(row.productionprocess_id);
+//		$('#edit_productionline_id').val(row.productionline_id);
 		$('#editWorkplace').val(row.workplace);
 		$("#editModal").modal("show");
 		}
+		
 	}
 	function updateUser(){
 		var param = $("#editForm").serializeArray();
