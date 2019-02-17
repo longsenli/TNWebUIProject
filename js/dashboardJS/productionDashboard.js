@@ -157,8 +157,11 @@ function initProductionDashboardPicture() {
 	for(var i in plantProductionDashboardData) {
 		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName)) {
 			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = lineTotalProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
+			lineRemainProductionMap[plantProductionDashboardData[i].lineName] = lineRemainProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
+
 		} else {
 			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
+			lineRemainProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
 		}
 
 		if(materialTypeProductionMap.hasOwnProperty(plantProductionDashboardData[i].materialName)) {
@@ -168,7 +171,7 @@ function initProductionDashboardPicture() {
 		}
 
 	}
-	lineRemainProductionMap = lineTotalProductionMap;
+
 	for(var i in realProductionDashboardData) {
 		if(lineRealProductionMap.hasOwnProperty(realProductionDashboardData[i].lineName)) {
 			lineRealProductionMap[realProductionDashboardData[i].lineName] = lineRealProductionMap[plantProductionDashboardData[i].lineName] + realProductionDashboardData[i].realProduction;
@@ -188,6 +191,7 @@ function initProductionDashboardPicture() {
 	var lineRealProductionArray = [];
 	var lineRemainProductionArray = [];
 	var lineScrapArray = [];
+	console.log(lineTotalProductionMap);
 	$.each(lineTotalProductionMap, function(key, values) {
 		totalPlanProduction += values;
 		lineNameArray.push(key);
@@ -227,7 +231,7 @@ function initProductionDashboardPicture() {
 			trigger: "axis",
 		},
 		legend: {
-			show: false,
+			show: true,
 			orient: 'vertical', // 'vertical'
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
@@ -326,53 +330,79 @@ function initProductionDashboardPicture() {
 		},
 		//鼠标触发提示数量
 		tooltip: {
-			trigger: "axis",
+			trigger: 'item',
+			formatter: " {b}：{c} "
 		},
 		legend: {
-			show: false,
+			show: true,
 			orient: 'vertical', // 'vertical'
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-			data: lineNameArray
+			data: materialTypeArray
 		},
-		//		xAxis: {
-		//			data: lineNameArray,
-		//			splitLine: {　　　　
-		//				show: false　　
-		//			}
-		//		},
-		//		//y轴显示
-		//		yAxis: {
-		//			splitLine: {　　　　
-		//				show: false　　
-		//			}
-		//		},
+
 		calculable: true,
 		series: [{
 			name: '访问来源',
 			type: 'pie',
-			radius: ['50%', '70%'],
-			itemStyle: {
+			radius: ['30%', '50%'],
+			//			itemStyle: {
+			//				normal: {
+			//					label: {
+			//						show: false
+			//					},
+			//					labelLine: {
+			//						show: false
+			//					}
+			//				},
+			//				emphasis: {
+			//					label: {
+			//						show: true,
+			//						position: 'center',
+			//						textStyle: {
+			//							fontSize: '12',
+			//							color: '#f00',
+			//							fontWeight: 'bold'
+			//						}
+			//					}
+			//				}
+			//			},
+			labelLine: {
 				normal: {
-					label: {
-						show: false
-					},
-					labelLine: {
-						show: false
+					length: 20,
+					length2: 20,
+					lineStyle: {
+						color: '#333'
 					}
-				},
-				emphasis: {
-					label: {
-						show: true,
-						position: 'center',
-						textStyle: {
-							fontSize: '30',
-							fontWeight: 'bold'
+				}
+
+			},
+			label: {
+				normal: {
+					// \n\n可让文字居于牵引线上方，很关键
+					//  {b}  代表显示的内容标题
+					// {c}代表数据
+					formatter: ' {b}：{c} \n\n',
+
+					borderWidth: 20,
+					borderRadius: 4,
+					padding: [0, -70],
+					rich: {
+						a: {
+							color: '#333',
+							fontSize: 12,
+							lineHeight: 20
+						},
+						b: {
+							fontSize: 12,
+							lineHeight: 20,
+							color: '#333'
 						}
 					}
 				}
 			},
+
 			data: materialTypeProductionArray
 		}]
 	};
@@ -395,7 +425,7 @@ function initProductionDashboardPicture() {
 			trigger: "axis",
 		},
 		legend: {
-			show: false,
+			show: true,
 			orient: 'vertical', // 'vertical'
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
