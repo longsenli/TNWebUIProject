@@ -31,11 +31,11 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 	</head>
 
-	<body style="padding-left:20px;">
+	<body style="padding-left:20px;" onload="setTimeout(function(){window.scrollTo(0,1)},100);">
 
 		<script type="text/javascript">
 			if($.cookie('token') == null) {
-				window.location.href = "login.html";
+				window.location.href = "../login.html";
 			}
 			$(function() {
 				var today = new Date();
