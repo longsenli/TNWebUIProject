@@ -161,6 +161,7 @@ function selectedRepairBatteryRow(param) {
 	var optionType = param.getAttribute("id");
 	if(optionType == "repairBattery_add") {
 		$("#batteryid").attr("readonly", false);
+		$("#batteryidScanQRBT").removeAttr("disabled");
 		repairBateryHTMLFlag = "add";
 		$("#repairBatteryCollapseForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 		$("#repairBatteryCollapseForm").collapse('show');
@@ -173,6 +174,7 @@ function selectedRepairBatteryRow(param) {
 		}
 		repairBateryHTMLFlag = "change";
 		$("#batteryid").attr("readonly", true);
+		$("#batteryidScanQRBT").attr({"disabled":"disabled"});
 		for(var key in row[0]) {
 
 			if(key == 0) {

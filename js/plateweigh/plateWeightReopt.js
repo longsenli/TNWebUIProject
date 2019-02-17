@@ -831,7 +831,6 @@ function getStaffWeighShow() {
 						stack: '12',
 						barWidth: 1,
 						//				showAllSymbol: true,
-
 						label: {
 							normal: {
 								show: true,

@@ -63,7 +63,7 @@
 				<div class="form-group">
 					<label for="name" style="font-size:36px;">底壳二维码:</label>
 					<input type="text" class="form-control" id="batteryid" name="batteryid" style="font-size:36px;width: 400px;height: 90px;" placeholder="底壳二维码 ">
-					<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="RepairBatteryScanQR()">扫码二维码</button>
+					<button type="button" id="batteryidScanQRBT" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="RepairBatteryScanQR()">扫码二维码</button>
 				</div>
 			</div>
 			<br />
@@ -157,7 +157,7 @@
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog" style="width:350px">
+			<div class="modal-dialog" style="width:80%">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
@@ -169,7 +169,7 @@
 							<div id="support"></div>
 							<div id="contentHolder">
 
-								<video id="videoRepairBatteryScanQR" width="320" height="320" loop="loop" autoplay="autoplay" controls style="object-fit:fill" webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-orientation="h5" x5-video-player-fullscreen="true"></video>
+								<video id="videoRepairBatteryScanQR" width="100%" height="100%" loop="loop" autoplay="autoplay" controls style="object-fit:fill" webkit-playsinline="true" x-webkit-airplay="true" playsinline="true" x5-video-player-type="h5" x5-video-orientation="h5" x5-video-player-fullscreen="true"></video>
 								<canvas id="canvasRepairBatteryScanQR" style="display: none; background-color:#F00;" width="320" height="320"></canvas><br/>
 								<!--<button id="workordersdf" type="button" class="btn btn-default" onclick="startScanQR()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描
