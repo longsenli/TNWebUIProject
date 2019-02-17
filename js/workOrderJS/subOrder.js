@@ -27,13 +27,13 @@ function subOrderIndustrialPlantSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == $.cookie('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#industrialPlantSlct').selectpicker('hide');
+							$("#industrialPlantLabel").css("display", "none");
 						}
 					}
 					$('#industrialPlantSlct').selectpicker('refresh');
 					$('#industrialPlantSlct').selectpicker('render'); 
-					$('#industrialPlantSlct').selectpicker('hide');
 
-					$("#industrialPlantLabel").css("display", "none");
 				}
 				subOrderProductionProcessSlctFun();
 			} else {
@@ -142,13 +142,14 @@ function subOrderProductionProcessSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == $.cookie('processID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#productionProcessSlct').selectpicker('hide');
+
+							$("#productionProcessLabel").css("display", "none");
 						}
 					}
 					$('#productionProcessSlct').selectpicker('refresh');
 					$('#productionProcessSlct').selectpicker('render'); 
-					$('#productionProcessSlct').selectpicker('hide');
 
-					$("#productionProcessLabel").css("display", "none");
 				}
 
 				setTimeout(function() {
@@ -197,13 +198,14 @@ function subOrderProductionLineSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#productionLineSlct').selectpicker('hide');
+
+							$("#productionLineLabel").css("display", "none");
 						}
 					}
 					$('#productionLineSlct').selectpicker('refresh');
 					$('#productionLineSlct').selectpicker('render'); 
-					$('#productionLineSlct').selectpicker('hide');
 
-					$("#productionLineLabel").css("display", "none");
 				}
 
 				setTimeout(function() {
@@ -1370,21 +1372,18 @@ function showChangeGainModal() {
 	$('#changeGainProductionModal').modal('show');
 }
 
-function closeChangeGainProductionModal()
-{
+function closeChangeGainProductionModal() {
 	$('#changeGainProductionModal').modal('hide');
 }
 
-function subOrderRowClick(row)
-{
+function subOrderRowClick(row) {
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	//alert($(row).find("td:eq(0)")[0].checked);
-	if($(row).hasClass('selected'))
-	{
+	if($(row).hasClass('selected')) {
 		$(row).find("td").addClass('changeTableRowColor');
 	}
-//	if($(row).find("td:eq")[0])
-//	$(row).addClass('changeTableRowColor');
-//	$($(row).find("td")[1]).addClass('changeTableRowColor');
-//	$(row).find("td").addClass('changeTableRowColor');
+	//	if($(row).find("td:eq")[0])
+	//	$(row).addClass('changeTableRowColor');
+	//	$($(row).find("td")[1]).addClass('changeTableRowColor');
+	//	$(row).find("td").addClass('changeTableRowColor');
 }

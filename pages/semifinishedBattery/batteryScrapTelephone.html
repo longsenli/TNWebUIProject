@@ -34,9 +34,9 @@
 
 	<body style="padding-left:20px;">
 		<script type="text/javascript">
-			//			if($.cookie('token') == null) {
-			//				window.location.href = "../login.html";
-			//			}
+			if($.cookie('token') == null) {
+				window.location.href = "../login.html";
+			}
 			scrapBatteryIndustrialPlantSlctFun("1");
 			$(function() {
 				$('#myModal').on('hide.bs.modal',

@@ -26,13 +26,14 @@ function workOrderIndustrialPlantSlctFun(flag) {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#industrialPlantSlct').selectpicker('hide');
+
+							$("#industrialPlantLabel").css("display", "none");
 						}
 					}
 					$('#industrialPlantSlct').selectpicker('refresh');
 					$('#industrialPlantSlct').selectpicker('render'); 
-					$('#industrialPlantSlct').selectpicker('hide');
 
-					$("#industrialPlantLabel").css("display", "none");
 				}
 
 				if(flag = "1")
@@ -75,13 +76,14 @@ function workOrderProductionProcessSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('processID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#productionProcessSlct').selectpicker('hide');
+
+							$("#productionProcessLabel").css("display", "none");
 						}
 					}
 					$('#productionProcessSlct').selectpicker('refresh');
 					$('#productionProcessSlct').selectpicker('render'); 
-					$('#productionProcessSlct').selectpicker('hide');
 
-					$("#productionProcessLabel").css("display", "none");
 				}
 
 				workOrderProductionLineSlctFun();
@@ -134,13 +136,14 @@ function workOrderProductionLineSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
+							$('#productionLineSlct').selectpicker('hide');
+
+							$("#productionLineLabel").css("display", "none");
 						}
 					}
 					$('#productionLineSlct').selectpicker('refresh');
 					$('#productionLineSlct').selectpicker('render'); 
-					$('#productionLineSlct').selectpicker('hide');
 
-					$("#productionLineLabel").css("display", "none");
 				}
 
 				getWorkOrder();
@@ -576,7 +579,7 @@ function createScrapModel() {
 				if($("#scrapModalForm #ordername").css("height").toString() == "80px" && $("#scrapModalForm #ordername").css("font-size").toString() == "36px") {
 					labelStyle = " style=\"font-size:36px\" ";
 					textStyle = " style=\"font-size:36px;height: 80px;\" ";
-					
+
 				}
 				for (var  i  in  models)  {  
 					htmlInner += "<label " + labelStyle + " >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " + textStyle +
