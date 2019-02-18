@@ -68,6 +68,16 @@ function productionDashboardProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
 
+				$('#workType').selectpicker('refresh');
+				$('#workType').selectpicker('render');   
+				$('#workType').selectpicker('mobile');
+				var today = new Date();
+				if(today.getHours() <= 7 || today.getHours() >= 19) {
+					$("#workType ").val("YB");
+					$('#workType').selectpicker('refresh');
+					$('#workType').selectpicker('render');   
+					$('#workType').selectpicker('mobile');
+				}
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -94,12 +104,21 @@ function productionDashboardProcessSlctFun() {
 function initProductionDashboardPicture() {
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
-
+	var startTime = "";
+	var endTime = "";
+	if(document.PlantToLineSelectForm.workType.value.toString() == "BB") {
+		startTime = document.getElementById("startTime").value + " 06:00:00";
+		endTime = document.getElementById("startTime").value + " 08:00:00";
+	} else {
+		startTime = document.getElementById("startTime").value + " 18:00:00";
+		endTime = document.getElementById("startTime").value + " 20:00:00";
+	}
+	document.getElementById("dashboardName").innerHTML = $("#productionProcessSlct").find("option:selected").text() + "产量看板";
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-			"&startTime=" + document.getElementById("startTime").value +
-			"&endTime=" + document.getElementById("endTime").value,
+			"&startTime=" + startTime +
+			"&endTime=" + endTime,
 		type: "GET",
 
 		contentType: "application/json",
@@ -124,8 +143,8 @@ function initProductionDashboardPicture() {
 	$.ajax({
 		url: window.serviceIP + "/api/order/getrealtimeproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-			"&startTime=" + document.getElementById("startTime").value +
-			"&endTime=" + document.getElementById("endTime").value,
+			"&startTime=" + startTime +
+			"&endTime=" + endTime,
 		type: "GET",
 
 		contentType: "application/json",
@@ -153,7 +172,6 @@ function initProductionDashboardPicture() {
 	var lineRemainProductionMap = {};
 	var materialTypeProductionMap = {};
 
-	console.log(plantProductionDashboardData);
 	for(var i in plantProductionDashboardData) {
 		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName)) {
 			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = lineTotalProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
@@ -191,7 +209,7 @@ function initProductionDashboardPicture() {
 	var lineRealProductionArray = [];
 	var lineRemainProductionArray = [];
 	var lineScrapArray = [];
-	console.log(lineTotalProductionMap);
+
 	$.each(lineTotalProductionMap, function(key, values) {
 		totalPlanProduction += values;
 		lineNameArray.push(key);
@@ -216,15 +234,51 @@ function initProductionDashboardPicture() {
 
 		materialTypeProductionArray.push(mapMaterial);
 	});
+
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
-	document.getElementById("finishPercentage").innerHTML = (totalRealProduction / totalPlanProduction).toFixed(2);
+	var numTmp = totalRealProduction / totalPlanProduction;
+
+	document.getElementById("finishPercentage").innerHTML = ((numTmp) * 100).toFixed(2) + "%";
+
+	//	alert($(window).height()); //浏览器当前窗口可视区域高度
+	//alert($(document).height()); //浏览器当前窗口文档的高度
+	//alert($(document.body).height());//浏览器当前窗口文档body的高度
+	//alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin
+	//
+	//alert($(window).width()); //浏览器当前窗口可视区域宽度
+	//alert($(document).width());//浏览器当前窗口文档对象宽度
+	//alert($(document.body).width());//浏览器当前窗口文档body的宽度
+	//alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin
+
+	$("#myChartRealTimeProduction").height($(document).height() - $("#myChartRealTimeProduction").offset().top);
+	$("#myChartProductionType").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
+	$("#myChartProductionScrap").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
+
+	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
+
 	//产量进度条形图
 	var myChartRealTimeProduction = echarts.init(document.getElementById("myChartRealTimeProduction"));
 	// 指定图表的配置项和数据
 	var optionRealTimeProduction = {
 		title: {
-			text: "生产进度图"
+			text: "生产进度图",
+			textStyle: {
+				fontWeight: 'bold', //标题颜色
+				fontSize: '18',
+				color: '#84C1FF'
+			},
+
+			//			text: ‘十大高耗水行业用水量八减两增 ‘,    //标题
+			//              backgroundColor: ‘#ff0000‘,            //背景
+			//                      subtext: ‘同比百分比(%)‘,               //子标题
+			//
+			//              textStyle: {
+			//                      fontWeight: ‘normal‘,              //标题颜色
+			//                      color: ‘#408829‘
+			//              },
+			//
+			//              x:"center"    
 		},
 		//鼠标触发提示数量
 		tooltip: {
@@ -236,19 +290,34 @@ function initProductionDashboardPicture() {
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-			data: ["实际产量", "剩余产量", "总产量"]
+			data: ["实际产量", "剩余产量", "总产量"],
+			textStyle: {
+				color: "#FFFFFF"
+			}
 		},
 		//x轴显示
 		xAxis: {
 			data: lineNameArray,
 			splitLine: {　　　　
 				show: false　　
+			},
+			axisLine: {
+				lineStyle: {
+					color: '#FFFFFF',
+					width: 2
+				}
 			}
 		},
 		//y轴显示
 		yAxis: {
 			splitLine: {　　　　
 				show: false　　
+			},
+			axisLine: {
+				lineStyle: {
+					color: '#FFFFFF',
+					width: 2
+				}
 			}
 		},
 		series: [{
@@ -260,7 +329,7 @@ function initProductionDashboardPicture() {
 				//显示颜色
 				itemStyle: {
 					normal: {
-						color: "#005757",
+						color: "#02DF82",
 						label: {
 							show: true
 						}
@@ -275,7 +344,7 @@ function initProductionDashboardPicture() {
 				barWidth: 38,
 				itemStyle: {
 					normal: {
-						color: "#FF8849",
+						color: "#009393",
 						label: {
 							show: true
 						}
@@ -299,7 +368,7 @@ function initProductionDashboardPicture() {
 							return "     " + a.data;
 						},
 						textStyle: {
-							color: '#f00',
+							color: '#1AFD9C',
 							fontSize: 16
 						}
 					}
@@ -326,10 +395,16 @@ function initProductionDashboardPicture() {
 	// 指定图表的配置项和数据
 	var optionProductionType = {
 		title: {
-			text: "型号产量占比图"
+			text: "型号产量占比图",
+			textStyle: {
+				fontWeight: 'bold', //标题颜色
+				fontSize: '18',
+				color: '#84C1FF'
+			},
 		},
 		//鼠标触发提示数量
 		tooltip: {
+			show: true,
 			trigger: 'item',
 			formatter: " {b}：{c} "
 		},
@@ -339,41 +414,44 @@ function initProductionDashboardPicture() {
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-			data: materialTypeArray
+			data: materialTypeArray,
+			textStyle: {
+				color: "#FFFFFF"
+			}
 		},
 
+		color: ['#4A4AFF', '#00A600', '#977C00', '#7B7B7B', '#0066CC', '#E1E100', '#82D900'],
 		calculable: true,
 		series: [{
 			name: '访问来源',
 			type: 'pie',
-			radius: ['30%', '50%'],
-			//			itemStyle: {
-			//				normal: {
-			//					label: {
-			//						show: false
-			//					},
-			//					labelLine: {
-			//						show: false
-			//					}
-			//				},
-			//				emphasis: {
-			//					label: {
-			//						show: true,
-			//						position: 'center',
-			//						textStyle: {
-			//							fontSize: '12',
-			//							color: '#f00',
-			//							fontWeight: 'bold'
-			//						}
-			//					}
-			//				}
-			//			},
+			radius: ['50%', '70%'],
+			itemStyle: {
+				normal: {
+					label: {
+						show: true
+					},
+					labelLine: {
+						show: true
+					}
+				},
+				emphasis: {
+					label: {
+						show: true,
+						position: 'center',
+						textStyle: {
+							fontSize: '14',
+							fontWeight: 'bold'
+						}
+					}
+				}
+			},
 			labelLine: {
 				normal: {
 					length: 20,
 					length2: 20,
 					lineStyle: {
-						color: '#333'
+						color: '#02DF82'
 					}
 				}
 
@@ -390,14 +468,14 @@ function initProductionDashboardPicture() {
 					padding: [0, -70],
 					rich: {
 						a: {
-							color: '#333',
+							color: '#02DF82',
 							fontSize: 12,
-							lineHeight: 20
+							lineHeight: 5
 						},
 						b: {
 							fontSize: 12,
-							lineHeight: 20,
-							color: '#333'
+							lineHeight: 5,
+							color: '#02DF82'
 						}
 					}
 				}
@@ -418,30 +496,50 @@ function initProductionDashboardPicture() {
 	// 指定图表的配置项和数据
 	var optionProductionScrap = {
 		title: {
-			text: "上一班次合格率"
+			text: "上一班次合格率",
+			textStyle: {
+				fontWeight: 'bold', //标题颜色
+				fontSize: '18',
+				color: '#84C1FF'
+			},
 		},
 		//鼠标触发提示数量
 		tooltip: {
 			trigger: "axis",
 		},
 		legend: {
-			show: true,
+			show: false,
 			orient: 'vertical', // 'vertical'
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-			data: ["合格率"]
+			data: ["合格率"],
+			textStyle: {
+				color: "#FFFFFF"
+			}
 		},
 		xAxis: {
 			data: lineNameArray,
 			splitLine: {　　　　
 				show: false　　
+			},
+			axisLine: {
+				lineStyle: {
+					color: '#FFFFFF',
+					width: 2
+				}
 			}
 		},
 		//y轴显示
 		yAxis: {
 			splitLine: {　　　　
 				show: false　　
+			},
+			axisLine: {
+				lineStyle: {
+					color: '#FFFFFF',
+					width: 2
+				}
 			}
 		},
 		calculable: true,
@@ -453,7 +551,7 @@ function initProductionDashboardPicture() {
 			barWidth: 38,
 			itemStyle: {
 				normal: {
-					color: "#FF8849",
+					color: "#009393",
 					label: {
 						show: true
 					}

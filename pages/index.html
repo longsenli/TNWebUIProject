@@ -240,7 +240,15 @@
 								</ul>
 								<!-- /.nav-second-level -->
 							</li>
-
+							<li>
+								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 看板管理<span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level">
+									<li>
+										<a href="#" onclick="productionDashboardManage()">每日产量看板</a>
+									</li>
+								</ul>
+								<!-- /.nav-second-level -->
+							</li>
 							<li>
 								<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 心声社区<span class="fa arrow"></span></a>
 								<ul class="nav nav-second-level">
@@ -821,6 +829,11 @@
 				document.getElementById("container-page-text").innerHTML = "电池流动记录";
 				$("#containerHTML").empty();
 				$("#containerHTML").load('../pages/semifinishedBattery/batteryBorrowReturn.html');
+			}
+
+			function productionDashboardManage() {
+				document.getElementById("container-page-text").innerHTML = "每日产量看板";
+				window.open("../pages/dashboard/productionDashboard.html");
 			}
 
 			function logout() {

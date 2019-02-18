@@ -32,9 +32,11 @@
 			$(function() {
 				var today = new Date();
 
-				document.getElementById("endTime").value = today.format("yyyy-MM-ddThh:mm") ;
-				today.setHours(today.getHours() - 12)
-				document.getElementById("startTime").value = today.format("yyyy-MM-ddThh:mm");
+				if(today.getHours() < 7) {
+					today.setDate(today.getDay() - 1);
+				}
+
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 
 				productionDashboardPlantSlctFun("1");
 			});
@@ -50,41 +52,44 @@
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct">
 				</select>
 				<label> 时间： </label>
-				<input type="datetime-local" id="startTime" name="startTime" />
-				<label>-</label>
-				<input type="datetime-local" id="endTime" name="endTime" />
+				<input type="date" id="startTime" name="startTime" />
+				<label>班次：</label>
+				<select class="selectpicker" id="workType" name="workType">
+					<option value="BB">白班</option>
+					<option value="YB">夜班</option>
+				</select>
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
 				<button type="button" class="btn btn-primary" onclick="initProductionDashboardPicture()">产出查询</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
-		<div class="container" style="width: 95%;">
+		<div class="container" style="width: 95%;background-color: #000;">
 
-			<h1>产量看板</h1>
+			<h1 id="dashboardName" style="text-align:center;color:#0066CC">产量看板</h1>
 
 			<div class="row">
 
-				<div class="col-md-8" style="background-color: #dedef8;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<div class="col-md-8" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 					<div class="form-inline row">
-						<label>当班计划产量：</label>
-						<label id="planProduction">当班计划产量：</label>
-						<label>当班实时产量：</label>
-						<label id="realProduction">当班实时产量：</label>
-						<label>当班完成率：</label>
-						<label id="finishPercentage">当班完成率：</label>
+						<label style="font-size:18px;color:#0066CC">当班计划产量：</label>
+						<label id="planProduction" style="font-size:18px;color:#66B3FF">当班计划产量</label>
+						<label style="font-size:18px;color:#0066CC">当班实时产量：</label>
+						<label id="realProduction" style="font-size:18px;color:#66B3FF">当班实时产量</label>
+						<label style="font-size:18px;color:#0066CC">当班完成率：</label>
+						<label id="finishPercentage" style="font-size:18px;color:#66B3FF">当班完成率</label>
 					</div>
-					
-					<div id="myChartRealTimeProduction" style="width: 500px;height: 700px;"></div>
+
+					<div id="myChartRealTimeProduction" style="width: 95%;height: 80%;"></div>
 				</div>
 
-				<div class="col-md-4" style="background-color: #dedef8;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
-					<div class="row">						
-						<div id="myChartProductionType" style="width: 500px;height: 350px;"></div>
+				<div class="col-md-4" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+					<div class="row">
+						<div id="myChartProductionType" style="width: 95%;"></div>
 					</div>
 
-					<div class="row">						
-						<div id="myChartProductionScrap" style="width: 500px;height: 350px;"></div>
+					<div class="row">
+						<div id="myChartProductionScrap" style="width: 95%;"></div>
 					</div>
 				</div>
 
