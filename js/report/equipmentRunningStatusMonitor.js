@@ -92,13 +92,13 @@ function equipStatusMntParamType(webName) {
 				$('#equipmentParamType').selectpicker('refresh');
 				$('#equipmentParamType').selectpicker('render');   
 				$('#equipmentParamType').selectpicker('mobile');
-				if(webName == "equipmentRunningStatusMonitor")
-					equipStatusMntInit()
-				else if(webName == "equipParamRecordTable") {
-					equipParamRecordTableInit();
-					$('#equipmentParamType').selectpicker('hide');   
-				} else if(webName == "equipParamRecordShow")
-					equipRecordChartShowInit();
+//				if(webName == "equipmentRunningStatusMonitor")
+//					equipStatusMntInit()
+//				else if(webName == "equipParamRecordTable") {
+//					equipParamRecordTableInit();
+//					$('#equipmentParamType').selectpicker('hide');   
+//				} else if(webName == "equipParamRecordShow")
+//					equipRecordChartShowInit();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -107,6 +107,7 @@ function equipStatusMntParamType(webName) {
 };
 
 function equipStatusMntInit() {
+	document.getElementById("tempControlerShow").innerHTML = "";
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" +
 			document.equipmentSelectForm.equipmentType.value.toString() +
@@ -126,6 +127,7 @@ function equipStatusMntInit() {
 			if(units == "undefined") {
 				units = "";
 			}
+	
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for(var i in models) {
@@ -149,6 +151,7 @@ function equipStatusMntInit() {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 			document.getElementById("tempControlerShow").innerHTML = controller;
+			
 			setTimeout("equipStatusMntInit()", 60000 * 5);
 		}
 	});

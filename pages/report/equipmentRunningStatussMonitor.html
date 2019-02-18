@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>电池充电温度监控</title>
-			<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
@@ -15,28 +16,32 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-	<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
-	
+		<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
+
 	</head>
+
 	<body>
 		<script type="text/javascript ">
-			equipStatusMntPlantSlctFun("equipmentRunningStatusMonitor");	
+			equipStatusMntPlantSlctFun("equipmentRunningStatusMonitor");
 		</script>
-			<form ID="equipmentSelectForm" name="equipmentSelectForm">
+		<form ID="equipmentSelectForm" name="equipmentSelectForm">
 			<div class="form-inline row">
 				<label> 厂区： </label>
-				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="equipMngPlantSlct" onchange="equipStatusMntInit()">
+				<select class="selectpicker" id="equipMngPlantSlct" style="width:100px;" name="equipMngPlantSlct">
 				</select>
 				<label> 类型： </label>
 				<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="equipStatusMntParamType('equipmentRunningStatusMonitor')">
 				</select>
 				<label> 指标： </label>
-				<select class="selectpicker" id="equipmentParamType" style="width:100px;" name="equipmentParamType" onchange="equipStatusMntInit()">
+				<select class="selectpicker" id="equipmentParamType" style="width:100px;" name="equipmentParamType">
 				</select>
+				<button type="button" class="btn btn-primary" onclick="equipStatusMntInit()">状态查询</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
-		<div id ="tempControlerShow"> </div>
+
+		<div id="tempControlerShow"> </div>
 	</body>
+
 </html>
