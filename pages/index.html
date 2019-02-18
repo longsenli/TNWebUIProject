@@ -78,6 +78,7 @@
 		<script type="text/javascript" src="../js/workShift/workShift.js"></script>
 		<script type="text/javascript" src="../js/salesOrderJS/salesOrderTable.js"></script>
 		<script type="text/javascript" src="../js/dataProvenance/DataProvenance.js"></script>
+		<script type="text/javascript" src="../js/dashboardJS/productionDashboard.js"></script>
 		<script type="text/javascript" src="../vendor/echarts/echarts.min.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
@@ -106,8 +107,8 @@
 			if($.cookie('token') == null) {
 				window.location.href = "login.html";
 			} else {
-				//				initSystemMenu();
-				//				initSidebarMenu();
+								initSystemMenu();
+								initSidebarMenu();
 			}
 
 			//初始化icheck显示
