@@ -476,12 +476,34 @@ function selectedWorkOrderRow(param) {
 			alert("请选择行数据!");
 			return;
 		}
-		deleteWorkOrder(row[0]["id"]);
+
+		deleteWorkOrder(row["id"]);
 	}
 };
 
 function deleteWorkOrder(orderid) {
 
+	$.ajax({
+		url: window.serviceIP + "/api/order/changeworkorderstatus?ID="+orderid + "&status=" + window.windowOrderStatusEnum.closed,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: window.getFormDataToJson(formData),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				
+				getWorkOrder();
+				alert('订单已关闭!');
+			} else {
+				alert("订单关闭失败!" + data.message);
+			}
+		}
+	});
 }
 
 function saveWorkOrderChange() {
