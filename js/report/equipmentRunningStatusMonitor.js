@@ -108,6 +108,7 @@ function equipStatusMntParamType(webName) {
 
 function equipStatusMntInit() {
 	document.getElementById("tempControlerShow").innerHTML = "";
+	document.getElementById('circulationGitPicture').src=window.webUiService +"/image/circulationPic.gif";
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" +
