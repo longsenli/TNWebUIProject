@@ -365,19 +365,10 @@ function finishSubOrderByQR(qrCode) {
 				if(dateNow.getHours() > 19) {
 					dataStr = "YB" + dateNow.format("yyyyMMdd");
 				}
-
 				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
-					$("#subOrderFinishBT").attr('disabled', true);
-					$("#subOrderScanQRBT").attr('disabled', false);
-					$("#getUsableMaterialBT").attr('disabled', false);
-					$("#gainMaterialRecordBT").attr('disabled', false);
-					$("#gainPartMaterialRecordBT").attr('disabled', false);
-				} else {
 					$("#subOrderFinishBT").attr('disabled', false);
-					$("#subOrderScanQRBT").attr('disabled', false);
-					$("#getUsableMaterialBT").attr('disabled', false);
-					$("#gainMaterialRecordBT").attr('disabled', false);
-					$("#gainPartMaterialRecordBT").attr('disabled', false);
+				} else {
+					$("#subOrderFinishBT").attr('disabled', true);
 				}
 				$('#materialTable').bootstrapTable('destroy');
 				$('#usableMaterialTable').bootstrapTable('destroy');
