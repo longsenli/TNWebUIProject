@@ -682,13 +682,13 @@ $(function() {
 $(document).ready(function(){
 	$('#addIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
 	$('#editIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
-//   $("#addIcon").click(function(){
-//     $('#addIconDiv').load("../../../pages/system/menu/icon.html");
-// 		$('#addIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
-//   });
-// 	$("#editIcon").click(function(){
-// 		$('#editIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
-// 	});
+     $("#addIcon").click(function(){
+       $('#addIconDiv').load("../../../pages/system/menu/icon.html");
+   		$('#addIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
+     });
+   	$("#editIcon").click(function(){
+   		$('#editIconDiv').load(window.webUiService + "/pages/system/menu/icon.html");
+   	});
 	//初始化icheck显示
 	$('.i-checks').iCheck({
 		checkboxClass: 'icheckbox_square-green',
