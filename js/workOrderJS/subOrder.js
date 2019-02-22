@@ -1118,7 +1118,7 @@ function gainMaterialByQR(recordID) {
 	}
 	var formData = new FormData();
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", "lls") //$.cookie('username');
+	formData.append("outputter", $.cookie('username')) //$.cookie('username');
 	formData.append("qrCode", recordID);
 
 	$.ajax({
@@ -1135,6 +1135,7 @@ function gainMaterialByQR(recordID) {
 			if(dataRes.status == 1) { 
 				getUsableMaterialFun();
 				SelectMaterialRecord();
+				alert("领取成功！" );
 			} else {
 				alert("领取失败！" + dataRes.message);
 			}
