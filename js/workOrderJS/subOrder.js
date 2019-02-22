@@ -311,7 +311,9 @@ function finishSubOrderByQR(qrCode) {
 		"field": "orderid",
 		visible: false
 	});
+
 	$.ajax({
+		
 		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + qrCode,
 		type: "GET",
 
@@ -325,7 +327,7 @@ function finishSubOrderByQR(qrCode) {
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
-				if(models.length < 1); {
+				if(models.length < 1){
 					alert("未找到选定批次,请确认条码信息:" + qrCode);
 					return;
 				}
