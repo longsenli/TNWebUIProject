@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
@@ -19,10 +18,6 @@
 		<link rel="stylesheet" type="text/css" href="../../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 	</head>
-	<script type="text/javascript">
-//			LSworkOrderIndustrialPlantSlctFun("1");
-			//	getWorkOrder();
-		</script>
 <body>
 		<section class="content table-content">
 			<form class="form-inline" >
@@ -40,16 +35,9 @@
 			</div>
 			<!-- bootstrapTable -->
 			</form>
-			<div class="table-responsive">
-			    <table id="dataGrid" class="table">
-			        <thead></thead>
-			       <tbody>
-			        
-			       </tbody>
-			    </table>
+			<div class="ibox-content">
+			    <table id="dataGrid"></table>
 			</div>
-			<!--<table id="dataGrid">
-			</table>-->
 		</section>
 		<!-- 新增用户的模态框，在修改用户中将获取一行的值放入input中，改变一些参数继续使用 -->
 		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
@@ -374,10 +362,196 @@
 
 </html>
 
+<script>
+$(function () {
+    //初始化用户列表表格
+    var oTable = new TableInit();
+    oTable.Init();
+});
+var columnsArray = [];
+	columnsArray.push({
+//		checkbox: 
+		radio:true
+	});
+	columnsArray.push({
+		"title": "登录名",
+		"field": "userid",
+		// "visible":false
+	});
+	columnsArray.push({
+		"title": "状态",
+		"field": "state",
+		align: 'center',
+		formatter: function(value, row, index) {
+			// console.log(row);
+			if (value == '1') {
+				return '<span class="badge badge-primary">正常</span>';
+			} else if (value == '0') {
+				return '<span class="badge badge-danger">停用</span>';
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "姓名",
+		"field": "name"
+	});
+	columnsArray.push({
+		"title": "职务",
+		"field": "dutyid"
+	});
+	columnsArray.push({
+		"title": "厂区id",
+		"field": "industrialplant_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "厂区",
+		"field": "industrialplant_name",
+	});
+	columnsArray.push({
+		"title": "流程id",
+		"field": "productionprocess_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程",
+		"field": "productionprocess_name",
+	});
+	columnsArray.push({
+		"title": "产线id",
+		"field": "productionline_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "productionline_name",
+	});
+	columnsArray.push({
+		"title": "工作地点",
+		"field": "workplace"
+	});
+	columnsArray.push({
+		"title": "性别",
+		"field": "sex",
+		 visible: false
+	});
+	columnsArray.push({
+		"title": "手机",
+		"field": "mobilephone",
+		// visible: false
+	});
+	columnsArray.push({
+		"title": "邮箱",
+		"field": "email",
+		// visible: false
+	});
+	columnsArray.push({
+		"title": "roleid",
+		"field": "roleid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "用户角色",
+		"field": "roleName",
+		// visible: false
+	});
+    function TableInit() {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#dataGrid').bootstrapTable({
+                url: window.serviceIP +  '/user/selectAll',         //请求后台的URL（*）
+                method: 'POST',                      //请求方式（*）
+//              striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                sortOrder: "asc",                   //排序方式
+                queryParamsType: '',
+                dataType: 'json',
+                paginationShowPageGo: true,
+                showJumpto: true,
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                queryParams: queryParams,//请求服务器时所传的参数
+                sidePagination: 'server',//指定服务器端分页
+                pageSize: 15,//单页记录数
+                pageList: [4, 10, 15, 20, 50, 100],//分页步进值
+//              search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                silent: true,
+                showRefresh: true,                  //是否显示刷新按钮
+                showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+                clickToSelect: true,                //是否启用点击选中行
+                showColumns: true,                  //是否显示所有的列
+                cardView: false,                    //是否显示详细视图
+                minimumCountColumns: 2,             //最少允许的列数
+                uniqueId: "userid",                     //每一行的唯一标识，一般为主键列
+				paginationPreText: '上一页',
+        		paginationNextText: '下一页',
+                columns: columnsArray,
+                showExport: true, 
+                responseHandler: function (res) {  //后台返回的结果
+                    if(res.status == "1"){
+//                      var userInfo = res.data;
+                        var userInfo = eval("(" + res.data + ")");
+                        console.log(userInfo.endRow)
+//                      alert(userInfo.toArray())
+//                      var NewData = [];
+//                      if (userInfo.length) {
+//                          for (var i = 0; i < userInfo.length; i++) {
+//                              var dataNewObj = {
+//                                  'id': '',
+//                                  "name": '',
+//                                  'sex': '',
+//                                  'age': '',
+//                                  'address': ''
+//                              };
+//
+//                              dataNewObj.id = userInfo[i].id;
+//                              dataNewObj.name = userInfo[i].name;
+//                              dataNewObj.sex = userInfo[i].sex;
+//                              dataNewObj.age = userInfo[i].age;
+//                              dataNewObj.address = userInfo[i].address;
+//                              NewData.push(dataNewObj);
+//                          }
+//                          console.log(NewData)
+//                      }
+                        var data = {
+                            total: userInfo.total,
+                            rows: userInfo.list
+                        };
+
+                        return data;
+                    }
+
+                }
+
+            });
+        };
+        
+        
+        // 得到查询的参数
+        function queryParams(params) {
+            var userName = $("#keyWord").val();
+            console.log(userName);
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                pageNum: params.pageNumber,
+                pageSize: params.pageSize,
+                username: userName
+            };
+            return JSON.stringify(temp);
+        }
+
+        return oTableInit;
+    }
+    //刷新表格
+    function getUserList() {
+        $("#dataGrid").bootstrapTable('refresh');
+    }
+</script>
 
 <script type="text/javascript">
 /*初始化方法*/
-initDataGrid();
+//initDataGrid();
 function initDataGrid(){
 	var columnsArray = [];
 	columnsArray.push({
@@ -523,6 +697,8 @@ function initDataGrid(){
 		 * 删除用户
 		 */
 		function deleteUser(){
+//			var oTable = new TableInit();
+					    
 				var rows = $("#dataGrid").bootstrapTable("getSelections");
 				var ids = [];
 				var len = rows.length;
@@ -546,7 +722,7 @@ function initDataGrid(){
 						// alert(data.state);
 						if(data.state == 'success'){
 							alert('删除成功');
-							initDataGrid();
+   					$("#dataGrid").bootstrapTable("refresh");
 						}
 // 						document.getElementById("tipContent").innerText="删除成功";
 // 						$("#Tip").modal('show');
@@ -643,8 +819,8 @@ function initDataGrid(){
 					// console.log(data);
 					// $("#Tip").modal('show');
 					$("#addUserModal").modal('hide');
-					initDataGrid();
-					// $("#dataGrid").bootstrapTable('refresh');
+//					initDataGrid();
+					 $("#dataGrid").bootstrapTable('refresh');
 				}
 				else{
 					alert("保存失败!");
@@ -743,6 +919,19 @@ function initDataGrid(){
 	}
 	function updateUser(){
 		var param = $("#editForm").serializeArray();
+		var param = $("#editForm").serializeArray();
+		param.push({
+				"name": "industrialplant_name",
+				"value": $("#edit_industrialplant_id").find("option:selected").text()
+			});
+			param.push({
+				"name": "productionline_name",
+				"value": $("#edit_productionline_id").find("option:selected").text()
+			});
+			param.push({
+				"name": "productionprocess_name",
+				"value": $("#edit_productionprocess_id").find("option:selected").text()
+			});
 		//设为disable则无法获取
 		$.ajax({
 			url:window.serviceIP + "/user/updateUser",
@@ -754,7 +943,8 @@ function initDataGrid(){
 					$("#editModal").modal("hide");
 					document.getElementById("tipContent").innerText="修改成功";
 					$("#Tip").modal('show');
-					initDataGrid();
+//					initDataGrid();
+					$("#dataGrid").bootstrapTable('refresh');
 				}
 			},
 			error:function(data){

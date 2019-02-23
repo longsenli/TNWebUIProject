@@ -13,6 +13,7 @@ function LSworkOrderIndustrialPlantSlctFunEdit(flag,industrialplant_id, producti
 		success: function(dataRes) {
 
 			$("#edit_industrialplant_id").find('option').remove();
+			$('#edit_industrialplant_id').append(("<option value=''>" + "全部"  + "</option>").toString());
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {
@@ -49,7 +50,7 @@ function LSworkOrderProductionProcessSlctFunEdit(productionprocess_id,production
 		processData: true,
 		success: function(dataRes) {
 			$("#edit_productionprocess_id").find('option').remove();
-
+			$('#edit_productionprocess_id').append(("<option value=''>" + "全部流程"  + "</option>").toString());
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
@@ -98,7 +99,7 @@ function LSworkOrderProductionLineSlctFunEdit(productionline_id) {
 		success: function(dataRes) {
 
 			$("#edit_productionline_id").find('option').remove();
-			$('#edit_productionline_id').append(("<option value=" + "-1" + ">" + "全部产线"  + "</option>").toString());
+			$('#edit_productionline_id').append(("<option value=''>" + "全部产线"  + "</option>").toString());
 
 			if(dataRes.status == 1) { 
 

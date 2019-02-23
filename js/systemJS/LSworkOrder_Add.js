@@ -12,6 +12,7 @@ function LSworkOrderIndustrialPlantSlctFun(flag) {
 		success: function(dataRes) {
 
 			$("#industrialplant_id").find('option').remove();
+			$('#industrialplant_id').append(("<option value=''>" + "全部"  + "</option>").toString());
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
@@ -44,7 +45,7 @@ function LSworkOrderProductionProcessSlctFun() {
 		processData: true,
 		success: function(dataRes) {
 			$("#productionprocess_id").find('option').remove();
-
+			$('#productionprocess_id').append(("<option value=''>" + "全部流程"  + "</option>").toString());
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
