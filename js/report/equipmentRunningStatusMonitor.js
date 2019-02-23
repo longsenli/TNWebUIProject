@@ -106,9 +106,103 @@ function equipStatusMntParamType(webName) {
 	});
 };
 
+function equipStatusAllParamMntInit() {
+	document.getElementById("tempControlerShow").innerHTML = "";
+	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
+	$('#circulationPicture').css('display', 'block');
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/getrecentallparamrecord?equipType=" +
+			document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		headers: {
+			Token: $.cookie('token')
+		},
+		processData: true,
+		success: function(dataRes) {
+			var controller = "";
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+console.log(models);
+				for(var i =0 ;i< models.length;i++) {
+					controller += "<div class =\"TempContral\" ";
+
+					if("1" == models[i].status) {
+						controller += " style =\"background-color:#A5A552 !important;\""
+						//alert(controller);
+					}
+
+					if("3" == models[i].status) {
+						controller += " style =\"background-color:#CE0000  !important;\""
+						//alert(controller);
+					}
+					controller += ">";
+					
+					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
+						console.log(j + "===" + i+ models);
+						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
+						i++;
+					}
+					controller += "<label class =\"fontStyle\">  &nbsp; " + models[i-1].equipName + " &nbsp &nbsp</label></div>"
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+
+			document.getElementById("tempControlerShow").innerHTML = controller;
+			$("#tempControlerShow").ready(function() {
+				$('#circulationPicture').css('display', 'none');
+			});
+			setTimeout("equipStatusMntInit()", 60000 * 5);
+		}
+	});
+}
+
+function equipStatusMntParamType(webName) {
+
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/getequipmentparam?equipmentTypeID=" +
+			document.equipmentSelectForm.equipmentType.value.toString(),
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#equipmentParamType").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#equipmentParamType').append(("<option value=" + models[i].id + "###" + models[i].units + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				$('#equipmentParamType').selectpicker('refresh');
+				$('#equipmentParamType').selectpicker('render');   
+				$('#equipmentParamType').selectpicker('mobile');
+				//				if(webName == "equipmentRunningStatusMonitor")
+				//					equipStatusMntInit()
+				//				else if(webName == "equipParamRecordTable") {
+				//					equipParamRecordTableInit();
+				//					$('#equipmentParamType').selectpicker('hide');   
+				//				} else if(webName == "equipParamRecordShow")
+				//					equipRecordChartShowInit();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
 function equipStatusMntInit() {
 	document.getElementById("tempControlerShow").innerHTML = "";
-	document.getElementById('circulationGitPicture').src=window.webUiService +"/image/circulationPic.gif";
+	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getlatestparamrecord?equipType=" +
@@ -133,7 +227,7 @@ function equipStatusMntInit() {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for(var i in models) {
-					controller += "<div class =\"TempContral\"><div class =\"TempContralInner\" ";
+					controller += "<div class =\"TempContral\" ";
 
 					if("1" == models[i].status) {
 						controller += " style =\"background-color:#FFD306 !important;\""
@@ -144,15 +238,16 @@ function equipStatusMntInit() {
 						controller += " style =\"background-color:#CE0000  !important;\""
 						//alert(controller);
 					}
-					controller += ">" + models[i].value + units + "</div><br/><br/><br/>" +
-						"<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder + "</label><label  class =\"fontStyle\">  &nbsp; 时间：" +
-						models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
-
+					//					controller += ">" + models[i].value + units + "</div><br/><br/><br/>" +
+					//						"<label class =\"fontStyle\">&nbsp; 人员：" + models[i].recorder + "</label><label  class =\"fontStyle\">  &nbsp; 时间：" +
+					//						models[i].recordTime + "</label><label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + "</label></div>"
+					controller += ">" + models[i].value + units + " &nbsp&nbsp<br/>" +
+						"<label class =\"fontStyle\">  &nbsp; 名称：" + models[i].equipName + " &nbsp &nbsp</label></div>"
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
-			
+
 			document.getElementById("tempControlerShow").innerHTML = controller;
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
