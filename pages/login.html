@@ -133,15 +133,15 @@
 							$.cookie('roleID', result.message.split("###")[1].trim());
 							$.cookie('password', password);
 							
-							if(result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1)
+							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1)
 							{
 								$.cookie('plantID', result.message.split("###")[2].trim());
 							}
-							if(result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1)
+							if(result.message.split("###")[3].trim() != "-1" && result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1)
 							{
 								$.cookie('processID', result.message.split("###")[3].trim());
 							}
-							if(result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1)
+							if(result.message.split("###")[4].trim() != "-1" && result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1)
 							{
 								$.cookie('line', result.message.split("###")[4].trim());
 							}
