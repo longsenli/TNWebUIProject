@@ -41,38 +41,42 @@
     <div id="wrapper" >
         <!--左侧导航开始-->
         <nav class="navbar-default navbar-static-side" role="navigation" >
-            <div class="nav-close"><i class="fa fa-times-circle"></i>
-            </div>
-            <div class="sidebar-collapse" id='ajax-side-menu'>
-            	<li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" src="../vendor/hplus/img/profile_small.jpg" /></span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear">
-                           <!--<span class="block m-t-xs"><strong class="font-bold"><b id="loginname"></b></strong></span>-->
-                            <span class="text-muted text-xs block"><strong class="font-bold" id="loginname"></strong>&nbsp;&nbsp;<b class="caret" > </b></span>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
-                            </li>
-                            <li><a class="J_menuItem" href="profile.html">个人资料</a>
-                            </li>
-                            <li><a class="J_menuItem" href="../pages/rights/changepassword.html">修改密码</a>
-                            </li>
-                            <!--<li><a class="J_menuItem" href="mailbox.html">信箱</a>
-                            </li>-->
-                            <li class="divider"></li>
-                            <li><a onclick="logout()">安全退出</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="logo-element">天能
-                    </div>
-                </li>
-                <ul class="nav" id="side-menu" >
+            <!--<div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>-->
+            <div class="sidebar-collapse">
+            	<ul class="nav" id="side-menu">
+	            	<li class="nav-header">
+	                    <div class="dropdown profile-element">
+	                        <span><img alt="image" class="img-circle" src="../vendor/hplus/img/profile_small.jpg" /></span>
+	                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                            <span class="clear">
+	                           <span class="block m-t-xs"><strong class="font-bold"><b id="loginname_1"></b></strong></span>
+	                            <span class="text-muted text-xs block"><strong class="font-bold" id="loginname"></strong>&nbsp;&nbsp;<b class="caret" > </b></span>
+	                            </span>
+	                        </a>
+	                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+	                            <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
+	                            </li>
+	                            <li><a class="J_menuItem" href="profile.html">个人资料</a>
+	                            </li>
+	                            <li><a class="J_menuItem" href="../pages/rights/changepassword.html">修改密码</a>
+	                            </li>
+	                            <!--<li><a class="J_menuItem" href="mailbox.html">信箱</a>
+	                            </li>-->
+	                            <li class="divider"></li>
+	                            <li><a onclick="logout()">安全退出</a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    <div class="logo-element">天能
+	                    </div>
+	                </li>
+                <!--<ul class="nav" id="side-menu" >-->
                 	<li>
-						<a href="main.html"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+						<a href="main.html"><i class="fa fa-dashboard fa-fw"></i> 
+						<span class="nav-label">首页</span>
+                        <span class="fa arrow"></span>
+						</a>
 					</li>
                     <li>
                         <a href="#">
@@ -247,7 +251,7 @@
                                 <li class="m-t-xs">
                                     <div class="dropdown-messages-box">
                                         <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a7.jpg">
+                                            <!--<img alt="image" class="img-circle" src="img/a7.jpg">-->
                                         </a>
                                         <div class="media-body">
                                             <small class="pull-right">46小时前</small>
@@ -261,7 +265,7 @@
                                 <li>
                                     <div class="dropdown-messages-box">
                                         <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a4.jpg">
+                                            <!--<img alt="image" class="img-circle" src="img/a4.jpg">-->
                                         </a>
                                         <div class="media-body ">
                                             <small class="pull-right text-navy">25小时前</small>
@@ -465,7 +469,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a1.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a1.jpg">-->
 
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
@@ -483,7 +487,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a2.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a2.jpg">-->
                                     </div>
                                     <div class="media-body">
                                         HCY48之音乐大魔王会员专属皮肤已上线，快来一键换装拥有他，宣告你对华晨宇的爱吧！
@@ -495,7 +499,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a3.jpg">-->
 
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
@@ -513,7 +517,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a4.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a4.jpg">-->
                                     </div>
 
                                     <div class="media-body">
@@ -526,7 +530,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a8.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a8.jpg">-->
                                     </div>
                                     <div class="media-body">
 
@@ -539,7 +543,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a7.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a7.jpg">-->
                                     </div>
                                     <div class="media-body">
                                         这哥们的新视频又来了，创意杠杠滴，帅炸了！
@@ -551,7 +555,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a3.jpg">-->
 
                                         <div class="m-t-xs">
                                             <i class="fa fa-star text-warning"></i>
@@ -569,7 +573,7 @@
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a4.jpg">
+                                        <!--<img alt="image" class="img-circle message-avatar" src="img/a4.jpg">-->
                                     </div>
                                     <div class="media-body">
                                         我发起了一个投票 【你认为下午大盘会翻红吗？】
@@ -681,7 +685,7 @@
 
 </html>
 <script type="text/javascript">
-	document.getElementById("loginname").innerText = $.cookie("username");
+//	document.getElementById("loginname").innerText = $.cookie("username");
 //	alert(document.getElementById("loginname"))
 	if($.cookie('token') == null) {
 		window.location.href = "login.html";

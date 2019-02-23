@@ -14,23 +14,76 @@ $(function () {
 			var res = eval("(" + result.data + ")");
 			// alert(res[0].nodes);
 			var showlist = $("<ul class=\"nav\"></ul>");
-			$("<li><a href=\"main.html\"><i class=\"fa fa-dashboard fa-fw\" ></i> 首页</a></li>").appendTo(showlist);
+//			var header = '<li class="nav-header"><div class="dropdown profile-element"><span><img alt="image" class="img-circle" src="../vendor/hplus/img/profile_small.jpg" /></span><a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="clear"><span class="block m-t-xs"><strong class="font-bold"><b id="loginname"></b></strong></span><span class="text-muted text-xs block"><strong class="font-bold" id="loginname"></strong>&nbsp;&nbsp;<b class="caret" > </b></span></span></a><ul class="dropdown-menu animated fadeInRight m-t-xs"><li><a class="J_menuItem" href="form_avatar.html">修改头像</a></li><li><a class="J_menuItem" href="profile.html">个人资料</a></li><li><a class="J_menuItem" href="../pages/rights/changepassword.html">修改密码</a></li><li class="divider"></li><li><a onclick="logout()">安全退出</a></li></ul></div><div class="logo-element">天能,,</div></li>';
+//          header.appendTo(showlist);   
+//			$('<li class="nav-header"><div class="dropdown profile-element"><span><img alt="image" class="img-circle" src="../vendor/hplus/img/profile_small.jpg" /></span><a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="clear"><span class="block m-t-xs"><strong class="font-bold"><b id="loginname"></b></strong></span><span class="text-muted text-xs block"><strong class="font-bold" id="loginname"></strong>&nbsp;&nbsp;<b class="caret" > </b></span></span></a><ul class="dropdown-menu animated fadeInRight m-t-xs"><li><a class="J_menuItem" href="form_avatar.html">修改头像</a></li><li><a class="J_menuItem" href="profile.html">个人资料</a></li><li><a class="J_menuItem" href="../pages/rights/changepassword.html">修改密码</a></li><li class="divider"></li><li><a onclick="logout()">安全退出</a></li></ul></div><div class="logo-element">天能</div></li>').appendTo(showlist);
+			$(
+				'<li class="nav-header">'+
+				'	<div class="dropdown profile-element">'+
+				'		<span><img alt="image" class="img-circle" src="../vendor/hplus/img/profile_small.jpg" /></span>'+
+				'		<a data-toggle="dropdown" class="dropdown-toggle" href="#">'+
+				'			<span class="clear">'+
+				'		   <span class="block m-t-xs"><strong class="font-bold"><b id="loginname_1"></b></strong></span>'+
+				'			<span class="text-muted text-xs block"><strong class="font-bold" id="loginname"></strong>&nbsp;&nbsp;<b class="caret" > </b></span>'+
+				'			</span>'+
+				'		</a>'+
+				'		<ul class="dropdown-menu animated fadeInRight m-t-xs">'+
+				'			<li><a class="J_menuItem" href="form_avatar.html">修改头像</a>'+
+				'			</li>'+
+				'			<li><a class="J_menuItem" href="profile.html">个人资料</a>'+
+				'			</li>'+
+				'			<li><a class="J_menuItem" href="../pages/rights/changepassword.html">修改密码</a>'+
+				'			</li>'+
+				'			<!--<li><a class="J_menuItem" href="mailbox.html">信箱</a>'+
+				'			</li>-->'+
+				'			<li class="divider"></li>'+
+				'			<li><a onclick="logout()">安全退出</a>'+
+				'			</li>'+
+				'		</ul>'+
+				'	</div>'+
+				'	<div class="logo-element">天能'+
+				'	</div>'+
+				'</li>'
+			).appendTo(showlist);
+			
+			$("<li><a href=\"main.html\"><i class=\"fa fa-dashboard fa-fw\" ></i> <span class=\"nav-label\">首页</span></a></li>").appendTo(showlist);
 			isFirstMenu = res.length;
 			showall(res[0].nodes, showlist);
-			console.log(showlist.html())
+//			console.log(showlist.html())
 			//添加雷立mes超连接
-			$("<li><a href=\"http://192.168.82.253\"><i class=\"fa fa-mail-forward\" ></i> 镭立MES链接</a></li>").appendTo(showlist);
+			$("<li><a href=\"http://192.168.82.253\"><i class=\"fa fa-mail-forward\" ></i><span class=\"nav-label\">镭立MES链接</span></a></li>").appendTo(showlist);
 			// side-menu
 			$("#side-menu").html(showlist.html());
+			//显示登录用户名称
+			document.getElementById("loginname").innerText = $.cookie("username");
+//			$("#loginname").innerText=userName;
 			//通过遍历给菜单项加上data-index属性
 		    $(".J_menuItem").each(function (index) {
 		        if (!$(this).attr('data-index')) {
 		            $(this).attr('data-index', index);
 		        }
 		    });
+		    // MetsiMenu初始化
 			$('#side-menu').metisMenu();
+			//添加onclick事件,点击新打开iframe
 			$('.J_menuItem').on('click', menuItem);
-			
+			//添加onclick事件,点击缩小导航条展示
+			$('#side-menu>li').click(function () {
+		        if ($('body').hasClass('mini-navbar')) {
+		            $('.navbar-minimalize').trigger('click');
+		        }
+		    });
+		    $('#side-menu>li li a').click(function () {
+		        if ($(window).width() < 769) {
+		            $('.navbar-minimalize').trigger('click');
+		        }
+		    });
+		    //ios浏览器兼容性处理
+		    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+		        $('#content-main').css('overflow-y', 'auto');
+		        $('#content-main').css('overflow-x', 'auto');
+			//  $('iframe').css('overflow-y', 'auto');
+		    }
 		},
 		error: function() {
 			alert("菜单加载失败！")
@@ -210,10 +263,10 @@ $(function () {
             $('.J_menuTab').removeClass('active');
 
             // 添加选项卡对应的iframe
-            var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" ></iframe>';
+            var str1 = '<iframe id="iframeHome" class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%"  scrolling="yes" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" ></iframe>';
             $('.J_mainContent').find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
 
-            //显示loading提示
+//            显示loading提示
 //            var loading = layer.load();
 //
 //            $('.J_mainContent iframe:visible').load(function () {
@@ -226,6 +279,17 @@ $(function () {
         }
         return false;
     }
+
+function iFrameHeight() {
+    alert("123");
+    var ifm = document.getElementById("iframeHome");
+    var subWeb = document.frames ? document.frames["iframeHome"].document : ifm.contentDocument;
+    if (ifm != null && subWeb != null) {
+        ifm.height = subWeb.body.scrollHeight;
+        ifm.width = subWeb.body.scrollWidth;
+    }
+}
+
 
     $('.J_menuItem').on('click', menuItem);
 
@@ -378,4 +442,14 @@ $(function () {
         });
         $('.page-tabs-content').css("margin-left", "0");
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 });
