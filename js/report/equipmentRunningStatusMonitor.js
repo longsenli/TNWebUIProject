@@ -127,7 +127,6 @@ function equipStatusAllParamMntInit() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-console.log(models);
 				for(var i =0 ;i< models.length;i++) {
 					controller += "<div class =\"TempContral\" ";
 
@@ -143,11 +142,12 @@ console.log(models);
 					controller += ">";
 					
 					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
-						console.log(j + "===" + i+ models);
+						
 						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
 						i++;
 					}
-					controller += "<label class =\"fontStyle\">  &nbsp; " + models[i-1].equipName + " &nbsp &nbsp</label></div>"
+					i=i-1
+					controller += "<label class =\"fontStyle\">  &nbsp; " + models[i].equipName + " &nbsp &nbsp</label></div>"
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

@@ -75,6 +75,7 @@
 						<option value='充电问题'>充电问题</option>
 						<option value='外形问题'>外形问题</option>
 						<option value='摔撞问题'>摔撞问题</option>
+						<option value='铸焊不良'>铸焊不良</option>
 					</select>
 				</div>
 			</div>
@@ -86,8 +87,11 @@
 				</div>
 			</div>
 			<br />
-			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord()">确认添加</button>
+			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
 			<br />
+			<label> 报废数量： </label>
+			<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="scrapNum" name="scrapNum" style="width:300px;" placeholder="报废数量 ">
+			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('2')">按数量报废</button>
 			<br />
 		</form>
 
@@ -96,7 +100,7 @@
 				<label> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="scrapBatteryProductionLineSlctFun()">
 				</select>
-				<label> 流程： </label>
+				<!--<label> 流程： </label>-->
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="scrapBatteryProductionLineSlctFun()">
 				</select>
 				<label> 产线： </label>

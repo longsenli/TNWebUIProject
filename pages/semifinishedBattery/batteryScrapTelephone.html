@@ -84,6 +84,7 @@
 						<option value='充电问题'>充电问题</option>
 						<option value='外形问题'>外形问题</option>
 						<option value='摔撞问题'>摔撞问题</option>
+						<option value='铸焊不良'>铸焊不良</option>
 					</select>
 				</div>
 			</div>
@@ -95,7 +96,12 @@
 				</div>
 			</div>
 			<br />
-			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addScrapBatteryRecord()">确认添加</button>
+			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
+			<br />
+			<br />
+			<label style="font-size:36px;"> 报废数量： </label>
+			<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="scrapNum" name="scrapNum" style="font-size:36px;width: 400px;height: 90px;"  placeholder="报废数量 ">
+			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addScrapBatteryRecord('2')">按数量报废</button>
 			<br />
 			<br />
 		</form>
@@ -105,9 +111,9 @@
 				<label style="font-size:36px;"> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" data-width="450px" data-style=" telephoneSelectStyle" style="font-size:36px" name="industrialPlantSlct" onchange="scrapBatteryProductionLineSlctFun()">
 				</select>
+				<!--<br />
 				<br />
-				<br />
-				<label style="font-size:36px;"> 流程： </label>
+				<label style="font-size:36px;"> 流程： </label>-->
 				<select class="selectpicker" id="productionProcessSlct" data-width="450px" data-style=" telephoneSelectStyle" style="font-size:36px" name="productionProcessSlct" onchange="scrapBatteryProductionLineSlctFun()">
 				</select>
 				<br />

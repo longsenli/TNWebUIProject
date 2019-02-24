@@ -54,6 +54,18 @@ function repairBatteryProductionProcessSlctFun(flag) {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
+				
+				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == '1008') {
+							$(numbers[j]).attr("selected", "selected");
+							$('#productionProcessSlct').selectpicker('hide');
+							$("#productionProcessSlct").css("display", "none");
+						}
+					}
+					$('#productionProcessSlct').selectpicker('refresh');
+					$('#productionProcessSlct').selectpicker('render'); 
+					
 				if(flag = "1")
 					repairBatteryBatteryTypeSlctFun(flag);
 				else
