@@ -360,3 +360,69 @@ function batteryStatisInventory()
 		}
 	});
 }
+
+function grantAndExpendStatistics()
+{
+		var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "物料名称",
+		"field": "name"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "领取数量",
+		"field": "grantNum"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "投料数量",
+		"field": "expendNum"
+	});
+	
+	
+	
+	var urlStr = window.serviceIP + "/api/material/grantdndexpendstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
