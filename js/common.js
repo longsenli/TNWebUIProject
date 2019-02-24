@@ -1,7 +1,7 @@
-window.serviceIP = "http://192.168.1.107:8080";
-window.netServiceIP = "http://192.168.1.107:8088/";
+window.serviceIP = "http://192.168.1.108:8080";
+window.netServiceIP = "http://192.168.1.108:8088/";
 window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
-//window.webUiService = "http://192.168.1.106:8081";
+//window.webUiService = "http://192.168.1.108:8081";
 
 //设置时间格式
 Date.prototype.format = function(format) {
@@ -105,4 +105,18 @@ var windowOrderStatusEnum = {
 	finished: 4,
 	closed: 5,
 	deleted: 6
+}
+
+var windowProcessEnum = {
+	QM: '1001',
+	HG: '1002',
+	TB: '1003',
+	GH: '1004',
+	FB: '1005',
+	BB: '1006',
+	ZH: '1007',
+	JS: '1008',
+	CD: '1009',
+	BZ: '1010',
+	JZ: '1011'
 }
