@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/workOrderJS/productionStatistics.js"></script>
-
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
@@ -35,7 +35,7 @@
 
 		<script type="text/javascript">
 			if($.cookie('token') == null) {
-				window.location.href = "login.html";
+				window.location.href = "../login.html";
 			}
 			$(function() {
 				var today = new Date();
@@ -89,14 +89,14 @@
 
 				<br />
 				<br />
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="grantMaterialDetail()">发料详情</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="ProductionStatisticsScanQR()">扫码发料</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="productionOutputStatistics()">产出查询</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="remnantProductStatistics()">余料查询</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="grantAndExpendStatistics()">领投料查询</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="getMaterialInventoryStatistics()">一级库存盘点</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="getSecondaryMaterialInventoryStatistics()">二级库存盘点</button>&nbsp&nbsp
-				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="batteryStatisInventory()">电池盘点</button>
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="grantMaterialDetail()">发料详情</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="ProductionStatisticsScanQR()">扫码发料</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="productionOutputStatistics()">产出查询</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="remnantProductStatistics()">余料查询</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="grantAndExpendStatistics()">领投料查询</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="getMaterialInventoryStatistics()">一级库存盘点</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="getSecondaryMaterialInventoryStatistics()">二级库存盘点</button>&nbsp&nbsp
+				<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;width: 400px;height: 150px;margin-top: 10px;" onclick="batteryStatisInventory()">电池盘点</button>
 			</div>
 			<br />
 		</form>
@@ -123,7 +123,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
-						<h4 class="modal-title" id="myModalLabel" style="font-size:26px;"> 底壳二维码扫码 </h4>
+						<h4 class="modal-title" id="myModalLabel" style="font-size:26px;"> 扫码发料 </h4>
 					</div>
 					<div class="modal-body" id="modal-body">
 						<form id="ProductionStatisticsScanQRForm">
