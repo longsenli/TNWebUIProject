@@ -20,7 +20,7 @@ function scrapBatteryIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
-				
+
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -69,18 +69,18 @@ function scrapBatteryProductionProcessSlctFun(flag) {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
-				
+
 				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
-					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == '1008') {
-							$(numbers[j]).attr("selected", "selected");
-							$('#productionProcessSlct').selectpicker('hide');
-							$("#productionProcessLabel").css("display", "none");
-						}
+				for(var j = 0; j < numbers.length; j++) {
+					if($(numbers[j]).val().toString() == '1008') {
+						$(numbers[j]).attr("selected", "selected");
+						$('#productionProcessSlct').selectpicker('hide');
+						$("#productionProcessLabel").css("display", "none");
 					}
-					$('#productionProcessSlct').selectpicker('refresh');
-					$('#productionProcessSlct').selectpicker('render'); 
-					
+				}
+				$('#productionProcessSlct').selectpicker('refresh');
+				$('#productionProcessSlct').selectpicker('render'); 
+
 				if(flag = "1")
 					scrapBatteryBatteryTypeSlctFun(flag);
 				else
@@ -226,29 +226,27 @@ function addScrapBatteryRecord(scrapFunction) {
 	if(scrapFunction == '1')
 		scrapNum = -1;
 	if(scrapFunction == '2')
-		scrapNum = $("#scrapNum").val().toString().trim();	
-	if(scrapFunction == '1' && $("#batteryID").val().toString().length <2)
-	{
+		scrapNum = $("#scrapNum").val().toString().trim();
+	if(scrapFunction == '1' && $("#batteryID").val().toString().length < 2) {
 		alert("请正确输入底壳二维码!");
 		return;
 	}
-	if(scrapFunction == '2' && $("#scrapNum").val().toString().trim().length <1)
-	{
+	if(scrapFunction == '2' && $("#scrapNum").val().toString().trim().length < 1) {
 		alert("请正确输入报废数量!");
 		return;
 	}
 	var formData = new FormData($("#scrapBatteryCollapseForm")[0]);
 	formData.append("scrapStaff", $.cookie('username'));
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
-	
+
 	var formDataParam = new FormData();
-	formDataParam.append("jsonStr",window.getFormDataToJson(formData));
-	formDataParam.append("scrapNum",scrapNum);
+	formDataParam.append("jsonStr", window.getFormDataToJson(formData));
+	formDataParam.append("scrapNum", scrapNum);
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addscrapbattery",
 		type: "POST",
-//		contentType: "application/json",
-//		dataType: "json",
+		//		contentType: "application/json",
+		//		dataType: "json",
 		data: formDataParam,
 		//contentType: "application/json",
 		//dataType: "json",

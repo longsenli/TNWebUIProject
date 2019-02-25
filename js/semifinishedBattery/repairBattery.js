@@ -272,12 +272,24 @@ function deleteRepairBatteryRecord(batteryID) {
 }
 var repairBateryHTMLFlag = "";
 
-function addRepairBatteryRecord() {
-	if($("#batteryid").val().toString().length <2)
+function addRepairBatteryRecord(repairType) {
+	
+	var repairpNum = 1;
+	if(repairType == '1')
+		repairpNum = -1;
+	if(repairType == '2')
+		repairpNum = $("#repairNum").val().toString().trim();	
+	if(repairType == '1' && $("#batteryid").val().toString().length <2)
 	{
 		alert("请正确输入底壳二维码!");
 		return;
 	}
+	if(repairType == '2' && $("#repairNum").val().toString().trim().length <1)
+	{
+		alert("请正确输入报废数量!");
+		return;
+	}
+	
 	var formData = new FormData();
 	var formDataClps = new FormData($("#repairBatteryCollapseForm")[0]);
 	if("add" == repairBateryHTMLFlag) {
@@ -285,6 +297,8 @@ function addRepairBatteryRecord() {
 	}
 	formData.append("jsonStr", window.getFormDataToJson(formDataClps));
 	formData.append("type", repairBateryHTMLFlag);
+	
+	formData.append("number", repairpNum);
 
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addrepairbattery",
