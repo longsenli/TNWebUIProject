@@ -20,6 +20,20 @@ function repairBatteryIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
+				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+							$('#industrialPlantSlct').selectpicker('hide');
+
+							$("#industrialPlantLabel").css("display", "none");
+						}
+					}
+					$('#industrialPlantSlct').selectpicker('refresh');
+					$('#industrialPlantSlct').selectpicker('render'); 
+
+				}
 				if(flag = "1")
 					repairBatteryProductionProcessSlctFun(flag);
 				else
@@ -60,7 +74,7 @@ function repairBatteryProductionProcessSlctFun(flag) {
 						if($(numbers[j]).val().toString() == '1008') {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
-							$("#productionProcessSlct").css("display", "none");
+							$("#productionProcessLabel").css("display", "none");
 						}
 					}
 					$('#productionProcessSlct').selectpicker('refresh');

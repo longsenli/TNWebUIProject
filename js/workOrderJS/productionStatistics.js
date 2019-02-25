@@ -20,6 +20,22 @@ function productionStatisticsPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
+				
+					if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+							$('#industrialPlantSlct').selectpicker('hide');
+
+							$("#industrialPlantLabel").css("display", "none");
+						}
+					}
+					$('#industrialPlantSlct').selectpicker('refresh');
+					$('#industrialPlantSlct').selectpicker('render'); 
+
+				}
+					
 				if(flag = "1")
 				{
 					productionStatisBatteryTypeSlctFun();
@@ -92,6 +108,22 @@ function productionStatisticsProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
+				
+				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+							$('#productionProcessSlct').selectpicker('hide');
+
+							$("#productionProcessLabel").css("display", "none");
+						}
+					}
+					$('#productionProcessSlct').selectpicker('refresh');
+					$('#productionProcessSlct').selectpicker('render'); 
+
+				}
+				
 				productionStatisticsLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
