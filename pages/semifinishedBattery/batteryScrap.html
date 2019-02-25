@@ -90,8 +90,12 @@
 			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
 
 			<br />
-			<label> 报废数量： </label>
-			<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="scrapNum" name="scrapNum" style="width:300px;" placeholder="报废数量 ">
+			<div class="form-inline row">
+				<div class="form-group">
+					<label> 报废数量： </label>
+					<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="scrapNum" name="scrapNum" style="width:300px;" placeholder="报废数量 ">
+				</div>
+			</div>
 			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('2')">按数量报废</button>
 			<br />
 		</form>

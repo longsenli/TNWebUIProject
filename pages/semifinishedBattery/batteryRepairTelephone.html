@@ -113,10 +113,14 @@
 			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addRepairBatteryRecord('1')">确认添加</button>
 			<br />
 			<br />
-			<label> 报修数量： </label>
-			<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" style="font-size:36px;width: 400px;height: 90px;" id="repairNum" name="repairNum" style="width:300px;" placeholder="报修数量 ">
+			<div class="form-inline row">
+				<div class="form-group">
+					<label> 报修数量： </label>
+					<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" style="font-size:36px;width: 400px;height: 90px;" id="repairNum" name="repairNum" style="width:300px;" placeholder="报修数量 ">
+				</div>
+			</div>
 			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addRepairBatteryRecord('2')">按数量报修</button>
-			
+
 			<br />
 			<br />
 		</form>
