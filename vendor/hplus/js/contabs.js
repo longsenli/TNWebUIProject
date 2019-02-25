@@ -51,7 +51,7 @@ $(function () {
 			showall(res[0].nodes, showlist);
 //			console.log(showlist.html())
 			//添加雷立mes超连接
-			$("<li><a href=\"http://192.168.82.253\"><i class=\"fa fa-mail-forward\" ></i><span class=\"nav-label\">镭立MES链接</span></a></li>").appendTo(showlist);
+			$("<li><a href=\"http://192.168.82.253\" target=\"_blank\"><i class=\"fa fa-mail-forward\" ></i><span class=\"nav-label\">镭立MES链接</span></a></li>").appendTo(showlist);
 			// side-menu
 			$("#side-menu").html(showlist.html());
 			//显示登录用户名称
@@ -81,7 +81,7 @@ $(function () {
 		    //ios浏览器兼容性处理
 		    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
 		        $('#content-main').css('overflow-y', 'auto');
-		        $('#content-main').css('overflow-x', 'auto');
+		        $('#content-main').css('overflow-x', 'scroll');
 			//  $('iframe').css('overflow-y', 'auto');
 		    }
 		},

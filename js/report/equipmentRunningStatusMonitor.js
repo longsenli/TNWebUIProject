@@ -109,7 +109,7 @@ function equipStatusMntParamType(webName) {
 function equipStatusAllParamMntInit() {
 	document.getElementById("tempControlerShow").innerHTML = "";
 	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
-	document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "监控看板";
+	
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getrecentallparamrecord?equipType=" +
@@ -124,8 +124,7 @@ function equipStatusAllParamMntInit() {
 		},
 		processData: true,
 		success: function(dataRes) {
-			var controller = "";
-
+			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#2CB044;font-weight:bold\">设备运行参数监控看板</h1>";
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for(var i = 0; i < models.length; i++) {
@@ -145,20 +144,22 @@ function equipStatusAllParamMntInit() {
 					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
 
 						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
+						
 						i++;
 					}
 					i = i - 1
-					controller += "<label class =\"fontStyle\">  &nbsp; " + models[i].equipName + " &nbsp &nbsp</label></div>"
+					controller += "<label class =\"fontStyle\">  &nbsp;&nbsp;位置：" + models[i].equipName + " &nbsp &nbsp</label></div>"
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 
 			document.getElementById("tempControlerShow").innerHTML = controller;
+			document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "( 实时 )监控看板";
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
 			});
-			setTimeout("equipStatusMntInit()", 60000 * 5);
+			setTimeout("equipStatusAllParamMntInit()", 10000*10);
 		}
 	});
 }

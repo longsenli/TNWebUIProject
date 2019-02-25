@@ -17,7 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
-
+		<link href="../../vendor/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	</head>
 
 	<body style="padding-left:20px;padding-top:5px">
@@ -36,16 +36,48 @@
 				<select class="selectpicker" id="equipmentParamType" style="width:100px;display: none;" name="equipmentParamType">
 				</select>
 				<button type="button" class="btn btn-primary" onclick="equipStatusAllParamMntInit()">状态查询</button>
+				<button type="button" class="btn btn-info" id="btn"><i class="fa fa-arrows-alt"></i>&nbsp;全屏展示</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
-		<h1 id="dashboardName" style="text-align:center;color:#0066CC">设备运行参数监控看板</h1>
+		<!--<h1 id="dashboardName" style="text-align:center;color:#0066CC">设备运行参数监控看板</h1>-->
 		<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
 			<div id="circulationPicture" style="display: none;"><img id="circulationGitPicture" src="" alt="" /></div>
 		</div>
-
-		<div id="tempControlerShow"> </div>
+		<div id="tempControlerShow"> 
+			<h1 id="dashboardName" style="text-align:center;color:#0066CC">设备运行参数监控看板</h1>
+		</div>
 	</body>
 
 </html>
+<script>
+var fullscreen = false;
+let btn = document.getElementById('btn');
+let fullarea = document.getElementById('tempControlerShow')
+btn.addEventListener('click',function(){   
+    if (fullscreen) {       // 退出全屏
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    } else {        // 进入全屏
+        if (fullarea.requestFullscreen) {
+            fullarea.requestFullscreen();
+        } else if (fullarea.webkitRequestFullScreen) {
+            fullarea.webkitRequestFullScreen();
+        } else if (fullarea.mozRequestFullScreen) {
+            fullarea.mozRequestFullScreen();
+        } else if (fullarea.msRequestFullscreen) {
+            // IE11
+            fullarea.msRequestFullscreen();
+        }
+    }
+//  fullscreen = !fullscreen;
+})
+</script>
