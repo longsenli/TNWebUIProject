@@ -109,6 +109,7 @@ function equipStatusMntParamType(webName) {
 function equipStatusAllParamMntInit() {
 	document.getElementById("tempControlerShow").innerHTML = "";
 	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
+	document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "监控看板";
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getrecentallparamrecord?equipType=" +
@@ -127,7 +128,7 @@ function equipStatusAllParamMntInit() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				for(var i =0 ;i< models.length;i++) {
+				for(var i = 0; i < models.length; i++) {
 					controller += "<div class =\"TempContral\" ";
 
 					if("1" == models[i].status) {
@@ -140,13 +141,13 @@ function equipStatusAllParamMntInit() {
 						//alert(controller);
 					}
 					controller += ">";
-					
+
 					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
-						
+
 						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
 						i++;
 					}
-					i=i-1
+					i = i - 1
 					controller += "<label class =\"fontStyle\">  &nbsp; " + models[i].equipName + " &nbsp &nbsp</label></div>"
 				}
 			} else {

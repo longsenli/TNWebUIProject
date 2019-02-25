@@ -32,16 +32,17 @@
 				<label> 类型： </label>
 				<select class="selectpicker" id="equipmentType" style="width:100px;" name="equipmentType" onchange="equipStatusMntParamType('equipmentRunningStatusMonitor')">
 				</select>
-				<label> 指标： </label>
-				<select class="selectpicker" id="equipmentParamType" style="width:100px;" name="equipmentParamType">
+				<!--<label> 指标： </label>-->
+				<select class="selectpicker" id="equipmentParamType" style="width:100px;display: none;" name="equipmentParamType">
 				</select>
 				<button type="button" class="btn btn-primary" onclick="equipStatusAllParamMntInit()">状态查询</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
+		<h1 id="dashboardName" style="text-align:center;color:#0066CC">设备运行参数监控看板</h1>
 		<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
-			<div id="circulationPicture" style="display: none;"><img id="circulationGitPicture" src= "" alt="" /></div>
+			<div id="circulationPicture" style="display: none;"><img id="circulationGitPicture" src="" alt="" /></div>
 		</div>
 
 		<div id="tempControlerShow"> </div>

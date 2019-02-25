@@ -1384,39 +1384,3 @@ function subOrderRowClick(row) {
 	//	$(row).find("td").addClass('changeTableRowColor');
 }
 
-function grantMaterialByQR(recordID) {
-	$("#myModal").modal('hide');
-	//console.log("gainMaterialByQR" + recordID);
-
-	if(recordID.length < 2 ) {
-		alert("请确认已选择物料!")
-		return;
-	}
-	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH)
-	{
-		alert("当前只有铸焊工段有发料功能!");
-		return;
-	}
-	var formData = new FormData();
-	formData.append("operator", $.cookie('username')) //$.cookie('username');
-	formData.append("orderSplitID", recordID);
-
-	$.ajax({
-		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
-		type: "POST",
-		processData: false,
-		contentType: false,
-		data: formData,
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		//processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				alert("发料成功！" );
-			} else {
-				alert("发料失败！" + dataRes.message);
-			}
-		}
-	});
-}
