@@ -24,9 +24,9 @@
 
 	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
-				window.location.href = "../login.html";
-			}
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
 			repairBatteryIndustrialPlantSlctFun("1");
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
@@ -113,7 +113,7 @@
 			<br />
 			<button type="button" class="btn btn-primary" onclick="addRepairBatteryRecord('2')">按数量报修</button>
 			<br />
-
+			<br />
 		</form>
 
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">

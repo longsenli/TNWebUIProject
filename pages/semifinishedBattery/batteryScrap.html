@@ -25,9 +25,9 @@
 
 	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
-				window.location.href = "../login.html";
-			}
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
 			scrapBatteryIndustrialPlantSlctFun("1");
 			$(function() {
 				$('#myModal').on('hide.bs.modal',
@@ -88,7 +88,7 @@
 			</div>
 			<br />
 			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
-
+			<br />
 			<br />
 			<div class="form-inline row">
 				<div class="form-group">
@@ -96,7 +96,9 @@
 					<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="scrapNum" name="scrapNum" style="width:300px;" placeholder="报废数量 ">
 				</div>
 			</div>
+			<br />
 			<button type="button" class="btn btn-primary" onclick="addScrapBatteryRecord('2')">按数量报废</button>
+			<br />
 			<br />
 		</form>
 
