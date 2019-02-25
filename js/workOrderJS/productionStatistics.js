@@ -109,10 +109,10 @@ function productionStatisticsProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
 				
-				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('processID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
