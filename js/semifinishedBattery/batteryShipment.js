@@ -159,9 +159,9 @@ function addBatteryShipmentRecord() {
 				getBatteryShipmentRecord();
 				//document.getElementById("scrapBatteryCollapseForm").reset();
 				$("#scrapBatteryCollapseForm").collapse('hide');
-				alert("报废成功！");
+				alert("添加发货记录成功！");
 			} else {
-				alert("报废失败！" + dataRes.message);
+				alert("添加发货记录失败！" + dataRes.message);
 			}
 		}
 	});

@@ -330,6 +330,14 @@ function batteryStatisInventory()
 		"field": "laststorage"
 	});
 	columnsArray.push({
+		"title": "生产入库",
+		"field": "dailyproduction"
+	});
+	columnsArray.push({
+		"title": "发货出库",
+		"field": "dailyshipmentsnum"
+	});
+	columnsArray.push({
 		"title": "报废数量",
 		"field": "scrapnum"
 	});
