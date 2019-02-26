@@ -313,7 +313,7 @@ function finishSubOrderByQR(qrCode) {
 	});
 
 	$.ajax({
-		
+
 		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + qrCode,
 		type: "GET",
 
@@ -327,7 +327,7 @@ function finishSubOrderByQR(qrCode) {
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
-				if(models.length < 1){
+				if(models.length < 1) {
 					alert("未找到选定批次,请确认条码信息:" + qrCode);
 					return;
 				}
@@ -904,7 +904,7 @@ function startScanQR(webName) {
 
 function recognitionQR(webName, qrCode) {
 	if(webName == 'subOrder')
-		gainMaterialByQR(qrCode);
+		getMaterialRecordBySuborderID(qrCode);
 	else if('solidifyProcess' == webName)
 		gotoNextSolidifyRoomByQR(qrCode);
 	else if('finishSubOrder' == webName)
@@ -927,7 +927,7 @@ function startsScanQRPat() { 
 				qrcode.callback = function(imgMsg) {
 					if(!getQR && imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
 						getQR = true;
-						gainMaterialByQR(imgMsg);
+						getMaterialRecordBySuborderID(imgMsg);
 					}
 				}       
 			}          
@@ -1137,9 +1137,113 @@ function gainMaterialByQR(recordID) {
 			if(dataRes.status == 1) { 
 				getUsableMaterialFun();
 				SelectMaterialRecord();
-				alert("领取成功！" );
+				alert("领取成功！");
 			} else {
 				alert("领取失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function getMaterialRecordBySuborderID(recordID) {
+	$("#myModal").modal('hide');
+	//console.log("gainMaterialByQR" + recordID);
+
+	if(recordID.length < 2 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
+		alert("请确认已选择物料和订单!")
+		return;
+	}
+	var formData = new FormData();
+	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
+
+	formData.append("qrCode", recordID);
+
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "物料号",
+		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "物料工单",
+		"field": "orderid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "物料工单",
+		"field": "inOrderName"
+	});
+	columnsArray.push({
+		"title": "物料子工单",
+		"field": "inSubOrderName"
+	});
+	columnsArray.push({
+		"title": "物料子工单",
+		"field": "suborderid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "数量",
+		"field": "number"
+	});
+	columnsArray.push({
+		"title": "入库人员",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		"title": "入库时间",
+		"field": "inputtime"
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/api/material/getmaterialrecordbysuborderid",
+		type: "POST",
+		processData: false,
+		contentType: false,
+		data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+
+				if(models.length < 1) {
+					alert("未获取到物料信息,请核对!" + recordID);
+					return;
+				}
+				$('#usableMaterialTable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					//toolbar: '#materialidToolbar',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -1383,4 +1487,3 @@ function subOrderRowClick(row) {
 	//	$($(row).find("td")[1]).addClass('changeTableRowColor');
 	//	$(row).find("td").addClass('changeTableRowColor');
 }
-
