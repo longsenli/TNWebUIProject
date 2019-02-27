@@ -65,7 +65,12 @@
 					subOrderRowClick(this);
 				});
 			});
+$(function() {
 
+				$("body").delegate('#usableMaterialTable tr', 'click', function() {
+					usableMaterialRowClick(this);
+				});
+			});
 			//subOrderProductionProcessSlctFun();
 			//			setTimeout(function() {
 			//				//add your code
@@ -119,7 +124,7 @@
 		</table>
 
 		<div id="MaterialFormCollapsible">
-			<a href="#gainMaterialForm" onclick="getUsableMaterialFun()" data-toggle="collapse">领料</a>
+			<a href="#gainMaterialForm" onclick="getUsableMaterialFun()" data-toggle="collapse">扫码投料</a>
 		</div>
 
 		<!-- 模态框（Modal） -->
@@ -161,6 +166,7 @@
 				<button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
                 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
             </button>
+           <br />
 				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 				</table>
 			</div>

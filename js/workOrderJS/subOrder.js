@@ -192,7 +192,6 @@ function subOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
-
 				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -674,6 +673,14 @@ function SelectMaterialRecord() {
 		}
 	});
 };
+
+function usableMaterialRowClick(row) {
+
+	$('.changeTableRowColorUsableMaterial').removeClass('changeTableRowColorUsableMaterial');
+	if($(row).hasClass('selected')) {
+		$(row).find("td").addClass('changeTableRowColorUsableMaterial');
+	}
+}
 
 function getUsableMaterialFun() {
 	var formData = new FormData();
