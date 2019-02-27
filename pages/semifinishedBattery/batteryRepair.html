@@ -27,8 +27,13 @@
 			//			if($.cookie('token') == null) {
 			//				window.location.href = "../login.html";
 			//			}
+				
+				
 			repairBatteryIndustrialPlantSlctFun("1");
 			$(function() {
+				var today = new Date();
+				document.getElementById("repairtime").value =today.format("yyyy-MM-ddThh:mm");
+
 				$('#myModal').on('hide.bs.modal',
 					function() {
 						canvasRepairBattery = null;
