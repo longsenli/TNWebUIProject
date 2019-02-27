@@ -653,6 +653,10 @@ function findProductionStatisticsByQR(recordID) {
 		alert("当前只有铸焊工段有发料功能!");
 		return;
 	}
+	if(!window.changeConfirmDlg("确认发料?"))
+	{
+		return;
+	}
 	var formData = new FormData();
 	formData.append("operator", $.cookie('username')) //$.cookie('username');
 	formData.append("orderSplitID", recordID);
