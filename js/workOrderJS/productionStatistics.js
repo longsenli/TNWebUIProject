@@ -20,8 +20,8 @@ function productionStatisticsPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				$('#industrialPlantSlct').selectpicker('mobile');
-				
-					if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+
+				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
@@ -35,13 +35,11 @@ function productionStatisticsPlantSlctFun(flag) {
 					$('#industrialPlantSlct').selectpicker('render'); 
 
 				}
-					
-				if(flag = "1")
-				{
+
+				if(flag = "1") {
 					productionStatisBatteryTypeSlctFun();
 					productionStatisticsProcessSlctFun();
-				}
-				else
+				} else
 					productionStatisticsLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -108,7 +106,7 @@ function productionStatisticsProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				$('#productionProcessSlct').selectpicker('mobile');
-				
+
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -123,7 +121,7 @@ function productionStatisticsProcessSlctFun() {
 					$('#productionProcessSlct').selectpicker('render'); 
 
 				}
-				
+
 				productionStatisticsLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -191,9 +189,7 @@ function productionOutputStatistics() {
 		"title": "总产量",
 		"field": "outputTotal"
 	});
-	
-	
-	
+
 	var urlStr = window.serviceIP + "/api/material/orderoutputstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
@@ -237,7 +233,6 @@ function productionOutputStatistics() {
 	});
 };
 
-
 function remnantProductStatistics() {
 	var columnsArray = [];
 	columnsArray.push({
@@ -253,9 +248,7 @@ function remnantProductStatistics() {
 		"title": "剩余数量",
 		"field": "remnantTotalNum"
 	});
-	
-	
-	
+
 	var urlStr = window.serviceIP + "/api/material/orderremnantproductstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
@@ -299,9 +292,8 @@ function remnantProductStatistics() {
 	});
 }
 
-function batteryStatisInventory()
-{
-		var columnsArray = [];
+function batteryStatisInventory() {
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -349,7 +341,7 @@ function batteryStatisInventory()
 		"title": "维修入库",
 		"field": "repairbacknum"
 	});
-	
+
 	columnsArray.push({
 		"title": "借出数量",
 		"field": "loannum"
@@ -401,9 +393,8 @@ function batteryStatisInventory()
 	});
 }
 
-function grantAndExpendStatistics()
-{
-		var columnsArray = [];
+function grantAndExpendStatistics() {
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -422,9 +413,7 @@ function grantAndExpendStatistics()
 		"title": "投料数量",
 		"field": "expendNum"
 	});
-	
-	
-	
+
 	var urlStr = window.serviceIP + "/api/material/grantdndexpendstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
@@ -467,9 +456,7 @@ function grantAndExpendStatistics()
 	});
 }
 
-
-function getMaterialInventoryStatistics()
-{
+function getMaterialInventoryStatistics() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -506,7 +493,7 @@ function getMaterialInventoryStatistics()
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
-	
+
 	var urlStr = window.serviceIP + "/api/material/getmaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
@@ -549,9 +536,8 @@ function getMaterialInventoryStatistics()
 	});
 }
 
-function getSecondaryMaterialInventoryStatistics()
-{
-		var columnsArray = [];
+function getSecondaryMaterialInventoryStatistics() {
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -587,8 +573,7 @@ function getSecondaryMaterialInventoryStatistics()
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
-	
-	
+
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
@@ -631,8 +616,6 @@ function getSecondaryMaterialInventoryStatistics()
 	});
 }
 
-
-
 function closeQRScanProductionStatistics() {
 	$("#myModal").modal('hide');
 }
@@ -641,26 +624,32 @@ var canvasProductionStatistics = null,
 	videoProductionStatistics = null;  
 var mediaStreamTrackProductionStatistics = null;   
 function findProductionStatisticsByQR(recordID) {
-	
+
 	$("#myModal").modal('hide');
-	
-	if(recordID.length < 2 ) {
+
+	if(recordID.length < 2) {
 		alert("请确认已选择物料!")
 		return;
 	}
-	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH)
-	{
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
 		alert("当前只有铸焊工段有发料功能!");
 		return;
 	}
-	if(!window.changeConfirmDlg("确认发料?"))
-	{
+	if(!window.changeConfirmDlg("确认发料?")) {
 		return;
 	}
+
 	var formData = new FormData();
 	formData.append("operator", $.cookie('username')) //$.cookie('username');
 	formData.append("orderSplitID", recordID);
-
+	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
+		formData.append("orderType", '1');
+	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
+		formData.append("orderType", '2');
+	} else {
+		alert("发料类型获取失败,请刷新页面重试!");
+		return;
+	}
 	$.ajax({
 		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
 		type: "POST",
@@ -674,7 +663,54 @@ function findProductionStatisticsByQR(recordID) {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				grantMaterialDetail();
-				alert("发料成功！" );
+				alert("发料成功！");
+			} else {
+				alert("发料失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function grantMaterialByInputID() {
+
+	$("#myModal").modal('hide');
+
+	if($('#grantMaterialOrderInputID').val().trim().length < 2) {
+		alert("请确认已输入ID!")
+		return;
+	}
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
+		alert("当前只有铸焊工段有发料功能!");
+		return;
+	}
+	if(!window.changeConfirmDlg("确认发料?")) {
+		return;
+	}
+	var formData = new FormData();
+	formData.append("operator", $.cookie('username')) //$.cookie('username');
+	formData.append("orderSplitID", $('#grantMaterialOrderInputID').val().trim());
+	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
+		formData.append("orderType", '3');
+	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
+		formData.append("orderType", '4');
+	} else {
+		alert("发料类型获取失败,请刷新页面重试!");
+		return;
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
+		type: "POST",
+		processData: false,
+		contentType: false,
+		data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				grantMaterialDetail();
+				alert("发料成功！");
 			} else {
 				alert("发料失败！" + dataRes.message);
 			}
@@ -699,8 +735,11 @@ function startScanQRProductionStatistics() {
 	}  
 }
 
-function ProductionStatisticsScanQR() {
+function ProductionStatisticsScanQR(paramQR) {
 	$('#myModal').modal('show');
+
+	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR);
+	//alert(paramQR + "   " + $('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html());
 	if(contextProductionStatistics == null) { 
 		//window.addEventListener("DOMContentLoaded", function() {       
 		try {    
@@ -796,9 +835,8 @@ function ProductionStatisticsScanQR() {
 	setTimeout(startScanQRProductionStatistics(), 1000) ; 
 }
 
-function grantMaterialDetail()
-{
-		var columnsArray = [];
+function grantMaterialDetail() {
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -823,8 +861,6 @@ function grantMaterialDetail()
 		"field": "grantTime"
 	});
 
-	
-	
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;

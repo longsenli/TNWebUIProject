@@ -74,7 +74,8 @@
 				<br/>
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
 				<button type="button" class="btn btn-primary" onclick="grantMaterialDetail()">发料详情</button>
-				<button type="button" class="btn btn-primary" onclick="ProductionStatisticsScanQR()">扫码发料</button>
+				<button type="button" class="btn btn-primary" onclick="ProductionStatisticsScanQR('1')">扫码发料</button>
+				<button type="button" class="btn btn-primary" onclick="ProductionStatisticsScanQR('2')">预发料</button>
 				<button type="button" class="btn btn-primary" onclick="productionOutputStatistics()">产出查询</button>
 				<button type="button" class="btn btn-primary" onclick="remnantProductStatistics()">余料查询</button>
 				<button type="button" class="btn btn-primary" onclick="grantAndExpendStatistics()">领投料查询</button>
@@ -111,7 +112,7 @@
 					</div>
 					<div class="modal-body" id="modal-body">
 						<form id="ProductionStatisticsScanQRForm">
-
+							<label id='ProductionStatisticsScanQRType' style="display: none;"></label>
 							<div id="support"></div>
 							<div id="contentHolder">
 
@@ -120,10 +121,18 @@
 								<!--<button id="workordersdf" type="button" class="btn btn-default" onclick="startScanQR()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>扫描
             </button>-->
+								<br />
+								<div class="form-inline row">
+									<label>条码：</label>
+									<input type="text" class="form-control" id="grantMaterialOrderInputID" name="grantMaterialOrderInputID">
+								</div>
+								<br />
+								<button type="button" class="btn btn-default" onclick="grantMaterialByInputID()">按条码发料 </button>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
+
 						<!--<button type="button" class="btn btn-default" onclick="startQRScan()">扫码 </button>-->
 						<button type="button" class="btn btn-default" onclick="closeQRScanProductionStatistics()">关闭 </button>
 					</div>
