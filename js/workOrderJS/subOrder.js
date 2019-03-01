@@ -380,20 +380,28 @@ function finishSubOrderByQR(qrCode) {
 
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
+
+	subOrderFinishBT
+
+	$("#subOrderFinishBT").attr("disabled", true);
+
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 	var formData = new FormData();
 	if(row.length < 1) {
 		alert("请选择行数据!");
+		$("#subOrderFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row.length > 1) {
 		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
+		$("#subOrderFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
+		$("#subOrderFinishBT").attr("disabled", false);
 		return;
 	}
 	for(var key in row[0]) {
@@ -435,6 +443,8 @@ function FinishSubOrder() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
+
+			$("#subOrderFinishBT").attr("disabled", false);
 		}
 	});
 };
@@ -777,6 +787,7 @@ function getUsableMaterialFun() {
 };
 
 function gainMaterialRecord() {
+	$("#gainMaterialRecordBT").attr("disabled", true);
 	var formData = new FormData();
 	var selectRow = $("#usableMaterialTable").bootstrapTable('getSelections');
 	var arrayObj = new Array();
@@ -784,7 +795,8 @@ function gainMaterialRecord() {
 		arrayObj.push(selectRow[i].id);
 	}
 	if(selectRow.length < 1 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
-		alert("请确认已选择物料和订单!")
+		alert("请确认已选择物料和订单!");
+		$("#gainMaterialRecordBT").attr("disabled", false);
 		return;
 	}
 	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
@@ -810,6 +822,7 @@ function gainMaterialRecord() {
 			} else {
 				alert("投料失败！" + dataRes.message);
 			}
+			$("#gainMaterialRecordBT").attr("disabled", false);
 		}
 	});
 };
