@@ -381,7 +381,6 @@ function finishSubOrderByQR(qrCode) {
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
 
-	subOrderFinishBT
 
 	$("#subOrderFinishBT").attr("disabled", true);
 
@@ -1506,4 +1505,48 @@ function subOrderRowClick(row) {
 	//	$(row).addClass('changeTableRowColor');
 	//	$($(row).find("td")[1]).addClass('changeTableRowColor');
 	//	$(row).find("td").addClass('changeTableRowColor');
+}
+
+function cancelFinishSuborder(){
+	
+	
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		return;
+	}
+	if(row.length > 1) {
+		alert("一次只能选择一个批次!您当前选择" + row.length + "个批次!");
+		return;
+	}
+	if(row[0]["status"] < 4) {
+		alert("该工单不是已完成状态!");
+		return;
+	}
+
+	
+		$.ajax({
+		url: window.serviceIP + "/api/order/cancelfinishsuborder?subOrdderID=" + row[0]['id'],
+		type: "POST",
+		//contentType: "application/json",
+		//dataType: "json",
+		processData: false,
+		contentType: false,
+		//data: formData2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('取消成功! ' + data.message);
+				SelectSubOrder()
+				
+			} else {
+				alert("取消失败！" + data.message);
+			}
+		}
+	});
 }

@@ -385,7 +385,7 @@ function selectedWorkOrderRow(param) {
 	var optionType = param.getAttribute("id");
 	var row = workOrderSelectedRow;
 	if(optionType == "workorder_scrap") {
-		if(row["status"] > windowOrderStatusEnum.doing) {
+		if(row["status"] > windowOrderStatusEnum.closed) {
 			alert("该工单未在生产状态,不能报废!");
 			return;
 		}
@@ -621,7 +621,7 @@ function createScrapModel() {
 function saveScrap() {
 	var formData = new FormData($("#scrapModalForm")[0]);
 
-	console.log(window.getFormDataToJson(formData));
+	//console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/scrapinfo/savescrapinfo",
 		type: "POST",

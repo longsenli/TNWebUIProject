@@ -65,7 +65,7 @@
 					subOrderRowClick(this);
 				});
 			});
-$(function() {
+			$(function() {
 
 				$("body").delegate('#usableMaterialTable tr', 'click', function() {
 					usableMaterialRowClick(this);
@@ -113,7 +113,9 @@ $(function() {
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印
             </button>
-
+			<button id="subOrderCancelFinishBT" type="button" class="btn btn-default" onclick="cancelFinishSuborder()">
+                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>取消完成
+            </button>
 			<label> 订单数量： </label>
 			<input type="text" readonly="true" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="changeOrderProductionNum" name="changeOrderProductionNum">
 			<button type="button" class="btn btn-default" onclick="subOrderChangeOrderNum()">
@@ -166,7 +168,7 @@ $(function() {
 				<button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
                 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
             </button>
-           <br />
+				<br />
 				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 				</table>
 			</div>
