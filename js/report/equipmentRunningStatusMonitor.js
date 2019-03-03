@@ -131,12 +131,12 @@ function equipStatusAllParamMntInit() {
 					controller += "<div class =\"TempContral\" ";
 
 					if("1" == models[i].status) {
-						controller += " style =\"background-color:#A5A552 !important;\""
+						controller += " style =\"background-color:#FFFF00 !important;\""
 						//alert(controller);
 					}
 
 					if("3" == models[i].status) {
-						controller += " style =\"background-color:#CE0000  !important;\""
+						controller += " style =\"background-color:#FF0000  !important;\""
 						//alert(controller);
 					}
 					controller += ">";
