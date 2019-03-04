@@ -40,9 +40,9 @@
 			$(function() {
 				var today = new Date();
 
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd") + "T00:00:00";
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd") ;
 				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd") + "T00:00:00";
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 
 				productionStatisticsPlantSlctFun("1");
 			});
@@ -82,9 +82,9 @@
 				<br />
 				<br />
 				<label style="font-size:36px;"> 时间： </label>
-				<input type="datetime-local" style="font-size:36px;width: 400px;height: 80px;" id="startTime" name="startTime" />
+				<input type="date" style="font-size:36px;width: 400px;height: 80px;" id="startTime" name="startTime" />
 				<label>-</label>
-				<input type="datetime-local" style="font-size:36px;width: 400px;height: 80px;" id="endTime" name="endTime" />
+				<input type="date" style="font-size:36px;width: 400px;height: 80px;" id="endTime" name="endTime" />
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
 
 				<br />

@@ -198,7 +198,7 @@ function productionOutputStatistics() {
 	var urlStr = window.serviceIP + "/api/material/orderoutputstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 02:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:00:00";
 
 	$.ajax({
 		url: urlStr,
@@ -254,10 +254,12 @@ function remnantProductStatistics() {
 		"field": "remnantTotalNum"
 	});
 
+var endTime = new Date(document.getElementById("endTime").value);
+endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/orderremnantproductstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 07:00:00"+ "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -355,10 +357,12 @@ function batteryStatisInventory() {
 		"title": "借入数量",
 		"field": "borrownum"
 	});
+	var endTime = new Date(document.getElementById("endTime").value);
+endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/batterystatisinventory?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -421,7 +425,7 @@ function grantAndExpendStatistics() {
 
 	var urlStr = window.serviceIP + "/api/material/grantdndexpendstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 00:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -499,9 +503,12 @@ function getMaterialInventoryStatistics() {
 		"field": "updateTime"
 	});
 
+	var endTime = new Date(document.getElementById("endTime").value);
+endTime.setDate(endTime.getDate() + 1)
+
 	var urlStr = window.serviceIP + "/api/material/getmaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -578,10 +585,11 @@ function getSecondaryMaterialInventoryStatistics() {
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
-
+var endTime = new Date(document.getElementById("endTime").value);
+endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -868,7 +876,7 @@ function grantMaterialDetail() {
 
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+		"&startTime=" + document.getElementById("startTime").value + " 00:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:59:59";
 
 	$.ajax({
 		url: urlStr,
