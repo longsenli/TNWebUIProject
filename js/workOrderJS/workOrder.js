@@ -193,13 +193,14 @@ function getWorkOrder() {
 	});
 	columnsArray.push({
 		width: 70,
-		"title": "总产量",
+		"title": "计划产量",
 		"field": "totalproduction"
 	});
 	columnsArray.push({
 		width: 70,
 		"title": "报废数量",
-		"field": "scrapnum"
+		"field": "scrapnum",
+		visible: false
 	});
 	columnsArray.push({
 		width: 200,

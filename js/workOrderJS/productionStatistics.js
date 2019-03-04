@@ -181,8 +181,13 @@ function productionOutputStatistics() {
 	});
 	columnsArray.push({
 		width: 300,
+		"title": "产线",
+		"field": "lineName"
+	});
+	columnsArray.push({
+		width: 300,
 		"title": "物料名称",
-		"field": "name"
+		"field": "materialName"
 	});
 	columnsArray.push({
 		width: 300,
