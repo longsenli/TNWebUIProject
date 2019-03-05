@@ -261,7 +261,7 @@ function subOrderChangeOrderNum() {
 	$("#changeOrderProductionNum").attr("readonly", false);
 }
 
-function finishSubOrderByQR(qrCode) {
+function finishSubOrderByQR(qrCode,orderType) {
 	$("#myModal").modal('hide');
 
 	var columnsArray = [];
@@ -313,7 +313,7 @@ function finishSubOrderByQR(qrCode) {
 
 	$.ajax({
 
-		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + qrCode,
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + encodeURIComponent(qrCode) + "&type=" + orderType,
 		type: "GET",
 
 		contentType: "application/json",
@@ -480,7 +480,7 @@ function SelectSubOrder() {
 		$("#getUsableMaterialBT").attr('disabled', true);
 		$("#gainMaterialRecordBT").attr('disabled', true);
 		$("#gainPartMaterialRecordBT").attr('disabled', true);
-	} else {
+	} else 	{
 		$("#subOrderFinishBT").attr('disabled', false);
 		$("#subOrderScanQRBT").attr('disabled', false);
 		$("#getUsableMaterialBT").attr('disabled', false);
@@ -927,7 +927,7 @@ function recognitionQR(webName, qrCode) {
 	else if('solidifyProcess' == webName)
 		gotoNextSolidifyRoomByQR(qrCode);
 	else if('finishSubOrder' == webName)
-		finishSubOrderByQR(qrCode);
+		finishSubOrderByQR(qrCode,"1");
 	else if('grantMaterial' == webName)
 		grantMaterialByQR(qrCode);
 }
@@ -1549,4 +1549,14 @@ function cancelFinishSuborder(){
 			}
 		}
 	});
+}
+
+function selectBySubOrderName()
+{
+	if($("#subOrderName").val().trim().length <2)
+	{
+		alert("请确认输入条码名称!");
+		return;
+	}
+	finishSubOrderByQR($("#subOrderName").val().trim(),"2");
 }
