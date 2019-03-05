@@ -480,7 +480,7 @@ function SelectSubOrder() {
 		$("#getUsableMaterialBT").attr('disabled', true);
 		$("#gainMaterialRecordBT").attr('disabled', true);
 		$("#gainPartMaterialRecordBT").attr('disabled', true);
-	} else 	{
+	} else {
 		$("#subOrderFinishBT").attr('disabled', false);
 		$("#subOrderScanQRBT").attr('disabled', false);
 		$("#getUsableMaterialBT").attr('disabled', false);

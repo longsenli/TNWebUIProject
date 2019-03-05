@@ -325,7 +325,7 @@ function equipRecordChartShowInit() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				console.log(models);
+				//console.log(models);
 				var xA = [];
 				var yA = [];
 				var minNum = 99999;
