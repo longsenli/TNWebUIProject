@@ -464,7 +464,7 @@ function SelectSubOrder() {
 	var dataStr = "----";
 	var dateNow = new Date();
 	if(dateNow.getHours() < 7) {
-		dateNow.setDate(today.getDate() - 1);
+		dateNow.setDate(dateNow.getDate() - 1);
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
 	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
