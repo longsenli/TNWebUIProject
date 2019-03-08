@@ -655,6 +655,7 @@ function findProductionStatisticsByQR(recordID) {
 	var formData = new FormData();
 	formData.append("operator", $.cookie('username')) //$.cookie('username');
 	formData.append("orderSplitID", recordID);
+	// 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
 		formData.append("orderType", '1');
 	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
@@ -699,7 +700,7 @@ function grantMaterialByInputID() {
 	if(!window.changeConfirmDlg("确认发料?")) {
 		return;
 	}
-	var formData = new FormData();
+	var formData = new FormData();   // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
 	formData.append("operator", $.cookie('username')) //$.cookie('username');
 	formData.append("orderSplitID", $('#grantMaterialOrderInputID').val().trim());
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
