@@ -1675,7 +1675,7 @@ var img = null;
 							buttons: [{
 								fontSrc: '_www/helloh5.ttf',
 								text: '相册',
-								fontSize: '18px',
+								fontSize: '15px',
 								onclick: 'javascript:scanPicture()'
 							}]
 						}
@@ -1693,7 +1693,7 @@ var img = null;
 							buttons: [{
 								// fontSrc: '_www/helloh5.ttf',
 								text: '相册',
-								fontSize: '18px',
+								fontSize: '15px',
 								onclick: 'javascript:switchFlash()'
 							}]
 						}

@@ -1,5 +1,5 @@
-window.serviceIP = "http://192.168.1.108:8080";
-window.netServiceIP = "http://192.168.1.108:8088/";
+window.serviceIP = "http://192.168.1.107:8080";
+window.netServiceIP = "http://192.168.1.107:8088/";
 window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
 //window.webUiService = "http://192.168.1.108:8081";
 
