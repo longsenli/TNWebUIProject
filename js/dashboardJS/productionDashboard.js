@@ -109,10 +109,13 @@ function initProductionDashboardPicture() {
 	if(document.PlantToLineSelectForm.workType.value.toString() == "BB") {
 		startTime = document.getElementById("startTime").value + " 06:00:00";
 		endTime = document.getElementById("startTime").value + " 08:00:00";
-	} else {
+	} else if(document.PlantToLineSelectForm.workType.value.toString() == "YB"){
 		startTime = document.getElementById("startTime").value + " 18:00:00";
 		endTime = document.getElementById("startTime").value + " 20:00:00";
-	}
+	} else if(document.PlantToLineSelectForm.workType.value.toString() == "-1"){
+		startTime = document.getElementById("startTime").value + " 06:00:00";
+		endTime = document.getElementById("startTime").value + " 20:00:00";
+	} 
 	document.getElementById("dashboardName").innerHTML = $("#productionProcessSlct").find("option:selected").text() + "产量看板";
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
