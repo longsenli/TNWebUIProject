@@ -261,7 +261,7 @@ function subOrderChangeOrderNum() {
 	$("#changeOrderProductionNum").attr("readonly", false);
 }
 
-function finishSubOrderByQR(qrCode,orderType) {
+function finishSubOrderByQR(qrCode, orderType) {
 	$("#myModal").modal('hide');
 
 	var columnsArray = [];
@@ -381,9 +381,8 @@ function finishSubOrderByQR(qrCode,orderType) {
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
 
-
 	$("#subOrderFinishBT").attr("disabled", true);
-
+	$("#subOrderOvertimeFinishBT").attr("disabled", true);
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -391,16 +390,19 @@ function FinishSubOrder() {
 	if(row.length < 1) {
 		alert("请选择行数据!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row.length > 1) {
 		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	for(var key in row[0]) {
@@ -444,6 +446,7 @@ function FinishSubOrder() {
 			}
 
 			$("#subOrderFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		}
 	});
 };
@@ -927,7 +930,7 @@ function recognitionQR(webName, qrCode) {
 	else if('solidifyProcess' == webName)
 		gotoNextSolidifyRoomByQR(qrCode);
 	else if('finishSubOrder' == webName)
-		finishSubOrderByQR(qrCode,"1");
+		finishSubOrderByQR(qrCode, "1");
 	else if('grantMaterial' == webName)
 		grantMaterialByQR(qrCode);
 }
@@ -1507,9 +1510,8 @@ function subOrderRowClick(row) {
 	//	$(row).find("td").addClass('changeTableRowColor');
 }
 
-function cancelFinishSuborder(){
-	
-	
+function cancelFinishSuborder() {
+
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -1527,8 +1529,7 @@ function cancelFinishSuborder(){
 		return;
 	}
 
-	
-		$.ajax({
+	$.ajax({
 		url: window.serviceIP + "/api/order/cancelfinishsuborder?subOrdderID=" + row[0]['id'],
 		type: "POST",
 		//contentType: "application/json",
@@ -1543,7 +1544,7 @@ function cancelFinishSuborder(){
 			if(data.status == 1) {
 				alert('取消成功! ' + data.message);
 				SelectSubOrder()
-				
+
 			} else {
 				alert("取消失败！" + data.message);
 			}
@@ -1551,12 +1552,10 @@ function cancelFinishSuborder(){
 	});
 }
 
-function selectBySubOrderName()
-{
-	if($("#subOrderName").val().trim().length <2)
-	{
+function selectBySubOrderName() {
+	if($("#subOrderName").val().trim().length < 2) {
 		alert("请确认输入条码名称!");
 		return;
 	}
-	finishSubOrderByQR($("#subOrderName").val().trim(),"2");
+	finishSubOrderByQR($("#subOrderName").val().trim(), "2");
 }
