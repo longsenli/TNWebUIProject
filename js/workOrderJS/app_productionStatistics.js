@@ -1,4 +1,3 @@
-
 //获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
 var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 
@@ -258,12 +257,12 @@ function remnantProductStatistics() {
 		"field": "remnantTotalNum"
 	});
 
-var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	var endTime = new Date(document.getElementById("endTime").value);
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/orderremnantproductstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 07:00:00"+ "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 07:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -362,11 +361,11 @@ function batteryStatisInventory() {
 		"field": "borrownum"
 	});
 	var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/batterystatisinventory?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -508,11 +507,11 @@ function getMaterialInventoryStatistics() {
 	});
 
 	var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	endTime.setDate(endTime.getDate() + 1)
 
 	var urlStr = window.serviceIP + "/api/material/getmaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -589,11 +588,11 @@ function getSecondaryMaterialInventoryStatistics() {
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
-var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	var endTime = new Date(document.getElementById("endTime").value);
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -636,15 +635,11 @@ endTime.setDate(endTime.getDate() + 1)
 function closeQRScanProductionStatistics() {
 	$("#myModal").modal('hide');
 }
-var canvasProductionStatistics = null,
-	contextProductionStatistics = null,
-	videoProductionStatistics = null;  
-var mediaStreamTrackProductionStatistics = null;   
 
 //扫描二维码发料调用方法
 function findProductionStatisticsByQR(recordID) {
 
-//	$("#myModal").modal('hide');
+	//	$("#myModal").modal('hide');
 
 	if(recordID.length < 2) {
 		alert("请确认已选择物料!")
@@ -668,7 +663,7 @@ function findProductionStatisticsByQR(recordID) {
 	} else {
 		alert("发料类型获取失败,请刷新页面重试!");
 		return;
-	}
+	} // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
 	$.ajax({
 		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
 		type: "POST",
@@ -687,21 +682,20 @@ function findProductionStatisticsByQR(recordID) {
 				alert("发料失败！" + dataRes.message);
 			}
 		}
-	});
+	}); 
 }
 
-
-function ShowmyModal(ScanQRType){
-	alert(ScanQRType)
-	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == ScanQRType;
+function ShowmyModal(ScanQRType) {
+	//alert(ScanQRType)
+	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(ScanQRType)  ;
 	$("#myModal").modal('show');
 }
 
 //按条码发料按钮执行方法
-function grantMaterialByInputID(ScanQRType) {
+function grantMaterialByInputID() {
 
-//	$("#myModal").modal('hide');
-
+	//	$("#myModal").modal('hide');
+	var ScanQRType = $('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html();
 	if($('#grantMaterialOrderInputID').val().trim().length < 2) {
 		alert("请确认已输入ID!")
 		return;
@@ -723,7 +717,7 @@ function grantMaterialByInputID(ScanQRType) {
 	} else {
 		alert("发料类型获取失败,请刷新页面重试!");
 		return;
-	}
+	} // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
 	$.ajax({
 		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
 		type: "POST",
@@ -765,119 +759,12 @@ function grantMaterialByInputID(ScanQRType) {
 
 //
 var accept_paramQR = null;
+
 function ProductionStatisticsScanQR(paramQR) {
+
 	//执行H5扫描二维码方法
+	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR)  ;
 	openBarcode();
-	
-//	findProductionStatisticsByQR(imgMsg);
-	
-	
-//	startScanQRProductionStatistics()
-	
-	//扫描二维码后执行龙森的方法
-//	startScanQR(webName);
-//	accept_webName = webName;
-	
-	
-	
-	alert('ProductionStatisticsScanQR')
-//	$('#myModal').modal('show');
-//
-//	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR);
-//	//alert(paramQR + "   " + $('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html());
-//	if(contextProductionStatistics == null) { 
-//		//window.addEventListener("DOMContentLoaded", function() {       
-//		try {    
-//
-//			canvasProductionStatistics = document.getElementById("canvasProductionStatisticsScanQR");           
-//			contextProductionStatistics = canvasProductionStatistics.getContext("2d");           
-//			videoProductionStatistics = document.getElementById("videoProductionStatisticsScanQR");           
-//			var videoObj = {
-//				audio: false,
-//				"video": true
-//			};              
-//			//			var videoObj = {
-//			//				"video": true
-//			//			};    
-//			var  flag = true;             
-//			var   MediaErr = function(error) {                   
-//				flag = false;                   
-//				if(error.PERMISSION_DENIED) {                       
-//					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
-//				} else if(error.NOT_SUPPORTED_ERROR) {                       
-//					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-//				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
-//					alert('指定的媒体类型未接收到媒体流', '提示');                   
-//				} else {                       
-//					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
-//				}               
-//			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
-//			      
-//
-//			  
-//			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
-//				 
-//				try {  
-//					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
-//						//mediaStreamTrack = stream;                  
-//						//video.src = window.URL.createObjectURL(stream);;                   
-//						//video.play();
-//						//mediaStreamTrackProductionStatistics = stream;  
-//						videoProductionStatistics.srcObject = stream;
-//						videoProductionStatistics.onloadedmetadata = function(e) {
-//							videoProductionStatistics.play();
-//						};
-//					}, MediaErr);   
-//				} catch(err) {
-//					alert(err);
-//				}        
-//			}    
-//			else if(navigator.getUserMedia) { // Standard   
-//				navigator.getUserMedia(videoObj, function(stream) {   
-//					//mediaStreamTrackProductionStatistics = stream;       
-//					videoProductionStatistics.src = stream;
-//					videoProductionStatistics.play();
-//				}, MediaErr);
-//			}           
-//			else if(navigator.webkitGetUserMedia) {              
-//				navigator.webkitGetUserMedia(videoObj, function(stream) {  
-//					mediaStreamTrackProductionStatistics = stream;                  
-//					videoProductionStatistics.src = window.webkitURL.createObjectURL(stream);                   
-//					videoProductionStatistics.play();      
-//				}, MediaErr);           
-//			}       
-//			else if(navigator.mozGetUserMedia) {              
-//				navigator.mozGetUserMedia(videoObj, function(stream) { 
-//					mediaStreamTrackProductionStatistics = stream;                   
-//					videoProductionStatistics.src = window.URL.createObjectURL(stream);                   
-//					videoProductionStatistics.play();               
-//				}, MediaErr);           
-//			}           
-//			else if(navigator.msGetUserMedia) {           
-//				navigator.msGetUserMedia(videoObj, function(stream) { 
-//					mediaStreamTrackProductionStatistics = stream;                   
-//					$(document).scrollTop($(window).height());                   
-//					videoProductionStatistics.src = window.URL.createObjectURL(stream);                   
-//					videoProductionStatistics.play();               
-//				}, MediaErr);           
-//			} else {               
-//				alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器');               
-//				return false;           
-//			}           
-//			if(flag) {                // alert('为了获得更准确的测试结果，请尽量将二维码置于框中，然后进行拍摄、扫描。 请确保浏览器有权限使用摄像功能');
-//				          }            //这个是拍照按钮的事件，
-//			           
-//
-//			//				$("#snap").click(function() {
-//			//					startPat();
-//			//				}).show();       
-//		} catch(e) {           
-//			//printHtml("浏览器不支持HTML5 CANVAS");       
-//		}   
-//		//}, false);    //打印内容到页面
-//	} 
-//	//console.log("start");
-//	setTimeout(startScanQRProductionStatistics(), 1000) ; 
 }
 
 function grantMaterialDetail() {
@@ -948,124 +835,101 @@ function grantMaterialDetail() {
 	});
 }
 
-
-
-
 ////////以下是H5+调用摄像头进行扫一扫
 // alert(openBarcode())
 var img = null;
-				var blist = [];
-				function scaned(t, r, f){
-					// alert('t='+t+'r='+r+'f='+f);
-					//获取扫描二维码信息后执行龙森方法
-					findProductionStatisticsByQR(r);
-//					recognitionQR(accept_webName, r);
-// 					var d = new Date();
-// 					var h=d.getHours(),m=d.getMinutes(),s=d.getSeconds(),ms=d.getMilliseconds();
-// 					if(h < 10){ h='0'+h; }
-// 					if(m < 10){ m='0'+m; }
-// 					if(s < 10){ s='0'+s; }
-// 					if(ms < 10){ ms='00'+ms; }
-// 					else if(ms < 100){ ms='0'+ms; }
-// 					var ts = '['+h+':'+m+':'+s+'.'+ms+']';
-// 					var li=null,hl = document.getElementById('history');
-// 					if(blist.length > 0){
-// 						li = document.createElement('li');
-// 						li.className = 'ditem';
-// 						hl.insertBefore(li, hl.childNodes[0]);
-// 					} else{
-// 						li = document.getElementById('nohistory');
-// 					}
-// 					li.id = blist.length;
-// 					var html = '['+h+':'+m+':'+s+'.'+ms+']'+'　　'+t+'码<div class="hdata">';
-// 					html += r;
-// 					html += '</div>';
-// 					li.innerHTML = html;
-// 					li.setAttribute('onclick', 'selected(id)');
-// 					blist[blist.length] = {type:t,result:r,file:f};
-// 					update(t, r, f);
-					
-				}
-				function selected(id){
-					var h = blist[id];
-					update( h.type, h.result, h.file );
-					if(h.result.indexOf('http://')==0  || h.result.indexOf('https://')==0){
-						plus.nativeUI.confirm(h.result, function(i){
-							if(i.index == 0){
-								plus.runtime.openURL(h.result);
-							}
-						}, '', ['打开', '取消']);
-					} else{
-						plus.nativeUI.alert(h.result);
-					}
-				}
-				function update(t, r, f){
-					outSet('扫描成功：');
-					outLine(t);
-					outLine(r);
-					outLine('\n图片地址：'+f);
-					if(!f || f=='null'){
-						img.src = '../../vendor/H5+/img/barcode.png';	
-					} else{
-						plus.io.resolveLocalFileSystemURL(f, function(entry){
-							img.src=entry.toLocalURL();
-						});
-						//img.src = 'http://localhost:13131/'+f;
-					}
-				}
-				function onempty(){
-					if(window.plus){
-						plus.nativeUI.alert('无扫描记录');
-					} else {
-						alert('无扫描记录');
-					}
-				}
-				function cleanHistroy(){
-					if(blist.length > 0){
-						var hl = document.getElementById('history');
-						hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
-					}
-					plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry){
-						entry.removeRecursively(function(){
-							// Success
-						}, function(e){
-							//alert( "failed"+e.message );
-						});
-					});
-				}
-				// 打开二维码扫描界面 
-				function openBarcode(){
-					createWithoutTitle('barcode_scan.html', {
-						titleNView:{
-							type: 'float',
-							backgroundColor: 'rgba(215,75,40,0.3)',
-							titleText: '扫一扫',
-							titleColor: '#FFFFFF',
-							autoBackButton: true,
-							buttons: [{
-								fontSrc: '_www/helloh5.ttf',
-								text: '相册',
-								fontSize: '18px',
-								onclick: 'javascript:scanPicture()'
-							}]
-						}
-					});
-				}
-				// 打开自定义扫描界面 
-				function openBarcodeCustom(){
-					createWithoutTitle('barcode_custom.html', {
-						titleNView:{
-							type: 'float',
-							backgroundColor: 'rgba(215,75,40,0.3)',
-							titleText: '扫一扫',
-							titleColor: '#FFFFFF',
-							autoBackButton: true,
-							buttons: [{
-								// fontSrc: '_www/helloh5.ttf',
-								text: '相册',
-								fontSize: '18px',
-								onclick: 'javascript:switchFlash()'
-							}]
-						}
-					});
-				}
+var blist = [];
+
+function scaned(t, r, f) {
+	// alert('t='+t+'r='+r+'f='+f);
+	//获取扫描二维码信息后执行龙森方法
+	findProductionStatisticsByQR(r);
+
+}
+
+function selected(id) {
+	var h = blist[id];
+	update(h.type, h.result, h.file);
+	if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+		plus.nativeUI.confirm(h.result, function(i) {
+			if(i.index == 0) {
+				plus.runtime.openURL(h.result);
+			}
+		}, '', ['打开', '取消']);
+	} else {
+		plus.nativeUI.alert(h.result);
+	}
+}
+
+function update(t, r, f) {
+	outSet('扫描成功：');
+	outLine(t);
+	outLine(r);
+	outLine('\n图片地址：' + f);
+	if(!f || f == 'null') {
+		img.src = '../../vendor/H5+/img/barcode.png';
+	} else {
+		plus.io.resolveLocalFileSystemURL(f, function(entry) {
+			img.src = entry.toLocalURL();
+		});
+		//img.src = 'http://localhost:13131/'+f;
+	}
+}
+
+function onempty() {
+	if(window.plus) {
+		plus.nativeUI.alert('无扫描记录');
+	} else {
+		alert('无扫描记录');
+	}
+}
+
+function cleanHistroy() {
+	if(blist.length > 0) {
+		var hl = document.getElementById('history');
+		hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+	}
+	plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+		entry.removeRecursively(function() {
+			// Success
+		}, function(e) {
+			//alert( "failed"+e.message );
+		});
+	});
+}
+// 打开二维码扫描界面 
+function openBarcode() {
+	createWithoutTitle('barcode_scan.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '18px',
+				onclick: 'javascript:scanPicture()'
+			}]
+		}
+	});
+}
+// 打开自定义扫描界面 
+function openBarcodeCustom() {
+	createWithoutTitle('barcode_custom.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				// fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '18px',
+				onclick: 'javascript:switchFlash()'
+			}]
+		}
+	});
+}

@@ -1,7 +1,0 @@
-{
-  "pages/workOrder/subOrderTelephoneH5.html": {
-    "refer": [
-      "pages/workOrder/barcode_scan.html"
-    ]
-  }
-}

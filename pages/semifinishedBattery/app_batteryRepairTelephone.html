@@ -63,17 +63,16 @@
 			});
 		</script>
 		<form ID="repairBatteryCollapseForm" class="collapse" name="repairBatteryCollapseForm">
-			<input type="text" id="plantid" name="plantid" style="display:none" />
+			<input type="text" id="plantid" name="plantid" style="display:none;" />
 			<label style="font-size:36px;"> 产线： </label>
 			<select class="selectpicker" id="lineid" data-width="450px" data-style=" telephoneSelectStyle" style="font-size:36px" name="lineid">
 			</select>
-			<br />
-			<br />
+
 			<div class="form-inline row">
 				<div class="form-group">
-					<label for="name" style="font-size:36px;">底壳二维码:</label>
-					<input type="text" class="form-control" id="batteryid" name="batteryid" style="font-size:36px;width: 400px;height: 90px;" placeholder="底壳二维码 ">
-					<button type="button" id="batteryidScanQRBT" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="RepairBatteryScanQR()">扫码二维码</button>
+					<label for="name" style="font-size:36px;display:none;">底壳二维码:</label>
+					<input type="text" class="form-control" id="batteryid" name="batteryid" style="display:none;font-size:36px;width: 400px;height: 90px;" placeholder="底壳二维码 ">
+					<button type="button" id="batteryidScanQRBT" class="btn btn-primary btn-lg" style="display:none;font-size:36px;" onclick="RepairBatteryScanQR()">扫码二维码</button>
 				</div>
 			</div>
 			<br />
@@ -120,12 +119,12 @@
 				</div>
 			</div>
 			<br />
-			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addRepairBatteryRecord('1')">确认添加</button>
-			<br />
-			<br />
+			<button type="button" class="btn btn-primary btn-lg" style="display:none;font-size:36px;" onclick="addRepairBatteryRecord('1')">确认添加</button>
+			<!--<br />
+			<br />-->
 			<div class="form-inline row">
 				<div class="form-group">
-					<label> 报修数量： </label>
+					<label style="font-size:36px;"> 报修数量： </label>
 					<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" style="font-size:36px;width: 400px;height: 90px;" id="repairNum" name="repairNum" style="width:300px;" placeholder="报修数量 ">
 				</div>
 			</div>

@@ -65,13 +65,13 @@
 			<label style="font-size:36px;"> 产线： </label>
 			<select class="selectpicker" id="lineID" data-width="450px" data-style=" telephoneSelectStyle" style="font-size:36px" name="lineID">
 			</select>
-			<br />
-			<br />
+			<!--<br />
+			<br />-->
 			<div class="form-inline row">
 				<div class="form-group">
-					<label for="name" style="font-size:36px;">底壳二维码:</label>
-					<input type="text" class="form-control" id="batteryID" name="batteryID" style="font-size:36px;width: 400px;height: 90px;" placeholder="底壳二维码 ">
-					<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="ScrapBatteryScanQR()">扫码二维码</button>
+					<label for="name" style="display:none;font-size:36px;">底壳二维码:</label>
+					<input type="text" class="form-control" id="batteryID" name="batteryID" style="display:none;font-size:36px;width: 400px;height: 90px;" placeholder="底壳二维码 ">
+					<button type="button" class="btn btn-primary btn-lg" style="display:none;font-size:36px;" onclick="ScrapBatteryScanQR()">扫码二维码</button>
 				</div>
 			</div>
 			<br />
@@ -103,7 +103,7 @@
 				</div>
 			</div>
 			<br />
-			<button type="button" class="btn btn-primary btn-lg" style="font-size:36px;" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
+			<button type="button" class="btn btn-primary btn-lg" style="display:none;font-size:36px;" onclick="addScrapBatteryRecord('1')">按二维码报废</button>
 			<br />
 			<div class="form-inline row">
 				<div class="form-group">
