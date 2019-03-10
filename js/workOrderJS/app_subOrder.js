@@ -386,7 +386,7 @@ function FinishSubOrder() {
 
 
 	$("#subOrderFinishBT").attr("disabled", true);
-
+$("#subOrderOvertimeFinishBT").attr("disabled", true);
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -394,16 +394,19 @@ function FinishSubOrder() {
 	if(row.length < 1) {
 		alert("请选择行数据!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row.length > 1) {
 		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
 	}
 	for(var key in row[0]) {
@@ -447,6 +450,7 @@ function FinishSubOrder() {
 			}
 
 			$("#subOrderFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		}
 	});
 };
