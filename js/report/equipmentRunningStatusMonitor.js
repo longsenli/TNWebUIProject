@@ -159,7 +159,7 @@ function equipStatusAllParamMntInit() {
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
 			});
-			setTimeout("equipStatusAllParamMntInit()", 10000*10);
+			setTimeout("equipStatusAllParamMntInit()", 60000*6);
 		}
 	});
 }
