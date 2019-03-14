@@ -1,6 +1,9 @@
-window.serviceIP = "http://192.168.1.107:8080";
-window.netServiceIP = "http://192.168.1.107:8088/";
-window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
+window.serviceIP = "http://192.168.80.228:19001/ilpsService";
+window.netServiceIP = "http://192.168.80.228:8088/";
+window.webUiService = "http://192.168.80.228:19001";
+//window.serviceIP = "http://192.168.1.107:8080";
+//window.netServiceIP = "http://192.168.1.107:8088/";
+//window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
 //window.webUiService = "http://192.168.1.108:8081";
 
 //设置时间格式
