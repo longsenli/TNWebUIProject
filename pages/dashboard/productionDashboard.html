@@ -70,7 +70,7 @@
 
 			<div class="row">
 
-				<div class="col-md-8" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<div class="col-md-8" id="leftContainer" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 					<div class="form-inline row">
 						<label style="font-size:18px;color:#0066CC">当班计划产量：</label>
 						<label id="planProduction" style="font-size:18px;color:#66B3FF">当班计划产量</label>
@@ -104,11 +104,31 @@
 	var fullscreen = false;
 	let btn = document.getElementById('btnFunllScreen');
 	let fullarea = document.getElementById('productionDashboardShow')
+
+	fullarea.addEventListener("fullscreenchange", function(e) {
+
+		initProductionDashboardPicture("onceAgain");
+	});
+	fullarea.addEventListener("mozfullscreenchange", function(e) {
+
+		initProductionDashboardPicture("onceAgain");
+	});
+	fullarea.addEventListener("webkitfullscreenchange", function(e) {
+
+		initProductionDashboardPicture("onceAgain");
+	});
+	fullarea.addEventListener("msfullscreenchange", function(e) {
+
+		initProductionDashboardPicture("onceAgain");
+	});
+
 	btn.addEventListener('click', function() {
 		if(fullscreen) { // 退出全屏
-			$("#myChartRealTimeProduction").height($(document).height() - $("#myChartRealTimeProduction").offset().top + 50);
-			$("#myChartProductionType").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
-			$("#myChartProductionScrap").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
+			//			$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
+			//	$("#myChartProductionType").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
+			//	$("#myChartProductionScrap").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
+			//
+
 			if(document.exitFullscreen) {
 				document.exitFullscreen();
 			} else if(document.webkitCancelFullScreen) {
@@ -119,9 +139,7 @@
 				document.msExitFullscreen();
 			}
 		} else { // 进入全屏
-			$("#myChartRealTimeProduction").height($(document).height() - 50);
-			$("#myChartProductionType").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
-			$("#myChartProductionScrap").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
+
 			if(fullarea.requestFullscreen) {
 				fullarea.requestFullscreen();
 			} else if(fullarea.webkitRequestFullScreen) {
@@ -132,7 +150,8 @@
 				// IE11
 				fullarea.msRequestFullscreen();
 			}
+
 		}
-		//  fullscreen = !fullscreen;
+
 	})
 </script>

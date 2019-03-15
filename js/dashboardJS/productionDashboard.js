@@ -44,7 +44,7 @@ function productionDashboardPlantSlctFun(flag) {
 	});
 };
 
-function productionDashboardProcessSlctFun() {
+function productionDashboardProcessSlctFun(showType) {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
 		type: "GET",
@@ -101,7 +101,7 @@ function productionDashboardProcessSlctFun() {
 	});
 };
 
-function initProductionDashboardPicture() {
+function initProductionDashboardPicture(showType) {
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var startTime = "";
@@ -109,13 +109,13 @@ function initProductionDashboardPicture() {
 	if(document.PlantToLineSelectForm.workType.value.toString() == "BB") {
 		startTime = document.getElementById("startTime").value + " 06:00:00";
 		endTime = document.getElementById("startTime").value + " 08:00:00";
-	} else if(document.PlantToLineSelectForm.workType.value.toString() == "YB"){
+	} else if(document.PlantToLineSelectForm.workType.value.toString() == "YB") {
 		startTime = document.getElementById("startTime").value + " 18:00:00";
 		endTime = document.getElementById("startTime").value + " 20:00:00";
-	} else if(document.PlantToLineSelectForm.workType.value.toString() == "-1"){
+	} else if(document.PlantToLineSelectForm.workType.value.toString() == "-1") {
 		startTime = document.getElementById("startTime").value + " 06:00:00";
 		endTime = document.getElementById("startTime").value + " 20:00:00";
-	} 
+	}
 	document.getElementById("dashboardName").innerHTML = $("#productionProcessSlct").find("option:selected").text() + "产量看板";
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
@@ -254,9 +254,11 @@ function initProductionDashboardPicture() {
 	//alert($(document.body).width());//浏览器当前窗口文档body的宽度
 	//alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin
 
-	$("#myChartRealTimeProduction").height($(document).height() - $("#myChartRealTimeProduction").offset().top);
-	$("#myChartProductionType").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
-	$("#myChartProductionScrap").height(($(document).height() - $("#myChartProductionType").offset().top) / 2);
+	//alert($("#myChartRealTimeProduction").offset().top + "标签offset height : " +$("#myChartRealTimeProduction").height());
+
+	$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
+	$("#myChartProductionType").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
+	$("#myChartProductionScrap").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
 
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
 
@@ -565,4 +567,10 @@ function initProductionDashboardPicture() {
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
+	if(showType == "onceAgain") {
+		setTimeout("initProductionDashboardPicture()", 1000);
+	} else {
+		setTimeout("initProductionDashboardPicture()", 60000 * 10);
+	}
+
 }
