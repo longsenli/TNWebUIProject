@@ -34,19 +34,21 @@
 			//			if($.cookie('token') == null) {
 			//				window.location.href = "../login.html";
 			//			}
-			planProductionIndustrialPlantSlctFun("1");
+			
 
 			$(function() {
 				$('#planProductionModal').on('hide.bs.modal',
 					function() {
-						document.getElementById("planProductionManageForm").reset();
+						$("#planProductionManageForm")[0].reset();
 					})
 
 				var today = new Date();
 
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("planmonth").value = today.format("yyyy-MM");
+				document.getElementById("endTime").value = today.format("yyyy-MM");
 				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("startTime").value = today.format("yyyy-MM");
+				planProductionIndustrialPlantSlctFun("1");
 			});
 			$(function() {
 				$("body").delegate('#table tr', 'click', function() {
@@ -64,9 +66,9 @@
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="getPlanProductionRecord()">
 				</select>
 				<label> 时间： </label>
-				<input type="date" id="startTime" name="startTime" />
+				<input type="month" id="startTime" name="startTime" />
 				<label>-</label>
-				<input type="date" id="endTime" name="endTime" />
+				<input type="month" id="endTime" name="endTime" />
 				<button type="button" class="btn btn-primary" onclick="getPlanProductionRecord()">查询计划</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
@@ -85,7 +87,7 @@
 						<form id="planProductionManageForm">
 							<input type="text" id="id" name="id" style="display:none" />
 							<label> 月份： </label>
-							<input type="date" id="planmonth" name="planmonth" />
+							<input type="month" id="planmonth" name="planmonth" />
 							<br />
 							<!--							<input type="text" id="lineid" name="lineid" style="display:none" />-->
 							<label> 厂区： </label>
@@ -95,7 +97,7 @@
 							<br />
 							<label> 流程： </label>
 							<br />
-							<select class="selectpicker" id="processid" style="width:100px;" name="processid" onchange="lineWorkOrderModalChange()">
+							<select class="selectpicker" id="processid" style="width:100px;" name="processid" onchange="planProductionMaterialSlct()">
 							</select>
 							<br />
 							<label for="name">产品型号:</label>
