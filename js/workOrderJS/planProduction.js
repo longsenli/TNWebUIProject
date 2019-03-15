@@ -336,8 +336,7 @@ function savePlanProductionChange() {
 	var formData = new FormData($("#planProductionManageForm")[0]);
 	formData.append("planmonth", window.stringToDatetimeLocalType(document.getElementById("planmonth").value, ("yyyy-MM")));
 	formData.append("materialname", $("#planProductionManageForm #materialid").find("option:selected").text())
-	if($('#operator').val().length < 2)
-	{
+	if($('#operator').val().length < 2) {
 		formData.append("operator", $.cookie('username'))
 	}
 	$.ajax({
