@@ -260,6 +260,7 @@ function initProductionDashboardPicture(showType) {
 	$("#myChartProductionType").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
 	$("#myChartProductionScrap").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
 
+	var realWidth = $("#myChartRealTimeProduction").width() / (lineRealProductionArray.length * 2);
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
 
 	//产量进度条形图
@@ -343,7 +344,7 @@ function initProductionDashboardPicture(showType) {
 				type: "bar",
 				stack: "业务", //折叠显示
 				data: lineRealProductionArray, //（此处的<%=zcfgData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
-				barWidth: 38,
+				barWidth: realWidth,
 				//显示颜色
 				itemStyle: {
 					normal: {
@@ -363,7 +364,7 @@ function initProductionDashboardPicture(showType) {
 				type: "bar",
 				stack: "业务",
 				data: lineRemainProductionArray, //（此处的<%=jbgcData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
-				barWidth: 38,
+				barWidth: realWidth,
 				itemStyle: {
 					normal: {
 						color: "#DAA520",
@@ -452,7 +453,7 @@ function initProductionDashboardPicture(showType) {
 		series: [{
 			name: '访问来源',
 			type: 'pie',
-			radius: ['50%', '70%'],
+			radius: ['30%', '70%'],
 			itemStyle: {
 				normal: {
 					label: {
@@ -471,7 +472,7 @@ function initProductionDashboardPicture(showType) {
 						show: true,
 						position: 'center',
 						textStyle: {
-							fontSize: '16',
+							fontSize: '26',
 							fontWeight: 'bold'
 						}
 					}
@@ -494,18 +495,18 @@ function initProductionDashboardPicture(showType) {
 					// {c}代表数据
 					formatter: ' {b}：{c} \n\n',
 
-					borderWidth: 20,
+					borderWidth: 10,
 					borderRadius: 4,
-					padding: [0, -70],
+					padding: [0, -120],
 					rich: {
 						a: {
 							color: '#02DF82',
-							fontSize: 14,
-							lineHeight: 5
+							fontSize: 24,
+							lineHeight: 3
 						},
 						b: {
-							fontSize: 14,
-							lineHeight: 5,
+							fontSize: 24,
+							lineHeight: 3,
 							color: '#02DF82'
 						}
 					}
@@ -515,6 +516,8 @@ function initProductionDashboardPicture(showType) {
 			data: materialTypeProductionArray
 		}]
 	};
+
+	var realScrapWidth = $("#myChartProductionScrap").width() / (lineRealProductionArray.length * 2);
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionType.setOption(optionProductionType);
@@ -592,7 +595,7 @@ function initProductionDashboardPicture(showType) {
 			type: "bar",
 			stack: "业务",
 			data: lineScrapArray, //（此处的<%=jbgcData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
-			barWidth: 38,
+			barWidth: realScrapWidth,
 			itemStyle: {
 				normal: {
 					color: "#DAA520",
