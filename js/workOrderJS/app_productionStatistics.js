@@ -500,7 +500,7 @@ function getMaterialInventoryStatistics() {
 		"field": "productionNum"
 	});
 	columnsArray.push({
-		"title": "其他入库",
+		"title": "退返",
 		"field": "inNum"
 	});
 	columnsArray.push({

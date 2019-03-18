@@ -86,6 +86,18 @@
 					usableMaterialRowClick(this);
 				});
 			});
+			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
+			$(function() {
+				if ($.cookie('roleID') !=null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != 24){
+					//取消完成
+//				subOrderCancelFinishBT
+				$("#subOrderCancelFinishBT").show();
+				//补充入库
+//				subOrderOvertimeFinishBT
+				$("#subOrderOvertimeFinishBT").show();
+//				alert($Global_UserLogin_Info.roleID)  24
+				}
+			});
 			//subOrderProductionProcessSlctFun();
 			//			setTimeout(function() {
 			//				//add your code
@@ -129,10 +141,10 @@
 			<button id="subOrderFinishScanQRBT" type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;font-size:36px;width: 350px;height: 150px;" onclick="scanQR('finishSubOrder')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码切换批次
            </button> &nbsp&nbsp
-           <button id="subOrderCancelFinishBT" type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;font-size:36px;width: 350px;height: 150px;"  onclick="cancelFinishSuborder()">
+           <button id="subOrderCancelFinishBT" type="button" class="btn btn-primary btn-lg" style="display: none; margin-top: 10px;font-size:36px;width: 350px;height: 150px;"  onclick="cancelFinishSuborder()">
                 <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消完成
             </button>&nbsp&nbsp
-            <button id="subOrderOvertimeFinishBT" type="button" class="btn btn-primary btn-lg" style="margin-top: 10px;font-size:36px;width: 350px;height: 150px;"  onclick="FinishSubOrder()">
+            <button id="subOrderOvertimeFinishBT" type="button" class="btn btn-primary btn-lg" style="display: none;margin-top: 10px;font-size:36px;width: 350px;height: 150px;"  onclick="FinishSubOrder()">
                 <span class="glyphicon glyphicon-time" aria-hidden="true"></span>补充入库
             </button>&nbsp&nbsp
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-primary btn-lg" style="display: none;" onclick="printQRCode()">
