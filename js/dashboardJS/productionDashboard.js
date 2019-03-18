@@ -217,7 +217,7 @@ function initProductionDashboardPicture(showType) {
 		totalPlanProduction += values;
 		lineNameArray.push(key);
 		lineTotalProductionArray.push(values);
-		lineScrapArray.push(((Math.random() * (10000 - 9000 + 1) + 9000) / 100).toFixed(2));
+		lineScrapArray.push(((Math.random() * (10000 - 9900 + 1) + 9900) / 100).toFixed(2));
 
 		if(lineRealProductionMap.hasOwnProperty(key)) {
 			lineRealProductionArray.push(lineRealProductionMap[key]);
@@ -271,7 +271,7 @@ function initProductionDashboardPicture(showType) {
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
-				color: '#84C1FF'
+				color: '#FFFFFF'
 			},
 
 			//			text: ‘十大高耗水行业用水量八减两增 ‘,    //标题
@@ -366,7 +366,7 @@ function initProductionDashboardPicture(showType) {
 				barWidth: 38,
 				itemStyle: {
 					normal: {
-						color: "#009393",
+						color: "#DAA520",
 						label: {
 							show: true,
 							textStyle: {
@@ -425,7 +425,7 @@ function initProductionDashboardPicture(showType) {
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
-				color: '#84C1FF'
+				color: '#FFFFFF'
 			},
 		},
 		//鼠标触发提示数量
@@ -447,7 +447,7 @@ function initProductionDashboardPicture(showType) {
 			}
 		},
 
-		color: ['#4A4AFF', '#00A600', '#977C00', '#7B7B7B', '#0066CC', '#E1E100', '#82D900'],
+		color: ['#DA70D6', '#00A600', '#977C00', '#7B7B7B', '#0066CC', '#E1E100', '#82D900'],
 		calculable: true,
 		series: [{
 			name: '访问来源',
@@ -531,7 +531,7 @@ function initProductionDashboardPicture(showType) {
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
-				color: '#84C1FF'
+				color: '#FFFFFF'
 			},
 		},
 		//鼠标触发提示数量
@@ -595,7 +595,7 @@ function initProductionDashboardPicture(showType) {
 			barWidth: 38,
 			itemStyle: {
 				normal: {
-					color: "#009393",
+					color: "#DAA520",
 					label: {
 						show: true,
 						textStyle: {
