@@ -257,8 +257,8 @@ function initProductionDashboardPicture(showType) {
 	//alert($("#myChartRealTimeProduction").offset().top + "标签offset height : " +$("#myChartRealTimeProduction").height());
 
 	$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
-	$("#myChartProductionType").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
-	$("#myChartProductionScrap").height(($(window).height() - $("#myChartRealTimeProduction").offset().top) / 2 - 1);
+	$("#myChartProductionType").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
+	$("#myChartProductionScrap").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
 
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
 
@@ -270,7 +270,7 @@ function initProductionDashboardPicture(showType) {
 			text: "生产进度图",
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
-				fontSize: '18',
+				fontSize: '28',
 				color: '#84C1FF'
 			},
 
@@ -297,6 +297,7 @@ function initProductionDashboardPicture(showType) {
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
 			data: ["实际产量", "剩余产量", "总产量"],
 			textStyle: {
+				fontSize: 18,
 				color: "#FFFFFF"
 			}
 		},
@@ -311,6 +312,12 @@ function initProductionDashboardPicture(showType) {
 					color: '#FFFFFF',
 					width: 2
 				}
+			},
+			axisLabel: { //设置坐标轴刻度样式
+				textStyle: {
+					fontSize: 18,
+					fontWeight: 'normal',
+				},
 			}
 		},
 		//y轴显示
@@ -323,6 +330,12 @@ function initProductionDashboardPicture(showType) {
 					color: '#FFFFFF',
 					width: 2
 				}
+			},
+			axisLabel: { //设置坐标轴刻度样式
+				textStyle: {
+					fontSize: 18,
+					fontWeight: 'normal',
+				},
 			}
 		},
 		series: [{
@@ -336,7 +349,11 @@ function initProductionDashboardPicture(showType) {
 					normal: {
 						color: "#02DF82",
 						label: {
-							show: true
+							show: true,
+							textStyle: {
+
+								fontSize: 16
+							}
 						}
 					}
 				}
@@ -351,7 +368,11 @@ function initProductionDashboardPicture(showType) {
 					normal: {
 						color: "#009393",
 						label: {
-							show: true
+							show: true,
+							textStyle: {
+
+								fontSize: 16
+							}
 						}
 					}
 				}
@@ -403,7 +424,7 @@ function initProductionDashboardPicture(showType) {
 			text: "型号产量占比图",
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
-				fontSize: '18',
+				fontSize: '28',
 				color: '#84C1FF'
 			},
 		},
@@ -421,6 +442,7 @@ function initProductionDashboardPicture(showType) {
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
 			data: materialTypeArray,
 			textStyle: {
+				fontSize: 18,
 				color: "#FFFFFF"
 			}
 		},
@@ -437,7 +459,11 @@ function initProductionDashboardPicture(showType) {
 						show: true
 					},
 					labelLine: {
-						show: true
+						show: true,
+						textStyle: {
+
+							fontSize: 16
+						}
 					}
 				},
 				emphasis: {
@@ -445,7 +471,7 @@ function initProductionDashboardPicture(showType) {
 						show: true,
 						position: 'center',
 						textStyle: {
-							fontSize: '14',
+							fontSize: '16',
 							fontWeight: 'bold'
 						}
 					}
@@ -474,11 +500,11 @@ function initProductionDashboardPicture(showType) {
 					rich: {
 						a: {
 							color: '#02DF82',
-							fontSize: 12,
+							fontSize: 14,
 							lineHeight: 5
 						},
 						b: {
-							fontSize: 12,
+							fontSize: 14,
 							lineHeight: 5,
 							color: '#02DF82'
 						}
@@ -504,7 +530,7 @@ function initProductionDashboardPicture(showType) {
 			text: "上一班次合格率",
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
-				fontSize: '18',
+				fontSize: '28',
 				color: '#84C1FF'
 			},
 		},
@@ -520,6 +546,7 @@ function initProductionDashboardPicture(showType) {
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
 			data: ["合格率"],
 			textStyle: {
+				fontSize: 18,
 				color: "#FFFFFF"
 			}
 		},
@@ -533,6 +560,12 @@ function initProductionDashboardPicture(showType) {
 					color: '#FFFFFF',
 					width: 2
 				}
+			},
+			axisLabel: { //设置坐标轴刻度样式
+				textStyle: {
+					fontSize: 18,
+					fontWeight: 'normal',
+				},
 			}
 		},
 		//y轴显示
@@ -545,6 +578,12 @@ function initProductionDashboardPicture(showType) {
 					color: '#FFFFFF',
 					width: 2
 				}
+			},
+			axisLabel: { //设置坐标轴刻度样式
+				textStyle: {
+					fontSize: 18,
+					fontWeight: 'normal',
+				},
 			}
 		},
 		calculable: true,
@@ -558,7 +597,11 @@ function initProductionDashboardPicture(showType) {
 				normal: {
 					color: "#009393",
 					label: {
-						show: true
+						show: true,
+						textStyle: {
+
+							fontSize: 16
+						}
 					}
 				}
 			}

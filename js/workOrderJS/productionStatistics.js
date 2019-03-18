@@ -181,6 +181,16 @@ function productionOutputStatistics() {
 	});
 	columnsArray.push({
 		width: 300,
+		"title": "日期",
+		"field": "orderDay"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "班次",
+		"field": "classType"
+	});
+	columnsArray.push({
+		width: 300,
 		"title": "产线",
 		"field": "lineName"
 	});
