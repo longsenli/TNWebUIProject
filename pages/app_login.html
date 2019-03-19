@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="user-scalable=0">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>天能（濮阳）</title>
 
@@ -77,6 +78,16 @@
 								<!--    <a href="index.html" class="btn btn-lg btn-success btn-block">登录</a>-->
 								<button type="submit" class="btn">登录</button>
 							</form>
+							<div align="right" style="padding-top: 10px;">
+								<a data-toggle="collapse" data-parent="#accordion" 
+								   href="#collapseTwo">
+								<i style="font-size: x-large;color: #3C763D" class="fa fa-cog"></i>
+								<span style="font-size: x-large;color: #3C763D">设置</span></a>
+							</div>
+							<div id="collapseTwo" class="panel-collapse collapse">
+								<input type="text" onblur="setRemoteServiceIP()" name="RemoteServiceIP" placeholder="设置服务器信息" class="form-username form-control" id="RemoteServiceIP" required>
+							</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -87,9 +98,15 @@
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
 		<script type="text/javascript">
+			function setRemoteServiceIP(){
+				var RemoteServiceIP = $("#RemoteServiceIP").val();
+				localStorage.setItem('RemoteServiceIP',RemoteServiceIP);
+			}
+			
 			function appLoginPageload() {
 				$("#form-username").val(localStorage.getItem('LocalUserName'));
 				$("#form-password").val(localStorage.getItem('LocalUserPsw'));
+				$("#RemoteServiceIP").val(localStorage.getItem('RemoteServiceIP'));
 
 				$.ajax({
 					type: "get",
@@ -147,6 +164,10 @@
 
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
+				var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
+				if (RemoteServiceIP1!=null && RemoteServiceIP1!='undefined' && RemoteServiceIP1 !=""){
+					window.serviceIP = 'http://'+RemoteServiceIP1+'/ilpsService';
+				}
 				$.ajax({
 					type: 'POST',
 					url: window.serviceIP + '/api/login',

@@ -241,6 +241,8 @@ function productionOutputStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -302,6 +304,8 @@ function remnantProductStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -405,6 +409,8 @@ function batteryStatisInventory() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -468,6 +474,8 @@ function grantAndExpendStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -551,6 +559,8 @@ function getMaterialInventoryStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -632,6 +642,8 @@ function getSecondaryMaterialInventoryStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -835,6 +847,8 @@ function grantMaterialDetail() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					paginationPreText: '上一页',
+        			paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
