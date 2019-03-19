@@ -275,7 +275,7 @@ function getWorkOrder() {
 					striped: true,
 					sortName: "recordTime",
 					sortOrder: "desc",
-					pageSize: 30,
+					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[15, 30, 50, 100, All]",
 					//showToggle: true,
