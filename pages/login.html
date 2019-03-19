@@ -123,7 +123,8 @@
 					url : window.serviceIP+ '/api/login',
 					dataType: "json",
 					data:{'username':username,"password":password},
-					async:false,
+					async:true,//设置为false时,timeout不生效
+					timeout: 5000,
 					success : function(result){
 
 						if(result.status=="1"){
@@ -160,7 +161,16 @@
 							var hintinfo=document.getElementById("hintinfo");
 							hintinfo.innerText="用户名或密码错误，请重新填写。";
 						}
-					}
+					},
+					 error: function (xhr, status, err) {
+//					 	alert('出现错误,请联系管理员!')
+      				},
+			      	complete: function (XMLHttpRequest, status) { //当请求完成时调用函数
+			      		
+			        	if (status == 'timeout') {//status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+			          		alert(status + "网络连接超时, 请检查网络" )
+			        	}
+			      	}
 				});   
 				return false;
 			}
