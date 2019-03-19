@@ -258,16 +258,16 @@ function initProductionDashboardPicture(showType) {
 
 	if(($(window).height() - $("#myChartRealTimeProduction").offset().top) < 800) {
 		$("#myChartRealTimeProduction").height(800);
-		$("#myChartProductionType").height(($("#leftContainer").height() ) / 2  );
-		$("#myChartProductionScrap").height(($("#leftContainer").height() ) / 2  );
+		$("#myChartProductionType").height(($("#leftContainer").height()) / 2);
+		$("#myChartProductionScrap").height(($("#leftContainer").height()) / 2);
 
 	} else {
 		$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
-		$("#myChartProductionType").height(($("#leftContainer").height() ) / 2 );
-		$("#myChartProductionScrap").height(($("#leftContainer").height() ) / 2 );
+		$("#myChartProductionType").height(($("#leftContainer").height()) / 2);
+		$("#myChartProductionScrap").height(($("#leftContainer").height()) / 2);
 	}
 
-	var realWidth = ($("#myChartRealTimeProduction").width() * 0.65)/ (lineRealProductionArray.length * 2);
+	var realWidth = ($("#myChartRealTimeProduction").width() * 0.65) / (lineRealProductionArray.length * 2);
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
 
 	//产量进度条形图
@@ -524,7 +524,7 @@ function initProductionDashboardPicture(showType) {
 		}]
 	};
 
-	var realScrapWidth = ($("#myChartProductionScrap").width() * 0.65)/ (lineRealProductionArray.length * 2);
+	var realScrapWidth = ($("#myChartProductionScrap").width() * 0.65) / (lineRealProductionArray.length * 2);
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionType.setOption(optionProductionType);
