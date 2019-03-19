@@ -267,7 +267,7 @@ function initProductionDashboardPicture(showType) {
 		$("#myChartProductionScrap").height(($("#leftContainer").height() ) / 2 );
 	}
 
-	var realWidth = $("#myChartRealTimeProduction").width() / (lineRealProductionArray.length * 2);
+	var realWidth = ($("#myChartRealTimeProduction").width() * 0.65)/ (lineRealProductionArray.length * 2);
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
 
 	//产量进度条形图
@@ -524,7 +524,7 @@ function initProductionDashboardPicture(showType) {
 		}]
 	};
 
-	var realScrapWidth = $("#myChartProductionScrap").width() / (lineRealProductionArray.length * 2);
+	var realScrapWidth = ($("#myChartProductionScrap").width() * 0.65)/ (lineRealProductionArray.length * 2);
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionType.setOption(optionProductionType);
