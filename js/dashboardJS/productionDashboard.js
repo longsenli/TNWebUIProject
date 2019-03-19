@@ -256,9 +256,16 @@ function initProductionDashboardPicture(showType) {
 
 	//alert($("#myChartRealTimeProduction").offset().top + "标签offset height : " +$("#myChartRealTimeProduction").height());
 
-	$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
-	$("#myChartProductionType").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
-	$("#myChartProductionScrap").height(($(window).height() - $("#leftContainer").offset().top) / 2 - 1);
+	if(($(window).height() - $("#myChartRealTimeProduction").offset().top) < 800) {
+		$("#myChartRealTimeProduction").height(800);
+		$("#myChartProductionType").height(($("#leftContainer").height() ) / 2  );
+		$("#myChartProductionScrap").height(($("#leftContainer").height() ) / 2  );
+
+	} else {
+		$("#myChartRealTimeProduction").height($(window).height() - $("#myChartRealTimeProduction").offset().top);
+		$("#myChartProductionType").height(($("#leftContainer").height() ) / 2 );
+		$("#myChartProductionScrap").height(($("#leftContainer").height() ) / 2 );
+	}
 
 	var realWidth = $("#myChartRealTimeProduction").width() / (lineRealProductionArray.length * 2);
 	// $("#keleyidiv").width($("#kel"+"eyidiv").width() - 50)
