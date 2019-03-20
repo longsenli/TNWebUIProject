@@ -96,6 +96,13 @@
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
 		<script type="text/javascript">
+			$(function() {
+				document.addEventListener('plusready', function() {
+					// 在这里调用5+ API 
+					versionCompare();
+				}, false);
+			});
+
 			function setRemoteServiceIP() {
 				var RemoteServiceIP = $("#RemoteServiceIP").val();
 				localStorage.setItem('RemoteServiceIP', RemoteServiceIP);
@@ -105,10 +112,19 @@
 				$("#form-username").val(localStorage.getItem('LocalUserName'));
 				$("#form-password").val(localStorage.getItem('LocalUserPsw'));
 				$("#RemoteServiceIP").val(localStorage.getItem('RemoteServiceIP'));
+
+			}
+
+			function versionCompare() {
 				var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
 				if(RemoteServiceIP1 != null && RemoteServiceIP1 != 'undefined' && RemoteServiceIP1 != "") {
 					window.serviceIP = 'http://' + RemoteServiceIP1 + '/ilpsService';
 				}
+				var versionNow;
+				plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+					versionNow = inf.version;
+				});
+
 				$.ajax({
 					type: "get",
 					url: window.serviceIP + '/api/getappversion?clientType=apk',
@@ -116,14 +132,15 @@
 					success: function(res) {
 
 						//alert(res.message)
-						if(res.message > '1.0.3') //比对版本号
+						if(res.message > versionNow) //比对版本号
 						{
 							//console.log(new_version+'新版本'+version);
 							plus.nativeUI.confirm("应用有新版本，是否立即下载更新？", function(event) {
 								if(event.index == 1) {
 									plus.nativeUI.showWaiting();
 									//updateAppRun(window.webUiService + '/pages/H5EE481DB_0308142119.apk');
-									updateAppRun(window.serviceIP + '/tnpyILPS.apk');
+									updateAppRun(window.serviceIP + '/tnpyILPS_' + res.message.toString().trim() + '.apk');
+									
 									//updateAppRun("http://fast.yingyonghui.com/82576ac98a5bf68aa822332c681ce0d9/5c84684a/apk/6363734/4e788c5e4446c6edece446bc92eef0af");
 									//ks.update_ksd(new_json.url); //更新函数,在下面
 
