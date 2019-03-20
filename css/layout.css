@@ -94,13 +94,13 @@ z-index:100;
 
 .TempContral{
 	float: left;
-	background-color:#00EE00;
+	background-color:#6699FF;
 	margin-left: 10px;
 	margin-top: 10px;
 	min-width:150px;
 	min-height:60px;
-	color: black;
-	//color: white;
+	//color: black;
+	color: white;
 	font-size: 20px;
 	font-weight:bold;
 	//border: dotted;
@@ -118,8 +118,8 @@ z-index:100;
 	//line-height:50px;
 }
 .fontStyle{
-	color: black;
-	//color: white;
+	//color: black;
+	color: white;
 	font-size: 20px;
 	font-weight:bold;
 }

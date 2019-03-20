@@ -124,14 +124,14 @@ function equipStatusAllParamMntInit() {
 		},
 		processData: true,
 		success: function(dataRes) {
-			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#2CB044;font-weight:bold\">设备运行参数监控看板</h1>";
+			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#FFFFFF;font-weight:bold\">设备运行参数监控看板</h1>";
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for(var i = 0; i < models.length; i++) {
 					controller += "<div class =\"TempContral\" ";
 
 					if("1" == models[i].status) {
-						controller += " style =\"background-color:#FFFF00 !important;\""
+						controller += " style =\"background-color:#DAA520 !important;\""
 						//alert(controller);
 					}
 
