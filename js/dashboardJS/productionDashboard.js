@@ -104,6 +104,7 @@ function productionDashboardProcessSlctFun(showType) {
 function initProductionDashboardPicture(showType) {
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
+	var planDailyProductionNumber = 1;
 	var startTime = "";
 	var endTime = "";
 	if(document.PlantToLineSelectForm.workType.value.toString() == "BB") {
@@ -138,6 +139,7 @@ function initProductionDashboardPicture(showType) {
 		}
 
 	}
+
 	document.getElementById("dashboardName").innerHTML = $("#productionProcessSlct").find("option:selected").text() + "产量看板";
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
@@ -190,6 +192,32 @@ function initProductionDashboardPicture(showType) {
 			}
 		}
 	});
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/getplanproductionnumber?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+			"&planMonth=" + startTime.substr(0, 7),
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		async: false,
+		success: function(dataRes) {
+
+			if(dataRes.status == 1) { 
+				planDailyProductionNumber = dataRes.data;
+
+			} else {
+				alert("查询产量数据失败！" + dataRes.message);
+				return;
+			}
+		}
+	});
+
 	var lineName = [];
 	var lineRealProductionMap = {};
 	var lineTotalProductionMap = {};
@@ -260,6 +288,9 @@ function initProductionDashboardPicture(showType) {
 		materialTypeProductionArray.push(mapMaterial);
 	});
 
+	if(planDailyProductionNumber > 500) {
+		totalPlanProduction = planDailyProductionNumber;
+	}
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
@@ -644,7 +675,7 @@ function initProductionDashboardPicture(showType) {
 	myChartProductionScrap.setOption(optionProductionScrap);
 	if(showType == "onceAgain") {
 		setTimeout("initProductionDashboardPicture('refresh')", 1000);
-	} else if(showType == "refresh"){		
+	} else if(showType == "refresh") {
 		setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
 	}
 }
