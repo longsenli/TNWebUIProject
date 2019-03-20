@@ -355,7 +355,7 @@ function initProductionDashboardPicture(showType) {
 				//显示颜色
 				itemStyle: {
 					normal: {
-						color: "#02DF82",
+						color: "#FFA500",
 						label: {
 							show: true,
 							textStyle: {
@@ -374,7 +374,7 @@ function initProductionDashboardPicture(showType) {
 				barWidth: realWidth,
 				itemStyle: {
 					normal: {
-						color: "#DAA520",
+						color: "#7EC0EE",
 						label: {
 							show: true,
 							textStyle: {
@@ -455,7 +455,7 @@ function initProductionDashboardPicture(showType) {
 			}
 		},
 
-		color: ['#DA70D6', '#00A600', '#977C00', '#7B7B7B', '#0066CC', '#E1E100', '#82D900'],
+		color: ['#EE82EE', '#FF0000', '#FFFF00', '#7B7B7B', '#0066CC', '#E1E100', '#82D900'],
 		calculable: true,
 		series: [{
 			name: '访问来源',
@@ -605,7 +605,7 @@ function initProductionDashboardPicture(showType) {
 			barWidth: realScrapWidth,
 			itemStyle: {
 				normal: {
-					color: "#DAA520",
+					color: "#FFB500",
 					label: {
 						show: true,
 						textStyle: {
