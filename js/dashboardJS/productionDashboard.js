@@ -116,6 +116,28 @@ function initProductionDashboardPicture(showType) {
 		startTime = document.getElementById("startTime").value + " 06:00:00";
 		endTime = document.getElementById("startTime").value + " 20:00:00";
 	}
+
+	if(showType == 'refresh') {
+		var today = new Date();
+
+		if(today.getHours() < 7) {
+			today.setDate(today.getDay() - 1);
+			startTime = today.format("yyyy-MM-dd " + " 18:00:00");
+			endTime = today.format("yyyy-MM-dd " + " 20:00:00");
+		}
+
+		if(today.getHours() >= 7 && today.getHours() <= 18) {
+
+			startTime = today.format("yyyy-MM-dd " + " 18:00:00");
+			endTime = today.format("yyyy-MM-dd " + " 20:00:00");
+		}
+		if(today.getHours() >= 19) {
+
+			startTime = today.format("yyyy-MM-dd " + " 18:00:00");
+			endTime = today.format("yyyy-MM-dd " + " 20:00:00");
+		}
+
+	}
 	document.getElementById("dashboardName").innerHTML = $("#productionProcessSlct").find("option:selected").text() + "产量看板";
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductiondashboard?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
@@ -623,7 +645,7 @@ function initProductionDashboardPicture(showType) {
 	if(showType == "onceAgain") {
 		setTimeout("initProductionDashboardPicture()", 1000);
 	} else {
-		setTimeout("initProductionDashboardPicture()", 60000 * 10);
+		setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
 	}
 
 }
