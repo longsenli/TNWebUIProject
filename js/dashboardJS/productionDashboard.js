@@ -128,8 +128,8 @@ function initProductionDashboardPicture(showType) {
 
 		if(today.getHours() >= 7 && today.getHours() <= 18) {
 
-			startTime = today.format("yyyy-MM-dd " + " 18:00:00");
-			endTime = today.format("yyyy-MM-dd " + " 20:00:00");
+			startTime = today.format("yyyy-MM-dd " + " 06:00:00");
+			endTime = today.format("yyyy-MM-dd " + " 09:00:00");
 		}
 		if(today.getHours() >= 19) {
 
@@ -643,9 +643,8 @@ function initProductionDashboardPicture(showType) {
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardPicture()", 1000);
-	} else {
+		setTimeout("initProductionDashboardPicture('refresh')", 1000);
+	} else if(showType == "refresh"){		
 		setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
 	}
-
 }
