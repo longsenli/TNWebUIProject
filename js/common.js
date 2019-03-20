@@ -4,8 +4,8 @@ var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
 window.serviceIP = "http://192.168.80.228:19001/ilpsService";
 window.netServiceIP = "http://192.168.80.228:8088/";
 window.webUiService = "http://192.168.80.228:19001";
-//window.serviceIP = "http://192.168.1.107:8080";
-//window.netServiceIP = "http://192.168.1.107:8088/";
+//window.serviceIP = "http://192.168.1.106:8080";
+//window.netServiceIP = "http://192.168.1.106:8088/";
 //window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
@@ -47,6 +47,23 @@ function getFormDataToJson(formDataOrign) {
 	return JSON.stringify(objData);
 }
 
+function formToObject(formOrign)
+{
+    var o = {};
+    var a = formOrign.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 //将时间字符串转换为指定格式的时间字符串
 function stringToDatetimeLocalType(str, style) {
 	if(str == null || str == "undefined" || str.toString().length < 5) {
@@ -58,6 +75,8 @@ function stringToDatetimeLocalType(str, style) {
 	}
 	return dt.format(style);
 }
+
+
 //判断浏览器是手机还是PC
 function judgeAgentInfo() {
 	var userAgentInfo = navigator.userAgent;

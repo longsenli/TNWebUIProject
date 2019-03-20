@@ -146,9 +146,9 @@ function addBatteryBorrowRerutnRecord() {
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addborrowreturnrecord",
 		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		data: window.getFormDataToJson(formData),
+//		contentType: "application/json",
+//		dataType: "json",
+		data: formData,
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {

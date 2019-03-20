@@ -488,7 +488,7 @@ function selectedWorkOrderRow(param) {
 function deleteWorkOrder(orderid) {
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/changeworkorderstatus?ID="+orderid + "&status=" + window.windowOrderStatusEnum.closed,
+		url: window.serviceIP + "/api/order/changeworkorderstatus?ID=" + orderid + "&status=" + window.windowOrderStatusEnum.closed,
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -500,7 +500,7 @@ function deleteWorkOrder(orderid) {
 
 		success: function(data) {
 			if(data.status == 1) {
-				
+
 				getWorkOrder();
 				alert('订单已关闭!');
 			} else {
@@ -540,10 +540,11 @@ function saveWorkOrderChange() {
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
 		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-
-		data: window.getFormDataToJson(formData),
+		//		contentType: "application/json",
+		//		dataType: "json",
+		processData: false,
+		contentType: false,
+		data: formData,
 		//		headers: {
 		//			Token: $.cookie('token')
 		//		},
@@ -623,20 +624,20 @@ function createScrapModel() {
 }
 
 function saveScrap() {
-	var formData = new FormData($("#scrapModalForm")[0]);
 
-	//console.log(window.getFormDataToJson(formData));
+	var jsonMap = window.formToObject($("#scrapModalForm"));
 	$.ajax({
 		url: window.serviceIP + "/api/scrapinfo/savescrapinfo",
 		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
+		//		contentType: "application/json",
+		//		dataType: "json",
 
-		data: window.getFormDataToJson(formData),
+		data: JSON.stringify(jsonMap).toString(),
 		//		headers: {
 		//			Token: $.cookie('token')
 		//		},
-
+		processData: false,
+		contentType: false,
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
@@ -644,6 +645,10 @@ function saveScrap() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
+		},
+		error: function(xhr, state, errorThrown) {
+
+			JSON.stringify(xhr).toString()
 		}
 	});
 }

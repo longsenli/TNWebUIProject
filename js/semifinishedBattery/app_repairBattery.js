@@ -295,11 +295,13 @@ function addRepairBatteryRecord(repairType) {
 	}
 	
 	var formData = new FormData();
-	var formDataClps = new FormData($("#repairBatteryCollapseForm")[0]);
+	
+	var jsonObj = window.formToObject($("#repairBatteryCollapseForm")); //json对象
 	if("add" == repairBateryHTMLFlag) {
-		formDataClps.append("plantid", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+		jsonObj["plantid"] = document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
 	}
-	formData.append("jsonStr", window.getFormDataToJson(formDataClps));
+		
+	formData.append("jsonStr", JSON.stringify(jsonObj).toString());
 	formData.append("type", repairBateryHTMLFlag);
 	
 	formData.append("number", repairpNum);

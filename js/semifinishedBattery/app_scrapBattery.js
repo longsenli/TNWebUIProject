@@ -238,12 +238,13 @@ function addScrapBatteryRecord(scrapFunction) {
 		alert("请正确输入报废数量!");
 		return;
 	}
-	var formData = new FormData($("#scrapBatteryCollapseForm")[0]);
-	formData.append("scrapStaff", $Global_UserLogin_Info.username);
-	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString())
+
+	var jsonObj = window.formToObject($("#scrapBatteryCollapseForm")); //json对象
+	jsonObj["scrapStaff"] = $Global_UserLogin_Info.username;
+	jsonObj["plantID"] = document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
 
 	var formDataParam = new FormData();
-	formDataParam.append("jsonStr", window.getFormDataToJson(formData));
+	formDataParam.append("jsonStr", JSON.stringify(jsonObj).toString());
 	formDataParam.append("scrapNum", scrapNum);
 	$.ajax({
 		url: window.serviceIP + "/api/semifinishedbattery/addscrapbattery",
