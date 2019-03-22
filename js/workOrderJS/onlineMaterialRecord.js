@@ -182,6 +182,12 @@ function getOnlineMaterial() {
 		width: 200,
 		"title": "输出产物",
 		"field": "materialid",
+		visible: false
+	});
+	columnsArray.push({
+		width: 200,
+		"title": "输出产物",
+		"field": "materialName",
 		formatter: function(value, row, index) {
 			return $("#materialid option[value='" + row.materialid + "']").text();
 		}
@@ -201,6 +207,9 @@ function getOnlineMaterial() {
 			}
 			if(row.status == '2') {
 				return '已入库';
+			}
+			if(row.status == '3') {
+				return '合并入库';
 			}
 		}
 	});
@@ -264,7 +273,7 @@ function getOnlineMaterial() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
-					singleSelect: true,
+					singleSelect: false,
 					clickToSelect: true,
 					striped: true,
 					sortName: "recordTime",
@@ -279,10 +288,10 @@ function getOnlineMaterial() {
 					//					fixedColumns: true, //固定列
 					//					fixedNumber: 1, //固定前两列
 					pagination: true,
-					columns: columnsArray,
-					onClickRow: function(row) {
-						onlineMaterialSelectedRow = row;
-					}
+					columns: columnsArray
+					//					onClickRow: function(row) {
+					//						onlineMaterialSelectedRow = row;
+					//					}
 				});
 
 			} else {
@@ -336,32 +345,47 @@ function selectedOnlineMaterialRow(param) {
 	//		return row;
 	//	});
 	var optionType = param.getAttribute("id");
-	var row = onlineMaterialSelectedRow;
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
 
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render');   
 	$('#lineid').selectpicker('mobile');
-
+	$('#materialid').selectpicker('refresh');
+	$('#materialid').selectpicker('render');   
+	$('#materialid').selectpicker('mobile');
 	if(optionType == "onlineMaterial_add") {
 
 		$("#onlineMaterialModalForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 		$("#onlineMaterialModalForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
 
 		$('#onlineMaterialModal').modal('show');
-	} else if(optionType == "onlineMaterial_edit") {
+	} else if(optionType == "onlineMaterial_merge") {
 		if(row == null || row == 'undefined' || row.length < 1) {
 			alert("请选择行数据!");
 			return;
 		}
-
-		$('#onlineMaterialModal').modal('show');
+		var mergeID = '';
+		for(var i = 0; i < row.length; i++) {
+			if(row[i].status != '1') {
+				alert('有记录已经入库,请确认,' + row[i].updatetime);
+				return;
+			}
+			mergeID += row[i].id + ',';
+		}
+		mergeID = mergeID.substr(0, mergeID.length - 1);
+		mergeOnlineMaterialReocrd(mergeID);
 	} else if(optionType == "onlineMaterial_delete") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
 		}
-
-		deleteonlineMaterial(row["id"]);
+		if(row.length > 1) {
+			alert("每次只能选择一行处理,当前选择行数为:" + row.length);
+			return;
+		}
+		deleteonlineMaterial(row[0]["id"]);
 	}
 };
 
@@ -389,6 +413,79 @@ function deleteonlineMaterial(id) {
 		}
 	});
 }
+
+function mergeOnlineMaterialReocrd(mergeID) {
+
+	//	if(isNaN(parseInt($("#materialnum").val())) || parseInt($("#materialnum").val()) < 1) {
+	//		alert("请正确输入数量!");
+	//		return;
+	//	}
+	//	var formMap = window.formToObject($("#onlineMaterialModalForm"));
+	//	formMap["operator"] = $.cookie('username');
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username'),
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				alert('保存成功!');
+				getOnlineMaterial();
+
+			} else {
+				alert("保存失败！" + data.message);
+			}
+		}
+	});
+};
+
+function printOnlineMaterialReocrd() {
+
+	var selectRow = $("#table").bootstrapTable('getSelections');
+	//var arrayObj = new Array();
+	for(var i = 0; i < selectRow.length; i++) {
+		//console.log("dayin");
+		alert("dayin");
+		if(selectRow[i].status != '3')
+			continue;
+		var orderLength = selectRow[i].id.length;
+		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
+		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
+		LODOP.ADD_PRINT_BARCODE(20, 20, 100, 100, "QRCode", selectRow[i].id);
+
+		LODOP.ADD_PRINT_TEXT(140, 5, 160, 50, selectRow[i].id); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].id.substr(orderLength - 12, 4) + "年" +
+			selectRow[i].id.substr(orderLength - 8, 2) + "月" + selectRow[i].id.substr(orderLength - 6, 2) + "日"); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].materialnum); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
+		//LODOP.PREVIEW();
+		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
+	}
+};
 
 function saveOnlineMaterialReocrd() {
 
