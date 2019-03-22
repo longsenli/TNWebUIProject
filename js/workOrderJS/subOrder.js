@@ -439,7 +439,7 @@ function FinishSubOrder() {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功! ' + data.message);
-				SelectSubOrder()
+				SelectSubOrder();
 				$("#changeOrderProductionNum").attr("readonly", true);
 			} else {
 				alert("保存失败！" + data.message);

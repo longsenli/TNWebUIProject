@@ -87,7 +87,7 @@ function onlineMaterialProductionProcessSlctFun() {
 				}
 
 				onlineMaterialProductionLineSlctFun();
-				onlineMaterialMaterialSlct();
+				
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -102,6 +102,7 @@ function onlineMaterialProductionLineSlctFun() {
 	//		return;
 	//	}
 	//alert(document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
+	onlineMaterialMaterialSlct();
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -452,7 +453,7 @@ function printOnlineMaterialReocrd() {
 	//var arrayObj = new Array();
 	for(var i = 0; i < selectRow.length; i++) {
 		//console.log("dayin");
-		alert("dayin");
+
 		if(selectRow[i].status != '3')
 			continue;
 		var orderLength = selectRow[i].id.length;
