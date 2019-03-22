@@ -441,6 +441,10 @@ function materialCfgTableFun() {
 		"field": "name"
 	});
 	columnsArray.push({
+		"title": "每批次物料对应数量",
+		"field": "eachbatchnumber"
+	});
+	columnsArray.push({
 		"title": "简称",
 		"field": "shortname"
 	});
