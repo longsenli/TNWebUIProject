@@ -87,7 +87,7 @@ function onlineMaterialProductionProcessSlctFun() {
 				}
 
 				onlineMaterialProductionLineSlctFun();
-				
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
