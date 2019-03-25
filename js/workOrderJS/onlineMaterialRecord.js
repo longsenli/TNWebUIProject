@@ -368,12 +368,18 @@ function selectedOnlineMaterialRow(param) {
 			return;
 		}
 		var mergeID = '';
+		var sumMerge = 0;
 		for(var i = 0; i < row.length; i++) {
 			if(row[i].status != '1') {
 				alert('有记录已经入库,请确认,' + row[i].updatetime);
 				return;
 			}
+			sumMerge += row[i].materialnum;
 			mergeID += row[i].id + ',';
+		}
+		if(!window.changeConfirmDlg("是否合并" + row.length + "条记录,总产量为:" + sumMerge))
+		{
+			return;
 		}
 		mergeID = mergeID.substr(0, mergeID.length - 1);
 		mergeOnlineMaterialReocrd(mergeID);
