@@ -122,7 +122,7 @@ function initProductionDashboardPicture(showType) {
 		var today = new Date();
 
 		if(today.getHours() < 7) {
-			today.setDate(today.getDay() - 1);
+			today.setDate(today.getDate() - 1);
 			startTime = today.format("yyyy-MM-dd " + " 18:00:00");
 			endTime = today.format("yyyy-MM-dd " + " 20:00:00");
 		}
