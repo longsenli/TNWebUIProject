@@ -659,8 +659,12 @@ function SelectMaterialRecord() {
 		processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
+				var sum = 0;
 				var models = eval("(" + dataRes.data + ")");
-
+				for (i=0;i<models.length;i++ ){
+					sum = sum + models[i].number;
+				}
+				document.getElementById('sumNumber').innerText = sum;
 				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
@@ -765,7 +769,8 @@ function getUsableMaterialFun() {
 
 				$('#usableMaterialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
-					//toolbar: '#materialidToolbar',
+					toolbar: '#usableMaterialTableToolbar',
+					toolbarAlign: "left",
 					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
@@ -776,7 +781,8 @@ function getUsableMaterialFun() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
+					searchAlign: 'left',
 					pagination: true,
 					columns: columnsArray
 				});
@@ -1248,7 +1254,8 @@ function getMaterialRecordBySuborderID(recordID) {
 				}
 				$('#usableMaterialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
-					//toolbar: '#materialidToolbar',
+					toolbar: '#usableMaterialTableToolbar',
+					toolbarAlign: "left",
 					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
@@ -1259,7 +1266,8 @@ function getMaterialRecordBySuborderID(recordID) {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
+					searchAlign: 'left',
 					pagination: true,
 					columns: columnsArray
 				});
@@ -1559,3 +1567,4 @@ function selectBySubOrderName() {
 	}
 	finishSubOrderByQR($("#subOrderName").val().trim(), "2");
 }
+

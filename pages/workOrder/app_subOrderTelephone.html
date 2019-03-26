@@ -43,7 +43,7 @@
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
 		<!--H5+ js引入-->
 		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/app_bootstrap.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/app-bootstrap-table.css" media="screen">
 	</head>
@@ -201,7 +201,7 @@
 			<!-- /.modal -->
 		</div>
 
-		<form ID="gainMaterialForm" class="collapse">
+		<!--<form ID="gainMaterialForm" class="collapse">
 			<div class="form-inline row">
 
 				<button id="getUsableMaterialBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="getUsableMaterialFun()">
@@ -214,13 +214,36 @@
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫描投料
            </button>&nbsp&nbsp
 				<button id="gainPartMaterialRecordBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="showChangeGainModal()">
-                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
+                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料1
             </button>
 				<br />
 				<table id="usableMaterialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 				</table>
 			</div>
-		</form>
+		</form>-->
+		<section class="content table-content">
+			<form ID="gainMaterialForm" class="collapse">
+				<div class="form-inline row">
+				<div id="usableMaterialTableToolbar">
+					    <button id="getUsableMaterialBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="getUsableMaterialFun()">
+		                	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
+		            	</button>
+				        <button id="gainMaterialRecordBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="gainMaterialRecord()">
+		                	<span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>投料
+		            	</button>
+				        <button id="subOrderScanQRBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="scanQR('subOrder')">
+			                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码投料
+			            </button>
+				        <button id="gainPartMaterialRecordBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="showChangeGainModal()">
+			                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
+			            </button>
+			            <label style="font-size:30px;width: 250px;height: 150px;margin-top: 10px;">查询物料子工单: &nbsp;</label>
+				</div>
+					<table id="usableMaterialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+					</table>
+				</div>
+			</form>
+		</section>
 		<br />
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -261,7 +284,7 @@
             </button>
 
 		</div>-->
-		<label style="font-size:36px">已投料统计：</label>
+		<label style="font-size:36px">已投料统计：<label id='sumNumber'></label></label>
 		<table id="materialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 

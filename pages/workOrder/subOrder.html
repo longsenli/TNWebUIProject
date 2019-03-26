@@ -174,27 +174,29 @@
 			</div>
 			<!-- /.modal -->
 		</div>
-
-		<form ID="gainMaterialForm" class="collapse">
-			<div class="form-inline row">
-
-				<button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
-            </button>
-				<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
-                <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>投料
-            </button>
-				<button id="subOrderScanQRBT" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码投料
-           </button>
-				<button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
-                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
-            </button>
-				<br />
-				<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-				</table>
-			</div>
-		</form>
+		<section class="content table-content">
+			<form ID="gainMaterialForm" class="collapse">
+				<div class="form-inline row">
+				<div id="usableMaterialTableToolbar">
+					    <button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
+		                	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
+		            	</button>
+				        <button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
+		                	<span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>投料
+		            	</button>
+				        <button id="subOrderScanQRBT" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
+			                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码投料
+			            </button>
+				        <button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
+			                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
+			            </button>
+			            <label>查询物料子工单: &nbsp;</label>
+				</div>
+					<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+					</table>
+				</div>
+			</form>
+		</section>
 		<br />
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -235,7 +237,7 @@
             </button>
 
 		</div>-->
-		<label style="font-size:18px">已投料统计：</label>
+		<label style="font-size:18px">已投料统计：<label id='sumNumber'></label></label>
 		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 
