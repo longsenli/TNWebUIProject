@@ -428,6 +428,16 @@ function grantAndExpendStatistics() {
 	});
 	columnsArray.push({
 		width: 300,
+		"title": "产线名称",
+		"field": "lineID",
+		formatter: function(value, row, index) {
+			if(row.lineID == '总计')
+			return row.lineID;
+			return $("#productionLineSlct option[value='" + row.lineID + "']").text();
+		}
+	});
+	columnsArray.push({
+		width: 300,
 		"title": "物料名称",
 		"field": "name"
 	});
