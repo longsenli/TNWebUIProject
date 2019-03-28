@@ -90,7 +90,8 @@
 				//补充入库
 //				subOrderOvertimeFinishBT
 				$("#subOrderOvertimeFinishBT").show();
-				//alert($Global_UserLogin_Info.roleID);
+//				alert($Global_UserLogin_Info.roleID);
+				$("#cancelInputSuborderBT").show();
 				}
 			});
 			
@@ -237,7 +238,7 @@
 				        <button id="gainPartMaterialRecordBT" type="button" style="font-size:36px;width: 250px;height: 150px;margin-top: 10px;" class="btn btn-primary btn-lg" onclick="showChangeGainModal()">
 			                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
 			            </button>
-			            <label style="font-size:30px;width: 250px;height: 150px;margin-top: 10px;">查询物料子工单: &nbsp;</label>
+			            <label id="usableMaterialLabel" style="display: none;font-size:30px;width: 250px;height: 150px;margin-top: 10px;">查询物料子工单: &nbsp;</label>
 				</div>
 					<table id="usableMaterialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 					</table>
@@ -284,10 +285,17 @@
             </button>
 
 		</div>-->
-		<label style="font-size:36px">已投料统计：<label id='sumNumber'></label></label>
-		<table id="materialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-		</table>
-
+		<div class="form-inline row">
+			<div id="materialidToolbar">
+	            <label id='sumNumber' style="font-size:30px;width: 250px;height: 150px;margin-top: 10px;">已投料统计：</label>
+	            <button id="cancelInputSuborderBT" type="button" style="display: none;font-size:36px;width: 250px;height: 150px;margin-top: 10px;"  class="btn btn-primary btn-lg" onclick="cancelInputSuborder()">
+	            	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
+	        	</button>&nbsp;&nbsp;
+				<label id='materialidLabel' style="display: none;font-size:30px;width: 250px;height: 150px;margin-top: 10px;">查询物料子工单: &nbsp;</label>
+			</div>
+			<table id="materialTable" style="font-size:36px" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+			</table>
+		</div>
 	</body>
 
 </html>

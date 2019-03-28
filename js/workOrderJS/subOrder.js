@@ -668,6 +668,7 @@ function SelectMaterialRecord() {
 				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
 					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
@@ -678,7 +679,8 @@ function SelectMaterialRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
+					searchAlign: 'left',
 					pagination: true,
 					columns: columnsArray
 				});
@@ -1568,3 +1570,45 @@ function selectBySubOrderName() {
 	finishSubOrderByQR($("#subOrderName").val().trim(), "2");
 }
 
+function cancelInputSuborder() {
+
+	var row = $.map($('#materialTable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		return;
+	}
+	if(row.length > 1) {
+		alert("一次只能选择一个批次!您当前选择" + row.length + "个批次!");
+		return;
+	}
+//	if(row[0]["status"] < 4) {
+//		alert("该工单不是已完成状态!");
+//		return;
+//	}
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/cancelinputsuborder?subOrdderID=" + row[0]['id'],
+		type: "POST",
+		//contentType: "application/json",
+		//dataType: "json",
+		processData: false,
+		contentType: false,
+		//data: formData2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('取消成功! ' + data.message);
+				SelectMaterialRecord()
+				getUsableMaterialFun()
+
+			} else {
+				alert("取消失败！" + data.message);
+			}
+		}
+	});
+}

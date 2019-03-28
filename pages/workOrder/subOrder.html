@@ -76,6 +76,7 @@
 //				subOrderOvertimeFinishBT
 				$("#subOrderOvertimeFinishBT").show();
 //				alert($Global_UserLogin_Info.roleID)  24
+				$("#cancelInputSuborderBT").show();
 				}
 			});
 			
@@ -237,10 +238,14 @@
             </button>
 
 		</div>-->
-		<label style="font-size:18px">已投料统计：<label id='sumNumber'></label></label>
+		<div id="materialidToolbar">
+            <label style="font-size:18px">已投料统计：<label id='sumNumber'></label>&nbsp;&nbsp;</label>
+            <button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-default" onclick="cancelInputSuborder()">
+            	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
+        	</button>&nbsp;&nbsp;
+            <label>查询物料子工单: &nbsp;</label>
+		</div>
 		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
-
 	</body>
-
 </html>

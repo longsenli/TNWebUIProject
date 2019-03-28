@@ -673,11 +673,12 @@ function SelectMaterialRecord() {
 				for (i=0;i<models.length;i++ ){
 					sum = sum + models[i].number;
 				}
-				document.getElementById('sumNumber').innerText = sum;
-
+				document.getElementById('sumNumber').innerText = '已投料统计： '+ sum;
+				$("#materialidLabel").show();
 				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
+					searchAlign: 'left',
 					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
@@ -688,7 +689,8 @@ function SelectMaterialRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
+					searchAlign: 'left',
 					pagination: true,
 					columns: columnsArray
 				});
@@ -777,7 +779,7 @@ function getUsableMaterialFun() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-
+				$("#usableMaterialLabel").show();
 				$('#usableMaterialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#usableMaterialTableToolbar',
@@ -1708,6 +1710,49 @@ function openBarcodeCustom() {
 				fontSize: '15px',
 				onclick: 'javascript:switchFlash()'
 			}]
+		}
+	});
+}
+
+function cancelInputSuborder() {
+
+	var row = $.map($('#materialTable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		return;
+	}
+	if(row.length > 1) {
+		alert("一次只能选择一个批次!您当前选择" + row.length + "个批次!");
+		return;
+	}
+//	if(row[0]["status"] < 4) {
+//		alert("该工单不是已完成状态!");
+//		return;
+//	}
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/cancelinputsuborder?subOrdderID=" + row[0]['id'],
+		type: "POST",
+		//contentType: "application/json",
+		//dataType: "json",
+		processData: false,
+		contentType: false,
+		//data: formData2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('取消成功! ' + data.message);
+				SelectMaterialRecord()
+				getUsableMaterialFun()
+
+			} else {
+				alert("取消失败！" + data.message);
+			}
 		}
 	});
 }
