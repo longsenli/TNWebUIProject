@@ -159,9 +159,9 @@ function workOrderProductionLineSlctFun() {
 
 function getWorkOrder() {
 	var columnsArray = [];
-	//	columnsArray.push({
-	//		checkbox: true
-	//	});
+		columnsArray.push({
+			radio: true
+		});
 	columnsArray.push({
 		width: 200,
 		"title": "工单号",
@@ -269,7 +269,7 @@ function getWorkOrder() {
 
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
-					toolbar: '#toolbar1',
+					toolbar: '#toolbar',
 					singleSelect: true,
 					clickToSelect: true,
 					striped: true,
@@ -278,10 +278,10 @@ function getWorkOrder() {
 					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[15, 30, 50, 100, All]",
-					//showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					//search: true,
+//					showToggle: true,
+//					showRefresh: true,
+//					showColumns: true,
+					search: true,
 					fixedColumns: true, //固定列
 					fixedNumber: 1, //固定前两列
 					pagination: true,
@@ -723,10 +723,10 @@ function initSplitDetailWorkOrder(orderID) {
 					pageSize: 30,
 					pageNumber: 1,
 					pageList: "[15, 30, 50, 100, All]",
-					//showToggle: true,
+					showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					pagination: true,
 					columns: columnsArray
 

@@ -503,7 +503,7 @@ function SelectSubOrder() {
 	}
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		radio: true
 	});
 	columnsArray.push({
 		width: 300,
@@ -588,7 +588,7 @@ function SelectSubOrder() {
 					pageSize: 30,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
+					showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
 					//search: true,
@@ -704,7 +704,7 @@ function SelectMaterialRecord() {
 					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
+					showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
 					search: true,
@@ -808,7 +808,7 @@ function getUsableMaterialFun() {
 					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
+					showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
 					search: true,

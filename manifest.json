@@ -2403,7 +2403,15 @@
 					"pages/workOrder/app_productionStatisticsTelephone.html",
 					"pages/semifinishedBattery/app_batteryRepairTelephone.html",
 					"pages/semifinishedBattery/app_batteryScrapTelephone.html",
-					"pages/semifinishedBattery/app_batteryBorrowReturnTelephone.html"
+					"pages/semifinishedBattery/app_batteryBorrowReturnTelephone.html",
+					"vendor/nifty_admin_v2.9/demo/index.html",
+					"pages/workOrder/new_app_workOrderManageTelephone.html",
+					"pages/workOrder/new_app_productionStatisticsTelephone.html",
+					"pages/workOrder/new_app_scrapInfoTelephone.html",
+					"pages/semifinishedBattery/new_app_batteryRepairTelephone.html",
+					"pages/semifinishedBattery/new_app_batteryScrapTelephone.html",
+					"pages/semifinishedBattery/new_app_batteryBorrowReturnTelephone.html",
+					"pages/workOrder/new_app_subOrderTelephone.html"
 				],
 				"priority": 0
 			},
@@ -2438,6 +2446,28 @@
 				],
 				"refer": [
 					"pages/app_productionIndex.html"
+				],
+				"priority": 0
+			},
+			"vendor/nifty_admin_v2.9/demo/index.html": {
+				"resources": [],
+				"refer": [
+					"vendor/nifty_admin_v2.9/demo/tables-bootstrap.html",
+					"vendor/nifty_admin_v2.9/demo/app-file-manager.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/new_app_productionStatisticsTelephone.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/new_app_subOrderTelephone.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
 				],
 				"priority": 0
 			}
