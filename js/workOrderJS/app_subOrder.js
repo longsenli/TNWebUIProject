@@ -316,7 +316,9 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 	$.ajax({
 
-		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + encodeURIComponent(qrCode) + "&type=" + orderType,
+		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType
+		+"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
+		+"$processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -545,8 +547,24 @@ function SelectSubOrder() {
 		"field": "orderid",
 		visible: false
 	});
+	columnsArray.push({
+		width: 300,
+		"title": "状态",
+		"field": "processID",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "plantID",
+		"field": "plantID",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "lineID",
+		"field": "lineID",
+		visible: false
+	});
 	$.ajax({
-		url: window.serviceIP + "/api/order/getordersplitaftermap?orderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
+		url: window.serviceIP + "/api/order/getordersplittomap?orderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
