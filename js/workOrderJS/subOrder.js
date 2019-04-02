@@ -208,9 +208,68 @@ function subOrderProductionLineSlctFun() {
 				}
 
 				setTimeout(function() {
+
 					lineWorkOrderSlct();
 				}, 100);
 
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function subOrderWorkingLocationSlctFun() {
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getworklocation",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#workingkLocationSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				if(models.length < 1) {
+					$("#workingkLocationSlctLabel").hide();//.css("display", "none")
+					$('#workingkLocationSlct').selectpicker('hide');
+
+				} else {
+					$("#workingkLocationSlctLabel").show();//.attr("display", "block")
+					$('#workingkLocationSlct').selectpicker('show');
+				}
+				for (var  i  in  models)  {  
+					$('#workingkLocationSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name + "</option>").toString());
+				}
+				$('#workingkLocationSlct').selectpicker('refresh');
+				$('#workingkLocationSlct').selectpicker('render');   
+				$('#workingkLocationSlct').selectpicker('mobile');
+				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {
+					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#workingkLocationSlct').selectpicker('hide');
+							//$("#workingkLocationSlctLabel").css("display", "true");
+						}
+					}
+					$('#workingkLocationSlct').selectpicker('refresh');
+					$('#workingkLocationSlct').selectpicker('render'); 
+				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -255,6 +314,7 @@ function lineWorkOrderSlct() {
 			}
 		}
 	});
+	subOrderWorkingLocationSlctFun();
 };
 
 function subOrderChangeOrderNum() {
@@ -313,9 +373,9 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 	$.ajax({
 
-		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType
-		+"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
-		+"$processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+			"$processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -424,8 +484,17 @@ function FinishSubOrder() {
 
 		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 	}
+	
 	var formData2 = new FormData();
-	formData2.append("name", $.cookie('username'));
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###-1###" + row[0]["materialName"] );
+	}
+	else
+	{
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"]);
+	}
 	formData2.append("jsonStr", window.getFormDataToJson(formData))
 	$.ajax({
 		url: window.serviceIP + "/api/order/finishordersplit",
@@ -679,7 +748,7 @@ function SelectMaterialRecord() {
 			if(dataRes.status == 1) { 
 				var sum = 0;
 				var models = eval("(" + dataRes.data + ")");
-				for (i=0;i<models.length;i++ ){
+				for(i = 0; i < models.length; i++) {
 					sum = sum + models[i].number;
 				}
 				document.getElementById('sumNumber').innerText = sum;
@@ -1602,10 +1671,10 @@ function cancelInputSuborder() {
 		alert("一次只能选择一个批次!您当前选择" + row.length + "个批次!");
 		return;
 	}
-//	if(row[0]["status"] < 4) {
-//		alert("该工单不是已完成状态!");
-//		return;
-//	}
+	//	if(row[0]["status"] < 4) {
+	//		alert("该工单不是已完成状态!");
+	//		return;
+	//	}
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/cancelinputsuborder?subOrdderID=" + row[0]['id'],
