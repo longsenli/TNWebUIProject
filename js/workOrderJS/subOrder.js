@@ -899,8 +899,18 @@ function gainMaterialRecord() {
 	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
 	formData.append("materialOrderID", selectRow[0].orderid);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $.cookie('username')) //$.cookie('username');
+	//formData.append("outputter", $.cookie('username')) //$.cookie('username');
 
+if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID')+ "###-1" );
+	}
+	else
+	{
+		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() );
+	}
+	
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",

@@ -207,10 +207,10 @@ function getOnlineMaterial() {
 				return '在现场';
 			}
 			if(row.status == '2') {
-				return '已入库';
+				return '已合并';
 			}
 			if(row.status == '3') {
-				return '合并入库';
+				return '合并记录';
 			}
 		}
 	});
@@ -392,6 +392,12 @@ function selectedOnlineMaterialRow(param) {
 			alert("每次只能选择一行处理,当前选择行数为:" + row.length);
 			return;
 		}
+
+		if(row[0]["status"] != '1')
+		{
+			alert("该记录已经处理,不能被删除!" );
+			return;
+		}
 		deleteonlineMaterial(row[0]["id"]);
 	}
 };
@@ -431,7 +437,8 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//	formMap["operator"] = $.cookie('username');
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username'),
+		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username')
+		+ "&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
