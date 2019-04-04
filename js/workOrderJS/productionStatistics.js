@@ -598,8 +598,16 @@ function getSecondaryMaterialInventoryStatistics() {
 		"field": "expendNum"
 	});
 	columnsArray.push({
-		"title": "其他出库",
+		"title": "总送出数量",
 		"field": "outNum"
+	});
+	columnsArray.push({
+		"title": "线边仓数量",
+		"field": "onlineNum"
+	});
+	columnsArray.push({
+		"title": "当日报修数量",
+		"field": "todayRepair"
 	});
 	columnsArray.push({
 		"title": "盘点时间",

@@ -305,9 +305,17 @@ function getOnlineMaterial() {
 
 function onlineMaterialMaterialSlct() {
 
+var urlStr = window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+			if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JS)
+			{
+				alert(document.PlantToLineSelectForm.productionProcessSlct.value.toString() +"====="+  window.windowProcessEnum.JS)
+			
+			urlStr = window.serviceIP + "/api/basicdata/getinputmaterialbyprocess?processID=" +
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+			}
 	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+		url: urlStr,
 		type: "GET",
 
 		//contentType: "application/json",
