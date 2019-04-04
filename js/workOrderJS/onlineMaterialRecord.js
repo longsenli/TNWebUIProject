@@ -305,15 +305,12 @@ function getOnlineMaterial() {
 
 function onlineMaterialMaterialSlct() {
 
-var urlStr = window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+	var urlStr = window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+		document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JS) {
+		urlStr = window.serviceIP + "/api/basicdata/getinputmaterialbyprocess?processID=" +
 			document.PlantToLineSelectForm.productionProcessSlct.value.toString();
-			if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JS)
-			{
-				alert(document.PlantToLineSelectForm.productionProcessSlct.value.toString() +"====="+  window.windowProcessEnum.JS)
-			
-			urlStr = window.serviceIP + "/api/basicdata/getinputmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString();
-			}
+	}
 	$.ajax({
 		url: urlStr,
 		type: "GET",
@@ -385,8 +382,7 @@ function selectedOnlineMaterialRow(param) {
 			sumMerge += row[i].materialnum;
 			mergeID += row[i].id + ',';
 		}
-		if(!window.changeConfirmDlg("是否合并" + row.length + "条记录,总产量为:" + sumMerge))
-		{
+		if(!window.changeConfirmDlg("是否合并" + row.length + "条记录,总产量为:" + sumMerge)) {
 			return;
 		}
 		mergeID = mergeID.substr(0, mergeID.length - 1);
@@ -401,9 +397,8 @@ function selectedOnlineMaterialRow(param) {
 			return;
 		}
 
-		if(row[0]["status"] != '1')
-		{
-			alert("该记录已经处理,不能被删除!" );
+		if(row[0]["status"] != '1') {
+			alert("该记录已经处理,不能被删除!");
 			return;
 		}
 		deleteonlineMaterial(row[0]["id"]);
@@ -445,8 +440,8 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//	formMap["operator"] = $.cookie('username');
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username')
-		+ "&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username') +
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
