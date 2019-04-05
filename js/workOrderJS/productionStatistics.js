@@ -721,10 +721,10 @@ function grantMaterialByInputID() {
 		alert("请确认已输入ID!")
 		return;
 	}
-	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
-		alert("当前只有铸焊工段有发料功能!");
-		return;
-	}
+//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH  ) {
+//		alert("当前只有浇铸、铸焊工段有发料功能!");
+//		return;
+//	}
 	if(!window.changeConfirmDlg("确认发料?")) {
 		return;
 	}
