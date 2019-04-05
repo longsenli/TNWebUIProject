@@ -273,7 +273,7 @@
 					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
 
 						if(status == 'timeout') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
-							alert(status + "网络连接超时, 请检查网络")
+							alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 						}
 					}
 
