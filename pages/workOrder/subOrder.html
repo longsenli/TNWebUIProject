@@ -202,6 +202,74 @@
 			</form>
 		</section>
 		<br />
+		
+
+		<!--<div id="materialidToolbar" class="btn-group">
+			<button id="workorder_add" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>完成
+            </button>
+
+		</div>-->
+		<div id="materialidToolbar">
+            <label style="font-size:18px">已投料统计：<label id='sumNumber'></label>&nbsp;&nbsp;</label>
+            <button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-default" onclick="cancelInputSuborder()">
+            	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
+        	</button>&nbsp;&nbsp;
+            <label>查询物料子工单: &nbsp;</label>
+		</div>
+		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+		
+		
+		<!-- 浇铸干燥窑（Modal） -->
+		<div class="modal fade" id="jzRYModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">关闭</button>
+						<h4 class="modal-title" id="myModalLabel"> 扫码入窑 </h4>
+					</div>
+					<div class="modal-body" id="modal-body">
+						<form id="jzRYForm">
+							<input type="button" value="直接扫码入窑" onclick="scanQR('dryingKilnjz')">
+							<br />
+							<input type="text" id="D_dryingkilnid" name="dryingkilnid"  placeholder="干燥窑ID"/>
+							<input type="text" id="D_dryingkilnname" name="dryingkilnname"  placeholder="干燥窑名称"/>
+							<input type="text" id="D_plantid" name="plantid"  placeholder="厂区ID"/>
+							<input type="text" id="D_lineid" name="lineid"  placeholder="产线ID"/>
+							<input type="text" id="D_worklocationid" name="worklocationid"  placeholder="工位ID"/>
+							<input type="text" id="D_worklocationname" name="worklocationname"  placeholder="工位名称"/>
+							<input type="text" id="D_suborderid" name="suborderid"  placeholder="子工单ID"/>
+							<input type="text" id="D_materialid" name="materialid"  placeholder="物料ID"/>
+							<input type="text" id="D_materialname" name="materialname"  placeholder="物料名称"/>
+							<input type="text" id="D_inputtime" name="inputtime" value="121312" placeholder="入窑时间"/>
+							<input type="text" id="D_inputerid" name="inputerid"  placeholder="入窑人ID"/>
+							<input type="text" id="D_inputername" name="inputername"  placeholder="入窑人姓名"/>
+							<input type="text" id="D_outputtime" name="outputtime"  placeholder="出窑时间"/>
+							<input type="text" id="D_outputerid" name="outputerid"  placeholder="出窑人ID"/>
+							<input type="text" id="D_outputername" name="outputername"  placeholder="出窑人姓名"/>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="">取消 </button>
+						<!--<button type="button" class="btn btn-default" onclick="saveOnlineMaterialReocrd()">保存 </button>-->
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:350px">
@@ -234,21 +302,5 @@
 			</div>
 			<!-- /.modal -->
 		</div>
-
-		<!--<div id="materialidToolbar" class="btn-group">
-			<button id="workorder_add" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>完成
-            </button>
-
-		</div>-->
-		<div id="materialidToolbar">
-            <label style="font-size:18px">已投料统计：<label id='sumNumber'></label>&nbsp;&nbsp;</label>
-            <button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-default" onclick="cancelInputSuborder()">
-            	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
-        	</button>&nbsp;&nbsp;
-            <label>查询物料子工单: &nbsp;</label>
-		</div>
-		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-		</table>
 	</body>
 </html>

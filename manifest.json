@@ -2411,7 +2411,8 @@
 					"pages/semifinishedBattery/new_app_batteryRepairTelephone.html",
 					"pages/semifinishedBattery/new_app_batteryScrapTelephone.html",
 					"pages/semifinishedBattery/new_app_batteryBorrowReturnTelephone.html",
-					"pages/workOrder/new_app_subOrderTelephone.html"
+					"pages/workOrder/new_app_subOrderTelephone.html",
+					"pages/workOrder/new_app_onlineMaterialRecord.html"
 				],
 				"priority": 0
 			},
