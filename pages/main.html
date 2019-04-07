@@ -391,6 +391,9 @@
 	} 
 
 	function logout() {
+				$.cookie('plantID', '');
+				$.cookie('processID', '');
+				$.cookie('lineID', '');
 				$.cookie("token", "", {
 					expires: -1
 				});
