@@ -242,7 +242,7 @@ function productionOutputStatistics() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -305,7 +305,7 @@ function remnantProductStatistics() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -410,7 +410,7 @@ function batteryStatisInventory() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -432,7 +432,7 @@ function grantAndExpendStatistics() {
 		"field": "lineID",
 		formatter: function(value, row, index) {
 			if(row.lineID == '总计')
-			return row.lineID;
+				return row.lineID;
 			return $("#productionLineSlct option[value='" + row.lineID + "']").text();
 		}
 	});
@@ -485,7 +485,7 @@ function grantAndExpendStatistics() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -570,7 +570,7 @@ function getMaterialInventoryStatistics() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -653,7 +653,7 @@ function getSecondaryMaterialInventoryStatistics() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 
@@ -677,11 +677,17 @@ function findProductionStatisticsByQR(recordID) {
 		alert("请确认已选择物料!")
 		return;
 	}
-	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
-		alert("当前只有铸焊工段有发料功能!");
-		return;
+	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
+	//		alert("当前只有铸焊工段有发料功能!");
+	//		return;
+	//	}
+	var warningInfo = "";
+	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
+		warningInfo = "当日发料确认?";
+	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
+		warningInfo = "预发料确认?";
 	}
-	if(!window.changeConfirmDlg("确认发料?")) {
+	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
 	}
 
@@ -714,12 +720,12 @@ function findProductionStatisticsByQR(recordID) {
 				alert("发料失败！" + dataRes.message);
 			}
 		}
-	}); 
+	});
 }
 
 function ShowmyModal(ScanQRType) {
 	//alert(ScanQRType)
-	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(ScanQRType)  ;
+	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(ScanQRType);
 	$("#myModal").modal('show');
 }
 
@@ -732,11 +738,17 @@ function grantMaterialByInputID() {
 		alert("请确认已输入ID!")
 		return;
 	}
-//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
-//		alert("当前只有铸焊工段有发料功能!");
-//		return;
-//	}
-	if(!window.changeConfirmDlg("确认发料?")) {
+	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
+	//		alert("当前只有铸焊工段有发料功能!");
+	//		return;
+	//	}
+	var warningInfo = "";
+	if(ScanQRType == '1') {
+		warningInfo = "当日发料确认?";
+	} else if(ScanQRType == '2') {
+		warningInfo = "预发料确认?";
+	}
+	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
 	}
 	var formData = new FormData();
@@ -795,7 +807,7 @@ var accept_paramQR = null;
 function ProductionStatisticsScanQR(paramQR) {
 
 	//执行H5扫描二维码方法
-	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR)  ;
+	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR);
 	openBarcode();
 }
 
@@ -858,7 +870,7 @@ function grantMaterialDetail() {
 					//search: true,
 					pagination: true,
 					paginationPreText: '上一页',
-        			paginationNextText: '下一页',
+					paginationNextText: '下一页',
 					columns: columnsArray
 				});
 

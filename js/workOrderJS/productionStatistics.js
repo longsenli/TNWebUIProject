@@ -264,12 +264,12 @@ function remnantProductStatistics() {
 		"field": "remnantTotalNum"
 	});
 
-var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	var endTime = new Date(document.getElementById("endTime").value);
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/orderremnantproductstatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 07:00:00"+ "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 07:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -368,11 +368,11 @@ function batteryStatisInventory() {
 		"field": "borrownum"
 	});
 	var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/batterystatisinventory?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -423,7 +423,7 @@ function grantAndExpendStatistics() {
 		"field": "lineID",
 		formatter: function(value, row, index) {
 			if(row.lineID == '总计')
-			return row.lineID;
+				return row.lineID;
 			return $("#productionLineSlct option[value='" + row.lineID + "']").text();
 		}
 	});
@@ -524,11 +524,11 @@ function getMaterialInventoryStatistics() {
 	});
 
 	var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	endTime.setDate(endTime.getDate() + 1)
 
 	var urlStr = window.serviceIP + "/api/material/getmaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -613,11 +613,11 @@ function getSecondaryMaterialInventoryStatistics() {
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
-var endTime = new Date(document.getElementById("endTime").value);
-endTime.setDate(endTime.getDate() + 1)
+	var endTime = new Date(document.getElementById("endTime").value);
+	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00"+ "&endTime=" +  endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
 
 	$.ajax({
 		url: urlStr,
@@ -672,11 +672,17 @@ function findProductionStatisticsByQR(recordID) {
 		alert("请确认已选择物料!")
 		return;
 	}
-	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
-		alert("当前只有铸焊工段有发料功能!");
-		return;
+	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
+	//		alert("当前只有铸焊工段有发料功能!");
+	//		return;
+	//	}
+	var warningInfo = "";
+	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
+		warningInfo = "当日发料确认?";
+	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
+		warningInfo = "预发料确认?";
 	}
-	if(!window.changeConfirmDlg("确认发料?")) {
+	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
 	}
 
@@ -721,14 +727,20 @@ function grantMaterialByInputID() {
 		alert("请确认已输入ID!")
 		return;
 	}
-//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH  ) {
-//		alert("当前只有浇铸、铸焊工段有发料功能!");
-//		return;
-//	}
-	if(!window.changeConfirmDlg("确认发料?")) {
+	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH  ) {
+	//		alert("当前只有浇铸、铸焊工段有发料功能!");
+	//		return;
+	//	}
+	var warningInfo = "";
+	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
+		warningInfo = "当日发料确认?";
+	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
+		warningInfo = "预发料确认?";
+	}
+	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
 	}
-	var formData = new FormData();   // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
+	var formData = new FormData(); // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
 	formData.append("operator", $.cookie('username')) //$.cookie('username');
 	formData.append("orderSplitID", $('#grantMaterialOrderInputID').val().trim());
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
