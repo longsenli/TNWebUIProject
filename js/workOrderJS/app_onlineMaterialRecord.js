@@ -1,3 +1,5 @@
+//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
+var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 function onlineMaterialIndustrialPlantSlctFun(flag) {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
