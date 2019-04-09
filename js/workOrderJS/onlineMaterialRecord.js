@@ -150,8 +150,8 @@ function onlineMaterialProductionLineSlctFun() {
 					}
 					$('#productionLineSlct').selectpicker('refresh');
 					$('#productionLineSlct').selectpicker('render'); 
-
 				}
+				getOnlineMaterial();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
