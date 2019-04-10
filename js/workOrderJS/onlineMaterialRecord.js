@@ -438,7 +438,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//	}
 	//	var formMap = window.formToObject($("#onlineMaterialModalForm"));
 	//	formMap["operator"] = $.cookie('username');
-
+	$("#onlineMaterial_merge").attr("disabled", false);
 	$.ajax({
 		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username') +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
@@ -459,6 +459,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 			} else {
 				alert("保存失败！" + data.message);
 			}
+			$("#onlineMaterial_merge").attr("disabled", false);
 		}
 	});
 };
@@ -512,7 +513,7 @@ function saveOnlineMaterialReocrd() {
 	}
 	var formMap = window.formToObject($("#onlineMaterialModalForm"));
 	formMap["operator"] = $.cookie('username');
-
+	$("#saveOnlineMaterialRecordBT").attr("disabled", true);
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeonlinematerialrecord",
 		type: "POST",
@@ -527,11 +528,12 @@ function saveOnlineMaterialReocrd() {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
-				getOnlineMaterial();
 				$("#onlineMaterialModal").modal('hide');
+				getOnlineMaterial();
 			} else {
 				alert("保存失败！" + data.message);
 			}
+			$("#saveOnlineMaterialRecordBT").attr("disabled", false);
 		}
 	});
 };
