@@ -388,7 +388,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType +
 			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
-			"$processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
