@@ -1778,8 +1778,8 @@ function finishDryingKilnjzByQR(qrCode) {
 	formData.append('worklocationid',$('#workingkLocationSlct').val());
 	var checkText=$("#workingkLocationSlct").find("option:selected").text(); 
 	formData.append('worklocationname',checkText);
-	formData.append('inputerid',$.cookie.('userid'));
-	formData.append('inputername',$.cookie.('username'));
+	formData.append('inputerid',$.cookie('userid'));
+	formData.append('inputername',$.cookie('username'));
 //	alert(row[0].productionnum)
 	formData.append('materialquantity',row[0].productionnum);
 	
