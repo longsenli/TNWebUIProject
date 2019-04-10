@@ -163,6 +163,19 @@ function subOrderProductionProcessSlctFun() {
 };
 
 function subOrderProductionLineSlctFun() {
+	//获取流程IP
+	var flag = document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+	//判断是否为浇铸流程
+	if(flag == '1011'){
+		
+//		$('#subOrderFinishBT').attr("onclick", "finishDryingKilnjzByQR()");
+		
+		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjz')");
+//		alert($('#subOrderFinishBT').attr("onclick"));
+	}else{
+		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
+//		alert($('#subOrderFinishBT').attr("onclick"));
+	}
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -441,71 +454,6 @@ function finishSubOrderByQR(qrCode, orderType) {
 }
 
 function FinishSubOrder() {
-	
-	//添加单独浇铸入窑判断,如果不是浇铸工序则继续
-	if($("#productionProcessSlct").val()=='1007'){
-			//获取选中行的数据
-			$("#subOrderFinishBT").attr("disabled", true);
-			$("#subOrderOvertimeFinishBT").attr("disabled", true);
-			var rows = $.map($('#table').bootstrapTable('getSelections'), function(row) {
-				return row;
-			});
-			var formData = new FormData();
-			if(rows.length < 1) {
-				alert("请选择行数据!");
-				$("#subOrderFinishBT").attr("disabled", false);
-				$("#subOrderOvertimeFinishBT").attr("disabled", false);
-				return;
-			}
-			if(rows.length > 1) {
-				alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
-				$("#subOrderFinishBT").attr("disabled", false);
-				$("#subOrderOvertimeFinishBT").attr("disabled", false);
-				return;
-			}
-			if(rows[0]["status"] > 3) {
-				alert("该工单已完成!");
-				$("#subOrderFinishBT").attr("disabled", false);
-				$("#subOrderOvertimeFinishBT").attr("disabled", false);
-				return;
-			}
-		
-		else{
-			var row = rows[0];
-			$('#D_dryingkilnid').val();
-			$('#D_dryingkilnname').val();
-			//厂区ID
-			$('#D_plantid').val($('#industrialPlantSlct').val());
-			//产线ID
-			$('#D_lineid').val($("#productionLineSlct").val());
-			//工位ID
-			$('#D_worklocationid').val($('#workingkLocationSlct').val());
-			//工位名称
-			$('#D_worklocationname').val($('#workingkLocationSlct').find("option:selected").text());
-			//暂时取得是ordersplitid
-			$('#D_suborderid').val(row.ordersplitid);
-			//物料ID
-			$('#D_materialid').val(row.materialid);
-			//物料名称
-			$('#D_materialname').val(row.materialname);
-			//入窑时间, 自动生成
-			$('#D_inputtime').val();
-			//入窑人ID
-			$('#D_inputerid').val($.cookie('userID'));
-			//入窑人姓名
-			$('#D_inputername').val($.cookie('username'));
-			//出窑信息此处不赋值
-			$('#D_outputtime').val();
-			$('#D_outputerid').val();
-			$('#D_outputername').val();
-			$('#jzRYModal').modal('show');
-			return ;
-		}
-	}
-	
-	alert()
-	
-	
 	//使用getSelections即可获得，row是json格式的数据
 
 	$("#subOrderFinishBT").attr("disabled", true);
@@ -816,7 +764,7 @@ function SelectMaterialRecord() {
 				for(i = 0; i < models.length; i++) {
 					sum = sum + models[i].number;
 				}
-				document.getElementById('sumNumber').innerText = sum;
+				document.getElementById('sumNumber').innerText = '已投料统计： '+ sum;
 				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
@@ -1777,49 +1725,97 @@ function cancelInputSuborder() {
 	});
 }
 
-//浇铸干燥窑完成流程
-function finishDryingKilnjzByQR(qrCode){
-	var param = $("#jzRYForm").serializeArray();
-//		alert($("#industrialplant_id").find("option:selected").text());
-//			param.push({
-//				"name": "industrialplant_name",
-//				"value": $("#industrialplant_id").find("option:selected").text()
-//			});
-//			param.push({
-//				"name": "productionline_name",
-//				"value": $("#productionline_id").find("option:selected").text()
-//			});
-//			param.push({
-//				"name": "productionprocess_name",
-//				"value": $("#productionprocess_id").find("option:selected").text()
-//			});
-		console.log(param)
-		$.ajax({
-			url: window.serviceIP + "/user/addUser",
-			method:"post",
-			data:param,
-			dataType:"json",
-			success:function(data){
-				// alert("新增成功");
-				if(data.status=="1"){
-					// document.getElementById("al").innerText="保存成功";
-					alert("保存成功");
-					document.getElementById("addUserForm").reset();
-					// console.log(data);
-					// $("#Tip").modal('show');
-					$("#addUserModal").modal('hide');
-//					initDataGrid();
-					 $("#dataGrid").bootstrapTable('refresh');
-				}
-				else{
-					alert("保存失败!");
-				}
-			},
-			error:function(){
-				document.getElementById("al").innerText="新增失败";
-				$("#addEnd").modal('show');
+
+//添加单独浇铸入窑判断,如果不是浇铸工序则不会调用此方法
+function finishDryingKilnjzByQR(qrCode) {
+	
+	//使用getSelections即可获得，row是json格式的数据
+
+	$("#subOrderFinishBT").attr("disabled", true);
+	$("#subOrderOvertimeFinishBT").attr("disabled", true);
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	var formData = new FormData();
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	if(row.length > 1) {
+		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	if(row[0]["status"] > 3) {
+		alert("该工单已完成!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	for(var key in row[0]) {
+		if(key == 0) {
+			continue;
+		}
+		if(key == "productionnum") {
+			formData.append(key, $("#changeOrderProductionNum").val());
+			continue;
+		}
+
+		if(key == "status") {
+			formData.append(key, "3");
+			continue;
+		}
+		formData.append(key, row[0][key]);
+
+		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
+	}
+	//浇铸干燥窑扫码后ID赋值
+	formData.append('dryingkilnid', qrCode);
+	//formData.append('dryingkilnid', 'fa3a57559107432599d0252b2bf67fcf');
+	formData.append('worklocationid',$('#workingkLocationSlct').val());
+	var checkText=$("#workingkLocationSlct").find("option:selected").text(); 
+	formData.append('worklocationname',checkText);
+	formData.append('inputerid',$.cookie.('userid'));
+	formData.append('inputername',$.cookie.('username'));
+//	alert(row[0].productionnum)
+	formData.append('materialquantity',row[0].productionnum);
+	
+	var formData2 = new FormData();
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###-1###" + row[0]["materialName"] );
+	}
+	else
+	{
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"]);
+	}
+	formData2.append("jsonStr", window.getFormDataToJson(formData))
+	$.ajax({
+		url: window.serviceIP + "/api/order/finishordersplit",
+		type: "POST",
+		//contentType: "application/json",
+		//dataType: "json",
+		processData: false,
+		contentType: false,
+		data: formData2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('保存成功! ' + data.message);
+				SelectSubOrder();
+				$("#changeOrderProductionNum").attr("readonly", true);
+			} else {
+				alert("保存失败！" + data.message);
 			}
-		});
-}
 
-
+			$("#subOrderFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		}
+	});
+};

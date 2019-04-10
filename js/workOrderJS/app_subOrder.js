@@ -166,6 +166,19 @@ function subOrderProductionProcessSlctFun() {
 };
 
 function subOrderProductionLineSlctFun() {
+	//获取流程IP
+	var flag = document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+	//判断是否为浇铸流程
+	if(flag == '1011'){
+		
+//		$('#subOrderFinishBT').attr("onclick", "finishDryingKilnjzByQR()");
+
+		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjz')");
+		//alert($('#subOrderFinishBT').attr("onclick"));
+	}else{
+		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
+		//alert($('#subOrderFinishBT').attr("onclick"));
+	}
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -221,7 +234,63 @@ function subOrderProductionLineSlctFun() {
 	});
 };
 
-function lineWorkOrderSlct() {
+function subOrderWorkingLocationSlctFun() {
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getworklocation",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#workingkLocationSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				if(models.length < 1) {
+					$("#workingkLocationSlctLabel").hide();//.css("display", "none")
+					$('#workingkLocationSlct').selectpicker('hide');
+
+				} else {
+					$("#workingkLocationSlctLabel").show();//.attr("display", "block")
+					$('#workingkLocationSlct').selectpicker('show');
+				}
+				for (var  i  in  models)  {  
+					$('#workingkLocationSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name + "</option>").toString());
+				}
+				$('#workingkLocationSlct').selectpicker('refresh');
+				$('#workingkLocationSlct').selectpicker('render');   
+				$('#workingkLocationSlct').selectpicker('mobile');
+				if($Global_UserLogin_Info.workingkLocation != null && $Global_UserLogin_Info.workingkLocation != 'undefined' && $Global_UserLogin_Info.workingkLocation.toString().length > 0) {
+					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.lineID) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#workingkLocationSlct').selectpicker('hide');
+							//$("#workingkLocationSlctLabel").css("display", "true");
+						}
+					}
+					$('#workingkLocationSlct').selectpicker('refresh');
+					$('#workingkLocationSlct').selectpicker('render'); 
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};function lineWorkOrderSlct() {
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
@@ -258,6 +327,7 @@ function lineWorkOrderSlct() {
 			}
 		}
 	});
+	subOrderWorkingLocationSlctFun();
 };
 
 function subOrderChangeOrderNum() {
@@ -842,7 +912,15 @@ function gainMaterialRecord() {
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	formData.append("outputter", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
 
-	$.ajax({
+if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formData.append("outputter", $Global_UserLogin_Info.username + "###" +  $Global_UserLogin_Info.userID+ "###-1" );
+	}
+	else
+	{
+		formData.append("outputter", $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() );
+	}	$.ajax({
 		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",
 		processData: false,
@@ -971,6 +1049,8 @@ function recognitionQR(webName, qrCode) {
 		finishSubOrderByQR(qrCode, "1");
 	else if('grantMaterial' == webName)
 		grantMaterialByQR(qrCode);
+	else if('dryingKilnjz' == webName)
+		finishDryingKilnjzByQR(qrCode);
 }
 
 function startsScanQRPat() { 
@@ -1774,3 +1854,95 @@ function cancelInputSuborder() {
 		}
 	});
 }
+
+//添加单独浇铸入窑判断,如果不是浇铸工序则不会调用此方法
+function finishDryingKilnjzByQR(qrCode) {
+	//使用getSelections即可获得，row是json格式的数据
+
+	$("#subOrderFinishBT").attr("disabled", true);
+	$("#subOrderOvertimeFinishBT").attr("disabled", true);
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+
+	var formMap = {};
+
+	if(row.length < 1) {
+		alert("请选择行数据!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	if(row.length > 1) {
+		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	if(row[0]["status"] > 3) {
+		alert("该工单已完成!");
+		$("#subOrderFinishBT").attr("disabled", false);
+		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		return;
+	}
+	for(var key in row[0]) {
+		if(key == 0) {
+			continue;
+		}
+		if(key == "productionnum") {
+
+			formMap[key] = $("#changeOrderProductionNum").val();
+			continue;
+		}
+
+		if(key == "status") {
+
+			formMap[key] = "3";
+			continue;
+		}
+
+		formMap[key] = row[0][key];
+		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
+	}
+		//浇铸干燥窑扫码后ID赋值
+	//alert(qrCode)
+//		formMap.append('dryingkilnid', qrCode);
+	formMap['dryingkilnid']=qrCode;
+//	formMap['dryingkilnid']='fa3a57559107432599d0252b2bf67fcf';
+	formMap['worklocationid'] = $('#workingkLocationSlct').val();
+	var checkText=$("#workingkLocationSlct").find("option:selected").text(); 
+	formMap['worklocationname'] = checkText;
+	formMap['materialquantity'] = row[0].productionnum;
+	formMap['inputerid']=$Global_UserLogin_Info.userid;
+	formMap['inputername']=$Global_UserLogin_Info.username;
+	//console.log(formMap);
+	//alert(row[0].productionnum);
+	var formMap2 = {};
+	formMap2["name"] = $Global_UserLogin_Info.username;
+	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/finishDryingKilnjzsuborder",
+		type: "POST",
+		//contentType: "application/json",
+		dataType: "json",
+		//processData: false,
+		//contentType: false,
+		data: formMap2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('保存成功! ' + data.message);
+				SelectSubOrder()
+				$("#changeOrderProductionNum").attr("readonly", true);
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+			$("#subOrderFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		}
+	});
+};
