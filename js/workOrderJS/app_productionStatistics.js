@@ -682,10 +682,27 @@ function findProductionStatisticsByQR(recordID) {
 	//		return;
 	//	}
 	var warningInfo = "";
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + recordID + "&type=1",
+		type: "GET",
+		processData: false,
+		contentType: false,
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				warningInfo = dataRes.message + ",";
+			}
+		}
+	});
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		warningInfo = "当日发料确认?";
+		warningInfo += "当日发料确认?";
 	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		warningInfo = "预发料确认?";
+		warningInfo += "预发料确认?";
 	}
 	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
@@ -743,10 +760,27 @@ function grantMaterialByInputID() {
 	//		return;
 	//	}
 	var warningInfo = "";
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + $('#grantMaterialOrderInputID').val().trim() + "&type=1",
+		type: "GET",
+		processData: false,
+		contentType: false,
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				warningInfo = dataRes.message + ",";
+			}
+		}
+	});
 	if(ScanQRType == '1') {
-		warningInfo = "当日发料确认?";
+		warningInfo += "当日发料确认?";
 	} else if(ScanQRType == '2') {
-		warningInfo = "预发料确认?";
+		warningInfo += "预发料确认?";
 	}
 	if(!window.changeConfirmDlg(warningInfo)) {
 		return;

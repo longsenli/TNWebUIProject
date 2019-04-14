@@ -672,15 +672,34 @@ function findProductionStatisticsByQR(recordID) {
 		alert("请确认已选择物料!")
 		return;
 	}
+	var warningInfo = "";
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + recordID + "&type=1",
+		type: "GET",
+		processData: false,
+		contentType: false,
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				warningInfo = dataRes.message + ",";
+			}
+		}
+	});
+
 	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
 	//		alert("当前只有铸焊工段有发料功能!");
 	//		return;
 	//	}
-	var warningInfo = "";
+
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		warningInfo = "当日发料确认?";
+		warningInfo += "当日发料确认?";
 	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		warningInfo = "预发料确认?";
+		warningInfo += "预发料确认?";
 	}
 	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
@@ -732,10 +751,28 @@ function grantMaterialByInputID() {
 	//		return;
 	//	}
 	var warningInfo = "";
+	$.ajax({
+		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + $('#grantMaterialOrderInputID').val().trim() + "&type=1",
+		type: "GET",
+		processData: false,
+		contentType: false,
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				warningInfo = dataRes.message + ",";
+			}
+		}
+	});
+
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		warningInfo = "当日发料确认?";
+		warningInfo += "当日发料确认?";
 	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		warningInfo = "预发料确认?";
+		warningInfo += "预发料确认?";
 	}
 	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
