@@ -171,12 +171,20 @@ function subOrderProductionLineSlctFun() {
 	//判断是否为浇铸流程
 	if(flag == '1011'){
 		
-//		$('#subOrderFinishBT').attr("onclick", "finishDryingKilnjzByQR()");
-
-		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjz')");
+//		$('#subOrderFinishBT').attr("onclick", "pushInDryingKilnjzsuborder()");
+		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码入窑');
+		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjzPushIn')");
+		$('#subOrderCancelFinishBT').attr("class", "btn btn-info");
+		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑');
+		$('#subOrderCancelFinishBT').attr("onclick", "scanQR('dryingKilnjzPushOut')");
+		$('#subOrderFinishBTEX').show();
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}else{
+		$('#subOrderFinishBTEX').hide();
+		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
+		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消完成');
+		$('#subOrderCancelFinishBT').attr("onclick", "cancelFinishSuborder()");
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}
 	var formData = new FormData();
@@ -1049,13 +1057,15 @@ function recognitionQR(webName, qrCode) {
 		finishSubOrderByQR(qrCode, "1");
 	else if('grantMaterial' == webName)
 		grantMaterialByQR(qrCode);
-	else if('dryingKilnjz' == webName)
-		finishDryingKilnjzByQR(qrCode);
+	else if('dryingKilnjzPushIn' == webName)
+		pushInDryingKilnjzsuborder(qrCode);
+	else if('dryingKilnjzPushOut' == webName)
+		confirmPushOut(qrCode);
+//		pushOutDryingKilnjzsuborder(qrCode);
 }
 
 function startsScanQRPat() { 
 	var getQR = false; 
-
 	var finalQR = null;
 	for(var i = 1; i < 1000; i++) { 
 
@@ -1854,11 +1864,9 @@ function cancelInputSuborder() {
 		}
 	});
 }
-
 //添加单独浇铸入窑判断,如果不是浇铸工序则不会调用此方法
-function finishDryingKilnjzByQR(qrCode) {
+function pushInDryingKilnjzsuborder(qrCode) {
 	//使用getSelections即可获得，row是json格式的数据
-
 	$("#subOrderFinishBT").attr("disabled", true);
 	$("#subOrderOvertimeFinishBT").attr("disabled", true);
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -1922,7 +1930,7 @@ function finishDryingKilnjzByQR(qrCode) {
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/finishDryingKilnjzsuborder",
+		url: window.serviceIP + "/api/order/pushInDryingKilnjzsuborder",
 		type: "POST",
 		//contentType: "application/json",
 		dataType: "json",
@@ -1934,7 +1942,7 @@ function finishDryingKilnjzByQR(qrCode) {
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
-				alert('保存成功! ' + data.message);
+				alert( data.message);
 				SelectSubOrder()
 				$("#changeOrderProductionNum").attr("readonly", true);
 			} else {
@@ -1942,6 +1950,58 @@ function finishDryingKilnjzByQR(qrCode) {
 			}
 
 			$("#subOrderFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		}
+	});
+};
+
+function confirmPushOut(qrCode){
+    if(confirm('确定要批量出窑吗')==true){
+       pushOutDryingKilnjzsuborder(qrCode);
+    }else{
+       return false;
+    }
+}
+
+//添加单独浇铸出窑判断,如果不是浇铸工序则不会调用此方法
+function pushOutDryingKilnjzsuborder(qrCode) {
+	//使用getSelections即可获得，row是json格式的数据
+	$("#subOrderCancelFinishBT").attr("disabled", true);
+	$("#subOrderOvertimeFinishBT").attr("disabled", true);
+	var formMap = {};
+	//浇铸干燥窑扫码后ID赋值
+	//alert(qrCode)
+	formMap['dryingkilnid']=qrCode;
+	formMap['outputerid']=$Global_UserLogin_Info.userid;
+	formMap['outputername']=$Global_UserLogin_Info.username;
+	var formMap2 = {};
+	formMap2["name"] = $Global_UserLogin_Info.username;
+	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
+	$.ajax({
+		url: window.serviceIP + "/api/order/pushOutDryingKilnjzsuborder",
+		type: "POST",
+		//contentType: "application/json",
+		dataType: "json",
+		//processData: false,
+		//contentType: false,
+		data: formMap2,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert(data.message);
+				SelectSubOrder()
+				$("#changeOrderProductionNum").attr("readonly", true);
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+			$("#subOrderCancelFinishBT").attr("disabled", false);
+			$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		},
+		error:	function(error) {
+			$("#subOrderCancelFinishBT").attr("disabled", false);
 			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		}
 	});
