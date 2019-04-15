@@ -511,7 +511,16 @@ function FinishSubOrder() {
 	}
 
 	var formMap2 = {};
-	formMap2["name"] = $Global_UserLogin_Info.username;
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formMap2["name"]  = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID+ "###-1###" + row[0]["materialName"] ;
+	}
+	else
+	{
+		formMap2["name"]  = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"];
+	}
+	//formMap2["name"] = $Global_UserLogin_Info.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 
 	$.ajax({
