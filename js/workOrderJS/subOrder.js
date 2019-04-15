@@ -171,19 +171,19 @@ function subOrderProductionLineSlctFun() {
 		//		$('#subOrderFinishBT').attr("onclick", "pushInDryingKilnjzsuborder()");
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码入窑');
 		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjzPushIn')");
-		$('#subOrderCancelFinishBT').attr("class", "btn btn-default");
-		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑');
-		$('#subOrderCancelFinishBT').attr("onclick", "scanQR('dryingKilnjzPushOut')");
-		$('#subOrderFinishBTEX').show();
+		$('#subOrderOutDryingBTJZ').show();
+		$('#subOrderCancelFinishBTJZEX').hide();
 		$('#subOrderOvertimeFinishBT').hide();
+		$('#subOrderCancelFinishBT').hide();
 		//		alert($('#subOrderFinishBT').attr("onclick"));
 	} else {
 		$('#subOrderOvertimeFinishBT').show();
-		$('#subOrderFinishBTEX').hide();
+		$('#subOrderCancelFinishBT').show();
+		$('#subOrderCancelFinishBTJZEX').hide();
+		$('#subOrderOutDryingBTJZ').hide();
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
-		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消完成');
-		$('#subOrderCancelFinishBT').attr("onclick", "cancelFinishSuborder()");
+
 		//		alert($('#subOrderFinishBT').attr("onclick"));
 	}
 	var formData = new FormData();
@@ -1787,7 +1787,7 @@ function pushInDryingKilnjzByQR(qrCode) {
 	formData.append('inputerid', $.cookie('userid'));
 	formData.append('inputername', $.cookie('username'));
 	//	alert(row[0].productionnum)
-	formData.append('materialquantity', row[0].productionnum);
+	formData.append('materialquantity', $("#changeOrderProductionNum").val());
 
 	var formData2 = new FormData();
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
