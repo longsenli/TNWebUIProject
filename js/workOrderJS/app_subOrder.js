@@ -1984,7 +1984,16 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 	formMap['outputerid']=$Global_UserLogin_Info.userid;
 	formMap['outputername']=$Global_UserLogin_Info.username;
 	var formMap2 = {};
-	formMap2["name"] = $Global_UserLogin_Info.username;
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
+	{
+		formMap2["name"]  = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userid+ "###-1###" + row[0]["materialName"] ;
+	}
+	else
+	{
+		formMap2["name"]  = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userid+ "###" 
+		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"];
+	}
+	//formMap2["name"] = $Global_UserLogin_Info.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 	$.ajax({
 		url: window.serviceIP + "/api/order/pushOutDryingKilnjzsuborder",
