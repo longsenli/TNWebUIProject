@@ -166,23 +166,23 @@ function subOrderProductionLineSlctFun() {
 	//获取流程IP
 	var flag = document.PlantToLineSelectForm.productionProcessSlct.value.toString();
 	//判断是否为浇铸流程
-	if(flag == '1011'){
-		
-//		$('#subOrderFinishBT').attr("onclick", "pushInDryingKilnjzsuborder()");
+	if(flag == '1011') {
+
+		//		$('#subOrderFinishBT').attr("onclick", "pushInDryingKilnjzsuborder()");
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码入窑');
 		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjzPushIn')");
 		$('#subOrderCancelFinishBT').attr("class", "btn btn-default");
 		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑');
 		$('#subOrderCancelFinishBT').attr("onclick", "scanQR('dryingKilnjzPushOut')");
 		$('#subOrderFinishBTEX').show();
-//		alert($('#subOrderFinishBT').attr("onclick"));
-	}else{
+		//		alert($('#subOrderFinishBT').attr("onclick"));
+	} else {
 		$('#subOrderFinishBTEX').hide();
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
 		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消完成');
 		$('#subOrderCancelFinishBT').attr("onclick", "cancelFinishSuborder()");
-//		alert($('#subOrderFinishBT').attr("onclick"));
+		//		alert($('#subOrderFinishBT').attr("onclick"));
 	}
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -265,11 +265,11 @@ function subOrderWorkingLocationSlctFun() {
 
 				var models = eval("(" + dataRes.data + ")");
 				if(models.length < 1) {
-					$("#workingkLocationSlctLabel").hide();//.css("display", "none")
+					$("#workingkLocationSlctLabel").hide(); //.css("display", "none")
 					$('#workingkLocationSlct').selectpicker('hide');
 
 				} else {
-					$("#workingkLocationSlctLabel").show();//.attr("display", "block")
+					$("#workingkLocationSlctLabel").show(); //.attr("display", "block")
 					$('#workingkLocationSlct').selectpicker('show');
 				}
 				for (var  i  in  models)  {  
@@ -505,16 +505,13 @@ function FinishSubOrder() {
 
 		//$("#workOrderManageForm" + " #" + key).attr("value", row[0][key]);
 	}
-	
+
 	var formData2 = new FormData();
-	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
-	{
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###-1###" + row[0]["materialName"] );
-	}
-	else
-	{
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
-		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"]);
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###-1###" + row[0]["materialName"]);
+	} else {
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"]);
 	}
 	formData2.append("jsonStr", window.getFormDataToJson(formData))
 	$.ajax({
@@ -772,7 +769,7 @@ function SelectMaterialRecord() {
 				for(i = 0; i < models.length; i++) {
 					sum = sum + models[i].number;
 				}
-				document.getElementById('sumNumber').innerText = '已投料统计： '+ sum;
+				document.getElementById('sumNumber').innerText = '已投料统计： ' + sum;
 				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
@@ -922,16 +919,13 @@ function gainMaterialRecord() {
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	//formData.append("outputter", $.cookie('username')) //$.cookie('username');
 
-if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
-	{
-		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID')+ "###-1" );
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
+		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID') + "###-1");
+	} else {
+		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+			document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	}
-	else
-	{
-		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
-		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() );
-	}
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainmaterialrecord",
 		type: "POST",
@@ -1063,7 +1057,7 @@ function recognitionQR(webName, qrCode) {
 		pushInDryingKilnjzsuborder(qrCode);
 	else if('dryingKilnjzPushOut' == webName)
 		confirmPushOut(qrCode);
-//		pushOutDryingKilnjzsuborder(qrCode);
+	//		pushOutDryingKilnjzsuborder(qrCode);
 }
 
 function startsScanQRPat() { 
@@ -1736,10 +1730,9 @@ function cancelInputSuborder() {
 	});
 }
 
-
 //添加单独浇铸入窑判断,如果不是浇铸工序则不会调用此方法
 function pushInDryingKilnjzByQR(qrCode) {
-	
+
 	//使用getSelections即可获得，row是json格式的数据
 
 	$("#subOrderFinishBT").attr("disabled", true);
@@ -1786,23 +1779,20 @@ function pushInDryingKilnjzByQR(qrCode) {
 	//浇铸干燥窑扫码后ID赋值
 	formData.append('dryingkilnid', qrCode);
 	//formData.append('dryingkilnid', 'fa3a57559107432599d0252b2bf67fcf');
-	formData.append('worklocationid',$('#workingkLocationSlct').val());
-	var checkText=$("#workingkLocationSlct").find("option:selected").text(); 
-	formData.append('worklocationname',checkText);
-	formData.append('inputerid',$.cookie('userid'));
-	formData.append('inputername',$.cookie('username'));
-//	alert(row[0].productionnum)
-	formData.append('materialquantity',row[0].productionnum);
-	
+	formData.append('worklocationid', $('#workingkLocationSlct').val());
+	var checkText = $("#workingkLocationSlct").find("option:selected").text();
+	formData.append('worklocationname', checkText);
+	formData.append('inputerid', $.cookie('userid'));
+	formData.append('inputername', $.cookie('username'));
+	//	alert(row[0].productionnum)
+	formData.append('materialquantity', row[0].productionnum);
+
 	var formData2 = new FormData();
-	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2)
-	{
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###-1###" + row[0]["materialName"] );
-	}
-	else
-	{
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID')+ "###" 
-		+ document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###"+ row[0]["materialName"]);
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###-1###" + row[0]["materialName"]);
+	} else {
+		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"]);
 	}
 	formData2.append("jsonStr", window.getFormDataToJson(formData))
 	$.ajax({
@@ -1831,13 +1821,12 @@ function pushInDryingKilnjzByQR(qrCode) {
 	});
 };
 
-
-function confirmPushOut(qrCode){
-    if(confirm('确定要批量出窑吗')==true){
-       pushOutDryingKilnjzsuborder(qrCode);
-    }else{
-       return false;
-    }
+function confirmPushOut(qrCode) {
+	if(confirm('确定要批量出窑吗') == true) {
+		pushOutDryingKilnjzsuborder(qrCode);
+	} else {
+		return false;
+	}
 }
 
 //添加单独浇铸出窑判断,如果不是浇铸工序则不会调用此方法
@@ -1848,9 +1837,9 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 	var formMap = {};
 	//浇铸干燥窑扫码后ID赋值
 	//alert(qrCode)
-	formMap['dryingkilnid']=qrCode;
-	formMap['outputerid']=$Global_UserLogin_Info.userid;
-	formMap['outputername']=$Global_UserLogin_Info.username;
+	formMap['dryingkilnid'] = qrCode;
+	formMap['outputerid'] = $Global_UserLogin_Info.userid;
+	formMap['outputername'] = $Global_UserLogin_Info.username;
 	var formMap2 = {};
 	formMap2["name"] = $Global_UserLogin_Info.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
@@ -1877,7 +1866,7 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 			$("#subOrderCancelFinishBT").attr("disabled", false);
 			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		},
-		error:	function(error) {
+		error: function(error) {
 			$("#subOrderCancelFinishBT").attr("disabled", false);
 			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		}
