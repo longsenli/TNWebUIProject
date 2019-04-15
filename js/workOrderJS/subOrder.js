@@ -175,8 +175,10 @@ function subOrderProductionLineSlctFun() {
 		$("#subOrderCancelFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑');
 		$('#subOrderCancelFinishBT').attr("onclick", "scanQR('dryingKilnjzPushOut')");
 		$('#subOrderFinishBTEX').show();
+		$('#subOrderOvertimeFinishBT').hide();
 		//		alert($('#subOrderFinishBT').attr("onclick"));
 	} else {
+		$('#subOrderOvertimeFinishBT').show();
 		$('#subOrderFinishBTEX').hide();
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
