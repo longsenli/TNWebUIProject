@@ -101,8 +101,8 @@
 							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="batchnum" name="batchnum" placeholder="请输入批次数量" oninput="workOrderSetCount()">
 							<label for="name">总产量:</label>
 							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
-							<label for="name">报废数量:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
+							<label for="name" style="display:none" >报废数量:</label>
+							<input type="text" class="form-control" style="display:none" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
 							<!--<label for="name">订单状态:</label>
 							-->
 							<select class="selectpicker" id="status" name="status" style="width:100px;">
