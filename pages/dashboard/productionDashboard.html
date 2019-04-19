@@ -62,6 +62,7 @@
 				<!--<button type="button" class="btn btn-primary" onclick="initProductionDashboardByMaterialPicture()">按物料查询</button>
 				<button type="button" class="btn btn-primary" onclick="initProductionDashboardByLineMaterialPicture()">按产线物料查询</button>-->
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+				<label id="productionScanType" style="display:none;">initProductionDashboardPicture</label>
 				<button type="button" class="btn btn-info" id="btnFunllScreen"><i class="fa fa-arrows-alt"></i>&nbsp;全屏展示</button>
 			</div>
 			<br />
@@ -111,20 +112,43 @@
 	let fullarea = document.getElementById('productionDashboardShow')
 
 	fullarea.addEventListener("fullscreenchange", function(e) {
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByMaterialPicture("onceAgain");
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByLineMaterialPicture("onceAgain")
+		} else {
+			initProductionDashboardPicture("onceAgain");
+		}
 
-		initProductionDashboardPicture("onceAgain");
 	});
 	fullarea.addEventListener("mozfullscreenchange", function(e) {
 
-		initProductionDashboardPicture("onceAgain");
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByMaterialPicture("onceAgain");
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByLineMaterialPicture("onceAgain")
+		} else {
+			initProductionDashboardPicture("onceAgain");
+		}
 	});
 	fullarea.addEventListener("webkitfullscreenchange", function(e) {
-
-		initProductionDashboardPicture("onceAgain");
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByMaterialPicture("onceAgain");
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByLineMaterialPicture("onceAgain")
+		} else {
+			initProductionDashboardPicture("onceAgain");
+		}
 	});
 	fullarea.addEventListener("msfullscreenchange", function(e) {
 
-		initProductionDashboardPicture("onceAgain");
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByMaterialPicture("onceAgain");
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			initProductionDashboardByLineMaterialPicture("onceAgain")
+		} else {
+			initProductionDashboardPicture("onceAgain");
+		}
 	});
 
 	btn.addEventListener('click', function() {

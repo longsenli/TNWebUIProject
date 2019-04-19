@@ -102,6 +102,7 @@ function productionDashboardProcessSlctFun(showType) {
 };
 
 function initProductionDashboardPicture(showType) {
+	$("#productionScanType").html("initProductionDashboardPicture");
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
@@ -704,6 +705,7 @@ function initProductionDashboardPicture(showType) {
 
 
 function productionDashboardProcessSlctFun(showType) {
+	
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
 		type: "GET",
@@ -761,6 +763,7 @@ function productionDashboardProcessSlctFun(showType) {
 };
 
 function initProductionDashboardByLineMaterialPicture(showType) {
+	$("#productionScanType").html("initProductionDashboardByLineMaterialPicture");
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
@@ -1359,6 +1362,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 
 
 function initProductionDashboardByMaterialPicture(showType) {
+	$("#productionScanType").html("initProductionDashboardByMaterialPicture");
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
