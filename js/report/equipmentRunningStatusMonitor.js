@@ -21,7 +21,7 @@ function equipStatusMntPlantSlctFun(webName) {
 				}
 				$('#equipMngPlantSlct').selectpicker('refresh');
 				$('#equipMngPlantSlct').selectpicker('render');   
-				$('#equipMngPlantSlct').selectpicker('mobile');
+				// $('#equipMngPlantSlct').selectpicker('mobile');
 				equipStatusMntEquipmentType(webName);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -53,7 +53,7 @@ function equipStatusMntEquipmentType(webName) {
 				}
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
-				$('#equipmentType').selectpicker('mobile');
+				// $('#equipmentType').selectpicker('mobile');
 
 				if(webName == "equipmentRunningStatusMonitor")
 					equipStatusMntParamType(webName);
@@ -91,7 +91,7 @@ function equipStatusMntParamType(webName) {
 				}
 				$('#equipmentParamType').selectpicker('refresh');
 				$('#equipmentParamType').selectpicker('render');   
-				$('#equipmentParamType').selectpicker('mobile');
+				// $('#equipmentParamType').selectpicker('mobile');
 				//				if(webName == "equipmentRunningStatusMonitor")
 				//					equipStatusMntInit()
 				//				else if(webName == "equipParamRecordTable") {
@@ -187,7 +187,7 @@ function equipStatusMntParamType(webName) {
 				}
 				$('#equipmentParamType').selectpicker('refresh');
 				$('#equipmentParamType').selectpicker('render');   
-				$('#equipmentParamType').selectpicker('mobile');
+				// $('#equipmentParamType').selectpicker('mobile');
 				//				if(webName == "equipmentRunningStatusMonitor")
 				//					equipStatusMntInit()
 				//				else if(webName == "equipParamRecordTable") {
@@ -291,7 +291,7 @@ function getEquipmentInfoEquipReport(webName) {
 				}
 				$('#equipmentInfo').selectpicker('refresh');
 				$('#equipmentInfo').selectpicker('render'); 
-				$('#equipmentInfo').selectpicker('mobile'); 
+				// $('#equipmentInfo').selectpicker('mobile'); 
 				equipStatusMntParamType(webName);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

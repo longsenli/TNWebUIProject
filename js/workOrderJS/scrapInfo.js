@@ -19,7 +19,7 @@ function scrapIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 				if(flag = "1")
 					scrapProductionProcessSlctFun();
 				else
@@ -53,7 +53,7 @@ function scrapProductionProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 				scrapProductionLineSlctFun();
 			} else {
 				alert("初始化流程数据失败！" + dataRes.message);
@@ -97,7 +97,7 @@ function scrapProductionLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 				scrapSelect();
 			} else {
 				alert("初始化产线数据失败！" + dataRes.message);

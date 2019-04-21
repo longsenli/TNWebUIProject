@@ -19,7 +19,7 @@ function batteryShipmentIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -72,11 +72,11 @@ function batteryShipmentBatteryTypeSlctFun() {
 				}
 				$('#materialID').selectpicker('refresh');
 				$('#materialID').selectpicker('render');   
-				$('#materialID').selectpicker('mobile');
+				// $('#materialID').selectpicker('mobile');
 
 				$('#batteryTypeForm').selectpicker('refresh');
 				$('#batteryTypeForm').selectpicker('render');   
-				$('#batteryTypeForm').selectpicker('mobile');
+				// $('#batteryTypeForm').selectpicker('mobile');
 
 				getBatteryShipmentRecord();
 			} else {

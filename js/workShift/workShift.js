@@ -21,7 +21,7 @@ function workShiftPlantSlctFun(htmlName) {
 				}
 				$('#workShiftPlantSlct').selectpicker('refresh');
 				$('#workShiftPlantSlct').selectpicker('render');   
-				$('#workShiftPlantSlct').selectpicker('mobile');
+				// $('#workShiftPlantSlct').selectpicker('mobile');
 				if("shiftTeamManage" == htmlName) {
 					workShiftProcessSlctFun(htmlName);
 
@@ -31,7 +31,7 @@ function workShiftPlantSlctFun(htmlName) {
 				} else if("workShiftRecordManage" == htmlName) {
 					$('#dayNightType').selectpicker('refresh');
 					$('#dayNightType').selectpicker('render');   
-					$('#dayNightType').selectpicker('mobile');
+					// $('#dayNightType').selectpicker('mobile');
 					workShiftProcessSlctFun('workShiftRecordManage');
 				}
 
@@ -64,7 +64,7 @@ function workShiftProcessSlctFun(htmlName) {
 				//console.log($('#productionProcessSlct'));
 				$('#processSlctType').selectpicker('refresh');
 				$('#processSlctType').selectpicker('render');   
-				$('#processSlctType').selectpicker('mobile');
+				// $('#processSlctType').selectpicker('mobile');
 				if("shiftTeamManage" == htmlName) {
 					$('#processSlctType').selectpicker('hide');
 					initShiftTeamTable();
@@ -113,7 +113,7 @@ function workShiftLineSlctFun(htmlName) {
 				}
 				$('#lineSlctType').selectpicker('refresh');
 				$('#lineSlctType').selectpicker('render');   
-				$('#lineSlctType').selectpicker('mobile');
+				// $('#lineSlctType').selectpicker('mobile');
 				$('#lineSlctType').selectpicker('hide');
 				if("workShiftRecordManage" == htmlName) {
 					initWorkShiftRecordTable(htmlName);
@@ -149,7 +149,7 @@ function workShiftTeamSlctFun(htmlName) {
 				//console.log($('#productionProcessSlct'));
 				$('#workShiftTeamSlct').selectpicker('refresh');
 				$('#workShiftTeamSlct').selectpicker('render');   
-				$('#workShiftTeamSlct').selectpicker('mobile');
+				// $('#workShiftTeamSlct').selectpicker('mobile');
 
 				workShiftProcessSlctFun(htmlName);
 
@@ -290,7 +290,7 @@ function selectedShiftTeamRow(param) {
 	})
 	$('#processid').selectpicker('refresh');
 	$('#processid').selectpicker('render'); 
-	$('#processid').selectpicker('mobile');
+	// $('#processid').selectpicker('mobile');
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "addRow") {
@@ -504,7 +504,7 @@ function selectedWorkShiftRow(param) {
 	})
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render'); 
-	$('#lineid').selectpicker('mobile');
+	// $('#lineid').selectpicker('mobile');
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "addRow") {
@@ -740,21 +740,21 @@ function selectedWorkShiftRecordRow(param) {
 	})
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render'); 
-	$('#lineid').selectpicker('mobile');
+	// $('#lineid').selectpicker('mobile');
 
 	$("#daynight").find('option').remove();
 	$('#daynight').append(("<option value=" + "白班" + ">" + "白班"  + "</option>").toString());
 	$('#daynight').append(("<option value=" + "夜班" + ">" + "夜班"  + "</option>").toString());
 	$('#daynight').selectpicker('refresh');
 	$('#daynight').selectpicker('render'); 
-	$('#daynight').selectpicker('mobile');
+	// $('#daynight').selectpicker('mobile');
 
 	$("#abshift").find('option').remove();
 	$('#abshift').append(("<option value=" + "A" + ">" + "A班"  + "</option>").toString());
 	$('#abshift').append(("<option value=" + "B" + ">" + "B班"  + "</option>").toString());
 	$('#abshift').selectpicker('refresh');
 	$('#abshift').selectpicker('render'); 
-	$('#abshift').selectpicker('mobile');
+	// $('#abshift').selectpicker('mobile');
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "addRow") {

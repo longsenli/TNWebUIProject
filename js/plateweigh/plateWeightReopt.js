@@ -541,7 +541,7 @@ function getWeighQualifyStaff(addAll) {
 			}
 			$('#weighQualifyStaff').selectpicker('refresh');
 			$('#weighQualifyStaff').selectpicker('render');   
-			$('#weighQualifyStaff').selectpicker('mobile');
+			// $('#weighQualifyStaff').selectpicker('mobile');
 			getWeighQualifyLine(addAll);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -573,7 +573,7 @@ function getWeighQualifyLine(addAll) {
 			}
 			$('#weighQualifyLine').selectpicker('refresh');
 			$('#weighQualifyLine').selectpicker('render');   
-			$('#weighQualifyLine').selectpicker('mobile');
+			// $('#weighQualifyLine').selectpicker('mobile');
 			getWeighQualifyType(addAll);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -603,15 +603,15 @@ function getWeighQualifyType(addAll) {
 			}
 			$('#weighQualifyType').selectpicker('refresh');
 			$('#weighQualifyType').selectpicker('render');   
-			$('#weighQualifyType').selectpicker('mobile');
+			// $('#weighQualifyType').selectpicker('mobile');
 
 			$('#weighQualifyRange').selectpicker('refresh');
 			$('#weighQualifyRange').selectpicker('render');   
-			$('#weighQualifyRange').selectpicker('mobile');
+			// $('#weighQualifyRange').selectpicker('mobile');
 
 			$('#weighRateTypeSlct').selectpicker('refresh');
 			$('#weighRateTypeSlct').selectpicker('render');   
-			$('#weighRateTypeSlct').selectpicker('mobile');
+			// $('#weighRateTypeSlct').selectpicker('mobile');
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 		//	alert(XMLHttpRequest + "," + textStatus + "," + errorThrown);

@@ -20,7 +20,7 @@ function workLocationPlantSlctFun() {
 				}
 				$('#infoCfgPlantSlct').selectpicker('refresh');
 				$('#infoCfgPlantSlct').selectpicker('render');   
-				$('#infoCfgPlantSlct').selectpicker('mobile');
+				// $('#infoCfgPlantSlct').selectpicker('mobile');
 				workLocationCfgProcessSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -51,7 +51,7 @@ function workLocationCfgProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#processSlctType').selectpicker('refresh');
 				$('#processSlctType').selectpicker('render');   
-				$('#processSlctType').selectpicker('mobile');
+				// $('#processSlctType').selectpicker('mobile');
 				workLocationLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -89,7 +89,7 @@ function workLocationLineSlctFun() {
 				}
 				$('#lineSlctType').selectpicker('refresh');
 				$('#lineSlctType').selectpicker('render');   
-				$('#lineSlctType').selectpicker('mobile');
+				// $('#lineSlctType').selectpicker('mobile');
 				setTimeout(function() {
 					workLocationDatatbleFun();
 				}, 100);

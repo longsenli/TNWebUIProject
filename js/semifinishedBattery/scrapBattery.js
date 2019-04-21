@@ -19,7 +19,7 @@ function scrapBatteryIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -68,7 +68,7 @@ function scrapBatteryProductionProcessSlctFun(flag) {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 				for(var j = 0; j < numbers.length; j++) {
@@ -118,7 +118,7 @@ function scrapBatteryBatteryTypeSlctFun(flag) {
 				}
 				$('#batteryType').selectpicker('refresh');
 				$('#batteryType').selectpicker('render');   
-				$('#batteryType').selectpicker('mobile');
+				// $('#batteryType').selectpicker('mobile');
 				if(flag = "1")
 					scrapBatteryProductionLineSlctFun();
 			} else {
@@ -165,15 +165,15 @@ function scrapBatteryProductionLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 
 				$('#lineID').selectpicker('refresh');
 				$('#lineID').selectpicker('render');   
-				$('#lineID').selectpicker('mobile');
+				// $('#lineID').selectpicker('mobile');
 
 				$('#scrapType').selectpicker('refresh');
 				$('#scrapType').selectpicker('render');   
-				$('#scrapType').selectpicker('mobile');
+				// $('#scrapType').selectpicker('mobile');
 
 				getScrapBatteryRecord();
 			} else {

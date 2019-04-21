@@ -23,11 +23,11 @@ function salesOrderPlantSlctFun() {
 				}
 				$('#salesOrderPlantSlct').selectpicker('refresh');
 				$('#salesOrderPlantSlct').selectpicker('render');   
-				$('#salesOrderPlantSlct').selectpicker('mobile');
+				// $('#salesOrderPlantSlct').selectpicker('mobile');
 
 				$('#salesOrderStatus').selectpicker('refresh');
 				$('#salesOrderStatus').selectpicker('render');   
-				$('#salesOrderStatus').selectpicker('mobile');
+				// $('#salesOrderStatus').selectpicker('mobile');
 
 				salesOrderProductSlct();
 			} else {
@@ -62,7 +62,7 @@ function salesOrderProductSlct() {
 				}
 				$('#salesOrderProductType').selectpicker('refresh');
 				$('#salesOrderProductType').selectpicker('render');   
-				$('#salesOrderProductType').selectpicker('mobile');
+				// $('#salesOrderProductType').selectpicker('mobile');
 				getSalesOrderDetail();
 				//getEquipmentInfoDataCollector();
 			} else {

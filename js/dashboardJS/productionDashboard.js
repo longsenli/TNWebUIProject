@@ -19,7 +19,7 @@ function productionDashboardPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -66,17 +66,17 @@ function productionDashboardProcessSlctFun(showType) {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				$('#workType').selectpicker('refresh');
 				$('#workType').selectpicker('render');   
-				$('#workType').selectpicker('mobile');
+				// $('#workType').selectpicker('mobile');
 				var today = new Date();
 				if(today.getHours() <= 7 || today.getHours() >= 19) {
 					$("#workType ").val("YB");
 					$('#workType').selectpicker('refresh');
 					$('#workType').selectpicker('render');   
-					$('#workType').selectpicker('mobile');
+					// $('#workType').selectpicker('mobile');
 				}
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -748,17 +748,17 @@ function productionDashboardProcessSlctFun(showType) {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				$('#workType').selectpicker('refresh');
 				$('#workType').selectpicker('render');   
-				$('#workType').selectpicker('mobile');
+				// $('#workType').selectpicker('mobile');
 				var today = new Date();
 				if(today.getHours() <= 7 || today.getHours() >= 19) {
 					$("#workType ").val("YB");
 					$('#workType').selectpicker('refresh');
 					$('#workType').selectpicker('render');   
-					$('#workType').selectpicker('mobile');
+					// $('#workType').selectpicker('mobile');
 				}
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值

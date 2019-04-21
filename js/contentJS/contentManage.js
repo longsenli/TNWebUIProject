@@ -57,7 +57,7 @@ function initConentData() {
 				$('#contentType').selectpicker('refresh');
 
 				$('#contentType').selectpicker('render');  
-				$('.selectpicker').selectpicker('mobile'); 
+				// $('.selectpicker').selectpicker('mobile'); 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -94,8 +94,8 @@ function initContentTypeSlctData() {
 				$('#contentType').selectpicker('render');  
 				$('#typeAll').selectpicker('refresh');
 				$('#typeAll').selectpicker('render');   
-				$('#typeAll').selectpicker('mobile');
-				$('#contentType').selectpicker('mobile');
+				// $('#typeAll').selectpicker('mobile');
+				// $('#contentType').selectpicker('mobile');
 				filterContent();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

@@ -19,7 +19,7 @@ function onlineMaterialIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -69,7 +69,7 @@ function onlineMaterialProductionProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -132,7 +132,7 @@ function onlineMaterialProductionLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 
 				$('#lineid').selectpicker('refresh');
 				$('#lineid').selectpicker('render');   
@@ -336,7 +336,7 @@ function onlineMaterialMaterialSlct() {
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
-				$('#materialid').selectpicker('mobile');
+				// $('#materialid').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -357,10 +357,10 @@ function selectedOnlineMaterialRow(param) {
 
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render');   
-	$('#lineid').selectpicker('mobile');
+	// $('#lineid').selectpicker('mobile');
 	$('#materialid').selectpicker('refresh');
 	$('#materialid').selectpicker('render');   
-	$('#materialid').selectpicker('mobile');
+	// $('#materialid').selectpicker('mobile');
 	if(optionType == "onlineMaterial_add") {
 
 		$("#onlineMaterialModalForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());

@@ -23,7 +23,7 @@ function repairBatteryIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -71,7 +71,7 @@ function repairBatteryProductionProcessSlctFun(flag) {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 				
 				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -121,7 +121,7 @@ function repairBatteryBatteryTypeSlctFun(flag) {
 				}
 				$('#batterytype').selectpicker('refresh');
 				$('#batterytype').selectpicker('render');   
-				$('#batterytype').selectpicker('mobile');
+				// $('#batterytype').selectpicker('mobile');
 				if(flag = "1")
 					repairBatteryProductionLineSlctFun(flag);
 			} else {
@@ -166,12 +166,12 @@ function repairBatteryProductionLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 
 				if(repairBateryHTMLFlag != 'change') {
 					$('#lineid').selectpicker('refresh');
 					$('#lineid').selectpicker('render');   
-					$('#lineid').selectpicker('mobile');
+					// $('#lineid').selectpicker('mobile');
 				}
 
 				getRepairBatteryRecord();

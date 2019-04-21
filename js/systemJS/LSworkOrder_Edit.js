@@ -25,7 +25,7 @@ function LSworkOrderIndustrialPlantSlctFunEdit(flag,industrialplant_id, producti
 				}
 				$('#edit_industrialplant_id').selectpicker('refresh');
 				$('#edit_industrialplant_id').selectpicker('render');   
-				$('#edit_industrialplant_id').selectpicker('mobile');
+				// $('#edit_industrialplant_id').selectpicker('mobile');
 				if(flag = "1")
 					LSworkOrderProductionProcessSlctFunEdit(productionprocess_id,productionline_id);
 				else
@@ -63,7 +63,7 @@ function LSworkOrderProductionProcessSlctFunEdit(productionprocess_id,production
 				//console.log($('#edit_productionprocess_id'));
 				$('#edit_productionprocess_id').selectpicker('refresh');
 				$('#edit_productionprocess_id').selectpicker('render');   
-				$('#edit_productionprocess_id').selectpicker('mobile');
+				// $('#edit_productionprocess_id').selectpicker('mobile');
 				LSworkOrderProductionLineSlctFunEdit(productionline_id);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -113,7 +113,7 @@ function LSworkOrderProductionLineSlctFunEdit(productionline_id) {
 				}
 				$('#edit_productionline_id').selectpicker('refresh');
 				$('#edit_productionline_id').selectpicker('render');   
-				$('#edit_productionline_id').selectpicker('mobile');
+				// $('#edit_productionline_id').selectpicker('mobile');
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}

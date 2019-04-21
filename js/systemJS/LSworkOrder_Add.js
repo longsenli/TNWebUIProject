@@ -20,7 +20,7 @@ function LSworkOrderIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialplant_id').selectpicker('refresh');
 				$('#industrialplant_id').selectpicker('render');   
-				$('#industrialplant_id').selectpicker('mobile');
+				// $('#industrialplant_id').selectpicker('mobile');
 				if(flag = "1")
 					LSworkOrderProductionProcessSlctFun();
 				else
@@ -54,7 +54,7 @@ function LSworkOrderProductionProcessSlctFun() {
 				//console.log($('#productionprocess_id'));
 				$('#productionprocess_id').selectpicker('refresh');
 				$('#productionprocess_id').selectpicker('render');   
-				$('#productionprocess_id').selectpicker('mobile');
+				// $('#productionprocess_id').selectpicker('mobile');
 				LSworkOrderProductionLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -98,7 +98,7 @@ function LSworkOrderProductionLineSlctFun() {
 				}
 				$('#productionline_id').selectpicker('refresh');
 				$('#productionline_id').selectpicker('render');   
-				$('#productionline_id').selectpicker('mobile');
+				// $('#productionline_id').selectpicker('mobile');
 //				LSgetWorkOrder();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -264,16 +264,16 @@ function LSsetLineModal() {
 	})
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render'); 
-	$('#lineid').selectpicker('mobile');
+	// $('#lineid').selectpicker('mobile');
 
 	$('#status').selectpicker('refresh');
 	$('#status').selectpicker('render'); 
-	$('#status').selectpicker('mobile');
+	// $('#status').selectpicker('mobile');
 	$('#status').selectpicker('hide');
 
 	$('#workshift').selectpicker('refresh');
 	$('#workshift').selectpicker('render'); 
-	$('#workshift').selectpicker('mobile');
+	// $('#workshift').selectpicker('mobile');
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
@@ -301,7 +301,7 @@ function LSsetLineModal() {
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
-				$('#materialid').selectpicker('mobile');
+				// $('#materialid').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

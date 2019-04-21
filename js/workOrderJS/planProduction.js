@@ -23,11 +23,11 @@ function planProductionIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				$('#plantid').selectpicker('refresh');
 				$('#plantid').selectpicker('render');   
-				$('#plantid').selectpicker('mobile');
+				// $('#plantid').selectpicker('mobile');
 
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -75,11 +75,11 @@ function planProductionProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				$('#processid').selectpicker('refresh');
 				$('#processid').selectpicker('render');   
-				$('#processid').selectpicker('mobile');
+				// $('#processid').selectpicker('mobile');
 
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -245,11 +245,11 @@ function selectedPlanProductionRow(param) {
 	var row = planProductionSelectedRow;
 	$('#planProductionManageForm #plantid').selectpicker('refresh');
 	$('#planProductionManageForm #plantid').selectpicker('render');   
-	$('#planProductionManageForm #plantid').selectpicker('mobile');
+	// $('#planProductionManageForm #plantid').selectpicker('mobile');
 
 	$('#planProductionManageForm #processid').selectpicker('refresh');
 	$('#planProductionManageForm #processid').selectpicker('render');   
-	$('#planProductionManageForm #processid').selectpicker('mobile');
+	// $('#planProductionManageForm #processid').selectpicker('mobile');
 
 	if(optionType == "planproduction_add") {
 		var today = new Date();
@@ -411,7 +411,7 @@ function planProductionMaterialSlct() {
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
-				$('#materialid').selectpicker('mobile');
+				// $('#materialid').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

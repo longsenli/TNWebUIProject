@@ -21,7 +21,7 @@ function equipParamEquipmentType() {
 				}
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
-				$('#equipmentType').selectpicker('mobile');
+				// $('#equipmentType').selectpicker('mobile');
 				getEquipmentInfoDataCollector();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -53,7 +53,7 @@ function equipDataPlantSlctFun() {
 				}
 				$('#equipDataPlantSlct').selectpicker('refresh');
 				$('#equipDataPlantSlct').selectpicker('render');   
-				$('#equipDataPlantSlct').selectpicker('mobile');
+				// $('#equipDataPlantSlct').selectpicker('mobile');
 				//getEquipmentInfoDataCollector();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -119,7 +119,7 @@ function getEquipmentInfoDataCollector() {
 				}
 				$('#equipmentInfo').selectpicker('refresh');
 				$('#equipmentInfo').selectpicker('render'); 
-				$('#equipmentInfo').selectpicker('mobile'); 
+				// $('#equipmentInfo').selectpicker('mobile'); 
 				getEquipmentParam();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

@@ -22,7 +22,7 @@ function getEquipmentTypeTable() {
 				}
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
-				$('#equipmentType').selectpicker('mobile');
+				// $('#equipmentType').selectpicker('mobile');
 				getEquipmentInfoTable();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

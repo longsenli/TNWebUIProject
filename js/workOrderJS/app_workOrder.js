@@ -22,7 +22,7 @@ function workOrderIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -72,7 +72,7 @@ function workOrderProductionProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -315,16 +315,16 @@ function setLineModal() {
 	})
 	$('#lineid').selectpicker('refresh');
 	$('#lineid').selectpicker('render'); 
-	$('#lineid').selectpicker('mobile');
+	// $('#lineid').selectpicker('mobile');
 
 	$('#status').selectpicker('refresh');
 	$('#status').selectpicker('render'); 
-	$('#status').selectpicker('mobile');
+	// $('#status').selectpicker('mobile');
 	$('#status').selectpicker('hide');
 
 	$('#workshift').selectpicker('refresh');
 	$('#workshift').selectpicker('render'); 
-	$('#workshift').selectpicker('mobile');
+	// $('#workshift').selectpicker('mobile');
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
@@ -352,7 +352,7 @@ function setLineModal() {
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
-				$('#materialid').selectpicker('mobile');
+				// $('#materialid').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

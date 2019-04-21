@@ -21,7 +21,7 @@ function subOrderIndustrialPlantSlctFun() {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -72,7 +72,7 @@ function solidifyRoomSlctFun() {
 				}
 				$('#solidifyRoomSlct').selectpicker('refresh');
 				$('#solidifyRoomSlct').selectpicker('render');   
-				$('#solidifyRoomSlct').selectpicker('mobile');
+				// $('#solidifyRoomSlct').selectpicker('mobile');
 				getSolidifyRoomOrder();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -104,7 +104,7 @@ function solidifyPlantSlctFun() {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 				solidifyRoomSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -135,7 +135,7 @@ function subOrderProductionProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -214,7 +214,7 @@ function subOrderProductionLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -280,7 +280,7 @@ function subOrderWorkingLocationSlctFun() {
 				}
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
-				$('#workingkLocationSlct').selectpicker('mobile');
+				// $('#workingkLocationSlct').selectpicker('mobile');
 				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {
 					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
@@ -327,7 +327,7 @@ function lineWorkOrderSlct() {
 				}
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
-				$('#workOrderSlct').selectpicker('mobile');
+				// $('#workOrderSlct').selectpicker('mobile');
 				setTimeout(function() {
 					SelectWorkOrderFun();
 				}, 100);

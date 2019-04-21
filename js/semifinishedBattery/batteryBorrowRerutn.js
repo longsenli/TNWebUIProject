@@ -29,19 +29,19 @@ function batteryBorrowRerutnIndustrialPlantSlctFun(flag) {
 				}
 				$('#industrialPlantOutSlct').selectpicker('refresh');
 				$('#industrialPlantOutSlct').selectpicker('render');   
-				$('#industrialPlantOutSlct').selectpicker('mobile');
+				// $('#industrialPlantOutSlct').selectpicker('mobile');
 
 				$('#industrialPlantInSlct').selectpicker('refresh');
 				$('#industrialPlantInSlct').selectpicker('render');   
-				$('#industrialPlantInSlct').selectpicker('mobile');
+				// $('#industrialPlantInSlct').selectpicker('mobile');
 
 				$('#outPlantID').selectpicker('refresh');
 				$('#outPlantID').selectpicker('render');   
-				$('#outPlantID').selectpicker('mobile');
+				// $('#outPlantID').selectpicker('mobile');
 
 				$('#inPlantID').selectpicker('refresh');
 				$('#inPlantID').selectpicker('render');   
-				$('#inPlantID').selectpicker('mobile');
+				// $('#inPlantID').selectpicker('mobile');
 
 				batteryBorrowRerutnBatteryTypeSlctFun();
 			} else {
@@ -80,11 +80,11 @@ function batteryBorrowRerutnBatteryTypeSlctFun(flag) {
 				}
 				$('#batteryType').selectpicker('refresh');
 				$('#batteryType').selectpicker('render');   
-				$('#batteryType').selectpicker('mobile');
+				// $('#batteryType').selectpicker('mobile');
 
 				$('#batteryTypeSlct').selectpicker('refresh');
 				$('#batteryTypeSlct').selectpicker('render');   
-				$('#batteryTypeSlct').selectpicker('mobile');
+				// $('#batteryTypeSlct').selectpicker('mobile');
 
 				getBatteryBorrowRerutnRecord();
 			} else {

@@ -3,49 +3,13 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<!-- <meta name="referrer" content="never"> -->
-		<meta name="viewport" content="user-scalable=0">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
 		<title>工单批次管理</title>
-
 		<script type="text/javascript" src="../vendor/hplus/js/jquery.min.js"></script>
-		<!-- <script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script> -->
-		<!-- <script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script> -->
-		<!-- 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css"> -->
-		<style>
-			.btn_radius{
-				border-radius: 15px;
-				background: #FFFFFF;
-				width: 100%;
-				font-size:50px;
-				border:5px ;
-		/* 		text-align:left; */
-				
-			}
-			.btn-block{
-				 
-			
-				width:98% ;
-				padding: 4px;
-			}
-			#div_3{
-				width: 100%;
-				padding: 5px;
-			}
-			h2{
-				font-size:70px; 
-				font-family: "book antiqua";
-			
-			}
-			.ccc{
-				align: center;
-			}
-			/* body{height: 100%;} */
-
-
-	
-		</style>
-
-
+		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 		<script type="text/javascript" charset="utf-8">
 			//取消浏览器的所有事件，使得active的样式在手机上正常生效
 			document.addEventListener('touchstart', function() {
@@ -145,55 +109,84 @@
 			// 			_openw.show('zoom-fade-out');
 			// 		}
 		</script>
-
+<style>
+	.img-responsive {
+	  display: block;
+	  height: auto;
+	  max-width: 100%;
+	}
+</style>
 	</head>
-
-	<body id="aaa" style="background-color: #F5F5F5" b>
-		<div class="title_1">
-			<h2 align="center">功能菜单</h2>
+	<body>
+		<div>
+			<img src="../image/app_logo.png" class="img-responsive" >
 		</div>
-		<div id="div_1" class="bbb" align="center">
-			<img src="../image/app_logo.png" style="background-size：cover;">
+		<div id="container" class="effect aside-float aside-bright mainnav-lg">
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<!--
+									作者：lightpeng123@163.com
+									时间：2019-04-02
+									描述：panel3开始
+								-->
+								<!--
+									作者：lightpeng123@163.com
+									时间：2019-04-02
+									描述：panel3结束
+								-->
+								<div class="row">
+									<div class="eq-height">
+										<div class="col-lg-6 eq-box-lg">
+											<div class="panel">
+												<div class="panel-heading">
+													<h3 align="center">功能菜单</h3>
+												</div>
+												<div class="panel-body">
+													<!--Colored-->
+													<!--===================================================-->
+													<div class="list-group">
+														<a id="../pages/workOrder/new_app_subOrderTelephone.html" class="list-group-item list-group-item-primary" href="#" onclick="clicked(this.id, '批次管理')">
+															<div align="center" style="font-size: large;">批次管理</div>
+														</a>
+														<a id="../pages/workOrder/new_app_onlineMaterialRecord.html" class="list-group-item list-group-item-success center" href="#" onclick="clicked(this.id, '线边仓管理')">
+															<div align="center" style="font-size: large;">线边仓管理</div>
+														</a>
+														<a id="../pages/workOrder/new_app_workOrderManageTelephone.html"  class="list-group-item list-group-item-info" href="#" onclick="clicked(this.id, '工单报废')">
+															<div align="center" style="font-size: large;">工单报废</div>
+														</a>
+														<a id="../pages/workOrder/new_app_productionStatisticsTelephone.html" class="list-group-item list-group-item-warning" href="#" onclick="clicked(this.id, '物料库存管理')">
+															<div align="center" style="font-size: large;">物料库存管理</div>
+														</a>
+														<a id="../pages/workOrder/new_app_scrapInfoTelephone.html" class="list-group-item list-group-item-danger" href="#" onclick="clicked(this.id, '报废信息查询')">
+															<div align="center" style="font-size: large;">报废信息查询</div>
+														</a>
+														<a id="../pages/semifinishedBattery/new_app_batteryRepairTelephone.html" class="list-group-item list-group-item-mint" href="#" onclick="clicked(this.id, '电池报修')">
+															<div align="center" style="font-size: large;">电池报修</div>
+														</a>
+														<a id="../pages/semifinishedBattery/new_app_batteryScrapTelephone.html" class="list-group-item list-group-item-purple" href="#" onclick="clicked(this.id, '电池报废')">
+															<div align="center" style="font-size: large;">电池报废</div>
+														</a>
+														<a id="../pages/semifinishedBattery/new_app_batteryBorrowReturnTelephone.html" class="list-group-item list-group-item-pink" href="#" onclick=" clicked(this.id, '电池流动' )">
+															<div align="center" style="font-size: large;">电池流动</div>
+														</a>
+														<a id="../pages/rights/new_app_changepassword.html" class="list-group-item list-group-item-dark" href="#"  onclick=" clicked(this.id, '修改密码' )">
+															<div align="center" style="font-size: large;">修改我的密码</div>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="div_3">
-			<div id="div_4" class="btn-block">
-				<button id="../pages/workOrder/new_app_subOrderTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '批次管理')">
-					<span class="glyphicon"></span> 批次管理</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/workOrder/new_app_onlineMaterialRecord.html" type="button" class="btn_radius" onclick="clicked(this.id, '线边仓管理')">
-					<span class="glyphicon"></span> 线边仓管理</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/workOrder/new_app_workOrderManageTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '工单报废')">
-					<span class="glyphicon"></span> 工单报废</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/workOrder/new_app_productionStatisticsTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '物料库存管理')">
-					<span class="glyphicon"></span>物料库存管理</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/workOrder/new_app_scrapInfoTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '报废信息查询')">
-					<span class="glyphicon"></span> 报废信息查询</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryRepairTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '电池报修')">
-					<span class="glyphicon"></span> 电池报修</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryScrapTelephone.html" type="button" class="btn_radius" onclick="clicked(this.id, '电池报废')">
-					<span class="glyphicon"></span> 电池报废</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryBorrowReturnTelephone.html" type="button" class="btn_radius" onclick=" clicked(this.id, '电池流动' )">
-					<span class="glyphicon"></span> 电池流动</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/rights/new_app_changepassword.html" type="button" class="btn_radius" onclick=" clicked(this.id, '修改密码' )">
-					<span class="glyphicon"></span> 修改我的密码</button>
-			</div>
-		</div>
-
 		<script type="text/javascript">
 			var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 			// 							alert($Global_UserLogin_Info.token)
@@ -231,9 +224,9 @@
 		</script>
 		<!-- 获取页面高度 按比例赋值 -->
 		<script type="text/javascript">
-			$(".btn_radius").height(($(window).height() * 0.086));
-			$(".bbb").height(($(window).height() * 0.19));
-			$(".title_1").height(($(window).height() * 0.09));
+// 			$(".btn_radius").height(($(window).height() * 0.086));
+// 			$(".bbb").height(($(window).height() * 0.19));
+// 			$(".title_1").height(($(window).height() * 0.09));
 		
 			
 // 			$(".btn_radius").height(($("#aaa").height() * 0.19));

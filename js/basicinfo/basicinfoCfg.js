@@ -68,7 +68,7 @@ function infoCfgPlantSlctFun() {
 				}
 				$('#infoCfgPlantSlct').selectpicker('refresh');
 				$('#infoCfgPlantSlct').selectpicker('render');   
-				$('#infoCfgPlantSlct').selectpicker('mobile');
+				// $('#infoCfgPlantSlct').selectpicker('mobile');
 				LineCfgDatatbleFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -99,7 +99,7 @@ function infoCfgProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#processSlctType').selectpicker('refresh');
 				$('#processSlctType').selectpicker('render');   
-				$('#processSlctType').selectpicker('mobile');
+				// $('#processSlctType').selectpicker('mobile');
 				LineCfgDatatbleFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -133,15 +133,15 @@ function processMaterialProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#processSlctType').selectpicker('refresh');
 				$('#processSlctType').selectpicker('render');   
-				$('#processSlctType').selectpicker('mobile');
+				// $('#processSlctType').selectpicker('mobile');
 
 				$('#processid').selectpicker('refresh');
 				$('#processid').selectpicker('render');   
-				$('#processid').selectpicker('mobile');
+				// $('#processid').selectpicker('mobile');
 
 				$('#inorout').selectpicker('refresh');
 				$('#inorout').selectpicker('render');   
-				$('#inorout').selectpicker('mobile');
+				// $('#inorout').selectpicker('mobile');
 				processMaterialTableFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -177,15 +177,15 @@ function MaterialMaterialSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#materialSlct').selectpicker('refresh');
 				$('#materialSlct').selectpicker('render');   
-				$('#materialSlct').selectpicker('mobile');
+				// $('#materialSlct').selectpicker('mobile');
 
 				$('#inmaterialid').selectpicker('refresh');
 				$('#inmaterialid').selectpicker('render');   
-				$('#inmaterialid').selectpicker('mobile');
+				// $('#inmaterialid').selectpicker('mobile');
 
 				$('#outmaterialid').selectpicker('refresh');
 				$('#outmaterialid').selectpicker('render');   
-				$('#outmaterialid').selectpicker('mobile');
+				// $('#outmaterialid').selectpicker('mobile');
 
 				materialMaterialTableFun();
 			} else {
@@ -217,7 +217,7 @@ function processMaterialMaterialTypeSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#materialtypeid').selectpicker('refresh');
 				$('#materialtypeid').selectpicker('render');   
-				$('#materialtypeid').selectpicker('mobile');
+				// $('#materialtypeid').selectpicker('mobile');
 				//$('#materialtypeid').selectpicker('hide');
 				processMaterialProcessSlctFun();
 			} else {
@@ -249,7 +249,7 @@ function infoCfgMaterialTypeSlctFun() {
 				}
 				$('#infoCfgMaterialTypeSlct').selectpicker('refresh');
 				$('#infoCfgMaterialTypeSlct').selectpicker('render');   
-				$('#infoCfgMaterialTypeSlct').selectpicker('mobile');
+				// $('#infoCfgMaterialTypeSlct').selectpicker('mobile');
 				materialCfgTableFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -724,15 +724,15 @@ function selectedProcessMaterialRow(param) {
 
 	$('#materialtypeid').selectpicker('refresh');
 	$('#materialtypeid').selectpicker('render');   
-	$('#materialtypeid').selectpicker('mobile');
+	// $('#materialtypeid').selectpicker('mobile');
 
 	$('#processid').selectpicker('refresh');
 	$('#processid').selectpicker('render');   
-	$('#processid').selectpicker('mobile');
+	// $('#processid').selectpicker('mobile');
 
 	$('#inorout').selectpicker('refresh');
 	$('#inorout').selectpicker('render');   
-	$('#inorout').selectpicker('mobile');
+	// $('#inorout').selectpicker('mobile');
 
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
@@ -898,11 +898,11 @@ function selectedMaterialMaterialRow(param) {
 	});
 	$('#inmaterialid').selectpicker('refresh');
 	$('#inmaterialid').selectpicker('render');   
-	$('#inmaterialid').selectpicker('mobile');
+	// $('#inmaterialid').selectpicker('mobile');
 
 	$('#outmaterialid').selectpicker('refresh');
 	$('#outmaterialid').selectpicker('render');   
-	$('#outmaterialid').selectpicker('mobile');
+	// $('#outmaterialid').selectpicker('mobile');
 	var optionType = param.getAttribute("id");
 	if(optionType == "equipment_add") {
 
@@ -995,7 +995,7 @@ function infoCfgEquipTypeSlctFun() {
 				}
 				$('#infoCfgEquipTypeSlct').selectpicker('refresh');
 				$('#infoCfgEquipTypeSlct').selectpicker('render');   
-				$('#infoCfgEquipTypeSlct').selectpicker('mobile');
+				// $('#infoCfgEquipTypeSlct').selectpicker('mobile');
 				equipParamCfgTableFun();
 				basicParamCfgTableFun();
 			} else {

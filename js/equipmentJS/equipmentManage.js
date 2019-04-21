@@ -21,7 +21,7 @@ function equipMngPlantSlctFun() {
 				}
 				$('#equipMngPlantSlct').selectpicker('refresh');
 				$('#equipMngPlantSlct').selectpicker('render');   
-				$('#equipMngPlantSlct').selectpicker('mobile');
+				// $('#equipMngPlantSlct').selectpicker('mobile');
 				getEquipmentInfoTable();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -53,7 +53,7 @@ function getEquipmentTypeTable() {
 				}
 				$('#equipmentType').selectpicker('refresh');
 				$('#equipmentType').selectpicker('render');   
-				$('#equipmentType').selectpicker('mobile');
+				// $('#equipmentType').selectpicker('mobile');
 				getEquipmentInfoTable();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

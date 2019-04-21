@@ -22,7 +22,7 @@ function productionStatisticsPlantSlctFun(flag) {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
-				$('#industrialPlantSlct').selectpicker('mobile');
+				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
@@ -77,7 +77,7 @@ function productionStatisBatteryTypeSlctFun(flag) {
 				}
 				$('#batterytype').selectpicker('refresh');
 				$('#batterytype').selectpicker('render');   
-				$('#batterytype').selectpicker('mobile');
+				// $('#batterytype').selectpicker('mobile');
 				$('#batterytype').selectpicker('hide');
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -108,7 +108,7 @@ function productionStatisticsProcessSlctFun() {
 				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				$('#productionProcessSlct').selectpicker('mobile');
+				// $('#productionProcessSlct').selectpicker('mobile');
 
 				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
@@ -168,7 +168,7 @@ function productionStatisticsLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				$('#productionLineSlct').selectpicker('mobile');
+				// $('#productionLineSlct').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
