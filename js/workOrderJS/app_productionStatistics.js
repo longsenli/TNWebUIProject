@@ -909,7 +909,7 @@ function grantMaterialDetail() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					pagination: true,
 					paginationPreText: '上一页',
 					paginationNextText: '下一页',
