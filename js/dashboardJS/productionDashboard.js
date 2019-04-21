@@ -102,7 +102,16 @@ function productionDashboardProcessSlctFun(showType) {
 };
 
 function initProductionDashboardPicture(showType) {
-	$("#productionScanType").html("initProductionDashboardPicture");
+	var tmpStr = document.getElementById("productionScanType").innerHTML;
+	if(showType == '1')
+	{
+		$("#productionScanType").html("initProductionDashboardPicture");
+		tmpStr = "initProductionDashboardPicture";
+	}
+	if(tmpStr != 'initProductionDashboardPicture')
+	{
+		return;
+	}
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
@@ -696,10 +705,22 @@ function initProductionDashboardPicture(showType) {
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
+	//console.log("test---line");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardPicture('refresh')", 1000);
-	} else if(showType == "refresh") {
-		setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
+		setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
+	} else if(showType == "refresh" +document.getElementById("refreshID").innerHTML) {
+		var tmpDate  = new Date();
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		//setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
+		//setTimeout("initProductionDashboardPicture('refresh')", 600 * 10);
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		}
 	}
 }
 
@@ -763,7 +784,17 @@ function productionDashboardProcessSlctFun(showType) {
 };
 
 function initProductionDashboardByLineMaterialPicture(showType) {
-	$("#productionScanType").html("initProductionDashboardByLineMaterialPicture");
+
+	var tmpStr = document.getElementById("productionScanType").innerHTML;
+	if(showType == '1')
+	{
+		$("#productionScanType").html("initProductionDashboardByLineMaterialPicture");
+		tmpStr = "initProductionDashboardByLineMaterialPicture";
+	}
+	if(document.getElementById("productionScanType").innerHTML != 'initProductionDashboardByLineMaterialPicture')
+	{
+		return;
+	}
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
@@ -1352,17 +1383,39 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
+	//console.log("test----lineMa");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 1000);
-	} else if(showType == "refresh") {
-		setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 60000 * 10);
+		setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
+	} else if(showType == "refresh"+ document.getElementById("refreshID").innerHTML) {
+		//setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 60000 * 10);
+		//setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 600 * 10);
+		var tmpDate  = new Date();
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+			if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		}
 	}
 }
 
 
 
 function initProductionDashboardByMaterialPicture(showType) {
-	$("#productionScanType").html("initProductionDashboardByMaterialPicture");
+	var tmpStr = document.getElementById("productionScanType").innerHTML;
+	if(showType == '1')
+	{
+		$("#productionScanType").html("initProductionDashboardByMaterialPicture");
+		tmpStr = "initProductionDashboardByMaterialPicture"
+	}
+
+	if(tmpStr != 'initProductionDashboardByMaterialPicture')
+	{
+		return;
+	}
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
 	var planDailyProductionNumber = 1;
@@ -1951,9 +2004,21 @@ function initProductionDashboardByMaterialPicture(showType) {
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
+	//console.log("test---material");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardByMaterialPicture('refresh')", 1000);
-	} else if(showType == "refresh") {
-		setTimeout("initProductionDashboardByMaterialPicture('refresh')", 60000 * 10);
+		setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
+	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
+		//setTimeout("initProductionDashboardByMaterialPicture('refresh')", 60000 * 10);
+		//setTimeout("initProductionDashboardByMaterialPicture('refresh')", 600 * 10);
+		var tmpDate  = new Date();
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		}
 	}
 }

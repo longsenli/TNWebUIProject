@@ -58,11 +58,12 @@
 					<option value="-1">全部</option>
 				</select>
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
-				<button type="button" class="btn btn-primary" onclick="initProductionDashboardPicture()">按产线产线</button>
-				<!--<button type="button" class="btn btn-primary" onclick="initProductionDashboardByMaterialPicture()">按物料查询</button>
-				<button type="button" class="btn btn-primary" onclick="initProductionDashboardByLineMaterialPicture()">按产线物料查询</button>-->
+				<button type="button" class="btn btn-primary" onclick="initProductionDashboardPicture('1')">按产线产线</button>
+				<button type="button" class="btn btn-primary" onclick="initProductionDashboardByMaterialPicture('1')">按物料查询</button>
+				<button type="button" class="btn btn-primary" onclick="initProductionDashboardByLineMaterialPicture('1')">按产线物料查询</button>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 				<label id="productionScanType" style="display:none;">initProductionDashboardPicture</label>
+				<label id="refreshID" style="display:none;">refresh</label>
 				<button type="button" class="btn btn-info" id="btnFunllScreen"><i class="fa fa-arrows-alt"></i>&nbsp;全屏展示</button>
 			</div>
 			<br />
