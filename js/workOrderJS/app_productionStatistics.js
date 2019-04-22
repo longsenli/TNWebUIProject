@@ -167,7 +167,8 @@ function productionStatisticsLineSlctFun() {
 					$('#productionLineSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#productionLineSlct').selectpicker('refresh');
-				$('#productionLineSlct').selectpicker('render');   
+				$('#productionLineSlct').selectpicker('render');  
+				$('#productionLineSlct').selectpicker('hide'); 
 				// $('#productionLineSlct').selectpicker('mobile');
 
 			} else {

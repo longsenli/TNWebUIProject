@@ -165,6 +165,7 @@ function productionStatisticsLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
+				$('#productionLineSlct').selectpicker('hide');
 				// $('#productionLineSlct').selectpicker('mobile');
 
 			} else {
