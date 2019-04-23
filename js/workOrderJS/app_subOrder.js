@@ -451,7 +451,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
 					$("#subOrderFinishBT").attr('disabled', false);
 				} else {
-					// $("#subOrderFinishBT").attr('disabled', true);
+					 $("#subOrderFinishBT").attr('disabled', true);
 				}
 				$('#materialTable').bootstrapTable('destroy');
 				$('#usableMaterialTable').bootstrapTable('destroy');
