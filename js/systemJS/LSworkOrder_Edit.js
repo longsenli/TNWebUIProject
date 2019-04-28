@@ -121,3 +121,67 @@ function LSworkOrderProductionLineSlctFunEdit(productionline_id) {
 	});
 };
 
+//调用工位方法
+function editSubOrderWorkingLocationSlctFun() {
+	var formData = new FormData();
+//	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+//	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+//	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("plantID", $("#edit_industrialplant_id").val());
+	formData.append("processID", $("#edit_productionprocess_id").val());
+	formData.append("lineID", $("#edit_productionline_id").val());
+//	console.log(document.addUserForm.industrialplant_id.value.toString())
+//	console.log(document.addUserForm.productionprocess_id.value.toString())
+//	console.log(document.addUserForm.productionline_id.value.toString())
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getworklocation",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			$("#edit_workingkLocationSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				if(models.length < 1) {
+					$("#edit_workingkLocationSlctLabel").hide();//.css("display", "none")
+					$('#edit_workingkLocationSlct').selectpicker('hide');
+
+				} 
+//				else {
+//					$("#edit_workingkLocationSlctLabel").show();//.attr("display", "block")
+//					$('#edit_workingkLocationSlct').selectpicker('show');
+//				}
+				for (var  i  in  models)  {  
+					$('#edit_workingkLocationSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name + "</option>").toString());
+				}
+				$('#edit_workingkLocationSlct').selectpicker('refresh');
+				$('#edit_workingkLocationSlct').selectpicker('render');   
+				// $('#edit_workingkLocationSlct').selectpicker('mobile');
+				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {	
+					var numbers = $('#edit_workingkLocationSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#edit_workingkLocationSlct').selectpicker('hide');
+							//$("#edit_workingkLocationSlctLabel").css("display", "true");
+						}
+					}
+					$('#edit_workingkLocationSlct').selectpicker('refresh');
+					$('#edit_workingkLocationSlct').selectpicker('render'); 
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};

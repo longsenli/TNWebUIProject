@@ -107,151 +107,6 @@ function LSworkOrderProductionLineSlctFun() {
 	});
 };
 
-function LSgetWorkOrder() {
-	var columnsArray = [];
-	//	columnsArray.push({
-	//		checkbox: true
-	//	});
-	columnsArray.push({
-		width: 200,
-		"title": "工单号",
-		"field": "orderid"
-	});
-	columnsArray.push({
-		width: 150,
-		"title": "产线",
-		"field": "lineid",
-		visible: false
-	});
-	columnsArray.push({
-		width: 150,
-		"title": "产线",
-		"field": "lineName"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "状态",
-		"field": "status",
-		visible: false
-	});
-	columnsArray.push({
-		width: 100,
-		"title": "状态",
-		"field": "statusName"
-	});
-	columnsArray.push({
-		width: 70,
-		"title": "批次数量",
-		"field": "batchnum"
-	});
-	columnsArray.push({
-		width: 70,
-		"title": "总产量",
-		"field": "totalproduction"
-	});
-	columnsArray.push({
-		width: 70,
-		"title": "报废数量",
-		"field": "scrapnum"
-	});
-	columnsArray.push({
-		width: 200,
-		"title": "输出产物",
-		"field": "materialid",
-		visible: false
-	});
-	columnsArray.push({
-		width: 200,
-		"title": "输出产物",
-		"field": "materialName"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "计划开始时间",
-		"field": "scheduledstarttime"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "计划结束时间",
-		"field": "scheduledendtime"
-	});
-
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "plantid",
-		"field": "plantid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "processid",
-		"field": "processid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "结束人员",
-		"field": "finishstaff",
-		visible: false
-	});
-	var formData = new FormData();
-	formData.append("plantID", document.addUserForm.industrialplant_id.value.toString().split("###")[0]);
-	formData.append("processID", document.addUserForm.productionprocess_id.value.toString().split("###")[0]);
-	formData.append("lineID", document.addUserForm.productionline_id.value.toString().split("###")[0]);
-
-	$.ajax({
-		url: window.serviceIP + "/api/order/getcustomworkorderbyparam",
-		type: "POST",
-		data: formData,
-		dataType: "json",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		cache: false, //不需要缓存
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-
-				$('#table').bootstrapTable('destroy').bootstrapTable({
-					data: models,
-					toolbar: '#toolbar1',
-					singleSelect: true,
-					clickToSelect: true,
-					striped: true,
-					sortName: "recordTime",
-					sortOrder: "desc",
-					pageSize: 15,
-					pageNumber: 1,
-					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					//search: true,
-					fixedColumns: true, //固定列
-					fixedNumber: 1, //固定前两列
-					pagination: true,
-					columns: columnsArray,
-					onClickRow: function(row) {
-
-						//$('.changeTableRowColor').removeClass('changeTableRowColor');
-						//$(row).addClass('changeTableRowColor');
-						workOrderSelectedRow = row;
-						initSplitDetailWorkOrder(row["id"]);
-					}
-				});
-				$('#orderSplitTable').bootstrapTable('destroy');
-				workOrderSelectedRow = null;
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-
-};
 
 function LSsetLineModal() {
 	$("#lineid").find('option').remove();
@@ -649,3 +504,68 @@ function LSinitSplitDetailWorkOrder(orderID) {
 		}
 	});
 }
+
+//调用工位方法
+function subOrderWorkingLocationSlctFun() {
+	var formData = new FormData();
+//	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+//	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+//	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("plantID", $("#industrialplant_id").val());
+	formData.append("processID", $("#productionprocess_id").val());
+	formData.append("lineID", $("#productionline_id").val());
+//	console.log(document.addUserForm.industrialplant_id.value.toString())
+//	console.log(document.addUserForm.productionprocess_id.value.toString())
+//	console.log(document.addUserForm.productionline_id.value.toString())
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getworklocation",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			$("#add_workingkLocationSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				if(models.length < 1) {
+					$("#add_workingkLocationSlctLabel").hide();//.css("display", "none")
+					$('#add_workingkLocationSlct').selectpicker('hide');
+
+				} 
+//				else {
+//					$("#add_workingkLocationSlctLabel").show();//.attr("display", "block")
+//					$('#add_workingkLocationSlct').selectpicker('show');
+//				}
+				for (var  i  in  models)  {  
+					$('#add_workingkLocationSlct').append(("<option value=" + models[i].id +
+						">" + models[i].name + "</option>").toString());
+				}
+				$('#add_workingkLocationSlct').selectpicker('refresh');
+				$('#add_workingkLocationSlct').selectpicker('render');   
+				// $('#add_workingkLocationSlct').selectpicker('mobile');
+				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {	
+					var numbers = $('#add_workingkLocationSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#add_workingkLocationSlct').selectpicker('hide');
+							//$("#add_workingkLocationSlctLabel").css("display", "true");
+						}
+					}
+					$('#add_workingkLocationSlct').selectpicker('refresh');
+					$('#add_workingkLocationSlct').selectpicker('render'); 
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};

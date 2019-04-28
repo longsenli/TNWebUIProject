@@ -284,7 +284,7 @@ function subOrderWorkingLocationSlctFun() {
 				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {
 					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString() == $.cookie('workingkLocation')) {
 							$(numbers[j]).attr("selected", "selected");
 							//$('#workingkLocationSlct').selectpicker('hide');
 							//$("#workingkLocationSlctLabel").css("display", "true");

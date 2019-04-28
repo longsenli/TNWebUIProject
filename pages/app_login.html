@@ -213,7 +213,8 @@
 // 				alert('window.serviceIP' + window.serviceIP)
 				$.ajax({
 					type: 'POST',
-					url:'http://10.0.0.151:19001/ilpsService/api/login',
+					url:'http://192.168.1.100:8080/api/login',
+//					url:'http://10.0.0.151:19001/ilpsService/api/login',
 					dataType: "json",
 					data: {
 						'username': username,
@@ -266,6 +267,10 @@
 								// $.cookie('lineID', result.message.split("###")[4].trim());
 								token.lineID = result.message.split("###")[4].trim();
 							}
+							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1)
+							{
+								token.workingkLocation = result.message.split("###")[5].trim();
+							}
 							// alert(JSON.stringify(token));
 							// 							var Global_UserLogin_Info = [];
 							// 							Global_UserLogin_Info.push(login_info);
@@ -290,7 +295,8 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerText = "用户名或密码错误，请重新填写。";
+							hintinfo.innerHTML='<font color="red">用户名或密码错误，请重新填写。</font>';
+//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
 
@@ -376,6 +382,10 @@
 								// $.cookie('lineID', result.message.split("###")[4].trim());
 								token.lineID = result.message.split("###")[4].trim();
 							}
+							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1)
+							{
+								token.workingkLocation = result.message.split("###")[5].trim();
+							}
 							// alert(JSON.stringify(token));
 							// 							var Global_UserLogin_Info = [];
 							// 							Global_UserLogin_Info.push(login_info);
@@ -400,7 +410,8 @@
 			
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerText = "用户名或密码错误，请重新填写。";
+							hintinfo.innerHTML='<font color="red">用户名或密码错误，请重新填写。</font>';
+//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
 			

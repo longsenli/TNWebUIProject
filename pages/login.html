@@ -134,7 +134,6 @@
 							$.cookie('userID', username);
 							$.cookie('roleID', result.message.split("###")[1].trim());
 							$.cookie('password', password);
-							
 							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1)
 							{
 								$.cookie('plantID', result.message.split("###")[2].trim());
@@ -146,6 +145,10 @@
 							if(result.message.split("###")[4].trim() != "-1" && result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1)
 							{
 								$.cookie('lineID', result.message.split("###")[4].trim());
+							}
+							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1)
+							{
+								$.cookie('workingkLocation', result.message.split("###")[5].trim());
 							}
 							
 							if(result.message.split("###")[1].trim() == "24")
