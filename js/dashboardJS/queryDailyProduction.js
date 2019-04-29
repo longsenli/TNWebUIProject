@@ -307,3 +307,110 @@ function getDailyProduction() {
 		}
 	});
 };
+
+
+function getOrderInfoDetail() {
+	
+	//console.log("gainMaterialByQR" + recordID);
+	var  recordID = $('#subOrderName').val().trim();
+	if(recordID.length < 2 ) {
+		alert("请确认订单!")
+		return;
+	}
+
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "工单号",
+		"field": "subOrderID"
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialNameInfo"
+	});
+	columnsArray.push({
+		"title": "数量",
+		"field": "number"
+	});
+	columnsArray.push({
+		"title": "入库人员",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		"title": "入库时间",
+		"field": "inputTime",
+		formatter: function(value, row, index) {
+			console.log(value);
+			if(value)
+			{
+				return  (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");  
+			}
+			
+		}
+	});
+	columnsArray.push({
+		"title": "出库人员",
+		"field": "outputer"
+	});
+	columnsArray.push({
+		"title": "出库时间",
+		"field": "outputTime",
+		formatter: function(value, row, index) {
+			if(value)
+			{
+				return  (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");  
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "投入工单",
+		"field": "expendOrderID"
+	});
+
+	$.ajax({
+		url: window.serviceIP + "/api/material/getmaterialrecorddetailbysuborderid?subOrderID=" + recordID,
+		type: "GET",
+processData: true,
+		contentType: "application/json",
+		dataType: "json",
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+
+				if(models.length < 1) {
+					alert("未获取到物料信息,请核对!" + recordID);
+					return;
+				}
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#usableMaterialTableToolbar',
+					toolbarAlign: "left",
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: false,
+					searchAlign: 'left',
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
