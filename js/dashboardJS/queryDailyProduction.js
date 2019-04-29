@@ -214,6 +214,14 @@ function getDailyProduction() {
 	columnsArray.push({
 		checkbox: true
 	});
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaff' ||
+		document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
+		columnsArray.push({
+			width: 300,
+			"title": "员工",
+			"field": "inputer"
+		});
+	}
 	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine') {
 		columnsArray.push({
 			width: 300,
@@ -224,7 +232,8 @@ function getDailyProduction() {
 			}
 		});
 	}
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byMaterial') {
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byMaterial' ||
+		document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
 		columnsArray.push({
 			width: 300,
 			"title": "物料",
@@ -241,23 +250,20 @@ function getDailyProduction() {
 			}
 		});
 	}
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaff') {
-		columnsArray.push({
-			width: 300,
-			"title": "员工",
-			"field": "inputer"
-		});
-	}
+
 	columnsArray.push({
 		width: 300,
 		"title": "日期",
 		"field": "orderDay"
 	});
-	columnsArray.push({
-		width: 300,
-		"title": "班次",
-		"field": "orderHour"
-	});
+	console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
+	if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') == -1) {
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "orderHour"
+		});
+	}
 
 	columnsArray.push({
 		width: 300,
@@ -308,12 +314,11 @@ function getDailyProduction() {
 	});
 };
 
-
 function getOrderInfoDetail() {
-	
+
 	//console.log("gainMaterialByQR" + recordID);
-	var  recordID = $('#subOrderName').val().trim();
-	if(recordID.length < 2 ) {
+	var recordID = $('#subOrderName').val().trim();
+	if(recordID.length < 2) {
 		alert("请确认订单!")
 		return;
 	}
@@ -343,11 +348,10 @@ function getOrderInfoDetail() {
 		"field": "inputTime",
 		formatter: function(value, row, index) {
 			console.log(value);
-			if(value)
-			{
-				return  (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");  
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
 			}
-			
+
 		}
 	});
 	columnsArray.push({
@@ -358,9 +362,8 @@ function getOrderInfoDetail() {
 		"title": "出库时间",
 		"field": "outputTime",
 		formatter: function(value, row, index) {
-			if(value)
-			{
-				return  (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");  
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
 			}
 		}
 	});
@@ -372,7 +375,7 @@ function getOrderInfoDetail() {
 	$.ajax({
 		url: window.serviceIP + "/api/material/getmaterialrecorddetailbysuborderid?subOrderID=" + recordID,
 		type: "GET",
-processData: true,
+		processData: true,
 		contentType: "application/json",
 		dataType: "json",
 		//data: formData,
