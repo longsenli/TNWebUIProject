@@ -2414,7 +2414,8 @@
 					"pages/workOrder/new_app_subOrderTelephone.html",
 					"pages/workOrder/new_app_onlineMaterialRecord.html",
 					"pages/rights/changepassword.html",
-					"pages/rights/new_app_changepassword.html"
+					"pages/rights/new_app_changepassword.html",
+					"pages/workOrder/unqualifiedMaterialReturn.html"
 				],
 				"priority": 0
 			},
@@ -2468,6 +2469,13 @@
 				"priority": 0
 			},
 			"pages/workOrder/new_app_subOrderTelephone.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/unqualifiedMaterialReturn.html": {
 				"resources": [],
 				"refer": [
 					"pages/workOrder/barcode_scan.html"

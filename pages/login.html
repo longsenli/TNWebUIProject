@@ -115,7 +115,7 @@
 		<script type="text/javascript">
 			function login() {
 
-				localstroage.clear();
+				localStorage.clear();
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
 				$.ajax({
@@ -132,11 +132,11 @@
 
 						if(result.status == "1") {
 
-							localstroage.setItem('token', result.token);
-							localstroage.setItem('username', result.message.split("###")[0].trim());
-							localstroage.setItem('userID', username);
-							localstroage.setItem('roleID', result.message.split("###")[1].trim());
-							localstroage.setItem('password', password);
+							localStorage.setItem('token', result.token);
+							localStorage.setItem('username', result.message.split("###")[0].trim());
+							localStorage.setItem('userID', username);
+							localStorage.setItem('roleID', result.message.split("###")[1].trim());
+							localStorage.setItem('password', password);
 
 							$.cookie('token', result.token);
 							$.cookie('username', result.message.split("###")[0].trim());
@@ -146,22 +146,22 @@
 							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1) {
 								$.cookie('plantID', result.message.split("###")[2].trim());
 
-								localstroage.setItem('plantID', result.message.split("###")[2].trim());
+								localStorage.setItem('plantID', result.message.split("###")[2].trim());
 							}
 							if(result.message.split("###")[3].trim() != "-1" && result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1) {
 								$.cookie('processID', result.message.split("###")[3].trim());
 
-								localstroage.setItem('processID', result.message.split("###")[3].trim());
+								localStorage.setItem('processID', result.message.split("###")[3].trim());
 							}
 							if(result.message.split("###")[4].trim() != "-1" && result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1) {
 								$.cookie('lineID', result.message.split("###")[4].trim());
 
-								localstroage.setItem('lineID', result.message.split("###")[4].trim());
+								localStorage.setItem('lineID', result.message.split("###")[4].trim());
 							}
 							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1) {
 								$.cookie('workingkLocation', result.message.split("###")[5].trim());
 
-								localstroage.setItem('workingkLocation', result.message.split("###")[5].trim());
+								localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
 							}
 
 							if(result.message.split("###")[1].trim() == "24") {
