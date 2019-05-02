@@ -63,6 +63,8 @@
 							<input type="text" class="form-control" id="eachbatchnumber" name="eachbatchnumber" placeholder="请输入每批次物料对应数量">
 							<label for="name">简称:</label>
 							<input type="text" class="form-control" id="shortname" name="shortname" placeholder="请输入简称">
+							<label for="name">工价（元）/个:</label>
+							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="wage" name="wage" placeholder="请输入工价">
 							<label for="name">描述:</label>
 							<input type="text" class="form-control" id="description" name="description" placeholder="请输入描述">
 						</form>

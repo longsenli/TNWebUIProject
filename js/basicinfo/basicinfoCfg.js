@@ -448,7 +448,10 @@ function materialCfgTableFun() {
 		"title": "简称",
 		"field": "shortname"
 	});
-
+columnsArray.push({
+		"title": "工价（元）/个",
+		"field": "wage"
+	});
 	columnsArray.push({
 		"title": "描述",
 		"field": "description"
