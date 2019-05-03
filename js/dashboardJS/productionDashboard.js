@@ -302,7 +302,7 @@ function initProductionDashboardPicture(showType) {
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
-
+	console.log(showType + "1");
 	if(lineNameArray.length == 0) {
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
 			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
@@ -715,7 +715,7 @@ function initProductionDashboardPicture(showType) {
 
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
-	//console.log("test---line");
+	console.log(showType + "2");
 	if(showType == "onceAgain") {
 		setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
 	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
@@ -993,6 +993,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
+	console.log(showType + "1");
 	if(lineNameArray.length == 0) {
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
 			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
@@ -1402,6 +1403,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
 	//console.log("test----lineMa");
+	console.log(showType + "2");
 	if(showType == "onceAgain") {
 		setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
 	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
@@ -1621,7 +1623,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
-
+	console.log(showType + "1");
 	if(lineNameArray.length == 0) {
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
 			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
@@ -2030,6 +2032,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 	// 使用刚指定的配置项和数据显示图表。
 	myChartProductionScrap.setOption(optionProductionScrap);
 	//console.log("test---material");
+	console.log(showType + "2");
 	if(showType == "onceAgain") {
 		setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
 	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
