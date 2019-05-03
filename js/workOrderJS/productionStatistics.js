@@ -529,7 +529,7 @@ function getMaterialInventoryStatistics() {
 
 	var urlStr = window.serviceIP + "/api/material/getmaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 12:00:00";
 
 	$.ajax({
 		url: urlStr,
@@ -618,7 +618,7 @@ function getSecondaryMaterialInventoryStatistics() {
 	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 06:59:59";
+		"&startTime=" + document.getElementById("startTime").value + " 12:00:00" + "&endTime=" + endTime.format("yyyy-MM-dd") + " 12:00:00";
 
 	$.ajax({
 		url: urlStr,
