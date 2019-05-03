@@ -103,13 +103,11 @@ function productionDashboardProcessSlctFun(showType) {
 
 function initProductionDashboardPicture(showType) {
 	var tmpStr = document.getElementById("productionScanType").innerHTML;
-	if(showType == '1')
-	{
+	if(showType == '1') {
 		$("#productionScanType").html("initProductionDashboardPicture");
 		tmpStr = "initProductionDashboardPicture";
 	}
-	if(tmpStr != 'initProductionDashboardPicture')
-	{
+	if(tmpStr != 'initProductionDashboardPicture') {
 		return;
 	}
 	var plantProductionDashboardData;
@@ -235,32 +233,32 @@ function initProductionDashboardPicture(showType) {
 	var lineRemainProductionMap = {};
 	var materialTypeProductionMap = {};
 
-		for(var i in plantProductionDashboardData) {
-			if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName)) {
-				lineTotalProductionMap[plantProductionDashboardData[i].lineName] = lineTotalProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
-				lineRemainProductionMap[plantProductionDashboardData[i].lineName] = lineRemainProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
-	
-			} else {
-				lineTotalProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
-				lineRemainProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
-			}
-	
-			if(materialTypeProductionMap.hasOwnProperty(plantProductionDashboardData[i].materialName)) {
-				materialTypeProductionMap[plantProductionDashboardData[i].materialName] = materialTypeProductionMap[plantProductionDashboardData[i].materialName] + plantProductionDashboardData[i].totalProduction;
-			} else {
-				materialTypeProductionMap[plantProductionDashboardData[i].materialName] = plantProductionDashboardData[i].totalProduction;
-			}
-	
+	for(var i in plantProductionDashboardData) {
+		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName)) {
+			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = lineTotalProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
+			lineRemainProductionMap[plantProductionDashboardData[i].lineName] = lineRemainProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
+
+		} else {
+			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
+			lineRemainProductionMap[plantProductionDashboardData[i].lineName] = plantProductionDashboardData[i].totalProduction;
 		}
-	
-		for(var i in realProductionDashboardData) {
-			if(lineRealProductionMap.hasOwnProperty(realProductionDashboardData[i].lineName)) {
-				lineRealProductionMap[realProductionDashboardData[i].lineName] = lineRealProductionMap[plantProductionDashboardData[i].lineName] + realProductionDashboardData[i].realProduction;
-			} else {
-				lineRealProductionMap[realProductionDashboardData[i].lineName] = realProductionDashboardData[i].realProduction;
-			}
-			lineRemainProductionMap[realProductionDashboardData[i].lineName] = lineRemainProductionMap[realProductionDashboardData[i].lineName] - lineRealProductionMap[realProductionDashboardData[i].lineName];
+
+		if(materialTypeProductionMap.hasOwnProperty(plantProductionDashboardData[i].materialName)) {
+			materialTypeProductionMap[plantProductionDashboardData[i].materialName] = materialTypeProductionMap[plantProductionDashboardData[i].materialName] + plantProductionDashboardData[i].totalProduction;
+		} else {
+			materialTypeProductionMap[plantProductionDashboardData[i].materialName] = plantProductionDashboardData[i].totalProduction;
 		}
+
+	}
+
+	for(var i in realProductionDashboardData) {
+		if(lineRealProductionMap.hasOwnProperty(realProductionDashboardData[i].lineName)) {
+			lineRealProductionMap[realProductionDashboardData[i].lineName] = lineRealProductionMap[plantProductionDashboardData[i].lineName] + realProductionDashboardData[i].realProduction;
+		} else {
+			lineRealProductionMap[realProductionDashboardData[i].lineName] = realProductionDashboardData[i].realProduction;
+		}
+		lineRemainProductionMap[realProductionDashboardData[i].lineName] = lineRemainProductionMap[realProductionDashboardData[i].lineName] - lineRealProductionMap[realProductionDashboardData[i].lineName];
+	}
 
 	var totalPlanProduction = 0;
 	var totalRealProduction = 0;
@@ -304,6 +302,18 @@ function initProductionDashboardPicture(showType) {
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
+
+	if(lineNameArray.length == 0) {
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		}
+		return;
+	}
 
 	document.getElementById("finishPercentage").innerHTML = ((numTmp) * 100).toFixed(2) + "%";
 
@@ -658,7 +668,7 @@ function initProductionDashboardPicture(showType) {
 			},
 			axisLabel: { //设置坐标轴刻度样式
 				textStyle: {
-					fontSize: 18,
+					fontSize: 12,
 					fontWeight: 'normal',
 				},
 			}
@@ -707,26 +717,25 @@ function initProductionDashboardPicture(showType) {
 	myChartProductionScrap.setOption(optionProductionScrap);
 	//console.log("test---line");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
-	} else if(showType == "refresh" +document.getElementById("refreshID").innerHTML) {
-		var tmpDate  = new Date();
+		setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
+	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
+		var tmpDate = new Date();
 		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
 		//setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
 		//setTimeout("initProductionDashboardPicture('refresh')", 600 * 10);
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			
-			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else {
-			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		}
 	}
 }
 
-
 function productionDashboardProcessSlctFun(showType) {
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
 		type: "GET",
@@ -786,13 +795,11 @@ function productionDashboardProcessSlctFun(showType) {
 function initProductionDashboardByLineMaterialPicture(showType) {
 
 	var tmpStr = document.getElementById("productionScanType").innerHTML;
-	if(showType == '1')
-	{
+	if(showType == '1') {
 		$("#productionScanType").html("initProductionDashboardByLineMaterialPicture");
 		tmpStr = "initProductionDashboardByLineMaterialPicture";
 	}
-	if(document.getElementById("productionScanType").innerHTML != 'initProductionDashboardByLineMaterialPicture')
-	{
+	if(document.getElementById("productionScanType").innerHTML != 'initProductionDashboardByLineMaterialPicture') {
 		return;
 	}
 	var plantProductionDashboardData;
@@ -986,6 +993,17 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 	document.getElementById("planProduction").innerHTML = totalPlanProduction;
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
+	if(lineNameArray.length == 0) {
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		}
+		return;
+	}
 
 	document.getElementById("finishPercentage").innerHTML = ((numTmp) * 100).toFixed(2) + "%";
 	if(($(window).height() - $("#myChartRealTimeProduction").offset().top) < 800) {
@@ -1010,7 +1028,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
 				color: '#FFFFFF'
-			},  
+			},
 		},
 		//鼠标触发提示数量
 		tooltip: {
@@ -1385,35 +1403,31 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 	myChartProductionScrap.setOption(optionProductionScrap);
 	//console.log("test----lineMa");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
-	} else if(showType == "refresh"+ document.getElementById("refreshID").innerHTML) {
+		setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
+	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
 		//setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 60000 * 10);
 		//setTimeout("initProductionDashboardByLineMaterialPicture('refresh')", 600 * 10);
-		var tmpDate  = new Date();
+		var tmpDate = new Date();
 		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
-			if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			
-			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else {
-			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		}
 	}
 }
 
-
-
 function initProductionDashboardByMaterialPicture(showType) {
 	var tmpStr = document.getElementById("productionScanType").innerHTML;
-	if(showType == '1')
-	{
+	if(showType == '1') {
 		$("#productionScanType").html("initProductionDashboardByMaterialPicture");
 		tmpStr = "initProductionDashboardByMaterialPicture"
 	}
 
-	if(tmpStr != 'initProductionDashboardByMaterialPicture')
-	{
+	if(tmpStr != 'initProductionDashboardByMaterialPicture') {
 		return;
 	}
 	var plantProductionDashboardData;
@@ -1539,12 +1553,12 @@ function initProductionDashboardByMaterialPicture(showType) {
 	var materialTypeProductionMap = {};
 
 	for(var i in plantProductionDashboardData) {
-		if(lineTotalProductionMap.hasOwnProperty( plantProductionDashboardData[i].materialName)) {
-			lineTotalProductionMap[plantProductionDashboardData[i].materialName] = lineTotalProductionMap[plantProductionDashboardData[i].materialName ] + plantProductionDashboardData[i].totalProduction;
-			lineRemainProductionMap[ plantProductionDashboardData[i].materialName] = lineRemainProductionMap[plantProductionDashboardData[i].materialName ] + plantProductionDashboardData[i].totalProduction;
+		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].materialName)) {
+			lineTotalProductionMap[plantProductionDashboardData[i].materialName] = lineTotalProductionMap[plantProductionDashboardData[i].materialName] + plantProductionDashboardData[i].totalProduction;
+			lineRemainProductionMap[plantProductionDashboardData[i].materialName] = lineRemainProductionMap[plantProductionDashboardData[i].materialName] + plantProductionDashboardData[i].totalProduction;
 
 		} else {
-			lineTotalProductionMap[ plantProductionDashboardData[i].materialName] = plantProductionDashboardData[i].totalProduction;
+			lineTotalProductionMap[plantProductionDashboardData[i].materialName] = plantProductionDashboardData[i].totalProduction;
 			lineRemainProductionMap[plantProductionDashboardData[i].materialName] = plantProductionDashboardData[i].totalProduction;
 		}
 
@@ -1557,13 +1571,13 @@ function initProductionDashboardByMaterialPicture(showType) {
 	}
 
 	for(var i in realProductionDashboardData) {
-		if(lineRealProductionMap.hasOwnProperty( realProductionDashboardData[i].materialName)) {
-			lineRealProductionMap[ realProductionDashboardData[i].materialName] = lineRealProductionMap[realProductionDashboardData[i].materialName] + realProductionDashboardData[i].realProduction;
+		if(lineRealProductionMap.hasOwnProperty(realProductionDashboardData[i].materialName)) {
+			lineRealProductionMap[realProductionDashboardData[i].materialName] = lineRealProductionMap[realProductionDashboardData[i].materialName] + realProductionDashboardData[i].realProduction;
 		} else {
-			lineRealProductionMap[ realProductionDashboardData[i].materialName] = realProductionDashboardData[i].realProduction;
+			lineRealProductionMap[realProductionDashboardData[i].materialName] = realProductionDashboardData[i].realProduction;
 		}
 		lineRemainProductionMap[realProductionDashboardData[i].materialName] =
-			lineRemainProductionMap[ realProductionDashboardData[i].materialName] - lineRealProductionMap[ realProductionDashboardData[i].materialName];
+			lineRemainProductionMap[realProductionDashboardData[i].materialName] - lineRealProductionMap[realProductionDashboardData[i].materialName];
 	}
 	var totalPlanProduction = 0;
 	var totalRealProduction = 0;
@@ -1608,6 +1622,17 @@ function initProductionDashboardByMaterialPicture(showType) {
 	document.getElementById("realProduction").innerHTML = totalRealProduction;
 	var numTmp = totalRealProduction / totalPlanProduction;
 
+	if(lineNameArray.length == 0) {
+		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		} else {
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+		}
+		return;
+	}
 	document.getElementById("finishPercentage").innerHTML = ((numTmp) * 100).toFixed(2) + "%";
 	if(($(window).height() - $("#myChartRealTimeProduction").offset().top) < 800) {
 		$("#myChartRealTimeProduction").height(800);
@@ -1631,7 +1656,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
 				color: '#FFFFFF'
-			},  
+			},
 		},
 		//鼠标触发提示数量
 		tooltip: {
@@ -2006,19 +2031,19 @@ function initProductionDashboardByMaterialPicture(showType) {
 	myChartProductionScrap.setOption(optionProductionScrap);
 	//console.log("test---material");
 	if(showType == "onceAgain") {
-		setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 1000);
+		setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 1000);
 	} else if(showType == "refresh" + document.getElementById("refreshID").innerHTML) {
 		//setTimeout("initProductionDashboardByMaterialPicture('refresh')", 60000 * 10);
 		//setTimeout("initProductionDashboardByMaterialPicture('refresh')", 600 * 10);
-		var tmpDate  = new Date();
+		var tmpDate = new Date();
 		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			
-			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		} else {
-			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML+"')", 60000 * 10);
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
 		}
 	}
 }
