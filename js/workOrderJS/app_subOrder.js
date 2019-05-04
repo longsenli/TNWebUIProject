@@ -445,7 +445,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 				if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
 					dataStr = "BB" + dateNow.format("yyyyMMdd");
 				}
-				if(dateNow.getHours() > 19) {
+				if(dateNow.getHours() > 18) {
 					dataStr = "YB" + dateNow.format("yyyyMMdd");
 				}
 				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
@@ -572,7 +572,7 @@ function SelectSubOrder() {
 	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
 		dataStr = "BB" + dateNow.format("yyyyMMdd");
 	}
-	if(dateNow.getHours() > 19) {
+	if(dateNow.getHours() > 18) {
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
 
