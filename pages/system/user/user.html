@@ -13,6 +13,13 @@
 		<script type="text/javascript" src="../../../vendor/jquery/ztree/js/jquery.ztree.excheck.js"></script>
 		<script type="text/javascript" src="../../../js/systemJS/LSworkOrder_Add.js"></script>
 		<script type="text/javascript" src="../../../js/systemJS/LSworkOrder_Edit.js"></script>
+		<!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>-->
+		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/extensions/filter-control/bootstrap-table-filter-control.js"></script>-->
+		<script type="text/javascript" src="../../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
+		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/extensions/toolbar/bootstrap-table-toolbar.js"></script>-->
 		<link rel="stylesheet" type="text/css" href="../../../vendor/jquery/ztree/css/bootstrapStyle/bootstrapStyle.css" >
 		<link rel="stylesheet" type="text/css" href="../../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
@@ -23,15 +30,20 @@
 			<form class="form-inline" >
 			<!-- 工具栏 -->
 			<div id="toolbar">
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal" onclick="LSworkOrderIndustrialPlantSlctFun('1')">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal" onclick="LSworkOrderIndustrialPlantSlctFun('1')" id="addUserButton">
 		              <i class="glyphicon glyphicon-plus" aria-hidden="true">新增用户</i>
 		            </button>
-		            <button type="button" class="btn btn-warning" onclick="editUser()">
+		            <button type="button" class="btn btn-warning" onclick="editUser()" id="editUserButton">
 		              <i class="glyphicon glyphicon-edit" aria-hidden="true">修改用户</i>
 		            </button>
-		            <button type="button" class="btn btn-danger"  onclick="confirmDel()">
+		            <button type="button" class="btn btn-danger"  onclick="confirmDel()" id="deleteUserButton">
 		              <i class="glyphicon glyphicon-remove" aria-hidden="true">删除用户</i>
 		            </button>
+		            <select class="form-control">
+			          <!--<option value="">Export Basic</option>-->
+			          <option value="all">导出全部</option>
+			          <option value="selected">导出选中</option>
+			        </select>
 			</div>
 			<!-- bootstrapTable -->
 			</form>
@@ -381,6 +393,35 @@
 </html>
 
 <script>
+	
+	
+	
+//	$(document).ready(function()
+//	  {
+//	    $('#dataGrid').bootstrapTable('refreshOptions', {
+//	        exportOptions: {ignoreColumn: [0,1], // or as string array: ['0','checkbox']
+//	            onCellHtmlData: DoOnCellHtmlData}
+//	    });
+//	  });
+	
+	
+	
+//	$(function () {
+//    $('#toolbar').find('select').change(function () {
+//        $('#dataGrid').bootstrapTable('refreshOptions', {
+//            exportDataType: $(this).val()
+//        });
+//    });
+//})
+	//判断如果是班长登录后隐藏修改删除按钮
+	$(function () {
+      var role = localStorage.getItem('roleID');
+      if (role === '28'){
+      	$("#editUserButton").hide();
+      	$("#deleteUserButton").hide();
+      }
+  })
+	
 $(function () {
     //初始化用户列表表格
     var oTable = new TableInit();
@@ -405,6 +446,7 @@ var columnsArray = [];
 	columnsArray.push({
 		"title": "登录名",
 		"field": "userid",
+//		sortable:true
 		// "visible":false
 	});
 	columnsArray.push({
@@ -518,6 +560,26 @@ var columnsArray = [];
                 silent: true,
                 showRefresh: true,                  //是否显示刷新按钮
                 showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+                onLoadSuccess: function(){  //加载成功时执行
+    	  		console.info("加载成功");
+			      },
+			    onLoadError: function(){  //加载失败时执行
+			        console.info("加载数据失败");
+			    },
+              //>>>>>>>>>>>>>>导出excel表格设置
+		      showExport: phoneOrPc(),              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+		      exportDataType:"basic",             //basic', 'all', 'selected'.
+		      exportTypes:['doc','excel'],	    //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+		      //exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+		      exportOptions:{  //导出参数
+		          ignoreColumn: [0,0],            //忽略某一列的索引  
+		          fileName: '数据导出',              //文件名称设置  
+		          worksheetName: 'Sheet1',          //表格工作区名称  
+		          tableName: '数据导出表',  
+		          excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],  
+		          //onMsoNumberFormat: DoOnMsoNumberFormat  
+		      },
+		      //导出excel表格设置<<<<<<<<<<<<<<<<
                 clickToSelect: true,                //是否启用点击选中行
                 showColumns: true,                  //是否显示所有的列
                 cardView: false,                    //是否显示详细视图
@@ -526,7 +588,6 @@ var columnsArray = [];
 				paginationPreText: '上一页',
         		paginationNextText: '下一页',
                 columns: columnsArray,
-                showExport: true, 
                 responseHandler: function (res) {  //后台返回的结果
                     if(res.status == "1"){
 //                      var userInfo = res.data;
@@ -566,6 +627,27 @@ var columnsArray = [];
             });
         };
         
+        /*判断终端是手机还是电脑--用于判断文件是否导出(电脑需要导出)*/
+		function phoneOrPc(){
+			var sUserAgent = navigator.userAgent.toLowerCase();  
+			var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";  
+			var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";  
+			var bIsMidp = sUserAgent.match(/midp/i) == "midp";  
+			var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";  
+			var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";  
+			var bIsAndroid = sUserAgent.match(/android/i) == "android";  
+			var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";  
+			var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";  
+			if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {  
+				return false;  
+				
+			} else {  
+			    return true; 
+			}  
+		}
+
+        
+        
         
         // 得到查询的参数
         function queryParams(params) {
@@ -585,6 +667,8 @@ var columnsArray = [];
     function getUserList() {
         $("#dataGrid").bootstrapTable('refresh');
     }
+    
+    
 </script>
 
 <script type="text/javascript">

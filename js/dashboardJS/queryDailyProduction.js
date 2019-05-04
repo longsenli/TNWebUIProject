@@ -417,3 +417,96 @@ function getOrderInfoDetail() {
 		}
 	});
 }
+
+//浇铸目前在窑中数据
+function nowInDryingKilnjz() {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+			"title": "硬化窑名称",
+			"field": "dryingKilnName"
+		});
+	columnsArray.push({
+			"title": "工单批次号",
+			"field": "suborderID"
+		});
+	columnsArray.push({
+			"title": "厂区",
+			"field": "plantname"
+		});
+	columnsArray.push({
+			"title": "产线",
+			"field": "linename"
+		});
+	columnsArray.push({
+			"title": "工位",
+			"field": "workLocationName"
+		});
+	columnsArray.push({
+			"title": "入窑人",
+			"field": "inputerName"
+		});
+	columnsArray.push({
+			"title": "入窑时间",
+			"field": "inputTime"
+		});
+	columnsArray.push({
+			"title": "入窑时间",
+			"field": "inputTime"
+		});
+	columnsArray.push({
+			"title": "入窑时间",
+			"field": "inputTime"
+		});
+	columnsArray.push({
+			"title": "物料类型",
+			"field": "materialName"
+		});
+	columnsArray.push({
+			"title": "物料数量",
+			"field": "materialQuantity"
+		});
+	var urlStr = window.serviceIP + "/api/dashboard/nowInDryingKilnjz?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+		"&queryTypeID=" + document.PlantToLineSelectForm.queryType.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + " 02:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:00:00";
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					showToggle: true,
+					showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
