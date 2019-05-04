@@ -214,62 +214,98 @@ function getDailyProduction() {
 	columnsArray.push({
 		checkbox: true
 	});
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaff' ||
-		document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
+	if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('Wage') == -1) {
+
+		if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaff' ||
+			document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
+			columnsArray.push({
+				width: 300,
+				"title": "员工",
+				"field": "inputer"
+			});
+		}
+		if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine') {
+			columnsArray.push({
+				width: 300,
+				"title": "产线",
+				"field": "inputLineID",
+				formatter: function(value, row, index) {
+					return $("#productionLineSlct option[value='" + row.inputLineID + "']").text();
+				}
+			});
+		}
+		if(document.PlantToLineSelectForm.queryType.value.toString() == 'byMaterial' ||
+			document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
+			columnsArray.push({
+				width: 300,
+				"title": "物料",
+				"field": "materialNameInfo"
+			});
+		}
+		if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation') {
+			columnsArray.push({
+				width: 300,
+				"title": "工位",
+				"field": "inputWorkLocationID",
+				formatter: function(value, row, index) {
+					return $("#workingkLocationSlct option[value='" + row.inputWorkLocationID + "']").text();
+				}
+			});
+		}
+		if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') == -1) {
+			columnsArray.push({
+				width: 300,
+				"title": "班次",
+				"field": "orderHour"
+			});
+		}
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "orderDay"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "总产量",
+			"field": "sumProduction"
+		});
+	}
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWage') {
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "closingDate"
+		});
 		columnsArray.push({
 			width: 300,
 			"title": "员工",
-			"field": "inputer"
+			"field": "staffName"
 		});
-	}
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine') {
 		columnsArray.push({
 			width: 300,
-			"title": "产线",
-			"field": "inputLineID",
-			formatter: function(value, row, index) {
-				return $("#productionLineSlct option[value='" + row.inputLineID + "']").text();
-			}
+			"title": "工资",
+			"field": "wage"
 		});
-	}
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byMaterial' ||
-		document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
 		columnsArray.push({
 			width: 300,
-			"title": "物料",
-			"field": "materialNameInfo"
+			"title": "物料型号",
+			"field": "materialName"
 		});
-	}
-	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation') {
 		columnsArray.push({
 			width: 300,
-			"title": "工位",
-			"field": "inputWorkLocationID",
-			formatter: function(value, row, index) {
-				return $("#workingkLocationSlct option[value='" + row.inputWorkLocationID + "']").text();
-			}
+			"title": "产量",
+			"field": "productionNumber"
 		});
+		columnsArray.push({
+			width: 300,
+			"title": "单价",
+			"field": "unitPrice"
+		});
+
 	}
 
-	columnsArray.push({
-		width: 300,
-		"title": "日期",
-		"field": "orderDay"
-	});
-	console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
-	if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') == -1) {
-		columnsArray.push({
-			width: 300,
-			"title": "班次",
-			"field": "orderHour"
-		});
-	}
-
-	columnsArray.push({
-		width: 300,
-		"title": "总产量",
-		"field": "sumProduction"
-	});
+	//console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
 
 	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
@@ -425,49 +461,41 @@ function nowInDryingKilnjz() {
 		checkbox: true
 	});
 	columnsArray.push({
-			"title": "硬化窑名称",
-			"field": "dryingKilnName"
-		});
+		"title": "硬化窑名称",
+		"field": "dryingKilnName"
+	});
 	columnsArray.push({
-			"title": "工单批次号",
-			"field": "suborderID"
-		});
+		"title": "工单批次号",
+		"field": "suborderID"
+	});
 	columnsArray.push({
-			"title": "厂区",
-			"field": "plantname"
-		});
+		"title": "厂区",
+		"field": "plantname"
+	});
 	columnsArray.push({
-			"title": "产线",
-			"field": "linename"
-		});
+		"title": "产线",
+		"field": "linename"
+	});
 	columnsArray.push({
-			"title": "工位",
-			"field": "workLocationName"
-		});
+		"title": "工位",
+		"field": "workLocationName"
+	});
 	columnsArray.push({
-			"title": "入窑人",
-			"field": "inputerName"
-		});
+		"title": "入窑人",
+		"field": "inputerName"
+	});
 	columnsArray.push({
-			"title": "入窑时间",
-			"field": "inputTime"
-		});
+		"title": "入窑时间",
+		"field": "inputTime"
+	});
 	columnsArray.push({
-			"title": "入窑时间",
-			"field": "inputTime"
-		});
+		"title": "物料类型",
+		"field": "materialName"
+	});
 	columnsArray.push({
-			"title": "入窑时间",
-			"field": "inputTime"
-		});
-	columnsArray.push({
-			"title": "物料类型",
-			"field": "materialName"
-		});
-	columnsArray.push({
-			"title": "物料数量",
-			"field": "materialQuantity"
-		});
+		"title": "物料数量",
+		"field": "materialQuantity"
+	});
 	var urlStr = window.serviceIP + "/api/dashboard/nowInDryingKilnjz?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&queryTypeID=" + document.PlantToLineSelectForm.queryType.value.toString() +

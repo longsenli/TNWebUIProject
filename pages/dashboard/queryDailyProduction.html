@@ -62,6 +62,7 @@
 					<option value='byStaff'>人员</option>
 					<option value='byClassType'>班次</option>
 					<option value='byStaffAndMaterial'>人员物料</option>
+					<option value='byWage'>人员工资</option>
 				</select>
 				<label> 时间： </label>
 				<input type="date" id="startTime" name="startTime" />
@@ -70,7 +71,7 @@
 				<br/>
 				<br/>
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
-				<button type="button" class="btn btn-primary alert-info" onclick="getDailyProduction()">产量查询</button>
+				<button type="button" class="btn btn-primary alert-info" onclick="getDailyProduction()">按条件查询</button>
 				<input type="text"   class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
 				<button type="button" class="btn btn-primary alert-info" onclick="getOrderInfoDetail()">工单批次查询</button>
 				<button type="button" class="btn btn-primary alert-info" onclick="nowInDryingKilnjz()">浇铸当前在窑数据查询</button>
