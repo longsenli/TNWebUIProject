@@ -214,7 +214,7 @@ function getDailyProduction() {
 	columnsArray.push({
 		checkbox: true
 	});
-	if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('Wage') == -1) {
+	if(' byLine byMaterial byWorkingLocation byStaff byClassType byStaffAndMaterial'.indexOf(document.PlantToLineSelectForm.queryType.value) > -1) {
 
 		if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaff' ||
 			document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffAndMaterial') {
@@ -252,13 +252,13 @@ function getDailyProduction() {
 				}
 			});
 		}
-		if(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') == -1) {
+	
 			columnsArray.push({
 				width: 300,
 				"title": "班次",
 				"field": "orderHour"
 			});
-		}
+
 
 		columnsArray.push({
 			width: 300,
@@ -304,7 +304,50 @@ function getDailyProduction() {
 		});
 
 	}
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byOrderDetail') {
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "orderDay"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "orderHour"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "工单号",
+			"field": "subOrderID"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialNameInfo"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "产量",
+			"field": "number"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "完成人员",
+			"field": "inputer"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "完成时间",
+			"field": "inputTime",
+		formatter: function(value, row, index) {
+			console.log(value);
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			}
 
+		}
+		});
+	}
 	//console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
 
 	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
@@ -338,7 +381,7 @@ function getDailyProduction() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					pagination: true,
 					columns: columnsArray
 				});
