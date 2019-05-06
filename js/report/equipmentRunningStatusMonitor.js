@@ -106,10 +106,10 @@ function equipStatusMntParamType(webName) {
 	});
 };
 
-function equipStatusAllParamMntInit() {
+function equipStatusAllParamMntInit(showType) {
 	document.getElementById("tempControlerShow").innerHTML = "";
 	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
-	
+
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getrecentallparamrecord?equipType=" +
@@ -144,7 +144,7 @@ function equipStatusAllParamMntInit() {
 					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
 
 						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
-						
+
 						i++;
 					}
 					i = i - 1
@@ -159,9 +159,26 @@ function equipStatusAllParamMntInit() {
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
 			});
-			setTimeout("equipStatusAllParamMntInit()", 60000*6);
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			//                      alert(XMLHttpRequest.status);
+			//                      alert(XMLHttpRequest.readyState);
+			//                      alert(textStatus);
 		}
 	});
+	if(!showType) {
+		var tmpDate = new Date();
+		//console.log(showType);
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		setTimeout("equipStatusAllParamMntInit('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 6);
+	} else if(showType == 'refresh' + document.getElementById("refreshID").innerHTML) {
+		var tmpDate = new Date();
+		//console.log(showType);
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		setTimeout("equipStatusAllParamMntInit('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 6);
+	}
+	//console.log(document.getElementById("refreshID").innerHTML);
 }
 
 function equipStatusMntParamType(webName) {
