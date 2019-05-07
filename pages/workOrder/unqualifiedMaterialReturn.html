@@ -4,6 +4,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>不良物料退返记录</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -37,12 +43,16 @@
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
 
 				unqualifiedMaterialReturnIndustrialPlantSlctFun("1");
-				$('#myModal').on('hide.bs.modal',
-					function() {
-						document.getElementById("workOrderManageForm").reset();
-					})
-			});
 
+			});
+			$(function() {
+				$("body").delegate('#ordertable tr', 'click', function() {
+					unqualifiedMaterialReturnRowClick(this);
+				});
+				$("body").delegate('#returntable tr', 'click', function() {
+					unqualifiedMaterialReturnRowClick(this);
+				});
+			});
 			//	getWorkOrder();
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
@@ -60,7 +70,7 @@
 				<input type="datetime-local" id="startTime" name="startTime" />
 				<label>-</label>
 				<input type="datetime-local" id="endTime" name="endTime" />
-				<input type="button" class="btn btn-info" value="查询 " onclick="unqualifiedMaterialReturnSelect()">
+				<input type="button" class="btn btn-info" value="查询 退返记录" onclick="unqualifiedMaterialReturnSelect()">
 			</div>
 			<br />
 			<div class=" form-inline row">
@@ -75,7 +85,7 @@
 				<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnAddReturnRecord()">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>添加退返
            </button>
-           <button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
+				<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
                 <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>删除记录
            </button>
 			</div>

@@ -343,6 +343,18 @@ function unqualifiedMaterialReturnDeleteReturnRecord() {
 	});
 };
 
+function unqualifiedMaterialReturnRowClick(row) {
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	//alert($(row).find("td:eq(0)")[0].checked);
+	if($(row).hasClass('selected')) {
+		$(row).find("td").addClass('changeTableRowColor');
+	}
+	//	if($(row).find("td:eq")[0])
+	//	$(row).addClass('changeTableRowColor');
+	//	$($(row).find("td")[1]).addClass('changeTableRowColor');
+	//	$(row).find("td").addClass('changeTableRowColor');
+}
+
 function unqualifiedMaterialReturnAddReturnRecord() {
 	//	return true;
 	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
@@ -350,12 +362,27 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 	//		return;
 	//	}
 	//alert("生产线选择");
+	if(!$("#unqualifiedMaterialReturnNumber").val()) {
+		alert("退返数量无效!");
+		return;
+	}
+	var returnNum = parseFloat($("#unqualifiedMaterialReturnNumber").val());
+	//console.log(returnNum);
+	if(returnNum <= 0) {
+		alert("退返数量必须大于0!");
+		return;
+	}
 
 	var selectRow = $.map($('#ordertable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 	if(selectRow.length != 1) {
 		alert("请选择行数据!");
+		return;
+	}
+	//console.log(selectRow[0].number);
+	if(returnNum > selectRow[0].number) {
+		alert("退返数量不能大于入库数量!");
 		return;
 	}
 	var returnRecord = {};
