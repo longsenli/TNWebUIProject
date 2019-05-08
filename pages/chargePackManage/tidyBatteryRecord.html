@@ -48,7 +48,6 @@
 					tidyBatteryRecordRowClick(this);
 				});
 			});
-
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
@@ -70,24 +69,21 @@
 		</form>
 
 		<div class=" form-inline row">
-			<button  type="button" class="btn btn-default" onclick="getOnRackRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>在架电池查询
+			<button type="button" class="btn btn-default" onclick="getTidyRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>整理台实时数据
             </button>
-			<button  type="button" class="btn btn-default" onclick="selectPutonRackHistoryRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>上架记录查询
-            </button>
-
-			<button type="button" class="btn btn-default" onclick="addtidyBatteryRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加上架
-            </button>
-
-			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-default" onclick="scanQR('chargingRackID')">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>充电架扫码
+			<button type="button" class="btn btn-default" onclick="getTidyHistoryRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>整理台历史查询
            </button>
-			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-default" onclick="changetidyBatteryRecord()">
+
+			<button type="button" class="btn btn-default" onclick="addTidyBatteryRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加记录
+            </button>
+
+			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-default" onclick="changeTidyBatteryRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>修改记录
            </button>
-			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-default" onclick="deletetidyBatteryRecord()">
+			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-default" onclick="deleteTidyBatteryRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
            </button>
 		</div>
@@ -96,40 +92,40 @@
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog" style="width:350px">
+			<div class="modal-dialog" style="width:450px">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
-						<h4 class="modal-title" id="myModalLabel"> 充电架记录 </h4>
+						<h4 class="modal-title" id="myModalLabel"> 整理台记录 </h4>
 					</div>
-					<div class="modal-body" id="modal-body">
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
 						<form id="tidyBatteryRecordForm">
 							<input type="text" id="id" name="id" style="display:none" />
 							<input type="text" id="plantid" name="plantid" style="display:none" />
 							<input type="text" id="processid" name="processid" style="display:none" />
-							<input type="text" id="staffid" name="staffid" style="display:none" />
+							<input type="text" id="operatorID" name="staffid" style="display:none" />
 							<input type="text" id="materialid" name="materialid" style="display:none" />
 							<input type="text" id="repairid" name="repairid" style="display:none" />
-							<input type="text" id="pulloffstaffid" name="pulloffstaffid" style="display:none" />
 							<input type="text" id="repaircombine" name="repaircombine" style="display:none" />
 							<input type="text" id="status" name="status" style="display:none" />
-							<input type="text" id="pulloffstaffname" name="pulloffstaffname" style="display:none" />
-							<input type="text" id="pulloffdate" name="pulloffdate" style="display:none" />
-			
-							<label> 产线： </label>
-							<br />
+							<input type="text" id="worklocation" name="worklocation" style="display:none" />
+
+							<!--<label> 产线： </label>-->
+
 							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" onchange="lineWorkOrderModalChange()">
 							</select>
 							<br />
-							<label for="name">充电架:</label>
+							<br />
+							<!--<label for="name">充电架:</label>
 							<br />
 							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">
 							</select>
-							<br />
-							<label for="name">产品型号:</label>
-							<br />
+							<br />-->
+							<!--<label for="name">产品型号:</label>
+							<br />-->
 							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;">
 							</select>
+							<br />
 							<br />
 							<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
 								<option value=1>一等品</option>
@@ -138,26 +134,76 @@
 								<option value=4>二次返充</option>
 							</select>
 							<br />
-							<label for="name">上架数量:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量" oninput="workOrderSetCount()">
-							<label for="name">上架时间:</label>
-							<input type="date" class="form-control" id="putondate" name="putondate" onchange="lineWorkOrderModalChange()">
-							<label for="name">上架人员:</label>
-							<input type="text" class="form-control"  id="staffname" name="staffname" placeholder="请输入上架员工">
-							
-							<label for="name">报修数量:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
-							<label for="name" >报修原因:</label>
-							<input type="text" class="form-control"  id="reason" name="reason" placeholder="请输入报修原因">
-							<label for="name" >报修人员:</label>
-							<input type="text" class="form-control"  id="repairname" name="repairname" placeholder="请输入报修人员">
-							<label for="name">报修时间:</label>
-							<input type="date" class="form-control" id="repairtime" name="repairtime" onchange="lineWorkOrderModalChange()">
-							
-							<label for="name">在架实际数量:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="realnumber" name="realnumber" placeholder="请输入报修数量">
-							<label for="name">备注:</label>
-							<input type="text" class="form-control"  id="remark" name="remark" placeholder="请输入备注">
+							<br />
+							<div class="form-inline row">
+								<label for="name">当前数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="currentnum" name="currentnum" placeholder="请输入当前数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">昨日数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="lastnum" name="lastnum" placeholder="请输入昨日数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">返充数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="backtochargenum" name="backtochargenum" placeholder="请输入返充数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">打堆数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="pilenum" name="pilenum" placeholder="请输入打堆数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">包装数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="packnum" name="packnum" placeholder="请输入包装数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">下架数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="pulloffnum" name="pulloffnum" placeholder="请输入下架数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">维修送返数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairbacknum" name="repairbacknum" placeholder="请输入维修返回数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修原因:</label>
+								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修人员:</label>
+								<input type="text" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修时间:</label>
+								<input type="date" class="form-control" id="repairtime" name="repairtime">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">最近更新人员:</label>
+								<input type="text" class="form-control" id="operatorname" name="operatorname">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">更新时间:</label>
+								<input type="text" class="form-control" id="operatortime" name="operatortime">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
 							<br />
 						</form>
 					</div>

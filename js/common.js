@@ -4,9 +4,9 @@ var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
 window.serviceIP = "http://192.168.80.228:19001/ilpsService";
 window.netServiceIP = "http://192.168.80.228:8088/";
 window.webUiService = "http://192.168.80.228:19001";
-//window.serviceIP = "http://192.168.1.106:8080";
-//window.netServiceIP = "http://192.168.1.106:8088/";
-//window.webUiService = "http://127.0.0.1:8020/TNWebUIProject";
+//window.serviceIP = "http://192.168.80.228:19001/ilpsService";
+//window.netServiceIP = "http://192.168.80.228:8088/";
+//window.webUiService = "http://192.168.80.228:19001";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
 	window.serviceIP = 'http://'+RemoteServiceIP+'/ilpsService';
@@ -147,5 +147,6 @@ var windowProcessEnum = {
 	JS: '1008',
 	CD: '1009',
 	BZ: '1010',
-	JZ: '1011'
+	JZ: '1011',
+	ZL: '1012'
 }

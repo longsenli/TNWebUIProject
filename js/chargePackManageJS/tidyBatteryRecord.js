@@ -69,7 +69,7 @@ function tidyBatteryRecordProductionProcessSlctFun() {
 
 				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 				for(var j = 0; j < numbers.length; j++) {
-					if($(numbers[j]).val().toString() == window.windowProcessEnum.CD) {
+					if($(numbers[j]).val().toString() == window.windowProcessEnum.ZL) {
 						$(numbers[j]).attr("selected", "selected");
 						$('#productionProcessSlct').selectpicker('hide');
 
@@ -226,7 +226,7 @@ function tidyBatteryRecordWorkingLocationSlctFun() {
 	});
 };
 
-function getOnRackRecord() {
+function getTidyRecord() {
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
@@ -266,7 +266,7 @@ function getOnRackRecord() {
 	tidyBatteryRecordWorkingLocationSlctFun();
 };
 
-function selectPutonRackHistoryRecord() {
+function getTidyHistoryRecord() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -373,19 +373,19 @@ function selectPutonRackHistoryRecord() {
 	});
 };
 
-function closetidyBatteryRecordModel() {
+function closeTidyBatteryRecordModel() {
 	$("#myModal").modal('hide');
 }
 
-function addtidyBatteryRecord() {
+function addTidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 
-function changetidyBatteryRecord() {
+function changeTidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 
-function deletetidyBatteryRecord() {
+function deleteTidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 var accept_webName = null;
