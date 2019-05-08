@@ -1,4 +1,4 @@
-function chargingRackRecordIndustrialPlantSlctFun() {
+function tidyBatteryRecordIndustrialPlantSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
 		type: "GET",
@@ -35,7 +35,7 @@ function chargingRackRecordIndustrialPlantSlctFun() {
 					$('#industrialPlantSlct').selectpicker('render'); 
 
 				}
-				chargingRackRecordProductionProcessSlctFun();
+				tidyBatteryRecordProductionProcessSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -43,7 +43,7 @@ function chargingRackRecordIndustrialPlantSlctFun() {
 	});
 };
 
-function chargingRackRecordProductionProcessSlctFun() {
+function tidyBatteryRecordProductionProcessSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
 		type: "GET",
@@ -95,7 +95,7 @@ function chargingRackRecordProductionProcessSlctFun() {
 				//				}
 
 				setTimeout(function() {
-					chargingRackRecordProductionLineSlctFun();
+					tidyBatteryRecordProductionLineSlctFun();
 				}, 100);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -104,7 +104,7 @@ function chargingRackRecordProductionProcessSlctFun() {
 	});
 };
 
-function chargingRackRecordProductionLineSlctFun() {
+function tidyBatteryRecordProductionLineSlctFun() {
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -155,7 +155,7 @@ function chargingRackRecordProductionLineSlctFun() {
 
 				setTimeout(function() {
 
-					chargingRackRecordWorkingLocationSlctFun();
+					tidyBatteryRecordWorkingLocationSlctFun();
 				}, 100);
 
 			} else {
@@ -165,7 +165,7 @@ function chargingRackRecordProductionLineSlctFun() {
 	});
 };
 
-function chargingRackRecordWorkingLocationSlctFun() {
+function tidyBatteryRecordWorkingLocationSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -263,7 +263,7 @@ function getOnRackRecord() {
 			}
 		}
 	});
-	chargingRackRecordWorkingLocationSlctFun();
+	tidyBatteryRecordWorkingLocationSlctFun();
 };
 
 function selectPutonRackHistoryRecord() {
@@ -291,11 +291,11 @@ function selectPutonRackHistoryRecord() {
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "inchargingRackRecordName"
+		"field": "intidyBatteryRecordName"
 	});
 	columnsArray.push({
 		"title": "物料子工单",
-		"field": "chargingRackRecordid",
+		"field": "tidyBatteryRecordid",
 		visible: false
 	});
 	columnsArray.push({
@@ -373,19 +373,19 @@ function selectPutonRackHistoryRecord() {
 	});
 };
 
-function closeChargingRackRecordModel() {
+function closetidyBatteryRecordModel() {
 	$("#myModal").modal('hide');
 }
 
-function addChargingRackRecord() {
+function addtidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 
-function changeChargingRackRecord() {
+function changetidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 
-function deleteChargingRackRecord() {
+function deletetidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
 var accept_webName = null;

@@ -561,5 +561,4 @@ function openBarcodeCustom() {
 function recognitionQR(webName, qrCode) {
 	if(webName == 'materialReturn')
 		getOrderInfoDetail(qrCode);
-
 }

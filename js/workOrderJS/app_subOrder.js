@@ -177,7 +177,7 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderOutDryingBTJZ').show();
 		$('#subOrderCancelFinishBTJZEX').hide();
 		$('#subOrderOvertimeFinishBT').hide();
-		$('#subOrderCancelFinishBT').hide();
+		//$('#subOrderCancelFinishBT').hide();
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}else{
 		$('#subOrderOvertimeFinishBT').show();
