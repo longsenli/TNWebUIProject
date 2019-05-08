@@ -22,7 +22,7 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
-		
+
 		<!--Nifty Stylesheet [ REQUIRED ]-->
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
@@ -49,105 +49,89 @@
 
 			//	getWorkOrder();
 		</script>
-		
-		
+
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
-	<div class="boxed">
-		<div id="content-container">
-			<div id="page-content">
-				<div class="row">
-					<div class="col-lg-6">
-					
-					
-					
-					
-						<!--
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<!--
                                 	作者：lightpeng123@163.com
                                 	时间：2019-04-02
                                 	描述：panel3开始
                                 -->
-						<div class="panel">
-							<div class="panel-heading">
-								<h3 class="panel-title">物料退返</h3>
-							</div>
-							<div class="panel-body">
-								<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
-									<div class="form-inline row">
-										<div class="form-group">
-											<label> 厂区： </label>
-											<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="unqualifiedMaterialReturnProductionLineSlctFun()">
-											</select>
-										</div>
-										<div class="form-group">
-											<label> 流程： </label>
-											<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="unqualifiedMaterialReturnProductionLineSlctFun()">
-											</select>
-										</div>
-										<div class="form-group">
-											<label> 产线： </label>
-											<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="unqualifiedMaterialReturnSelect()">
-											</select>
-										</div>
-										<div class="form-group">
-											<label > 开始时间： </label>
-											<input type="datetime-local" class="form-control" id="startTime" name="startTime" />
-										</div>
-										<div class="form-group">
-											<label>结束时间:</label>
-											<input type="datetime-local" class="form-control" id="endTime" name="endTime" />
-										</div>
-										<input type="button" class="btn btn-info" value="查询 " onclick="unqualifiedMaterialReturnSelect()">
+								<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">物料退返</h3>
 									</div>
-									<br />
-									<div class=" form-inline row">
-										<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
-										<button type="button" class="btn btn-info" onclick="getOrderInfoDetail()">
+									<div class="panel-body">
+										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+											<div class="form-inline row">
+												<div class="form-group">
+													<label> 厂区： </label>
+													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="unqualifiedMaterialReturnProductionLineSlctFun()">
+													</select>
+												</div>
+												<div class="form-group">
+													<label> 流程： </label>
+													<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="unqualifiedMaterialReturnProductionLineSlctFun()">
+													</select>
+												</div>
+												<div class="form-group">
+													<label> 产线： </label>
+													<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="unqualifiedMaterialReturnSelect()">
+													</select>
+												</div>
+												<div class="form-group">
+													<label> 开始时间： </label>
+													<input type="datetime-local" class="form-control" id="startTime" name="startTime" />
+												</div>
+												<div class="form-group">
+													<label>结束时间:</label>
+													<input type="datetime-local" class="form-control" id="endTime" name="endTime" />
+												</div>
+												<input type="button" class="btn btn-info" value="查询 " onclick="unqualifiedMaterialReturnSelect()">
+											</div>
+											<br />
+											<div class=" form-group">
+												<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
+												<button type="button" class="btn btn-info" onclick="getOrderInfoDetail()">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单批次
 						           </button>
-										<button type="button" class="btn btn-info" onclick="scanQR('materialReturn')">
+												<button type="button" class="btn btn-info" onclick="scanQR('materialReturn')">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描获取批次
 						           </button>
-										<input type="text" class="form-control" id="unqualifiedMaterialReturnNumber" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" name="unqualifiedMaterialReturnNumber" placeholder="请输入退返数量">
-										<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnAddReturnRecord()">
+											</div>
+											<div class=" form-group">
+												<input type="text" class="form-control" id="unqualifiedMaterialReturnNumber" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" name="unqualifiedMaterialReturnNumber" placeholder="请输入退返数量">
+												<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnAddReturnRecord()">
 						                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>添加退返
 						           </button>
-						           <button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
+												<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
 						                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>删除记录
 						           </button>
+											</div>
+										</form>
+										<br />
+										<div id="class=table-responsive">
+											<table id="ordertable" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
+											</table>
+										</div>
+
+										<div id="class=table-responsive">
+											<table id="returntable" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
+											</table>
+										</div>
 									</div>
-								</form>
-								<br />
-								<div id="class=table-responsive">
-									<table id="ordertable" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
-									</table>
 								</div>
-						
-								<div id="class=table-responsive">
-									<table id="returntable" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
-									</table>
-								</div>
+
 							</div>
 						</div>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
 	</body>
 
 </html>
