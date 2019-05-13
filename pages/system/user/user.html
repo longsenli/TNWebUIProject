@@ -39,6 +39,10 @@
 		            <button type="button" class="btn btn-danger"  onclick="confirmDel()" id="deleteUserButton">
 		              <i class="glyphicon glyphicon-remove" aria-hidden="true">删除用户</i>
 		            </button>
+		            <input id="searchUser" name="name" placeholder="输入员工姓名搜索.." />
+		            <button type="button" class="btn btn-secondary"  onclick="searchUser()" id="searchUserBT">
+		              <i class="glyphicon glyphicon-search" aria-hidden="true">搜索用户</i>
+		            </button>
 		            <select class="form-control">
 			          <!--<option value="">Export Basic</option>-->
 			          <option value="all">导出全部</option>
@@ -540,7 +544,7 @@ var columnsArray = [];
         //初始化Table
         oTableInit.Init = function () {
             $('#dataGrid').bootstrapTable({
-                url: window.serviceIP +  '/user/selectAll',         //请求后台的URL（*）
+                url: window.serviceIP + '/user/selectAll',         //请求后台的URL（*）
                 method: 'POST',                      //请求方式（*）
 //              striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -561,10 +565,10 @@ var columnsArray = [];
                 showRefresh: true,                  //是否显示刷新按钮
                 showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
                 onLoadSuccess: function(){  //加载成功时执行
-    	  		console.info("加载成功");
+    	  		console.info("用户列表加载成功");
 			      },
 			    onLoadError: function(){  //加载失败时执行
-			        console.info("加载数据失败");
+			        console.info("用户列表加载失败");
 			    },
               //>>>>>>>>>>>>>>导出excel表格设置
 		      showExport: phoneOrPc(),              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
@@ -1082,4 +1086,137 @@ function initDataGrid(){
 			}
 		});
 	}
+	
+	function searchUser(){
+		var name = $("#searchUser").val();
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "登录名",
+		"field": "userid",
+		// "visible":false
+	});
+	columnsArray.push({
+		"title": "状态",
+		"field": "state",
+		align: 'center',
+		formatter: function(value, row, index) {
+			// console.log(row);
+			if (value == '1') {
+				return '<span class="badge badge-primary">正常</span>';
+			} else if (value == '0') {
+				return '<span class="badge badge-danger">停用</span>';
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "姓名",
+		"field": "name"
+	});
+	columnsArray.push({
+		"title": "职务",
+		"field": "dutyid"
+	});
+	columnsArray.push({
+		"title": "厂区id",
+		"field": "industrialplant_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "厂区",
+		"field": "industrialplant_name",
+	});
+	columnsArray.push({
+		"title": "流程id",
+		"field": "productionprocess_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程",
+		"field": "productionprocess_name",
+	});
+	columnsArray.push({
+		"title": "产线id",
+		"field": "productionline_id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "productionline_name",
+	});
+	columnsArray.push({
+		"title": "工位id",
+		"field": "worklocation_id",
+	});
+	columnsArray.push({
+		"title": "工位",
+		"field": "worklocation_name",
+	});
+	columnsArray.push({
+		"title": "工作地点",
+		"field": "workplace"
+	});
+	columnsArray.push({
+		"title": "性别",
+		"field": "sex",
+		 visible: false
+	});
+	columnsArray.push({
+		"title": "手机",
+		"field": "mobilephone",
+		// visible: false
+	});
+	columnsArray.push({
+		"title": "邮箱",
+		"field": "email",
+		// visible: false
+	});
+	columnsArray.push({
+		"title": "roleid",
+		"field": "roleid",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "用户角色",
+		"field": "roleName",
+		// visible: false
+	});
+	$.ajax({
+		url: window.serviceIP + "/user/searchUser?name="+name,
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				// console.log(models);
+				$('#dataGrid').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "recordTime",
+					sortOrder: "desc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					showToggle: true,
+					showRefresh: true,
+					showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
 </script>
