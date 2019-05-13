@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>不良物料退返记录</title>
+		<title>物料红冲查询登记</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
@@ -62,9 +62,9 @@
                                 	描述：panel3开始
                                 -->
 								<div class="panel">
-									<div class="panel-heading">
+									<!--<div class="panel-heading">
 										<h3 class="panel-title">物料退返</h3>
-									</div>
+									</div>-->
 									<div class="panel-body">
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
@@ -95,12 +95,12 @@
 											</div>
 											<br />
 											<div class=" form-group">
-												<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
+												<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
 												<button type="button" class="btn btn-info" onclick="getOrderInfoDetail()">
-						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单批次
+						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单详情
 						           </button>
 												<button type="button" class="btn btn-info" onclick="scanQR('materialReturn')">
-						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描获取批次
+						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描订单号
 						           </button>
 											</div>
 											<div class=" form-group">

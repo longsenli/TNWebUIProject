@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>不良物料退返记录</title>
+		<title>物料红冲查询登记</title>
 		<style>
 			.changeTableRowColor {
 				background-color: #31b0d5 !important;
@@ -74,12 +74,12 @@
 			</div>
 			<br />
 			<div class=" form-inline row">
-				<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
+				<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
 				<button type="button" class="btn btn-info" onclick="getOrderInfoDetail()">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单批次
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单详情
            </button>
 				<button type="button" class="btn btn-info" onclick="scanQR('materialReturn')">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描获取批次
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描订单号
            </button>
 				<input type="text" class="form-control" id="unqualifiedMaterialReturnNumber" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" name="unqualifiedMaterialReturnNumber" placeholder="请输入退返数量">
 				<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnAddReturnRecord()">
