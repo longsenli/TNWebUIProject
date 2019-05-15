@@ -362,7 +362,7 @@ function getOnRackRecord(selectType) {
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	formData.append("startTime", document.getElementById("startTime").value.toString());
-	formData.append("endTime", document.getElementById("endTime").value.toString() +" 23:59:59");
+	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
 	formData.append("selectType", selectType);
 
 	$.ajax({
@@ -524,16 +524,15 @@ function repairChargingRackRecord() {
 }
 
 function pullOffChargingRackRecord() {
-var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 	if(row.length != 1) {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
-	if( row[0].pulloffdate)
-	{
-		alert("该记录已下架,不要重复操作!" );
+	if(row[0].pulloffdate) {
+		alert("该记录已下架,不要重复操作!");
 		return;
 	}
 	var formMap = {};
@@ -550,7 +549,7 @@ var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 	formMap['pulloffdate'] = new Date();
 
 	$.ajax({
-		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord" ,
+		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
@@ -580,9 +579,8 @@ function deleteChargingRackRecord() {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
-	if(row[0].repaircombine || row[0].pulloffdate)
-	{
-		alert("该记录已有报修信息或者下架,不能删除!" );
+	if(row[0].repaircombine || row[0].pulloffdate) {
+		alert("该记录已有报修信息或者下架,不能删除!");
 		return;
 	}
 	$.ajax({
@@ -611,7 +609,7 @@ function deleteChargingRackRecord() {
 function saveChargingRackRecordModel(modelID, formID) {
 	var formMap = window.formToObject($("#" + formID));
 	if(formMap.hasOwnProperty("materialname")) {
-		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val(); 
+		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val();
 		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[0].trim()
 	}
 
@@ -790,32 +788,26 @@ function recognitionQR(webName, qrCode) {
 		workLocationChangeByQR(qrCode);
 }
 
-function workLocationChangeByQR(qrCode)
-{
+function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
-		var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
-		for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
-			if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
-				$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
-				selected = true;
-				break;
-			}
+	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
+	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
+		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
+			$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
+			selected = true;
+			break;
 		}
-		if(selected)
-		{
-			$('#worklocation').selectpicker('refresh');
+	}
+	if(selected) {
+		$('#worklocation').selectpicker('refresh');
 		$('#worklocation').selectpicker('render'); 
 		setTimeout(function() {
-					getOnRackRecord('onRack');
-				}, 100);
-		}
-		else
-		{
-			alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
-		}
-		
-		
+			getOnRackRecord('onRack');
+		}, 100);
+	} else {
+		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
+	}
 
 }
 //		<!-- 模态框（Modal） -->

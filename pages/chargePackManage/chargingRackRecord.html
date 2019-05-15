@@ -42,16 +42,15 @@
 						document.getElementById("chargingRackRecordForm").reset();
 					})
 
-$('#myAddModal').on('hide.bs.modal',
+				$('#myAddModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("chargingRackRecordAddForm").reset();
 					})
 
-$('#myRepairModal').on('hide.bs.modal',
+				$('#myRepairModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("chargingRackRecordRepairForm").reset();
 					})
-
 
 				var today = new Date();
 
@@ -91,36 +90,36 @@ $('#myRepairModal').on('hide.bs.modal',
 		</form>
 
 		<div class=" form-inline row">
-			<button type="button" class="btn btn-default" onclick="getOnRackRecord('onRack')">
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('onRack')">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>在架电池查询
             </button>
-			<button type="button" class="btn btn-default" onclick="getOnRackRecord('putonhistory')">
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('putonhistory')">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>上架记录查询
             </button>
-			<button type="button" class="btn btn-default" onclick="getOnRackRecord('pulloffhistory')">
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('pulloffhistory')">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>下架记录查询
             </button>
-            <button type="button" class="btn btn-default" onclick="scanQR('chargingRackID')">
+			<button type="button" class="btn btn-info" onclick="scanQR('chargingRackID')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>充电架扫码
            </button>
-			<button type="button" class="btn btn-default" onclick="addChargingRackRecord()">
+			<button type="button" class="btn btn-info" onclick="addChargingRackRecord()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加上架
            </button>
-           <button type="button" class="btn btn-default" onclick="repairChargingRackRecord()">
+			<button type="button" class="btn btn-info" onclick="repairChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池报修
            </button>
-			<button type="button" class="btn btn-default" onclick="pullOffChargingRackRecord()">
+			<button type="button" class="btn btn-info" onclick="pullOffChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池下架
            </button>
-			
-			<button type="button" class="btn btn-default" onclick="deleteChargingRackRecord()">
+
+			<button type="button" class="btn btn-info" onclick="deleteChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
            </button>
 		</div>
 		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 
-<!-- 模态框（Modal） -->
+		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myAddModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:400px">
 				<div class="modal-content">
@@ -137,10 +136,10 @@ $('#myRepairModal').on('hide.bs.modal',
 							<input type="text" id="materialid" name="materialid" style="display:none" />
 							<input type="text" id="status" name="status" style="display:none" />
 							<input type="text" id="realnumber" name="realnumber" style="display:none" />
-							
+
 							<!--<label> 产线： </label>-->
 							<br />
-							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" >
+							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid">
 							</select>
 							<br />
 							<br />
@@ -196,8 +195,7 @@ $('#myRepairModal').on('hide.bs.modal',
 			<!-- /.modal -->
 		</div>
 
-
-<!-- 模态框（Modal） -->
+		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myRepairModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:400px">
 				<div class="modal-content">
@@ -211,12 +209,12 @@ $('#myRepairModal').on('hide.bs.modal',
 							<input type="text" id="repairid" name="repairid" style="display:none" />
 							<div class="form-inline row">
 								<label for="name">当前在架数量:</label>
-								<input type="text" readonly="readonly"  class="form-control" id="realnumber" name="realnumber" >
+								<input type="text" readonly="readonly" class="form-control" id="realnumber" name="realnumber">
 							</div>
 							<br />
-								<div class="form-inline row">
+							<div class="form-inline row">
 								<label for="name">当前总报修数量:</label>
-								<input type="text" readonly="readonly"  class="form-control"  id="repairnumber" name="repairnumber" >
+								<input type="text" readonly="readonly" class="form-control" id="repairnumber" name="repairnumber">
 							</div>
 							<br />
 							<div class="form-inline row">
@@ -236,12 +234,12 @@ $('#myRepairModal').on('hide.bs.modal',
 							<br />
 							<div class="form-inline row">
 								<label for="name">报修时间:</label>
-								<input type="text" readonly="readonly" class="form-control" id="repairtime" name="repairtime" >
+								<input type="text" readonly="readonly" class="form-control" id="repairtime" name="repairtime">
 							</div>
 							<br />
 							<div class="form-inline row">
 								<label for="name">总报修记录:</label>
-								<input type="text"  readonly="readonly"   class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
+								<input type="text" readonly="readonly" class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
 							</div>
 							<br />
 							<div class="form-inline row">
@@ -260,7 +258,7 @@ $('#myRepairModal').on('hide.bs.modal',
 			</div>
 			<!-- /.modal -->
 		</div>
-		
+
 	</body>
 
 </html>
