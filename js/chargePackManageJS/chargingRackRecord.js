@@ -499,11 +499,10 @@ function repairChargingRackRecord() {
 		return;
 	}
 
-	//		if(row[0].pulloffDate.length > 0)
-	//		{
-	//			alert("已下架电池不能添加报修!");
-	//			return;
-	//		}
+	if(row[0].pulloffDate) {
+		alert("已下架电池不能添加报修!");
+		return;
+	}
 	//console.log(row[0]);
 	$("#chargingRackRecordRepairForm" + " #id").val(row[0].id);
 	$("#chargingRackRecordRepairForm" + " #realnumber").val(row[0].realnumber);
