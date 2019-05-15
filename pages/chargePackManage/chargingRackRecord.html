@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>工单批次管理</title>
+		<title>充电记录管理</title>
 		<style>
 			.changeTableRowColor {
 				background-color: #31b0d5 !important;
@@ -41,6 +41,24 @@
 					function() {
 						document.getElementById("chargingRackRecordForm").reset();
 					})
+
+$('#myAddModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("chargingRackRecordAddForm").reset();
+					})
+
+$('#myRepairModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("chargingRackRecordRepairForm").reset();
+					})
+
+
+				var today = new Date();
+
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
 			});
 
 			$(function() {
@@ -63,64 +81,66 @@
 				<label id='workingkLocationSlctLabel'> 工位： </label>
 				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
 				</select>
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
 
 		<div class=" form-inline row">
-			<button type="button" class="btn btn-default" onclick="getOnRackRecord()">
+			<button type="button" class="btn btn-default" onclick="getOnRackRecord('onRack')">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>在架电池查询
             </button>
-			<button type="button" class="btn btn-default" onclick="selectPutonRackHistoryRecord()">
+			<button type="button" class="btn btn-default" onclick="getOnRackRecord('putonhistory')">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>上架记录查询
             </button>
-
-			<button type="button" class="btn btn-default" onclick="addChargingRackRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加上架
+			<button type="button" class="btn btn-default" onclick="getOnRackRecord('pulloffhistory')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>下架记录查询
             </button>
-
-			<button type="button" class="btn btn-default" onclick="scanQR('chargingRackID')">
+            <button type="button" class="btn btn-default" onclick="scanQR('chargingRackID')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>充电架扫码
            </button>
-           <button type="button" class="btn btn-default" onclick="scanQR('chargingRackID')">
+			<button type="button" class="btn btn-default" onclick="addChargingRackRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加上架
+           </button>
+           <button type="button" class="btn btn-default" onclick="repairChargingRackRecord()">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池报修
+           </button>
+			<button type="button" class="btn btn-default" onclick="pullOffChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池下架
            </button>
-			<button type="button" class="btn btn-default" onclick="changeChargingRackRecord()">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>修改记录
-           </button>
+			
 			<button type="button" class="btn btn-default" onclick="deleteChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
            </button>
 		</div>
-		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog" style="width:450px">
+<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myAddModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog" style="width:400px">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
-						<h4 class="modal-title" id="myModalLabel"> 充电架记录 </h4>
+						<h4 class="modal-title" id="myModalLabel"> 添加上架记录 </h4>
 					</div>
 					<div class="modal-body" id="modal-body" style="padding-left:20px;">
-						<form id="chargingRackRecordForm">
+						<form id="chargingRackRecordAddForm">
 							<input type="text" id="id" name="id" style="display:none" />
 							<input type="text" id="plantid" name="plantid" style="display:none" />
 							<input type="text" id="processid" name="processid" style="display:none" />
 							<input type="text" id="staffid" name="staffid" style="display:none" />
 							<input type="text" id="materialid" name="materialid" style="display:none" />
-							<input type="text" id="repairid" name="repairid" style="display:none" />
-							<input type="text" id="pulloffstaffid" name="pulloffstaffid" style="display:none" />
-							<input type="text" id="repaircombine" name="repaircombine" style="display:none" />
 							<input type="text" id="status" name="status" style="display:none" />
-							<input type="text" id="pulloffstaffname" name="pulloffstaffname" style="display:none" />
-							<input type="text" id="pulloffdate" name="pulloffdate" style="display:none" />
-
+							<input type="text" id="realnumber" name="realnumber" style="display:none" />
+							
 							<!--<label> 产线： </label>-->
 							<br />
-							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" onchange="lineWorkOrderModalChange()">
+							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" >
 							</select>
 							<br />
 							<br />
@@ -132,7 +152,7 @@
 							<br />
 							<!--<label for="name">产品型号:</label>
 							<br />-->
-							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;">
+							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;" onchange="setPutOnNum()">
 							</select>
 							<br />
 							<br />
@@ -146,42 +166,17 @@
 							<br />
 							<div class="form-inline row">
 								<label for="name">上架数量:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量" oninput="workOrderSetCount()">
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量">
 							</div>
 							<br />
 							<div class="form-inline row">
 								<label for="name">上架时间:</label>
-								<input type="date" class="form-control" id="putondate" name="putondate" onchange="lineWorkOrderModalChange()">
+								<input type="date" readonly="readonly" class="form-control" id="putondate" name="putondate">
 							</div>
 							<br />
 							<div class="form-inline row">
 								<label for="name">上架人员:</label>
-								<input type="text" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
-							</div>
-							<br />
-							<div class="form-inline row">
-								<label for="name">报修数量:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
-							</div>
-							<br />
-							<div class="form-inline row">
-								<label for="name">报修原因:</label>
-								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
-							</div>
-							<br />
-							<div class="form-inline row">
-								<label for="name">报修人员:</label>
-								<input type="text" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
-							</div>
-							<br />
-							<div class="form-inline row">
-								<label for="name">报修时间:</label>
-								<input type="date" class="form-control" id="repairtime" name="repairtime" onchange="lineWorkOrderModalChange()">
-							</div>
-							<br />
-							<div class="form-inline row">
-								<label for="name">在架实际数量:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="realnumber" name="realnumber" placeholder="请输入报修数量">
+								<input type="text" readonly="readonly" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
 							</div>
 							<br />
 							<div class="form-inline row">
@@ -192,14 +187,80 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick="saveChargingRackRecordModel()">保存 </button>
-						<button type="button" class="btn btn-default" onclick="closeChargingRackRecordModel()">关闭 </button>
+						<button type="button" class="btn btn-default" onclick="saveChargingRackRecordModel('myAddModal','chargingRackRecordAddForm')">保存 </button>
+						<button type="button" class="btn btn-default" onclick="closeChargingRackRecordModel('myAddModal')">关闭 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal -->
 		</div>
+
+
+<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myRepairModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog" style="width:400px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 电池报修 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="chargingRackRecordRepairForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="repairid" name="repairid" style="display:none" />
+							<div class="form-inline row">
+								<label for="name">当前在架数量:</label>
+								<input type="text" readonly="readonly"  class="form-control" id="realnumber" name="realnumber" >
+							</div>
+							<br />
+								<div class="form-inline row">
+								<label for="name">当前总报修数量:</label>
+								<input type="text" readonly="readonly"  class="form-control"  id="repairnumber" name="repairnumber" >
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">本次报修数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="newrepairnumber" name="newrepairnumber" placeholder="请输入报修数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修原因:</label>
+								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修人员:</label>
+								<input type="text" readonly="readonly" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">报修时间:</label>
+								<input type="text" readonly="readonly" class="form-control" id="repairtime" name="repairtime" >
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">总报修记录:</label>
+								<input type="text"  readonly="readonly"   class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="saveChargingRackRecordModel('myRepairModal','chargingRackRecordRepairForm')">保存 </button>
+						<button type="button" class="btn btn-default" onclick="closeChargingRackRecordModel('myRepairModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
 	</body>
 
 </html>

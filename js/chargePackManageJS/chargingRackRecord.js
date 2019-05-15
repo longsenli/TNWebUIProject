@@ -96,6 +96,7 @@ function chargingRackRecordProductionProcessSlctFun() {
 
 				setTimeout(function() {
 					chargingRackRecordProductionLineSlctFun();
+					chargingRackRecordMaterialSlct();
 				}, 100);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -138,23 +139,25 @@ function chargingRackRecordProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				// $('#productionLineSlct').selectpicker('mobile');
-				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
-					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
-					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
-							$(numbers[j]).attr("selected", "selected");
-							$('#productionLineSlct').selectpicker('hide');
 
-							$("#productionLineLabel").css("display", "none");
-						}
-					}
-					$('#productionLineSlct').selectpicker('refresh');
-					$('#productionLineSlct').selectpicker('render'); 
+				$('#lineid').selectpicker('refresh');
+				$('#lineid').selectpicker('render'); 
 
-				}
+				//				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
+				//					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
+				//					for(var j = 0; j < numbers.length; j++) {
+				//						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
+				//							$(numbers[j]).attr("selected", "selected");
+				//							$('#productionLineSlct').selectpicker('hide');
+				//
+				//							$("#productionLineLabel").css("display", "none");
+				//						}
+				//					}
+				//					$('#productionLineSlct').selectpicker('refresh');
+				//					$('#productionLineSlct').selectpicker('render'); 
+				//				}
 
 				setTimeout(function() {
-
 					chargingRackRecordWorkingLocationSlctFun();
 				}, 100);
 
@@ -186,7 +189,8 @@ function chargingRackRecordWorkingLocationSlctFun() {
 
 			$("#workingkLocationSlct").find('option').remove();
 			$("#worklocation").find('option').remove();
-
+			$('#workingkLocationSlct').append(("<option value=" + "-1" +
+				">" + "全部" + "</option>").toString());
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
@@ -207,18 +211,21 @@ function chargingRackRecordWorkingLocationSlctFun() {
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
 				// $('#workingkLocationSlct').selectpicker('mobile');
-				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {
-					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
-					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == localStorage.getItem('workingkLocation')) {
-							$(numbers[j]).attr("selected", "selected");
-							//$('#workingkLocationSlct').selectpicker('hide');
-							//$("#workingkLocationSlctLabel").css("display", "true");
-						}
-					}
-					$('#workingkLocationSlct').selectpicker('refresh');
-					$('#workingkLocationSlct').selectpicker('render'); 
-				}
+
+				$('#worklocation').selectpicker('refresh');
+				$('#worklocation').selectpicker('render');  
+				//				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {
+				//					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
+				//					for(var j = 0; j < numbers.length; j++) {
+				//						if($(numbers[j]).val().toString() == localStorage.getItem('workingkLocation')) {
+				//							$(numbers[j]).attr("selected", "selected");
+				//							//$('#workingkLocationSlct').selectpicker('hide');
+				//							//$("#workingkLocationSlctLabel").css("display", "true");
+				//						}
+				//					}
+				//					$('#workingkLocationSlct').selectpicker('refresh');
+				//					$('#workingkLocationSlct').selectpicker('render'); 
+				//				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -226,97 +233,51 @@ function chargingRackRecordWorkingLocationSlctFun() {
 	});
 };
 
-function getOnRackRecord() {
-
+function chargingRackRecordMaterialSlct() {
+	//alert();
+	//alert(document.planProductionManageForm.processid.value.toString());
 	$.ajax({
-		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
+
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
-		contentType: "application/json",
-		dataType: "json",
+
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: localStorage.getItem('token')
+		//			Token: $.cookie('token')
 		//		},
-		//async: false,
-		processData: true,
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
 		success: function(dataRes) {
 
-			$("#workOrderSlct").find('option').remove();
+			$("#materialname").find('option').remove();
 
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#workOrderSlct').append(("<option value=" + models[i].id + ">" +
-						models[i].orderid  + "</option>").toString())
+					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
+						"###" + models[i].description + "</option>").toString());
 				}
-				$('#workOrderSlct').selectpicker('refresh');
-				$('#workOrderSlct').selectpicker('render');   
-				// $('#workOrderSlct').selectpicker('mobile');
-				setTimeout(function() {
-					SelectWorkOrderFun();
-				}, 100);
+				$('#materialname').selectpicker('refresh');
+				$('#materialname').selectpicker('render');   
+				// $('#materialid').selectpicker('mobile');
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
-	});
-	chargingRackRecordWorkingLocationSlctFun();
-};
+	}); 
+}
 
-function selectPutonRackHistoryRecord() {
+function getOnRackRecord(selectType) {
+
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
-	});
-	columnsArray.push({
-		"title": "物料号",
-		"field": "materialid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料名称",
-		"field": "materialName"
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "orderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "inOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "inchargingRackRecordName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "chargingRackRecordid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
-	columnsArray.push({
-		"title": "入库人员",
-		"field": "inputer"
-	});
-	columnsArray.push({
-		"title": "入库时间",
-		"field": "inputtime"
-	});
-	columnsArray.push({
-		"title": "领用人",
-		"field": "outputer"
-	});
-	columnsArray.push({
-		"title": "领用时间",
-		"field": "outputtime"
 	});
 	columnsArray.push({
 		"title": "id",
@@ -324,29 +285,104 @@ function selectPutonRackHistoryRecord() {
 		visible: false
 	});
 	columnsArray.push({
-		"title": "expendOrderid",
-		"field": "expendOrderid",
+		"title": "位置",
+		"field": "worklocation",
+		formatter: function(value, row, index) {
+			return $("#workingkLocationSlct option[value='" + row.worklocation + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialname"
+	});
+	columnsArray.push({
+		"title": "物料类型",
+		"field": "materialtype",
+		formatter: function(value, row, index) {
+			return $("#materialtype option[value='" + row.materialtype + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "materialid",
+		"field": "materialid",
 		visible: false
 	});
-	$.ajax({
-		url: window.serviceIP + "/api/material/getmaterialrecord?expendOrderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
-		type: "GET",
 
-		contentType: "application/json",
-		dataType: "json",
+	columnsArray.push({
+		"title": "在架数量",
+		"field": "realnumber"
+	});
+	columnsArray.push({
+		"title": "上架数量",
+		"field": "productionnumber"
+	});
+	columnsArray.push({
+		"title": "上架人员",
+		"field": "staffname"
+	});
+	columnsArray.push({
+		"title": "上架日期",
+		"field": "putondate",
+		formatter: function(value, row, index) {
+			if(value) {
+				return value.toString().split(" ")[0];
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "报修数量",
+		"field": "repairnumber"
+	});
+	columnsArray.push({
+		"title": "报修详情",
+		"field": "repaircombine"
+	});
+	columnsArray.push({
+		"title": "下架人员",
+		"field": "pulloffstaffname"
+	});
+	columnsArray.push({
+		"title": "下架日期",
+		"field": "pulloffdate",
+		formatter: function(value, row, index) {
+			if(value) {
+				return value.toString().split(" ")[0];
+			}
+
+		}
+	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+	formData.append("startTime", document.getElementById("startTime").value.toString());
+	formData.append("endTime", document.getElementById("endTime").value.toString() +" 23:59:59");
+	formData.append("selectType", selectType);
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/getchargingrackrecord",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
 		//		headers: {
 		//			Token: localStorage.getItem('token')
 		//		},
-		processData: true,
+
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				var sum = 0;
+
 				var models = eval("(" + dataRes.data + ")");
-				for(i = 0; i < models.length; i++) {
-					sum = sum + models[i].number;
-				}
-				document.getElementById('sumNumber').innerText = '已投料统计： ' + sum;
-				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
 					toolbarAlign: 'left',
@@ -369,25 +405,255 @@ function selectPutonRackHistoryRecord() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
 		}
 	});
 };
 
-function closeChargingRackRecordModel() {
-	$("#myModal").modal('hide');
+function chargingRackRecordRowClick(row) {
+
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	if($(row).hasClass('selected')) {
+		$(row).find("td").addClass('changeTableRowColor');
+	}
+}
+
+function closeChargingRackRecordModel(modelName) {
+	$("#" + modelName).modal('hide');
+}
+
+function setPutOnNum() {
+	var num = parseInt($("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[1].trim());
+	$("#chargingRackRecordAddForm" + " #productionnumber").val(num);
+	$("#chargingRackRecordAddForm" + " #realnumber").val(num);
 }
 
 function addChargingRackRecord() {
-	$("#myModal").modal('show');
+	$('#chargingRackRecordAddForm #lineid').selectpicker('refresh');
+	$('#chargingRackRecordAddForm #lineid').selectpicker('render'); 
+
+	$('#chargingRackRecordAddForm #worklocation').selectpicker('refresh');
+	$('#chargingRackRecordAddForm #worklocation').selectpicker('render'); 
+
+	$('#chargingRackRecordAddForm #materialname').selectpicker('refresh');
+	$('#chargingRackRecordAddForm #materialname').selectpicker('render'); 
+
+	$('#chargingRackRecordAddForm #materialtype').selectpicker('refresh');
+	$('#chargingRackRecordAddForm #materialtype').selectpicker('render'); 
+
+	var numbers = $('#lineid').find("option"); //获取select下拉框的所有值
+	for(var j = 0; j < numbers.length; j++) {
+		if($(numbers[j]).val().toString() == document.PlantToLineSelectForm.productionLineSlct.value.toString()) {
+			$(numbers[j]).attr("selected", "selected");
+			break;
+		}
+	}
+	$('#lineid').selectpicker('refresh');
+	$('#lineid').selectpicker('render'); 
+	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString() != '-1') {
+		var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
+			if($(numbersWorkingkLocationSlct[j]).val().toString() == document.PlantToLineSelectForm.workingkLocationSlct.value.toString()) {
+				$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
+				break;
+			}
+		}
+		$('#worklocation').selectpicker('refresh');
+		$('#worklocation').selectpicker('render'); 
+	}
+	setPutOnNum();
+	$("#chargingRackRecordAddForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	$("#chargingRackRecordAddForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	$("#chargingRackRecordAddForm" + " #staffid").val(localStorage.userID);
+	$("#chargingRackRecordAddForm" + " #staffname").val(localStorage.username);
+	var today = new Date();
+	$("#chargingRackRecordAddForm" + " #putondate").val(today.format("yyyy-MM-dd"));
+
+	$("#myAddModal").modal('show');
 }
 
-function changeChargingRackRecord() {
-	$("#myModal").modal('show');
+function repairChargingRackRecord() {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+
+	//		if(row[0].pulloffDate.length > 0)
+	//		{
+	//			alert("已下架电池不能添加报修!");
+	//			return;
+	//		}
+	//console.log(row[0]);
+	$("#chargingRackRecordRepairForm" + " #id").val(row[0].id);
+	$("#chargingRackRecordRepairForm" + " #realnumber").val(row[0].realnumber);
+	$("#chargingRackRecordRepairForm" + " #repairnumber").val(row[0].repairnumber);
+	$("#chargingRackRecordRepairForm" + " #repaircombine").val(row[0].repaircombine);
+	$("#chargingRackRecordRepairForm" + " #remark").val(row[0].remark);
+
+	if(row[0].remark.length > 50) {
+		$("#chargingRackRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
+	}
+	$("#chargingRackRecordRepairForm" + " #repairid").val(localStorage.userID);
+	$("#chargingRackRecordRepairForm" + " #repairname").val(localStorage.username);
+	var today = new Date();
+	$("#chargingRackRecordRepairForm" + " #repairtime").val(today.format("yyyy-MM-dd hh:mm"));
+
+	$("#myRepairModal").modal('show');
+
+}
+
+function pullOffChargingRackRecord() {
+var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	if( row[0].pulloffdate)
+	{
+		alert("该记录已下架,不要重复操作!" );
+		return;
+	}
+	var formMap = {};
+	formMap['id'] = row[0].id;
+	formMap['putondate'] = row[0].putondate;
+	formMap['realnumber'] = row[0].realnumber;
+	formMap['materialtype'] = row[0].materialtype;
+	formMap['materialid'] = row[0].materialid;
+	formMap['materialname'] = row[0].materialname;
+	formMap['plantid'] = row[0].plantid;
+	formMap['lineid'] = row[0].lineid;
+	formMap['pulloffstaffid'] = localStorage.userID;
+	formMap['pulloffstaffname'] = localStorage.username;
+	formMap['pulloffdate'] = new Date();
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord" ,
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				alert('下架成功!');
+			} else {
+				alert("下架失败！" + data.message);
+			}
+
+		}
+	});
 }
 
 function deleteChargingRackRecord() {
-	$("#myModal").modal('show');
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	if(row[0].repaircombine || row[0].pulloffdate)
+	{
+		alert("该记录已有报修信息或者下架,不能删除!" );
+		return;
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/detetechargingrackrecord?id=" + row[0].id,
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				alert('删除成功!');
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+		}
+	});
 }
+
+function saveChargingRackRecordModel(modelID, formID) {
+	var formMap = window.formToObject($("#" + formID));
+	if(formMap.hasOwnProperty("materialname")) {
+		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val(); 
+		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[0].trim()
+	}
+
+	if(formID == 'chargingRackRecordRepairForm') {
+		formMap["repaircombine"] = formMap["repairtime"] + " " + formMap["repairname"] + " " + formMap["newrepairnumber"] +
+			" " + formMap["reason"] + "\r\n  " + formMap["repaircombine"];
+
+		var realLast = parseInt(formMap["realnumber"])
+		var realRepairLast = parseInt(formMap["repairnumber"])
+		var realRepairNow = parseInt(formMap["newrepairnumber"])
+		formMap["realnumber"] = realLast - realRepairNow;
+		formMap["repairnumber"] = realRepairLast + realRepairNow;
+
+		delete formMap["newrepairnumber"];
+		console.log(formMap);
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/changechargingrackrecord",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				alert('保存成功!');
+				$("#" + modelID).modal('hide');
+
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+		}
+	});
+
+}
+
 var accept_webName = null;
 //重写scanQR方法
 function scanQR(webName) {
@@ -520,6 +786,139 @@ function openBarcodeCustom() {
 }
 
 function recognitionQR(webName, qrCode) {
-	if(webName == 'materialReturn')
-		getOrderInfoDetail(qrCode);
+	if(webName == 'chargingRackID')
+		workLocationChangeByQR(qrCode);
 }
+
+function workLocationChangeByQR(qrCode)
+{
+	var selected = false;
+
+		var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
+			if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
+				$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
+				selected = true;
+				break;
+			}
+		}
+		if(selected)
+		{
+			$('#worklocation').selectpicker('refresh');
+		$('#worklocation').selectpicker('render'); 
+		setTimeout(function() {
+					getOnRackRecord('onRack');
+				}, 100);
+		}
+		else
+		{
+			alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
+		}
+		
+		
+
+}
+//		<!-- 模态框（Modal） -->
+//		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+//			<div class="modal-dialog" style="width:450px">
+//				<div class="modal-content">
+//					<div class="modal-header">
+//						<button type="button" class="close" data-dismiss="modal">x</button>
+//						<h4 class="modal-title" id="myModalLabel"> 充电架记录 </h4>
+//					</div>
+//					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+//						<form id="chargingRackRecordForm">
+//							<input type="text" id="id" name="id" style="display:none" />
+//							<input type="text" id="plantid" name="plantid" style="display:none" />
+//							<input type="text" id="processid" name="processid" style="display:none" />
+//							<input type="text" id="staffid" name="staffid" style="display:none" />
+//							<input type="text" id="materialid" name="materialid" style="display:none" />
+//							<input type="text" id="repairid" name="repairid" style="display:none" />
+//							<input type="text" id="pulloffstaffid" name="pulloffstaffid" style="display:none" />
+//							<input type="text" id="repaircombine" name="repaircombine" style="display:none" />
+//							<input type="text" id="status" name="status" style="display:none" />
+//							<input type="text" id="pulloffstaffname" name="pulloffstaffname" style="display:none" />
+//							<input type="text" id="pulloffdate" name="pulloffdate" style="display:none" />
+//
+//							<!--<label> 产线： </label>-->
+//							<br />
+//							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid">
+//							</select>
+//							<br />
+//							<br />
+//							<!--<label for="name">充电架:</label>
+//							<br />-->
+//							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">
+//							</select>
+//							<br />
+//							<br />
+//							<!--<label for="name">产品型号:</label>
+//							<br />-->
+//							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;">
+//							</select>
+//							<br />
+//							<br />
+//							<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
+//								<option value=1>一等品</option>
+//								<option value=2>二等品</option>
+//								<option value=3>一次返充</option>
+//								<option value=4>二次返充</option>
+//							</select>
+//							<br />
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">上架数量:</label>
+//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">上架时间:</label>
+//								<input type="date" class="form-control" id="putondate" name="putondate">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">上架人员:</label>
+//								<input type="text" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">报修数量:</label>
+//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">报修原因:</label>
+//								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">报修人员:</label>
+//								<input type="text" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">报修时间:</label>
+//								<input type="date" class="form-control" id="repairtime" name="repairtime" onchange="lineWorkOrderModalChange()">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">在架实际数量:</label>
+//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="realnumber" name="realnumber" placeholder="请输入报修数量">
+//							</div>
+//							<br />
+//							<div class="form-inline row">
+//								<label for="name">备注:</label>
+//								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+//							</div>
+//							<br />
+//						</form>
+//					</div>
+//					<div class="modal-footer">
+//						<button type="button" class="btn btn-default" onclick="saveChargingRackRecordModel()">保存 </button>
+//						<button type="button" class="btn btn-default" onclick="closeChargingRackRecordModel()">关闭 </button>
+//					</div>
+//				</div>
+//				<!-- /.modal-content -->
+//			</div>
+//			<!-- /.modal -->
+//		</div>
