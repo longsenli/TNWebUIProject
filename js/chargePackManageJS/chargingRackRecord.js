@@ -608,6 +608,14 @@ function deleteChargingRackRecord() {
 function saveChargingRackRecordModel(modelID, formID) {
 	var formMap = window.formToObject($("#" + formID));
 	if(formMap.hasOwnProperty("materialname")) {
+		formMap["realnumber"] = formMap["productionnumber"];
+		var realnumber = parseInt(formMap["productionnumber"]);
+
+		if(realnumber <= 0)
+		{
+			alert("上架数量必须大于0!");
+			return;
+		}
 		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val();
 		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[0].trim()
 	}
@@ -621,9 +629,13 @@ function saveChargingRackRecordModel(modelID, formID) {
 		var realRepairNow = parseInt(formMap["newrepairnumber"])
 		formMap["realnumber"] = realLast - realRepairNow;
 		formMap["repairnumber"] = realRepairLast + realRepairNow;
-
+		if(realLast < realRepairNow)
+		{
+			alert("报修数量必须小于等于在架数量!")
+			return;
+		}
 		delete formMap["newrepairnumber"];
-		console.log(formMap);
+
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/changechargingrackrecord",
