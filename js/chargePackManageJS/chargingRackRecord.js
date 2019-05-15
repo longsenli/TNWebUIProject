@@ -622,7 +622,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 
 	if(formID == 'chargingRackRecordRepairForm') {
 		formMap["repaircombine"] = formMap["repairtime"] + " " + formMap["repairname"] + " " + formMap["newrepairnumber"] +
-			" " + formMap["reason"] + "\r\n  " + formMap["repaircombine"];
+			" " + formMap["reason"] + "\r\n ----- " + formMap["repaircombine"];
 
 		var realLast = parseInt(formMap["realnumber"])
 		var realRepairLast = parseInt(formMap["repairnumber"])
