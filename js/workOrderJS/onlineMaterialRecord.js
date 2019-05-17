@@ -285,7 +285,7 @@ function getOnlineMaterial() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					//					fixedColumns: true, //固定列
 					//					fixedNumber: 1, //固定前两列
 					pagination: true,

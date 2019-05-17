@@ -41,6 +41,14 @@
 					function() {
 						document.getElementById("tidyBatteryRecordRepairForm").reset();
 					})
+				$('#myChangeModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("tidyBatteryRecordChangeForm").reset();
+					})
+				$('#myPileModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("tidyBatteryPileForm").reset();
+					})
 
 				var today = new Date();
 
@@ -74,6 +82,12 @@
 				<input type="date" id="startTime" name="startTime" />
 				<label>-</label>
 				<input type="date" id="endTime" name="endTime" />
+				<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;display:none">
+								<option value=1>一等品</option>
+								<option value=2>二等品</option>
+								<option value=3>一次返充</option>
+								<option value=4>二次返充</option>
+							</select>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
@@ -150,7 +164,7 @@
 							<br />
 							<div class="form-inline row">
 								<label for="name">总报修记录:</label>
-								<input type="text"style="word-break:break-all" readonly="readonly" class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
+								<input type="text" style="word-break:break-all" readonly="readonly" class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
 							</div>
 							<br />
 							<div class="form-inline row">
@@ -230,7 +244,6 @@
 			<!-- /.modal -->
 		</div>
 
-
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myPileModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:400px">
@@ -250,18 +263,23 @@
 							</div>
 							<br />
 							<div class="form-inline row">
-								<label for="name">维修送返:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairbacknum" name="repairbacknum" placeholder="请输入维修送返数量">
+								<label for="name">打堆拖数:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" oninput="pileBatterySetCount()" id="PileNum" name="PileNum" placeholder="请输入打堆拖数">
 							</div>
 							<br />
 							<div class="form-inline row">
-								<label for="name">包装数量:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="packnum" name="packnum" placeholder="请输入包装数量">
+								<label for="name">每托数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" oninput="pileBatterySetCount()" id="perPileMaterialNum" name="perPileMaterialNum" placeholder="请输入每托数量">
 							</div>
 							<br />
 							<div class="form-inline row">
-								<label for="name">返充数量:</label>
-								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="backtochargenum" name="backtochargenum" placeholder="请输入返充数量">
+								<label for="name">总打堆数量:</label>
+								<input type="text" readonly="readonly" class="form-control" id="totalMaterialNum" name="totalMaterialNum" placeholder="请输入总打堆数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">存放位置:</label>
+								<input type="text" class="form-control" id="storeLocation" name="storeLocation" placeholder="请输入计划存放位置">
 							</div>
 							<br />
 							<div class="form-inline row">
@@ -282,15 +300,15 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-info" onclick="saveTidyBatteryRecordModel('myChangeModal','tidyBatteryRecordChangeForm')">保存 </button>
-						<button type="button" class="btn btn-info" onclick="closeTidyBatteryRecordModel('myChangeModal')">关闭 </button>
+						<button type="button" class="btn btn-info" onclick="pileTidyBatteryRecord()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeTidyBatteryRecordModel('myPileModal')">关闭 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal -->
 		</div>
-		
+
 	</body>
 
 </html>
