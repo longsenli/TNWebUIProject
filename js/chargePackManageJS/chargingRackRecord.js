@@ -509,10 +509,12 @@ function repairChargingRackRecord() {
 	$("#chargingRackRecordRepairForm" + " #repairnumber").val(row[0].repairnumber);
 	$("#chargingRackRecordRepairForm" + " #repaircombine").val(row[0].repaircombine);
 	$("#chargingRackRecordRepairForm" + " #remark").val(row[0].remark);
+//	if(row[0].repaircombine) {
+//		if(row[0].repaircombine.length > 50) {
+//			$("#chargingRackRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
+//		}
+//	}
 
-	if(row[0].remark.length > 50) {
-		$("#chargingRackRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
-	}
 	$("#chargingRackRecordRepairForm" + " #repairid").val(localStorage.userID);
 	$("#chargingRackRecordRepairForm" + " #repairname").val(localStorage.username);
 	var today = new Date();
@@ -611,8 +613,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 		formMap["realnumber"] = formMap["productionnumber"];
 		var realnumber = parseInt(formMap["productionnumber"]);
 
-		if(realnumber <= 0)
-		{
+		if(realnumber <= 0) {
 			alert("上架数量必须大于0!");
 			return;
 		}
@@ -629,8 +630,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 		var realRepairNow = parseInt(formMap["newrepairnumber"])
 		formMap["realnumber"] = realLast - realRepairNow;
 		formMap["repairnumber"] = realRepairLast + realRepairNow;
-		if(realLast < realRepairNow)
-		{
+		if(realLast < realRepairNow) {
 			alert("报修数量必须小于等于在架数量!")
 			return;
 		}

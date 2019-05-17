@@ -1301,7 +1301,6 @@ function gainMaterialByQR(recordID) {
 
 function getMaterialRecordBySuborderID(recordID) {
 	$("#myModal").modal('hide');
-	//console.log("gainMaterialByQR" + recordID);
 
 	if(recordID.length < 2 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
 		alert("请确认已选择物料和订单!")

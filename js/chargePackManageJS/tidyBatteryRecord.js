@@ -152,11 +152,11 @@ function tidyBatteryRecordProductionLineSlctFun() {
 					$('#productionLineSlct').selectpicker('render'); 
 
 				}
-
-				setTimeout(function() {
-
-					tidyBatteryRecordWorkingLocationSlctFun();
-				}, 100);
+				//
+				//				setTimeout(function() {
+				//
+				//					tidyBatteryRecordWorkingLocationSlctFun();
+				//				}, 100);
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -226,127 +226,111 @@ function tidyBatteryRecordWorkingLocationSlctFun() {
 	});
 };
 
-function getTidyRecord() {
+function getTidyRecord(selectType) {
 
-	$.ajax({
-		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
-		type: "GET",
-		contentType: "application/json",
-		dataType: "json",
-		//contentType: "application/json",
-		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//async: false,
-		processData: true,
-		success: function(dataRes) {
-
-			$("#workOrderSlct").find('option').remove();
-
-			if(dataRes.status == 1) { 
-
-				var models = eval("(" + dataRes.data + ")");
-				for (var  i  in  models)  {  
-					$('#workOrderSlct').append(("<option value=" + models[i].id + ">" +
-						models[i].orderid  + "</option>").toString())
-				}
-				$('#workOrderSlct').selectpicker('refresh');
-				$('#workOrderSlct').selectpicker('render');   
-				// $('#workOrderSlct').selectpicker('mobile');
-				setTimeout(function() {
-					SelectWorkOrderFun();
-				}, 100);
-
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-	tidyBatteryRecordWorkingLocationSlctFun();
-};
-
-function getTidyHistoryRecord() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
-	});
-	columnsArray.push({
-		"title": "物料号",
-		"field": "materialid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料名称",
-		"field": "materialName"
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "orderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "inOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "intidyBatteryRecordName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "tidyBatteryRecordid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
-	columnsArray.push({
-		"title": "入库人员",
-		"field": "inputer"
-	});
-	columnsArray.push({
-		"title": "入库时间",
-		"field": "inputtime"
-	});
-	columnsArray.push({
-		"title": "领用人",
-		"field": "outputer"
-	});
-	columnsArray.push({
-		"title": "领用时间",
-		"field": "outputtime"
 	});
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
 		visible: false
 	});
+
 	columnsArray.push({
-		"title": "expendOrderid",
-		"field": "expendOrderid",
+		"title": "物料名称",
+		"field": "materialname"
+	});
+	columnsArray.push({
+		"title": "物料类型",
+		"field": "materialtype",
+		formatter: function(value, row, index) {
+			return $("#materialtype option[value='" + row.materialtype + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "materialid",
+		"field": "materialid",
 		visible: false
 	});
-	$.ajax({
-		url: window.serviceIP + "/api/material/getmaterialrecord?expendOrderID=" + document.PlantToLineSelectForm.workOrderSlct.value.toString(),
-		type: "GET",
 
-		contentType: "application/json",
-		dataType: "json",
+	columnsArray.push({
+		"title": "剩余数量",
+		"field": "currentnum"
+	});
+	columnsArray.push({
+		"title": "下架数量",
+		"field": "pulloffnum"
+	});
+	columnsArray.push({
+		"title": "下架日期",
+		"field": "daytime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return value.toString().split(" ")[0];
+			}
+		}
+	});
+	
+	columnsArray.push({
+		"title": "维修送返",
+		"field": "repairbacknum"
+	});
+	
+	columnsArray.push({
+		"title": "包装数量",
+		"field": "packnum"
+	});
+	columnsArray.push({
+		"title": "返充数量",
+		"field": "backtochargenum"
+	});
+	columnsArray.push({
+		"title": "打堆数量",
+		"field": "pilenum"
+	});
+	columnsArray.push({
+		"title": "报修数量",
+		"field": "repairnumber"
+	});
+	columnsArray.push({
+		"title": "报修详情",
+		"field": "repaircombine"
+	});
+
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("startTime", document.getElementById("startTime").value.toString());
+	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
+	formData.append("selectType", selectType);
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/gettidybatteryrecord",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
 		//		headers: {
 		//			Token: localStorage.getItem('token')
 		//		},
-		processData: true,
+		//async: false,
+		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				var sum = 0;
+
 				var models = eval("(" + dataRes.data + ")");
-				for(i = 0; i < models.length; i++) {
-					sum = sum + models[i].number;
-				}
-				document.getElementById('sumNumber').innerText = '已投料统计： ' + sum;
-				$('#materialTable').bootstrapTable('destroy').bootstrapTable({
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
 					toolbarAlign: 'left',
@@ -369,25 +353,181 @@ function getTidyHistoryRecord() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
 		}
 	});
 };
 
-function closeTidyBatteryRecordModel() {
-	$("#myModal").modal('hide');
+function tidyBatteryRecordRowClick(row) {
+
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	if($(row).hasClass('selected')) {
+		$(row).find("td").addClass('changeTableRowColor');
+	}
 }
 
-function addTidyBatteryRecord() {
-	$("#myModal").modal('show');
+function getPileRecord() {
+
+}
+
+function printPileQR() {
+
+}
+
+function addTidyBatteryRepairRecord() {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+
+	if(row[0].currentNum < 1) {
+		alert("该批次电池已消耗完!");
+		return;
+	}
+	//console.log(row[0]);
+	$("#tidyBatteryRecordRepairForm" + " #id").val(row[0].id);
+	$("#tidyBatteryRecordRepairForm" + " #currentnum").val(row[0].currentnum);
+	$("#tidyBatteryRecordRepairForm" + " #repairnumber").val(row[0].repairnumber);
+	$("#tidyBatteryRecordRepairForm" + " #repaircombine").val(row[0].repaircombine);
+	$("#tidyBatteryRecordRepairForm" + " #remark").val(row[0].remark);
+//	if(row[0].repaircombine) {
+//		if(row[0].repaircombine.length > 50) {
+//			$("#tidyBatteryRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
+//		}
+//	}
+
+	$("#tidyBatteryRecordRepairForm" + " #repairid").val(localStorage.userID);
+	$("#tidyBatteryRecordRepairForm" + " #repairname").val(localStorage.username);
+	var today = new Date();
+	$("#tidyBatteryRecordRepairForm" + " #repairtime").val(today.format("yyyy-MM-dd hh:mm"));
+
+	$("#myRepairModal").modal('show');
 }
 
 function changeTidyBatteryRecord() {
-	$("#myModal").modal('show');
+
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+
+	if(row[0].currentNum < 1) {
+		alert("该批次电池已消耗完!");
+		return;
+	}
+	//console.log(row[0]);
+	$("#tidyBatteryRecordChangeForm" + " #id").val(row[0].id);
+	$("#tidyBatteryRecordChangeForm" + " #currentnum").val(row[0].currentnum);
+	$("#tidyBatteryRecordChangeForm" + " #repairbacknum").val(row[0].repairbacknum);
+	$("#tidyBatteryRecordChangeForm" + " #packnum").val(row[0].packnum);
+	$("#tidyBatteryRecordChangeForm" + " #backtochargenum").val(row[0].backtochargenum);
+
+	$("#tidyBatteryRecordChangeForm" + " #remark").val(row[0].remark);
+//	if(row[0].remark) {
+//		if(row[0].remark.length > 50) {
+//			$("#tidyBatteryRecordChangeForm" + " #remark").height((row[0].remark.length % 50) * 20);
+//		}
+//	}
+
+	$("#tidyBatteryRecordChangeForm" + " #operatorid").val(localStorage.userID);
+	$("#tidyBatteryRecordChangeForm" + " #operatorname").val(localStorage.username);
+	var today = new Date();
+	$("#tidyBatteryRecordChangeForm" + " #operatortime").val(today.format("yyyy-MM-dd hh:mm"));
+
+	$("#myChangeModal").modal('show');
 }
 
 function deleteTidyBatteryRecord() {
 	$("#myModal").modal('show');
 }
+
+function closeTidyBatteryRecordModel(modelID) {
+	$("#" + modelID).modal('hide');
+}
+
+function saveTidyBatteryRecordModel(modelID, formID) {
+	var formMap = window.formToObject($("#" + formID));
+	if(formID == "tidyBatteryRecordChangeForm") {
+
+		var realnumber = parseInt(formMap["currentnum"]);
+		var repairbacknum = parseInt(formMap["repairbacknum"]);
+		var packnum = parseInt(formMap["packnum"]);
+		var backtochargenum = parseInt(formMap["backtochargenum"]);
+
+		if(realnumber - packnum - backtochargenum < 0) {
+			alert("包装和返充电池数量大于当前剩余数量!");
+			return;
+		}
+		formMap["currentnum"] = realnumber + repairbacknum - packnum - backtochargenum;
+	}
+
+	if(formID == 'tidyBatteryRecordRepairForm') {
+		formMap["repaircombine"] = formMap["repairtime"] + " " + formMap["repairname"] + " " + formMap["newrepairnumber"] +
+			" " + formMap["reason"] + "\r\n ----- " + formMap["repaircombine"];
+
+		var realLast = parseInt(formMap["currentnum"])
+		var realRepairLast = parseInt(formMap["repairnumber"])
+		var realRepairNow = parseInt(formMap["newrepairnumber"])
+		formMap["currentnum"] = realLast - realRepairNow;
+		formMap["repairnumber"] = realRepairLast + realRepairNow;
+		if(realLast < realRepairNow) {
+			alert("报修数量必须小于等于在架数量!")
+			return;
+		}
+
+		delete formMap["newrepairnumber"];
+
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/changetidybatteryrecord",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getTidyRecord('onWorkbench');
+				alert('保存成功!');
+				$("#" + modelID).modal('hide');
+
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+		}
+	});
+
+}
+
 var accept_webName = null;
 //重写scanQR方法
 function scanQR(webName) {
