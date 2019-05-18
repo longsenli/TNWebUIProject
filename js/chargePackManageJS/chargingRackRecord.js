@@ -397,7 +397,7 @@ function getOnRackRecord(selectType) {
 					//showRefresh: true,
 					//showColumns: true,
 					search: true,
-					searchAlign: 'left',
+					searchAlign: 'right',
 					pagination: true,
 					columns: columnsArray
 				});
@@ -499,7 +499,7 @@ function repairChargingRackRecord() {
 		return;
 	}
 
-	if(row[0].pulloffDate) {
+	if(row[0].pulloffdate) {
 		alert("已下架电池不能添加报修!");
 		return;
 	}
@@ -509,11 +509,11 @@ function repairChargingRackRecord() {
 	$("#chargingRackRecordRepairForm" + " #repairnumber").val(row[0].repairnumber);
 	$("#chargingRackRecordRepairForm" + " #repaircombine").val(row[0].repaircombine);
 	$("#chargingRackRecordRepairForm" + " #remark").val(row[0].remark);
-//	if(row[0].repaircombine) {
-//		if(row[0].repaircombine.length > 50) {
-//			$("#chargingRackRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
-//		}
-//	}
+	//	if(row[0].repaircombine) {
+	//		if(row[0].repaircombine.length > 50) {
+	//			$("#chargingRackRecordRepairForm" + " #repaircombine").height((row[0].remark.length % 50) * 20);
+	//		}
+	//	}
 
 	$("#chargingRackRecordRepairForm" + " #repairid").val(localStorage.userID);
 	$("#chargingRackRecordRepairForm" + " #repairname").val(localStorage.username);
