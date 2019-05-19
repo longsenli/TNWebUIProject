@@ -2417,7 +2417,9 @@
 					"pages/rights/new_app_changepassword.html",
 					"pages/workOrder/unqualifiedMaterialReturn.html",
 					"pages/workOrder/new_app_unqualifiedMaterialReturn.html",
-					"pages/chargePackManage/app_chargingRackRecord.html"
+					"pages/chargePackManage/app_chargingRackRecord.html",
+					"pages/chargePackManage/app_tidyBatteryRecord.html",
+					"pages/workOrder/app_grantMaterialManage.html"
 				],
 				"priority": 0
 			},
@@ -2495,6 +2497,13 @@
 				"resources": [],
 				"refer": [
 					"pages/chargePackManage/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/app_grantMaterialManage.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
 				],
 				"priority": 0
 			}

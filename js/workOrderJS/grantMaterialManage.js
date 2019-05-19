@@ -485,7 +485,8 @@ function innitOrderIDTable(models) {
 		toolbar: '#toolbar',
 		singleSelect: false,
 		clickToSelect: true,
-		sortName: "orderSplitid",
+		sortName: "orderID12",
+		uniqueId : "orderID",
 		sortOrder: "asc",
 		pageSize: 15,
 		pageNumber: 1,
@@ -507,6 +508,13 @@ function addOrderIDToBatchTable(orderID) {
 
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
+	}
+	var rows = $('#table').bootstrapTable('getRowByUniqueId',orderID);//行的数据
+	
+	if(rows)
+	{
+		alert("该工单已添加!" + orderID);
+		return;
 	}
 	if(orderID.length < 5) {
 		alert("工单错误,请确认!" + orderID);
