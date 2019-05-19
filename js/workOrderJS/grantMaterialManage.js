@@ -488,9 +488,9 @@ function innitOrderIDTable(models) {
 		sortName: "orderID12",
 		uniqueId : "orderID",
 		sortOrder: "asc",
-		pageSize: 15,
+		pageSize: 20,
 		pageNumber: 1,
-		pageList: "[10, 25, 50, 100, All]",
+		pageList: "[20, 50, 100, All]",
 		//showToggle: true,
 		//showRefresh: true,
 		//showColumns: true,
@@ -518,6 +518,11 @@ function addOrderIDToBatchTable(orderID) {
 	}
 	if(orderID.length < 5) {
 		alert("工单错误,请确认!" + orderID);
+		return;
+	}
+	if($("#table").bootstrapTable('getData').length >= 20)
+	{
+		alert("一次性最多发料20个!" );
 		return;
 	}
 	var _data = {
