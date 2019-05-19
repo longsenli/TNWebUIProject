@@ -524,16 +524,24 @@ function repairChargingRackRecord() {
 
 }
 
+function disableChangeButton(buttonID, status) {
+	$("#" + buttonID).attr('disabled', status);
+}
+
 function pullOffChargingRackRecord() {
+
+	disableChangeButton("pullOffRackButton", true);
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
 	if(row.length != 1) {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		disableChangeButton("pullOffRackButton", false);
 		return;
 	}
 	if(row[0].pulloffdate) {
 		alert("该记录已下架,不要重复操作!");
+		disableChangeButton("pullOffRackButton", false);
 		return;
 	}
 	var formMap = {};
@@ -567,7 +575,7 @@ function pullOffChargingRackRecord() {
 			} else {
 				alert("下架失败！" + data.message);
 			}
-
+			disableChangeButton("pullOffRackButton", false);
 		}
 	});
 }
@@ -608,12 +616,14 @@ function deleteChargingRackRecord() {
 }
 
 function saveChargingRackRecordModel(modelID, formID) {
+	disableChangeButton(modelID + "SaveButton", true);
 	var formMap = window.formToObject($("#" + formID));
 	if(formMap.hasOwnProperty("materialname")) {
 		formMap["realnumber"] = formMap["productionnumber"];
 		var realnumber = parseInt(formMap["productionnumber"]);
 
 		if(realnumber <= 0) {
+			disableChangeButton(modelID + "SaveButton", false);
 			alert("上架数量必须大于0!");
 			return;
 		}
@@ -631,6 +641,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 		formMap["realnumber"] = realLast - realRepairNow;
 		formMap["repairnumber"] = realRepairLast + realRepairNow;
 		if(realLast < realRepairNow) {
+			disableChangeButton(modelID + "SaveButton", false);
 			alert("报修数量必须小于等于在架数量!")
 			return;
 		}
@@ -657,7 +668,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
+			disableChangeButton(modelID + "SaveButton", false);
 		}
 	});
 

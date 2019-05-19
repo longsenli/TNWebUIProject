@@ -78,7 +78,7 @@ function tidyBatteryRecordProductionProcessSlctFun() {
 				}
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render'); 
-				
+
 				$('#materialtype').selectpicker('hide');
 
 				//				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
@@ -522,8 +522,7 @@ function printPileQR() {
 	//	img.src = canvas.toDataURL("image/png"); /// update image
 
 	var selectRow = $("#table").bootstrapTable('getSelections');
-	if(!selectRow[0].piletime)
-	{
+	if(!selectRow[0].piletime) {
 		return;
 	}
 	//var arrayObj = new Array();
@@ -539,14 +538,13 @@ function printPileQR() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
 
 		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
-		
+
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
@@ -575,8 +573,7 @@ function addTidyBatteryRepairRecord() {
 		alert("该批次电池已消耗完!");
 		return;
 	}
-	if(!row[0].currentnum)
-	{
+	if(!row[0].currentnum) {
 		return;
 	}
 	//console.log(row[0]);
@@ -613,16 +610,15 @@ function changeTidyBatteryRecord() {
 		alert("该批次电池已消耗完!");
 		return;
 	}
-	if(!row[0].currentnum)
-	{
+	if(!row[0].currentnum) {
 		return;
 	}
 	//console.log(row[0]);
-	$("#tidyBatteryRecordChangeForm" + " #id").val(row[0].id);
+	$("#tidyBatteryRecordChangeForm" + " #id").val(row[0].id + " ### " + row[0].repairbacknum + " ### " + row[0].packnum + " ### " + row[0].backtochargenum);
 	$("#tidyBatteryRecordChangeForm" + " #currentnum").val(row[0].currentnum);
-	$("#tidyBatteryRecordChangeForm" + " #repairbacknum").val(row[0].repairbacknum);
-	$("#tidyBatteryRecordChangeForm" + " #packnum").val(row[0].packnum);
-	$("#tidyBatteryRecordChangeForm" + " #backtochargenum").val(row[0].backtochargenum);
+	$("#tidyBatteryRecordChangeForm" + " #repairbacknum").val(0);
+	$("#tidyBatteryRecordChangeForm" + " #packnum").val(0);
+	$("#tidyBatteryRecordChangeForm" + " #backtochargenum").val(0);
 
 	$("#tidyBatteryRecordChangeForm" + " #remark").val(row[0].remark);
 	//	if(row[0].remark) {
@@ -658,8 +654,7 @@ function addPileRecord() {
 		alert("该批次电池已消耗完!");
 		return;
 	}
-	if(!row[0].currentnum)
-	{
+	if(!row[0].currentnum) {
 		return;
 	}
 	//console.log(row[0]);
@@ -686,6 +681,7 @@ function closeTidyBatteryRecordModel(modelID) {
 }
 
 function saveTidyBatteryRecordModel(modelID, formID) {
+	disableChangeButton(modelID + "SaveButton", true);
 	var formMap = window.formToObject($("#" + formID));
 	if(formID == "tidyBatteryRecordChangeForm") {
 
@@ -696,9 +692,14 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 
 		if(realnumber - packnum - backtochargenum < 0) {
 			alert("包装和返充电池数量大于当前剩余数量!");
+			disableChangeButton(modelID + "SaveButton", false);
 			return;
 		}
 		formMap["currentnum"] = realnumber + repairbacknum - packnum - backtochargenum;
+		formMap["repairbacknum"] = repairbacknum + parseInt(formMap["id"].split("###")[1].trim());
+		formMap["packnum"] = packnum + parseInt(formMap["id"].split("###")[2].trim());
+		formMap["backtochargenum"] = backtochargenum + parseInt(formMap["id"].split("###")[3].trim());
+		formMap["id"] = formMap["id"].split("###")[0].trim();
 	}
 
 	if(formID == 'tidyBatteryRecordRepairForm') {
@@ -711,7 +712,8 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 		formMap["currentnum"] = realLast - realRepairNow;
 		formMap["repairnumber"] = realRepairLast + realRepairNow;
 		if(realLast < realRepairNow) {
-			alert("报修数量必须小于等于在架数量!")
+			alert("报修数量必须小于等于在架数量!");
+			disableChangeButton(modelID + "SaveButton", false);
 			return;
 		}
 
@@ -738,12 +740,14 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
+			disableChangeButton(modelID + "SaveButton", false);
 		}
 	});
 }
 
 function pileTidyBatteryRecord() {
+
+	disableChangeButton("myPileModalSaveButton", true);
 	var formMap = window.formToObject($("#tidyBatteryPileForm"));
 
 	var realLast = parseInt(formMap["currentnum"])
@@ -751,7 +755,8 @@ function pileTidyBatteryRecord() {
 	formMap["currentnum"] = realLast - totalMaterialNum;
 
 	if(realLast < totalMaterialNum) {
-		alert("打堆数量必须小于等于剩余数量!")
+		alert("打堆数量必须小于等于剩余数量!");
+		disableChangeButton("myPileModalSaveButton", false);
 		return;
 	}
 	var PileNum = formMap["PileNum"];
@@ -788,9 +793,13 @@ function pileTidyBatteryRecord() {
 			} else {
 				alert("保存失败！" + data.message);
 			}
-
+			disableChangeButton("myPileModalSaveButton", false);
 		}
 	});
+}
+
+function disableChangeButton(buttonID, status) {
+	$("#" + buttonID).attr('disabled', status);
 }
 
 var accept_webName = null;

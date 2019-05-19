@@ -142,7 +142,7 @@
 												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="repairChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池报修
            </button>
-												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="pullOffChargingRackRecord()">
+												<button type="button" id="pullOffRackButton" class="btn btn-info" style="margin-top: 10px;" onclick="pullOffChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池下架
            </button>
 
@@ -220,7 +220,7 @@
 															</form>
 														</div>
 														<div class="modal-footer">
-															<button type="button" class="btn btn-info" onclick="saveChargingRackRecordModel('myAddModal','chargingRackRecordAddForm')">保存 </button>
+															<button type="button" id="myAddModalSaveButton" class="btn btn-info" onclick="saveChargingRackRecordModel('myAddModal','chargingRackRecordAddForm')">保存 </button>
 															<button type="button" class="btn btn-info" onclick="closeChargingRackRecordModel('myAddModal')">关闭 </button>
 														</div>
 													</div>
@@ -284,7 +284,7 @@
 															</form>
 														</div>
 														<div class="modal-footer">
-															<button type="button" class="btn btn-info" onclick="saveChargingRackRecordModel('myRepairModal','chargingRackRecordRepairForm')">保存 </button>
+															<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveChargingRackRecordModel('myRepairModal','chargingRackRecordRepairForm')">保存 </button>
 															<button type="button" class="btn btn-info" onclick="closeChargingRackRecordModel('myRepairModal')">关闭 </button>
 														</div>
 													</div>
