@@ -148,11 +148,13 @@ function getInventoryInfo() {
 	var inventoryNum = [];
 	var materialNameInventoryPolar = [];
 	var maxInventory = 0;
+	var intNumber = 0;
 	for(var i in inventoryData) {
+		intNumber = parseInt(inventoryData[i].currentNum);
 		materialNameInventory.push(inventoryData[i].name);
-		inventoryNum.push(inventoryData[i].currentNum);
-		if(inventoryData[i].currentNum > maxInventory)
-			maxInventory = inventoryData[i].currentNum;
+		inventoryNum.push(intNumber);
+		if(intNumber > maxInventory)
+			maxInventory = intNumber;
 	}
 	for(var i in inventoryData) {
 
@@ -253,29 +255,37 @@ function getInventoryInfo() {
 		},
 		//鼠标触发提示数量
 		tooltip: {
-			trigger: "axis",
+
 		},
-		polar: [{
+		radar: {
+			// shape: 'circle',
+			name: {
+				textStyle: {
+					fontSize: '14',
+					color: '#fff',
+					//backgroundColor: '#999',
+					borderRadius: 3,
+					padding: [3, 5]
+				}
+			},
 			indicator: materialNameInventoryPolar
-		}],
+		},
 		calculable: true,
 		legend: {
-			show: false,
+			//show: true,
 			orient: 'vertical', // 'vertical'
 			x: 'right', // 'center' | 'left' | {number},
 			y: 'top', // 'center' | 'bottom' | {number}
 			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
-			data: ["实际产量", "剩余产量", "总产量"],
+			data: ['剩余库存'],
 			textStyle: {
 				fontSize: 18,
 				color: "#FFFFFF"
 			}
 		},
-
 		series: [{
 			name: "库存配比雷达图",
 			type: "radar",
-			stack: "业务", //折叠显示
 			data: [{
 				value: inventoryNum,
 				name: '剩余库存'
