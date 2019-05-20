@@ -35,9 +35,9 @@
 			$(function() {
 				var today = new Date();
 
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00") ;
 				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd"+ "T07:00") ;
 
 				grantMaterialPlantSlctFun("1");
 			});
@@ -70,9 +70,9 @@
 				<select class="selectpicker" id="productionLineSlct" style="width:100px;display: none;" name="productionLineSlct" onchange="grantMaterialSelect()">
 				</select>-->
 													<label> 时间： </label>
-													<input type="date" id="startTime" name="startTime" />
+													<input type="datetime-local" id="startTime" name="startTime" />
 													<label>-</label>
-													<input type="date" id="endTime" name="endTime" />
+													<input type="datetime-local" id="endTime" name="endTime" />
 												</div>
 
 												<br/>

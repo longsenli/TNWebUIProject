@@ -304,7 +304,7 @@ function grantMaterialDetail() {
 
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value + " 00:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:59:59";
+		"&startTime=" + document.getElementById("startTime").value  + "&endTime=" + document.getElementById("endTime").value ;
 
 	$.ajax({
 		url: urlStr,
