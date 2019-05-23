@@ -437,7 +437,19 @@ function getPileRecord(selectType) {
 		"title": "存放位置",
 		"field": "location"
 	});
-
+columnsArray.push({
+		"title": "状态",
+		"field": "remark",
+		formatter: function(value, row, index) {
+			if(value == '1') {
+				return '在库中';
+			}
+			if(value == '2') {
+				return '已使用';
+			}
+			return '状态不明';
+		}
+	});
 	columnsArray.push({
 		"title": "备注",
 		"field": "remark"
