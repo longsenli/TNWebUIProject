@@ -437,7 +437,7 @@ function getPileRecord(selectType) {
 		"title": "存放位置",
 		"field": "location"
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "状态",
 		"field": "remark",
 		formatter: function(value, row, index) {

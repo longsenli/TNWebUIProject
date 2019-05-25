@@ -333,7 +333,7 @@ function grantMaterialDetail() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					pagination: true,
 					columns: columnsArray
 				});

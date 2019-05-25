@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>充电记录管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/chargePackManageJS/batteryGearMark.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			batteryGearMarkIndustrialPlantSlctFun();
+			$(function() {
+				$('#myModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("batteryGearMarkForm").reset();
+					})
+
+				$('#myAddModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("batteryGearMarkAddForm").reset();
+					})
+
+				$('#myRepairModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("batteryGearMarkRepairForm").reset();
+					})
+
+				var today = new Date();
+
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+			});
+
+			$(function() {
+				$("body").delegate('#table tr', 'click', function() {
+					batteryGearMarkRowClick(this);
+				});
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<label id='industrialPlantLabel'> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="batteryGearMarkProductionLineSlctFun()">
+				</select>
+				<label id='productionProcessLabel'> 流程： </label>
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="batteryGearMarkProductionLineSlctFun()">
+				</select>
+				<label id='productionLineLabel'> 产线： </label>
+				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="batteryGearMarkWorkingLocationSlctFun()">
+				</select>
+				<label id='workingkLocationSlctLabel'> 工位： </label>
+				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
+				</select>
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+
+		<div class=" form-inline row">
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('onRack')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>在架电池查询
+            </button>
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('putonhistory')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>上架记录查询
+            </button>
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('pulloffhistory')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>下架记录查询
+            </button>
+			<button type="button" class="btn btn-info" onclick="scanQR('chargingRackID')">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>充电架扫码
+           </button>
+			<button type="button" class="btn btn-info" onclick="addbatteryGearMark()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>文件导入
+           </button>
+
+		</div>
+		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myAddModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog" >
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 添加文档 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="batteryGearMarkAddForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="plantid" name="plantid" style="display:none" />
+							<input type="text" id="processid" name="processid" style="display:none" />
+							<input type="text" id="staffid" name="staffid" style="display:none" />
+							<input type="text" id="materialid" name="materialid" style="display:none" />
+							<input type="text" id="status" name="status" style="display:none" />
+							<input type="text" id="realnumber" name="realnumber" style="display:none" />
+
+							<!--<label> 产线： </label>-->
+							<br />
+							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid">
+							</select>
+							<br />
+							<br />
+							<!--<label for="name">充电架:</label>
+							<br />-->
+							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">
+							</select>
+							<br />
+							<br />
+							<!--<label for="name">产品型号:</label>
+							<br />-->
+							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;" onchange="setPutOnNum()">
+							</select>
+							<br />
+							<br />
+							<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
+								<option value=1>一等品</option>
+								<option value=2>二等品</option>
+								<option value=3>一次返充</option>
+								<option value=4>二次返充</option>
+							</select>
+							<br />
+							<br />
+							<div class="form-inline row">
+								<label for="name">上架数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">上架时间:</label>
+								<input type="date" readonly="readonly" class="form-control" id="putondate" name="putondate">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">上架人员:</label>
+								<input type="text" readonly="readonly" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="myAddModalSaveButton" class="btn btn-default" onclick="savebatteryGearMarkModel('myAddModal','batteryGearMarkAddForm')">保存 </button>
+						<button type="button" class="btn btn-default" onclick="closebatteryGearMarkModel('myAddModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	
+	</body>
+
+</html>
