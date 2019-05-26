@@ -364,7 +364,6 @@ function getOnRackRecord(selectType) {
 	formData.append("startTime", document.getElementById("startTime").value.toString());
 	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
 	formData.append("selectType", selectType);
-
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/getchargingrackrecord",
 		type: "POST",
@@ -813,25 +812,34 @@ function recognitionQR(webName, qrCode) {
 function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
+//$("#weatherType").selectpicker('deselectAll');
 	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
+	
+	for(var j = 0; j < workingkLocationSlct.length; j++) {
+
+		$(workingkLocationSlct[j]).removeAttr("selected");
+		if($(workingkLocationSlct[j]).val().toString() == qrCode) {
+			$(workingkLocationSlct[j]).attr("selected", "true");
+			selected = true;
+			//break;
+		}
+	}
 
 	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
 	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
+		$(numbersWorkingkLocationSlct[j]).removeAttr("selected");
 		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
-			$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
-			$(workingkLocationSlct[j + 1]).attr("selected", "selected");
+			$(numbersWorkingkLocationSlct[j]).attr("selected", "true");
 			selected = true;
-			break;
 		}
 	}
 	if(selected) {
+
 		$('#worklocation').selectpicker('refresh');
 		$('#worklocation').selectpicker('render'); 
 		$('#workingkLocationSlct').selectpicker('refresh');
 		$('#workingkLocationSlct').selectpicker('render'); 
-		setTimeout(function() {
-			getOnRackRecord('onRack');
-		}, 100);
+		getOnRackRecord('onRack');
 	} else {
 		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
 	}
