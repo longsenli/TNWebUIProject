@@ -813,10 +813,13 @@ function recognitionQR(webName, qrCode) {
 function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
+	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
+
 	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
 	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
 		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
 			$(numbersWorkingkLocationSlct[j]).attr("selected", "selected");
+			$(workingkLocationSlct[j + 1]).attr("selected", "selected");
 			selected = true;
 			break;
 		}
@@ -824,6 +827,8 @@ function workLocationChangeByQR(qrCode) {
 	if(selected) {
 		$('#worklocation').selectpicker('refresh');
 		$('#worklocation').selectpicker('render'); 
+		$('#workingkLocationSlct').selectpicker('refresh');
+		$('#workingkLocationSlct').selectpicker('render'); 
 		setTimeout(function() {
 			getOnRackRecord('onRack');
 		}, 100);
