@@ -236,22 +236,22 @@ function productionOutputStatistics() {
 					pageList: "[10, 25, 50, 100, All]",
 					showToggle: true,
 					showRefresh: true,
-//					showColumns: true,
+					//					showColumns: true,
 					search: true,
 					//>>>>>>>>>>>>>>导出excel表格设置
-			        showExport: true,              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
-			        exportDataType:"basic",             //basic', 'all', 'selected'.
-			        exportTypes:['doc','excel'],	    //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
-			        //exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
-			        exportOptions:{  //导出参数
-			            ignoreColumn: [0,0],            //忽略某一列的索引  
-			            fileName: '数据导出',              //文件名称设置  
-			            worksheetName: 'Sheet1',          //表格工作区名称  
-			            tableName: '数据导出表',  
-			            excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],  
-			            //onMsoNumberFormat: DoOnMsoNumberFormat  
-			        },
-			      	//导出excel表格设置<<<<<<<<<<<<<<<<
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					pagination: true,
 					columns: columnsArray
 				});
@@ -537,6 +537,10 @@ function getMaterialInventoryStatistics() {
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
+	});
 
 	var endTime = new Date(document.getElementById("endTime").value);
 	endTime.setDate(endTime.getDate() + 1)
@@ -561,7 +565,7 @@ function getMaterialInventoryStatistics() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: false,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -620,13 +624,17 @@ function getSecondaryMaterialInventoryStatistics() {
 		"title": "线边仓数量",
 		"field": "onlineNum"
 	});
-//	columnsArray.push({
-//		"title": "当日报修数量",
-//		"field": "todayRepair"
-//	});
+	//	columnsArray.push({
+	//		"title": "当日报修数量",
+	//		"field": "todayRepair"
+	//	});
 	columnsArray.push({
 		"title": "盘点时间",
 		"field": "updateTime"
+	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
 	});
 	var endTime = new Date(document.getElementById("endTime").value);
 	endTime.setDate(endTime.getDate() + 1)
@@ -650,7 +658,7 @@ function getSecondaryMaterialInventoryStatistics() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: false,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -1007,4 +1015,74 @@ function grantMaterialDetail() {
 			}
 		}
 	});
+}
+
+function changeMaterialInventory() {
+
+	if(!($("#labelMaterialInventory").html() == "MaterialInventoryStatistics" || $("#labelMaterialInventory").html() == "SecondaryMaterialInventoryStatistics")) {
+		alert("请先选择库存数据!");
+		return;
+	}
+
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	if(row[0].id.length < 4) {
+		alert("当前行数据无效,id不合法!" + row[0].id);
+		return;
+	}
+	$("#changeMaterialInventoryModelForm" + " #id").val(row[0].id);
+	$("#changeMaterialInventoryModelForm" + " #currentNum").val(row[0].currentNum);
+	$("#changeMaterialInventoryModelForm" + " #remarkOld").val(row[0].remark);
+	$("#changeMaterialInventoryModelForm" + " #remark").val('');
+	$("#myChangeModal").modal('show');
+}
+
+function saveMaterialInventory() {
+
+	if(!($("#labelMaterialInventory").html() == "MaterialInventoryStatistics" || $("#labelMaterialInventory").html() == "SecondaryMaterialInventoryStatistics")) {
+		alert("请先选择库存数据!");
+		return;
+	}
+	var remarkDetail = (new Date()).format("yyyy-MM-dd hh:mm") + " " + localStorage.username + " " + $("#changeMaterialInventoryModelForm" + " #remark").val() +
+		" \r\n " + $("#changeMaterialInventoryModelForm" + " #remarkOld").val()
+	var formData = new FormData();
+
+	formData.append("id", $("#changeMaterialInventoryModelForm" + " #id").val());
+	formData.append("currentNum", $("#changeMaterialInventoryModelForm" + " #currentNum").val());
+	formData.append("remark", remarkDetail);
+	formData.append("type", $("#labelMaterialInventory").html());
+	$.ajax({
+		url: window.serviceIP + "/api/material/changematerialinventorydata",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				if($("#labelMaterialInventory").html() == "MaterialInventoryStatistics") {
+					getMaterialInventoryStatistics();
+				}
+				if($("#labelMaterialInventory").html() == "SecondaryMaterialInventoryStatistics") {
+					getSecondaryMaterialInventoryStatistics();
+				}
+				alert('修改成功!');
+				$("#myChangeModal").modal('hide');
+			} else {
+				alert("修改失败！" + data.message);
+			}
+		}
+	});
+}
+
+function closeMaterialInventoryModel() {
+	$("#myChangeModal").modal('hide');
 }
