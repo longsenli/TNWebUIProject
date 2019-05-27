@@ -530,8 +530,12 @@ function addOrderIDToBatchTable(orderID) {
 		"orderID": orderID,
 		"status": "",
 		"returnMessage": ""
-	}
-	$("#table").bootstrapTable('append', _data); //_data----->新增的数据
+	} 
+	$('#table').bootstrapTable('prepend', _data);
+	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
+	setTimeout(function() {
+					scanQR('5');
+	}, 2000); 
 }
 
 function grantMaterialByBatch(grantType) {
