@@ -181,7 +181,7 @@ function workLocationDatatbleFun() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
-					singleSelect: true,
+					singleSelect: false,
 					clickToSelect: true,
 					sortName: "recordTime",
 					sortOrder: "desc",
@@ -221,10 +221,11 @@ function selectedWorkLocationRow(param) {
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workLocation_edit") {
-		if(row.length < 1) {
-			alert("请选择行数据!");
-			return;
-		}
+		if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+
 		for(var key in row[0]) {
 			if(key == 0) {
 				continue;
@@ -240,10 +241,11 @@ function selectedWorkLocationRow(param) {
 
 		$('#myModal').modal('show');
 	} else if(optionType == "workLocation_delete") {
-		if(row.length < 1) {
-			alert("请选择行数据!");
-			return;
-		}
+		if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+
 		deleteWorkLocationInfo(row[0]["id"]);
 	}
 }
@@ -303,3 +305,52 @@ function addWorkLocationInfo() {
 		}
 	});
 };
+
+
+function printLocation() {
+	//createQRCode();
+	//	var img = document.getElementById("QRImage"); /// get image element
+	//	var canvas = document.getElementsByTagName("canvas")[0]; /// get canvas element
+	//	img.src = canvas.toDataURL("image/png"); /// update image
+
+	var selectRow = $("#table").bootstrapTable('getSelections');
+	
+	//var arrayObj = new Array();
+	for(var i = 0; i < selectRow.length; i++) {
+		//console.log("dayin");
+
+		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
+		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
+		LODOP.ADD_PRINT_BARCODE(15, 70, 120, 120, "QRCode", selectRow[i].id);
+
+		LODOP.ADD_PRINT_TEXT(133, 60, 200, 250, selectRow[i].id ); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		
+		LODOP.ADD_PRINT_TEXT(152, 60, 200, 250, selectRow[i].name); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+//
+//		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+//		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
+
+//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+//
+//		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialname + " * " + selectRow[i].productionnum); //增加纯文本项
+//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
+		//LODOP.PREVIEW();
+		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
+	}
+}

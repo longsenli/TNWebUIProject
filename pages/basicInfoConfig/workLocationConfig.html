@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/basicinfo/workLocationConfig.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
@@ -99,6 +100,9 @@
             </button>
 			<button id="workLocation_delete" type="button" class="btn btn-default" onclick="selectedWorkLocationRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
+            </button>
+            <button id="workLocation_print" type="button" class="btn btn-default" onclick="printLocation()">
+                <span class="glyphicon glyphicon-print" aria-hidden="true" ></span>打印工位信息
             </button>
 		</div>
 		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
