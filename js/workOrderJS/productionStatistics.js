@@ -1037,7 +1037,7 @@ function changeMaterialInventory() {
 	}
 	$("#changeMaterialInventoryModelForm" + " #id").val(row[0].id);
 	$("#changeMaterialInventoryModelForm" + " #currentNum").val(row[0].currentNum);
-	$("#changeMaterialInventoryModelForm" + " #remarkOld").val(row[0].remark);
+	$("#changeMaterialInventoryModelForm" + " #remarkOld").val(row[0].remark +" ###### " + row[0].currentNum);
 	$("#changeMaterialInventoryModelForm" + " #remark").val('');
 	$("#myChangeModal").modal('show');
 }
@@ -1048,10 +1048,16 @@ function saveMaterialInventory() {
 		alert("请先选择库存数据!");
 		return;
 	}
-	var remarkDetail = (new Date()).format("yyyy-MM-dd hh:mm") + " " + localStorage.username + " " + $("#changeMaterialInventoryModelForm" + " #remark").val() +
-		" \r\n " + $("#changeMaterialInventoryModelForm" + " #remarkOld").val()
+	if($("#changeMaterialInventoryModelForm" + " #remark").val().length < 2)
+	{
+		alert("请在备注中输入修改原因!")
+		return;
+	}
+	var remarkDetail = (new Date()).format("yyyy-MM-dd hh:mm") + " " + localStorage.username + ","+ $("#changeMaterialInventoryModelForm" 
+	+ " #remarkOld").val().split("######")[1] +
+	"修改为" + $("#changeMaterialInventoryModelForm" + " #currentNum").val() +",原因: "+ $("#changeMaterialInventoryModelForm" + " #remark").val() +
+		". \r\n  " + $("#changeMaterialInventoryModelForm" + " #remarkOld").val().split("######")[0]
 	var formData = new FormData();
-
 	formData.append("id", $("#changeMaterialInventoryModelForm" + " #id").val());
 	formData.append("currentNum", $("#changeMaterialInventoryModelForm" + " #currentNum").val());
 	formData.append("remark", remarkDetail);

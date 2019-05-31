@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>充电记录管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/chargePackManageJS/batteryGearMark.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			batteryGearMarkIndustrialPlantSlctFun();
+			$(function() {
+
+				var today = new Date();
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+			});
+
+			$(function() {
+				$("body").delegate('#table tr', 'click', function() {
+					batteryGearMarkRowClick(this);
+				});
+			});
+		</script>
+
+		<div id="container" class="effect aside-float aside-bright mainnav-lg">
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="panel">
+									<!--<div class="panel-heading">
+										<h3 class="panel-title">物料退返</h3>
+									</div>-->
+									<div class="panel-body">
+
+										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+											<div class="form-inline row">
+
+												<div class="form-group">
+													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="batteryGearMarkProductionLineSlctFun()">
+													</select>
+												</div>
+												<div class="form-group">
+
+													<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="batteryGearMarkWorkingLocationSlctFun()">
+													</select>
+												</div>
+												<div class="form-group">
+
+													<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
+													</select>
+												</div>
+												<div class="form-group">
+
+													<select class="selectpicker" id="workingkLocationAltitudeSlct" style="width:100px;" name="workingkLocationAltitudeSlct">
+														<option value=1>上层</option>
+														<option value=2>中层</option>
+														<option value=3>下层</option>
+													</select>
+												</div>
+												<div class="form-group">
+
+													<input type="date" id="startTime" name="startTime" />
+												</div>
+
+												<!--<label>-</label>
+				<input type="date" id="endTime" name="endTime" />-->
+												<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+											</div>
+											<br />
+										</form>
+
+										<div class=" form-inline row">
+											<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getBatteryGearRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>档位信息查询
+            </button>
+											<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="startVoiceBroadcast('1')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>从头语音播报
+            </button>
+											<button id="statusVoiceBroadcastButton" style="margin-top: 10px;" type="button" class="btn btn-success" onclick="stopVoiceBroadcast()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>暂停
+            </button>
+											<label id="statusVoiceBroadcastLabel" style="display: none;">stop</label>
+											<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="selectedRowBeginVoiceBroadcast()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>从选定行播报
+            </button>
+											<label style="margin-top: 10px;">语速(1为正常语速，可输入0至10，2表示正常语速的两倍。)</label>
+											<input type="text" style="margin-top: 10px;" class="form-control" value="0.8" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="speekRate" name="speekRate">
+
+										</div>
+										<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>
