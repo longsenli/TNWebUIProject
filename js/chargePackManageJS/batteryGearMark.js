@@ -247,6 +247,15 @@ columnsArray.push({
 		"title": "序号",
 		"field": "sequencenumbers"
 	});
+	
+	columnsArray.push({
+		"title": "分组",
+		"field": "dischargetimegroup"
+	});
+	columnsArray.push({
+		"title": "档位",
+		"field": "voltagegroup"
+	});
 	columnsArray.push({
 		"title": "回路",
 		"field": "loopnumber"
@@ -256,18 +265,12 @@ columnsArray.push({
 		"field": "dischargetimestring"
 	});
 
-	columnsArray.push({
-		"title": "时长分组",
-		"field": "dischargetimegroup"
-	});
+	
 	columnsArray.push({
 		"title": "放电电压",
 		"field": "realvoltage"
 	});
-	columnsArray.push({
-		"title": "电压分组",
-		"field": "voltagegroup"
-	});
+	
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());

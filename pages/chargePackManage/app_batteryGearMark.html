@@ -10,6 +10,8 @@
 				color: black;
 			}
 		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -42,7 +44,7 @@
 			$(function() {
 
 				var today = new Date();
-				today.setDate(today.getDate() - 1)
+				//today.setDate(today.getDate() - 1)
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 
 			});
@@ -121,8 +123,8 @@
 											<input type="text" style="margin-top: 10px;" class="form-control" value="0.8" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="speekRate" name="speekRate">
 
 										</div>
-										<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-										</table>
+										<table id="table" style="word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+											</table>
 
 									</div>
 								</div>
