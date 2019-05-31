@@ -373,6 +373,7 @@ function startVoiceBroadcast(type) {
 			speech.volume = 1;
 			speech.rate = $("#speekRate").val();  //0.8
 			speech.pitch = 1;
+			speech.lang = 'zh-CN';
 		} else {
 			lastLoopnumber = dataTable[i].loopnumber;
 			speech.text = " ,回路, " + dataTable[i].loopnumber + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " + dataTable[i].dischargetimegroup +
@@ -380,10 +381,11 @@ function startVoiceBroadcast(type) {
 			speech.volume = 1;
 			speech.rate = $("#speekRate").val() - 0.2;
 			speech.pitch = 1;
+			speech.lang = 'zh-CN';
 		}
-		console.log(speech.text);
+		//console.log(speech.text);
 		speech.onstart = function(event) {
-			console.log('Finished in' + event + 'seconds。' + currentRowCount++);
+			currentRowCount++;
 		};
 
 		window.speechSynthesis.speak(speech);
