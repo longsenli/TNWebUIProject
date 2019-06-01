@@ -369,15 +369,40 @@ function startVoiceBroadcast(type) {
 		var speech = new SpeechSynthesisUtterance();
 		//设置朗读内容和属性
 		if(lastLoopnumber == dataTable[i].loopnumber) {
-			speech.text = " ,序号,  " + dataTable[i].sequencenumbers + " ,电压档位,  " + dataTable[i].voltagegroup;
+			speech.text = " ,序号,  " + dataTable[i].sequencenumbers + " ,电压档位,  " ;
+			if(dataTable[i].voltagegroup =='-1')
+			{
+				speech.text += "无分组";
+			}
+			else
+			{
+				speech.text += dataTable[i].voltagegroup ; 
+			}
 			speech.volume = 1;
 			speech.rate = $("#speekRate").val();  //0.8
 			speech.pitch = 1;
 			speech.lang = 'zh-CN';
 		} else {
 			lastLoopnumber = dataTable[i].loopnumber;
-			speech.text = " ,回路, " + dataTable[i].loopnumber + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " + dataTable[i].dischargetimegroup +
-				" ,电压档位,  " + dataTable[i].voltagegroup;
+			speech.text = " ,回路, " + dataTable[i].loopnumber + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " ;
+			
+			if(dataTable[i].dischargetimegroup =='-1')
+			{
+				speech.text += "无分组" +" ,电压档位,  " 
+			}
+			else
+			{
+				speech.text += dataTable[i].dischargetimegroup +" ,电压档位,  "  ; 
+			}
+			
+			if(dataTable[i].voltagegroup =='-1')
+			{
+				speech.text += "无分组"
+			}
+			else
+			{
+				speech.text += dataTable[i].voltagegroup ; 
+			}
 			speech.volume = 1;
 			speech.rate = $("#speekRate").val() - 0.2;
 			speech.pitch = 1;
