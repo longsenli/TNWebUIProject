@@ -1005,11 +1005,16 @@ function printQRCode() {
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(60, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
+		LODOP.ADD_PRINT_TEXT(130, 140, 130, 100, "员工签名:"); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		
 		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
 		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
