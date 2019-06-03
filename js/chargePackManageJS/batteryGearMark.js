@@ -45,7 +45,7 @@ function batteryGearMarkIndustrialPlantSlctFun() {
 
 function batteryGearMarkProductionLineSlctFun() {
 	var daySelect = new Date(document.getElementById("startTime").value);
-	daySelect.setDate(daySelect.getDate() - 2);
+	daySelect.setDate(daySelect.getDate() - 5);
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -111,7 +111,7 @@ function batteryGearMarkProductionLineSlctFun() {
 
 function batteryGearMarkWorkingLocationSlctFun() {
 	var daySelect = new Date(document.getElementById("startTime").value);
-	daySelect.setDate(daySelect.getDate() - 2);
+	daySelect.setDate(daySelect.getDate() - 5);
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
@@ -369,7 +369,8 @@ function startVoiceBroadcast(type) {
 		var speech = new SpeechSynthesisUtterance();
 		//设置朗读内容和属性
 		if(lastLoopnumber == dataTable[i].loopnumber) {
-			speech.text = " ,序号,  " + dataTable[i].sequencenumbers + " ,电压档位,  " ;
+			//speech.text = " ,序号,  " + dataTable[i].sequencenumbers + " ,电压档位,  " ;
+			speech.text =  " ,电压档位,  " ;
 			if(dataTable[i].voltagegroup =='-1')
 			{
 				speech.text += "无分组";
