@@ -2420,7 +2420,8 @@
 					"pages/chargePackManage/app_chargingRackRecord.html",
 					"pages/chargePackManage/app_tidyBatteryRecord.html",
 					"pages/workOrder/app_grantMaterialManage.html",
-					"pages/chargePackManage/app_batteryGearMark.html"
+					"pages/chargePackManage/app_batteryGearMark.html",
+					"pages/workOrder/app_materialWarehouseConfirm.html"
 				],
 				"priority": 0
 			},
@@ -2502,6 +2503,13 @@
 				"priority": 0
 			},
 			"pages/workOrder/app_grantMaterialManage.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/app_materialWarehouseConfirm.html": {
 				"resources": [],
 				"refer": [
 					"pages/workOrder/barcode_scan.html"

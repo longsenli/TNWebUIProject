@@ -434,11 +434,25 @@ function getOrderInfoDetail() {
 		}
 	});
 	columnsArray.push({
-		"title": "出库人员",
+		"title": "发料人员",
+		"field": "grantOperator"
+	});
+	columnsArray.push({
+		"title": "发料时间",
+		"field": "grantTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			}
+		}
+	});
+	
+	columnsArray.push({
+		"title": "投料人员",
 		"field": "outputer"
 	});
 	columnsArray.push({
-		"title": "出库时间",
+		"title": "投料时间",
 		"field": "outputTime",
 		formatter: function(value, row, index) {
 			if(value) {
