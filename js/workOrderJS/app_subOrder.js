@@ -394,7 +394,6 @@ function finishSubOrderByQR(qrCode, orderType) {
 	});
 
 	$.ajax({
-
 		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType
 		+"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
 		+"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),

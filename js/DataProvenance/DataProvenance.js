@@ -141,50 +141,30 @@ function findDataProvenanceByQR(recordID) {
 	columnsArray.push({
 		checkbox: true
 	});
+
 	columnsArray.push({
-		"title": "物料号",
-		"field": "materialid",
-		visible: false
+		"title": "物料工单",
+		"field": "subOrderID"
 	});
 	columnsArray.push({
 		"title": "物料名称",
-		"field": "materialName"
+		"field": "materialNameInfo"
 	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "orderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "物料工单",
-		"field": "inOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "inSubOrderName"
-	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "suborderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
+
 	columnsArray.push({
 		"title": "入库人员",
 		"field": "inputer"
 	});
 	columnsArray.push({
 		"title": "入库时间",
-		"field": "inputtime"
+		"field": "inputTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return window.stringToDatetimeLocalType(value,"yyyy-MM-dd hh:mm:ss");
+			}
+		}
 	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
+
 	$.ajax({
 		url: window.serviceIP + "/api/dataprovenance/getprovenancebyorderid?orderID=" + recordID,
 		type: "GET",
