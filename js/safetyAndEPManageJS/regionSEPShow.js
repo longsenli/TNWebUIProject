@@ -95,12 +95,12 @@ function innitCavas() {
 						//设置线条颜色为蓝色
 						ctx.strokeStyle = models[i].outlinecolor;
 						//设置路径起点坐标
-						console.log(locationSplit[0] * widthCvs + "=======" + locationSplit[1] * heightCvs)
+						//console.log(locationSplit[0] * widthCvs + "=======" + locationSplit[1] * heightCvs)
 						ctx.moveTo(locationSplit[0] * widthCvs, locationSplit[1] * heightCvs);
 
 						for(var j = 2; j < locationSplit.length; j += 2) {
 							//绘制直线线段到坐标点(60, 50)
-							console.log(locationSplit[j] * widthCvs + "=======" + locationSplit[j + 1] * heightCvs)
+							//console.log(locationSplit[j] * widthCvs + "=======" + locationSplit[j + 1] * heightCvs)
 							ctx.lineTo(locationSplit[j] * widthCvs, locationSplit[j + 1] * heightCvs);
 						}
 						ctx.lineTo(locationSplit[0] * widthCvs, locationSplit[1] * heightCvs);
@@ -112,22 +112,22 @@ function innitCavas() {
 						ctx.stroke();
 						ctx.fillStyle = models[i].fillcolor;
 						ctx.fill();
-
+						ctx.fillStyle = "black";
+						ctx.font = "20px Georgia";
+						ctx.fillText(models[i].showname, locationSplit[0] * widthCvs + 5, locationSplit[1] * heightCvs + 30);
 					}
-
 				}
-				
-				// 监听画布
-	canvas.addEventListener("mousemove" , function(e){
-		// 鼠标x轴 >= 矩阵x轴 && 鼠标x轴 <= 矩阵x轴 + 矩阵宽度
-		// 鼠标y轴 >= 矩阵y轴 && 鼠标y轴 <= 矩阵y轴 + 矩阵高度
-		if(e.layerX >= 4 && e.layerX <= 4  && e.layerY >= 4 && e.layerY <= 4 ){
-			alert("black");
-		}else{
-			alert("red");
-		}
-	});
 
+				// 监听画布
+				canvas.addEventListener("mousemove", function(e) {
+					// 鼠标x轴 >= 矩阵x轴 && 鼠标x轴 <= 矩阵x轴 + 矩阵宽度
+					// 鼠标y轴 >= 矩阵y轴 && 鼠标y轴 <= 矩阵y轴 + 矩阵高度
+					if(e.layerX >= 4 && e.layerX <= 4 && e.layerY >= 4 && e.layerY <= 4) {
+						//alert("black");
+					} else {
+						//alert("red");
+					}
+				});
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
