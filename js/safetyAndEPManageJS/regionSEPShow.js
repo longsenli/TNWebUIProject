@@ -86,9 +86,8 @@ function innitCavas() {
 				if(canvas.getContext) {
 					//获取对应的CanvasRenderingContext2D对象(画笔)
 					var ctx = canvas.getContext("2d");
-					console.log(models);
+					//console.log(models);
 					for (var  i  in  models)  {  
-
 						var locationSplit = models[i].shapedrawparam.split(',');
 						//开始一个新的绘制路径
 						ctx.beginPath();

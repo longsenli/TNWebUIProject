@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>消息推送分组</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/notificationManageJS/notificationGroupManage.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<!--	<div class="container">-->
+		<script type="text/javascript ">
+			selectNotificationGroup();
+
+			$(function() {
+				$('#myModal').on('hide.bs.modal',
+					function() {
+						$("#notificationGroupForm")[0].reset();
+					})
+			});
+			
+			$(function() {
+				$("body").delegate('#table tr', 'click', function() {
+					notificationGroupRowClick(this);
+				});
+			});
+		</script>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 推送信息分组 </h4>
+					</div>
+					<div class="modal-body" id="modal-body">
+						<form id="notificationGroupForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="operatorid" name="operatorid" style="display:none" />
+							<input type="text" id="updatetime" name="updatetime" style="display:none" />
+							<input type="text" id="status" name="status" style="display:none" />
+							<label for="name">分组名称:</label>
+							<input type="text" class="form-control" id="name" name="name" placeholder="请输入分组名称">
+							<label for="name">简介:</label>
+							<input type="text" class="form-control" id="introduction" name="introduction" placeholder="请输入简介">
+							<label for="name">排列顺序:</label>
+							<input type="text" class="form-control" id="sortnum" name="sortnum" placeholder="请输入排列次序">
+							<label for="name">推送方式:</label>
+							<input type="text" class="form-control" id="grouptype" name="grouptype" placeholder="请输入推送方式">
+							<label for="name">修改人:</label>
+							<input type="text" readonly="readonly"  class="form-control" id="operatorname" name="operatorname" >
+							<label for="name">备注:</label>
+							<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="saveNotificationGroupInfo()">保存 </button>
+						<button type="button" class="btn btn-default" onclick="closecNotificationGroupInfo()">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<div id="toolbar" class="btn-group">
+			<button id="addRow" type="button" class="btn btn-default" onclick="selectedNotificationGroupRow(this)">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+			<button id="editRow" type="button" class="btn btn-default" onclick="selectedNotificationGroupRow(this)">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+            </button>
+			<button id="deleteRow" type="button" class="btn btn-default" onclick="selectedNotificationGroupRow(this)">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除
+            </button>
+		</div>
+		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+		<!--	</div>-->
+	</body>
+
+</html>
