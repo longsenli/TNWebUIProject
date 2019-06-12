@@ -355,6 +355,30 @@ function batteryGearMarkRowClick(row) {
 }
 var currentRowCount = 0;
 
+function intmapstring(number)
+{
+	if(number == "1")
+	return '一';
+	if(number == "2")
+	return '二';
+	if(number == "3")
+	return '三';
+	if(number == "4")
+	return '四';
+	if(number == "5")
+	return '五';
+	if(number == "6")
+	return '六';
+	if(number == "7")
+	return '七';
+	if(number == "8")
+	return '八';
+	if(number == "9")
+	return '九';
+	if(number == "0")
+	return '零';
+	return number;
+}
 //1从头播放  2指定位置播放
 function startVoiceBroadcast(type) {
 	var dataTable = $('#table').bootstrapTable('getData', false);
@@ -370,7 +394,7 @@ function startVoiceBroadcast(type) {
 		//设置朗读内容和属性
 		if(lastLoopnumber == dataTable[i].loopnumber) {
 			//speech.text = " ,序号,  " + dataTable[i].sequencenumbers + " ,电压档位,  " ;
-			speech.text =  " ,电压档位,  " ;
+			speech.text =  " ,  " ;
 			if(dataTable[i].voltagegroup =='-1')
 			{
 				speech.text += "无分组";
@@ -413,7 +437,10 @@ function startVoiceBroadcast(type) {
 		speech.onstart = function(event) {
 			currentRowCount++;
 		};
-
+if($("#statusVoiceBroadcastLabel").html() == "continue") {
+		$("#statusVoiceBroadcastLabel").html("stop");
+		$("#statusVoiceBroadcastButton").html("<span class='glyphicon glyphicon-ok-circle' aria-hidden='true'></span>暂停");
+	}
 		window.speechSynthesis.speak(speech);
 		//console.log("123123" + window.speechSynthesis);
 	}
