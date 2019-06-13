@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>隐患排查</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/safetyAndEPManageJS/hiddenDangerManage.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript ">
+			hiddenDangerManagePlantSlctFun();
+			$(function() {
+				$('#myReportModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("hiddenDangerManageRecordReportForm").reset();
+						document.getElementById("myReportModalPictureUpload").reset();
+					});
+				$('#myDealModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("hiddenDangerManageRecordDealForm").reset();
+						document.getElementById("myDealModalPictureUpload").reset();
+					})
+				$("body").delegate('#table tr', 'click', function() {
+					hiddenDangerManageRecordRowClick(this);
+				});
+				var today = new Date();
+
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+			});
+		</script>
+
+		<form ID="hiddenDangerSelectForm" name="hiddenDangerSelectForm">
+			<div class="form-inline row">
+
+				<label> 厂区： </label>
+				<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
+				</select>
+				<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
+					<option value='-1'>全部</option>
+					<option value='Ⅴ级'>Ⅴ级</option>
+					<option value='Ⅳ级'>Ⅳ级</option>
+					<option value='Ⅲ级'>Ⅲ级</option>
+					<option value='Ⅱ级'>Ⅱ级</option>
+					<option value='Ⅰ级'>Ⅰ级</option>
+				</select>
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+
+		<div class=" form-inline row">
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getHiddenDangerManageRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>隐患查询
+            </button>
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="addHiddenDangerManageRecord('workbenchHistory')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>添加隐患
+           </button>
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="dealHiddenDangerManageRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>隐患处理
+           </button>
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="deleteHiddenDangerManageRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>删除隐患
+          </button>
+		</div>
+
+		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myReportModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 隐患排查登记 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="hiddenDangerManageRecordReportForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="reporter" name="reporter" style="display:none" />
+							<input type="text" id="reporttime" name="reporttime" style="display:none" />
+							<select class="selectpicker" id="dangerlevel" style="margin-top: 10px;" name="dangerlevel">
+								<option value='Ⅴ级'>Ⅴ级</option>
+								<option value='Ⅳ级'>Ⅳ级</option>
+								<option value='Ⅲ级'>Ⅲ级</option>
+								<option value='Ⅱ级'>Ⅱ级</option>
+								<option value='Ⅰ级'>Ⅰ级</option>
+							</select>
+							<br />
+							<br />
+							<select class="selectpicker" id="hiddendangertype" style="margin-top: 10px;" name="hiddendangertype">
+								<option value='设备类'>设备类</option>
+								<option value='防护类'>防护类</option>
+								<option value='其他'>其他</option>
+							</select>
+							<br />
+							<br />
+							<select class="selectpicker" id="plantid" style="margin-top: 10px;" name="plantid">
+							</select>
+							<br />
+							<br />
+							<div class="form-inline row">
+								<label for="name">具体位置:</label>
+								<input type="text" class="form-control" id="areaid" name="areaid" placeholder="请输入具体位置">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">隐患描述:</label>
+								<input type="text" class="form-control" id="hiddendanger" name="hiddendanger" placeholder="请输入隐患描述">
+							</div>
+							<br />
+
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />
+						</form>
+						<form id="myReportModalPictureUpload">
+							<div class="form-inline row">
+								<label>上传图片：</label>
+								<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveHiddenDangerManageRecordModel('myReportModal','hiddenDangerManageRecordReportForm')">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeHiddenDangerManageRecordModel('myReportModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myDealModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 隐患排查处理 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="hiddenDangerManageRecordDealForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="dealtime" name="dealtime" style="display:none" />
+							<div class="form-inline row">
+								<label for="name">处理内容:</label>
+								<input type="text" class="form-control" id="dealinfo" name="dealinfo" placeholder="请输入处理内容">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">处理人员:</label>
+								<input type="text" class="form-control" id="dealstaff" name="dealstaff" placeholder="请输入处理人员">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />
+						</form>
+						<form id="myDealModalPictureUpload">
+							<div class="form-inline row">
+								<label>上传图片：</label>
+								<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveHiddenDangerManageRecordModel('myDealModal','hiddenDangerManageRecordDealForm')">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeHiddenDangerManageRecordModel('myDealModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>
