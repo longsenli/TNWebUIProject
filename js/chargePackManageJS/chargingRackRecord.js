@@ -805,6 +805,7 @@ function openBarcodeCustom() {
 }
 
 function recognitionQR(webName, qrCode) {
+
 	if(webName == 'chargingRackID')
 		workLocationChangeByQR(qrCode);
 }
@@ -812,37 +813,45 @@ function recognitionQR(webName, qrCode) {
 function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
-//$("#weatherType").selectpicker('deselectAll');
-	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
-	
-	for(var j = 0; j < workingkLocationSlct.length; j++) {
-
-		$(workingkLocationSlct[j]).removeAttr("selected");
-		if($(workingkLocationSlct[j]).val().toString() == qrCode) {
-			$(workingkLocationSlct[j]).attr("selected", "true");
-			selected = true;
-			//break;
-		}
-	}
-
-	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
-	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
-		$(numbersWorkingkLocationSlct[j]).removeAttr("selected");
-		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
-			$(numbersWorkingkLocationSlct[j]).attr("selected", "true");
-			selected = true;
-		}
-	}
-	if(selected) {
-
-		$('#worklocation').selectpicker('refresh');
-		$('#worklocation').selectpicker('render'); 
-		$('#workingkLocationSlct').selectpicker('refresh');
+$('#workingkLocationSlct').selectpicker('val',qrCode);
+$('#workingkLocationSlct').selectpicker('refresh');
 		$('#workingkLocationSlct').selectpicker('render'); 
-		getOnRackRecord('onRack');
-	} else {
-		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
-	}
+ //console.log($("#workingkLocationSlct").val())
+		// $('#workingkLocationSlct').selectpicker('render'); 
+//$("#weatherType").selectpicker('deselectAll'); 
+//	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
+//	console.log(qrCode + "  befor " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+//	for(var i = 0; i < workingkLocationSlct.length; i++) {
+//
+//		//$(workingkLocationSlct[i]).removeAttr("selected");
+//		
+//		if($(workingkLocationSlct[i]).val().toString() == qrCode) {
+//			
+//			$(workingkLocationSlct[i]).attr("selected", "true");
+//			console.log(qrCode + " new  ");
+//			selected = true;
+//			//break;
+//		}
+//	}
+
+//	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
+//	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
+//		$(numbersWorkingkLocationSlct[j]).removeAttr("selected");
+//		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
+//			$(numbersWorkingkLocationSlct[j]).attr("selected", "true");
+//			selected = true;
+//		}
+//	}
+//	if(selected) {
+//console.log(qrCode + "  real " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+////		$('#worklocation').selectpicker('refresh');
+////		$('#worklocation').selectpicker('render'); 
+//		$('#workingkLocationSlct').selectpicker('refresh');
+//		$('#workingkLocationSlct').selectpicker('render'); 
+//		getOnRackRecord('onRack');
+//	} else {
+//		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
+//	}
 
 }
 //		<!-- 模态框（Modal） -->
