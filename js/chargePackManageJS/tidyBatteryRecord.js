@@ -301,10 +301,10 @@ function getTidyRecord(selectType) {
 		"field": "repaircombine"
 	});
 
-	columnsArray.push({
-		"title": "备注",
-		"field": "remark"
-	});
+	//	columnsArray.push({
+	//		"title": "备注",
+	//		"field": "remark"
+	//	});
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -439,7 +439,7 @@ function getPileRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "状态",
-		"field": "remark",
+		"field": "status",
 		formatter: function(value, row, index) {
 			if(value == '1') {
 				return '在库中';
@@ -546,14 +546,14 @@ function printPileQR() {
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
 		LODOP.ADD_PRINT_BARCODE(20, 20, 100, 100, "QRCode", selectRow[i].id);
 
-		LODOP.ADD_PRINT_TEXT(120, 5, 160, 50, selectRow[i].id); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(120, 5, 150, 50, selectRow[i].id); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
 		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
 
@@ -561,9 +561,14 @@ function printPileQR() {
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialname + " * " + selectRow[i].productionnum); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(55, 160, 130, 100, selectRow[i].remark); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(80, 160, 130, 100, selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
 		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
@@ -673,7 +678,7 @@ function addPileRecord() {
 	$("#tidyBatteryPileForm" + " #id").val(row[0].id);
 	$("#tidyBatteryPileForm" + " #currentnum").val(row[0].currentnum);
 
-	$("#tidyBatteryPileForm" + " #remark").val(row[0].remark);
+	//$("#tidyBatteryPileForm" + " #remark").val(row[0].remark);
 	//	if(row[0].remark) {
 	//		if(row[0].remark.length > 50) {
 	//			$("#tidyBatteryRecordChangeForm" + " #remark").height((row[0].remark.length % 50) * 20);
@@ -946,6 +951,73 @@ function openBarcodeCustom() {
 }
 
 function recognitionQR(webName, qrCode) {
-	if(webName == 'materialReturn')
-		getOrderInfoDetail(qrCode);
+	if(webName == 'package')
+		showPackageInput(qrCode);
+}
+
+function showPackageInput(pileID) {
+	pileID = '20190526140018670016';
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/getpilerecordbypileid?id=" + pileID,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				var models = eval("(" + data.data + ")");
+				if(models[0].status == '2') {
+					alert("该二维码已经包装,请确认!");
+					return;
+				}
+				$("#tidyBatteryPilePackageForm" + " #id").val(pileID);
+				$("#tidyBatteryPilePackageForm" + " #totalNum").val(models[0].productionnumber);
+				$("#tidyBatteryPilePackageForm" + " #packageNum").val(models[0].productionnumber);
+				$("#myPackageModalSaveButton").attr('disabled', false);
+				$("#myPackageModal").modal('show');
+
+			} else {
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+			}
+			//disableChangeButton(modelID + "SaveButton", false);
+		}
+	});
+}
+
+function savePackageInput() {
+	$("#myPackageModalSaveButton").attr('disabled', true);
+	var formData = new FormData($("#tidyBatteryPilePackageForm")[0]);
+	if(parseInt(formData['totalNum']) - parseInt(formData['packageNum']) < 0) {
+		$("#myPackageModalSaveButton").attr('disabled', false);
+		alert("包装数量应小于等于总数量!");
+		return;
+	}
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/expendpilebatterybypackage",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				$("#myPackageModalSaveButton").attr('disabled', false);
+				$("#myPackageModal").modal('hide');
+				alert("扫码成功!");
+			} else {
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+			}
+			//disableChangeButton(modelID + "SaveButton", false);
+		}
+	});
 }

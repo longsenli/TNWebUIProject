@@ -141,6 +141,9 @@
 											<button id="tidyBatteryRecordFinishScanQRBT" style="margin-top: 10px;" type="button" class="btn btn-info" onclick="addPileRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池打堆
            </button>
+											<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="scanQR('package')">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>包装扫码
+           </button>
 										</div>
 										<table id="table" style="word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 										</table>
@@ -177,22 +180,22 @@
 																<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
 															</div>
 															<br />
-															<div class="form-inline row">
+															<div class="form-inline row" style="display:none">
 																<label for="name">报修人员:</label>
 																<input type="text" readonly="readonly" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<div class="form-inline row" style="display:none">
 																<label for="name">报修时间:</label>
 																<input type="text" readonly="readonly" class="form-control" id="repairtime" name="repairtime">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<div class="form-inline row" style="display:none">
 																<label for="name">总报修记录:</label>
 																<input type="text" style="word-break:break-all" readonly="readonly" class="form-control" id="repaircombine" name="repaircombine" placeholder="请输入总报修记录">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<div class="form-inline row" style="display:none">
 																<label for="name">备注:</label>
 																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
 															</div>
@@ -211,7 +214,7 @@
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="myChangeModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-											<div class="modal-dialog" >
+											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
 														<button type="button" class="close" data-dismiss="modal">x</button>
@@ -242,17 +245,17 @@
 																<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="backtochargenum" name="backtochargenum" placeholder="请输入返充数量">
 															</div>
 															<br />
-															<div class="form-inline row">
+															<div class="form-inline row" style="display:none">
 																<label for="name">修改人员:</label>
 																<input type="text" readonly="readonly" class="form-control" id="operatorname" name="operatorname" placeholder="请输入修改人员">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<div class="form-inline row" style="display:none">
 																<label for="name">修改时间:</label>
 																<input type="text" readonly="readonly" class="form-control" id="operatortime" name="operatortime">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<div class="form-inline row" style="display:none">
 																<label for="name">备注:</label>
 																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
 															</div>
@@ -271,7 +274,7 @@
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="myPileModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-											<div class="modal-dialog" >
+											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
 														<button type="button" class="close" data-dismiss="modal">x</button>
@@ -286,6 +289,13 @@
 																<label for="name">剩余数量:</label>
 																<input type="text" readonly="readonly" class="form-control" id="currentnum" name="currentnum">
 															</div>
+															<br />
+															<select class="selectpicker" id="remark" name="remark">
+																<option value='四只装'>四只装</option>
+																<option value='五只装'>五只装</option>
+																<option value='六只装'>六只装</option>
+															</select>
+															<br />
 															<br />
 															<div class="form-inline row">
 																<label for="name">打堆拖数:</label>
@@ -307,26 +317,66 @@
 																<input type="text" class="form-control" id="storeLocation" name="storeLocation" placeholder="请输入计划存放位置">
 															</div>
 															<br />
-															<div class="form-inline row">
+															<div class="form-inline row" style="display:none">
 																<label for="name">修改人员:</label>
 																<input type="text" readonly="readonly" class="form-control" id="operatorname" name="operatorname" placeholder="请输入修改人员">
 															</div>
 															<br />
-															<div class="form-inline row">
+															<div class="form-inline row" style="display:none">
 																<label for="name">修改时间:</label>
 																<input type="text" readonly="readonly" class="form-control" id="operatortime" name="operatortime">
 															</div>
-															<br />
-															<div class="form-inline row">
+
+															<!--<div class="form-inline row" >
 																<label for="name">备注:</label>
 																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
 															</div>
-															<br />
+													-->
 														</form>
 													</div>
 													<div class="modal-footer">
 														<button type="button" id="myPileModalSaveButton" class="btn btn-info" onclick="pileTidyBatteryRecord()">保存 </button>
 														<button type="button" class="btn btn-info" onclick="closeTidyBatteryRecordModel('myPileModal')">关闭 </button>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal -->
+										</div>
+
+										<!-- 模态框（Modal） -->
+										<div class="modal fade" id="myPackageModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+											<div class="modal-dialog" style="width:400px">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">x</button>
+														<h4 class="modal-title" id="myModalLabel"> 包装确认 </h4>
+													</div>
+													<div class="modal-body" id="modal-body" style="padding-left:20px;">
+														<form id="tidyBatteryPilePackageForm">
+															<input type="text" id="id" name="id" style="display:none" />
+
+															<div class="form-inline row">
+																<label for="name">电池数量:</label>
+																<input type="text" readonly="readonly" class="form-control" id="totalNum" name="totalNum">
+															</div>
+															<br />
+															<div class="form-inline row">
+																<label for="name">包装数量:</label>
+																<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="packageNum" name="packageNum" placeholder="请输入包装数量">
+															</div>
+															<br />
+
+															<!--<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />-->
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" id="myPackageModalSaveButton" class="btn btn-info" onclick="savePackageInput()">保存 </button>
+														<button type="button" class="btn btn-info" onclick="closeTidyBatteryRecordModel('myPackageModal')">关闭 </button>
 													</div>
 												</div>
 												<!-- /.modal-content -->
