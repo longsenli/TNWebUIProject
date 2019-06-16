@@ -816,6 +816,7 @@ function workLocationChangeByQR(qrCode) {
 $('#workingkLocationSlct').selectpicker('val',qrCode);
 $('#workingkLocationSlct').selectpicker('refresh');
 		$('#workingkLocationSlct').selectpicker('render'); 
+		getOnRackRecord('onRack');
  //console.log($("#workingkLocationSlct").val())
 		// $('#workingkLocationSlct').selectpicker('render'); 
 //$("#weatherType").selectpicker('deselectAll'); 
