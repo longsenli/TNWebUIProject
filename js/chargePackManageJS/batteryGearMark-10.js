@@ -411,7 +411,7 @@ function startVoiceBroadcast(type) {
 			lastLoopnumber = dataTable[i].loopnumber;
 			speech.text = " ,回路, " + dataTable[i].groupid  + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " ;
 			
-			if(dataTable[i].dischargetimegroup.indexOf('-') !='-1')
+			if(dataTable[i].dischargetimegroup < 0)
 			{
 				speech.text += "无分组," + dataTable[i].dischargetimegroup+" ,电压档位,  " 
 			}
