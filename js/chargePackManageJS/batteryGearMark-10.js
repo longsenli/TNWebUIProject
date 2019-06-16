@@ -1,6 +1,6 @@
 function batteryGearMarkIndustrialPlantSlctFun() {
 	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		url:  "http://10.0.0.151:19001/ilpsService/api/basicdata/getindustrialplant",
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -52,7 +52,7 @@ function batteryGearMarkProductionLineSlctFun() {
 	formData.append("startTime", daySelect.format("yyyy-MM-dd"));
 
 	$.ajax({
-		url: window.serviceIP + "/api/chargepack/getbatterygearlineinfo",
+		url: "http://10.0.0.151:19001/ilpsService/api/chargepack/getbatterygearlineinfo",
 		type: "POST",
 		data: formData,
 		//contentType: "application/json",
@@ -118,7 +118,7 @@ function batteryGearMarkWorkingLocationSlctFun() {
 	formData.append("startTime", daySelect.format("yyyy-MM-dd"));
 
 	$.ajax({
-		url: window.serviceIP + "/api/chargepack/getbatterygearlinelocationinfo",
+		url: "http://10.0.0.151:19001/ilpsService/api/chargepack/getbatterygearlinelocationinfo",
 		type: "POST",
 		data: formData,
 		//contentType: "application/json",
@@ -182,7 +182,7 @@ function batteryGearMarkMaterialSlct() {
 	//alert(document.planProductionManageForm.processid.value.toString());
 	$.ajax({
 
-		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+		url: "http://10.0.0.151:19001/ilpsService/api/basicdata/getmaterialbyprocess?processID=" +
 			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
 
@@ -218,7 +218,6 @@ function batteryGearMarkMaterialSlct() {
 }
 
 function getBatteryGearRecord(selectType) {
-
 
 	var columnsArray = [];
 	columnsArray.push({
@@ -270,6 +269,9 @@ function getBatteryGearRecord(selectType) {
 		"field": "dischargetimestring"
 	});
 
+	
+
+
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
@@ -278,7 +280,7 @@ function getBatteryGearRecord(selectType) {
 	formData.append("startTime", document.getElementById("startTime").value.toString());
 
 	$.ajax({
-		url: window.serviceIP + "/api/chargepack/getbatterygearrecordinfo",
+		url: "http://10.0.0.151:19001/ilpsService/api/chargepack/getbatterygearrecordinfo",
 		type: "POST",
 		data: formData,
 		processData: false,
@@ -407,9 +409,9 @@ function startVoiceBroadcast(type) {
 			speech.lang = 'zh-CN';
 		} else {
 			lastLoopnumber = dataTable[i].loopnumber;
-			speech.text = " ,回路, " + dataTable[i].groupid + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " ;
+			speech.text = " ,回路, " + dataTable[i].groupid  + " ,序号,  " + dataTable[i].sequencenumbers + " ,放电时长分组,  " ;
 			
-			if(dataTable[i].dischargetimegroup < 0)
+			if(dataTable[i].dischargetimegroup.indexOf('-') !='-1')
 			{
 				speech.text += "无分组," + dataTable[i].dischargetimegroup+" ,电压档位,  " 
 			}
@@ -443,7 +445,6 @@ if($("#statusVoiceBroadcastLabel").html() == "continue") {
 		//console.log("123123" + window.speechSynthesis);
 	}
 }
-
 
 function stopVoiceBroadcast() {
 	//$("#statusVoiceBroadcastLabel").html("continue");
