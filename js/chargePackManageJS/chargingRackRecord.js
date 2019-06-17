@@ -288,7 +288,10 @@ function getOnRackRecord(selectType) {
 		"title": "位置",
 		"field": "worklocation",
 		formatter: function(value, row, index) {
+			if(value != '总计')
 			return $("#workingkLocationSlct option[value='" + row.worklocation + "']").text();
+			else
+			return value;
 		}
 	});
 	columnsArray.push({
@@ -325,7 +328,10 @@ function getOnRackRecord(selectType) {
 		"field": "putondate",
 		formatter: function(value, row, index) {
 			if(value) {
+				if(value > '2019')
 				return value.toString().split(" ")[0];
+				else 
+				return '-';
 			}
 		}
 	});
@@ -346,7 +352,11 @@ function getOnRackRecord(selectType) {
 		"field": "pulloffdate",
 		formatter: function(value, row, index) {
 			if(value) {
+				
+				if(value > '2019')
 				return value.toString().split(" ")[0];
+				else 
+				return '-';
 			}
 
 		}
@@ -499,8 +509,13 @@ function repairChargingRackRecord() {
 	}
 
 	if(row[0].pulloffdate) {
-		alert("已下架电池不能添加报修!");
-		return;
+		var today = new Date();
+		if(row[0].pulloffdate.toString().split(" ")[0] != today.format("yyyy-MM-dd"))
+		{
+			alert("该记录不能修改!");
+			return;
+		}
+		
 	}
 	//console.log(row[0]);
 	$("#chargingRackRecordRepairForm" + " #id").val(row[0].id);

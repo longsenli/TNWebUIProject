@@ -2421,7 +2421,8 @@
 					"pages/chargePackManage/app_tidyBatteryRecord.html",
 					"pages/workOrder/app_grantMaterialManage.html",
 					"pages/chargePackManage/app_batteryGearMark.html",
-					"pages/workOrder/app_materialWarehouseConfirm.html"
+					"pages/workOrder/app_materialWarehouseConfirm.html",
+					"pages/safetyAndEPManage/app_hiddenDangerManage.html"
 				],
 				"priority": 0
 			},

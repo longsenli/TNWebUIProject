@@ -68,22 +68,27 @@
 
 										<form ID="hiddenDangerSelectForm" name="hiddenDangerSelectForm">
 											<div class="form-inline row">
-
-												<label> 厂区： </label>
-												<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
-												</select>
-												<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
-													<option value='-1'>全部</option>
-													<option value='Ⅴ级'>Ⅴ级</option>
-													<option value='Ⅳ级'>Ⅳ级</option>
-													<option value='Ⅲ级'>Ⅲ级</option>
-													<option value='Ⅱ级'>Ⅱ级</option>
-													<option value='Ⅰ级'>Ⅰ级</option>
-												</select>
-												<label> 时间： </label>
-												<input type="date" id="startTime" name="startTime" />
-												<label>-</label>
-												<input type="date" id="endTime" name="endTime" />
+												<div class="form-group">
+													<label> 厂区： </label>
+													<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
+													</select>
+												</div>
+												<div class="form-group">
+													<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
+														<option value='-1'>全部</option>
+														<option value='Ⅴ级'>Ⅴ级</option>
+														<option value='Ⅳ级'>Ⅳ级</option>
+														<option value='Ⅲ级'>Ⅲ级</option>
+														<option value='Ⅱ级'>Ⅱ级</option>
+														<option value='Ⅰ级'>Ⅰ级</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label> 时间： </label>
+													<input type="date" id="startTime" name="startTime" />
+													<label>-</label>
+													<input type="date" id="endTime" name="endTime" />
+												</div>
 
 												<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 											</div>
@@ -161,7 +166,7 @@
 														<form id="myReportModalPictureUpload">
 															<div class="form-inline row">
 																<label>上传图片：</label>
-																<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+																<input type="file" id="pictureName"  capture="camera"name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
 															</div>
 														</form>
 													</div>

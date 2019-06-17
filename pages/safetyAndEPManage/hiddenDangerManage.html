@@ -20,6 +20,7 @@
 		<script type="text/javascript" src="../../js/safetyAndEPManageJS/hiddenDangerManage.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -88,11 +89,17 @@
 			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="deleteHiddenDangerManageRecord()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>删除隐患
           </button>
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="showHiddenDangerCharts()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>隐患柱状图
+          </button>
 		</div>
 
 		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
+		<div class="container" style="width: 95%;background-color:#0000FF;" >
 
+		<div id="myChart" style="width: 95%;"></div>
+		</div>
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myReportModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog">

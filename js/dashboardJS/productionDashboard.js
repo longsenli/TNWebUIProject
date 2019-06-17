@@ -126,7 +126,7 @@ function initProductionDashboardPicture(showType) {
 		endTime = document.getElementById("startTime").value + " 20:00:00";
 	}
 
-	if(showType.indexOf("refresh") >= 0 ) {
+	if(showType.indexOf("refresh") >= 0) {
 		var today = new Date();
 
 		if(today.getHours() < 7) {
@@ -818,7 +818,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 		endTime = document.getElementById("startTime").value + " 20:00:00";
 	}
 
-	if(showType.indexOf("refresh") >= 0 ) {
+	if(showType.indexOf("refresh") >= 0) {
 		var today = new Date();
 
 		if(today.getHours() < 7) {
@@ -1448,7 +1448,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 		endTime = document.getElementById("startTime").value + " 20:00:00";
 	}
 
-	if(showType.indexOf("refresh") >= 0 ) {
+	if(showType.indexOf("refresh") >= 0) {
 		var today = new Date();
 
 		if(today.getHours() < 7) {
