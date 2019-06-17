@@ -195,6 +195,14 @@ function hiddenDangerManageRecordRowClick(row) {
 }
 
 function addHiddenDangerManageRecord() {
+	$('#dangerlevel').selectpicker('refresh');
+	$('#dangerlevel').selectpicker('render'); 
+
+	$('#hiddendangertype').selectpicker('refresh');
+	$('#hiddendangertype').selectpicker('render'); 
+
+	$('#plantid').selectpicker('refresh');
+	$('#plantid').selectpicker('render'); 
 
 	$("#hiddenDangerManageRecordReportForm" + " #reporter").val(localStorage.username);
 	var today = new Date();
@@ -456,8 +464,7 @@ function showHiddenDangerCharts() {
 							interval: 0,
 							formatter: function(value) {
 								//debugger
-								if(!value)
-								{
+								if(!value) {
 									return value;
 								}
 								var ret = ""; //拼接加\n返回的类目项  
@@ -573,8 +580,8 @@ function showHiddenDangerCharts() {
 
 					]
 				};
-// 使用刚指定的配置项和数据显示图表。
-	myDangerChart.setOption(optionRealTimeInfo);
+				// 使用刚指定的配置项和数据显示图表。
+				myDangerChart.setOption(optionRealTimeInfo);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
