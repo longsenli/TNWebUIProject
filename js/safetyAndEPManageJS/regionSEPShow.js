@@ -64,10 +64,13 @@ function dbxDraw() {
 	}
 }
 
+var regionMapInfo;
+var locationArray = [];
+
 function innitCavas() {
 
 	$.ajax({
-		url: window.serviceIP + "/api/safetyandep/getsalesorderdetail?mainRegionID=1001",
+		url: window.serviceIP + "/api/safetyandep/getsalesorderdetail?mainRegionID=10001",
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -78,7 +81,7 @@ function innitCavas() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-
+				regionMapInfo = models;
 				var canvas = document.getElementById("canvas1");
 				var heightCvs = document.getElementById("canvas1").height - 5;
 				var widthCvs = document.getElementById("canvas1").width - 5;
@@ -87,20 +90,37 @@ function innitCavas() {
 					//获取对应的CanvasRenderingContext2D对象(画笔)
 					var ctx = canvas.getContext("2d");
 					//console.log(models);
+					var tmpI = 0;
 					for (var  i  in  models)  {  
-						var locationSplit = models[i].shapedrawparam.split(',');
+						var locationSplit = models[i].shapeDrawParam.split(',');
 						//开始一个新的绘制路径
 						ctx.beginPath();
 						//设置线条颜色为蓝色
-						ctx.strokeStyle = models[i].outlinecolor;
+						ctx.strokeStyle = models[i].outlineColor;
 						//设置路径起点坐标
 						//console.log(locationSplit[0] * widthCvs + "=======" + locationSplit[1] * heightCvs)
 						ctx.moveTo(locationSplit[0] * widthCvs, locationSplit[1] * heightCvs);
-
+						locationArray[tmpI * 4] = locationSplit[0] * widthCvs;
+						locationArray[tmpI * 4 + 1] = locationSplit[1] * heightCvs;
+						locationArray[tmpI * 4 + 2] = locationSplit[0] * widthCvs;
+						locationArray[tmpI * 4 + 3] = locationSplit[1] * heightCvs;
 						for(var j = 2; j < locationSplit.length; j += 2) {
 							//绘制直线线段到坐标点(60, 50)
 							//console.log(locationSplit[j] * widthCvs + "=======" + locationSplit[j + 1] * heightCvs)
 							ctx.lineTo(locationSplit[j] * widthCvs, locationSplit[j + 1] * heightCvs);
+
+							if(locationSplit[j] * widthCvs < locationArray[tmpI * 4]) {
+								locationArray[tmpI * 4] = locationSplit[j] * widthCvs;
+							}
+							if(locationSplit[j] * widthCvs > locationArray[tmpI * 4 + 2]) {
+								locationArray[tmpI * 4 + 2] = locationSplit[j] * widthCvs;
+							}
+							if(locationSplit[j + 1] * heightCvs < locationArray[tmpI * 4 + 1]) {
+								locationArray[tmpI * 4 + 1] = locationSplit[j + 1] * heightCvs;
+							}
+							if(locationSplit[j + 1] * heightCvs > locationArray[tmpI * 4 + 3]) {
+								locationArray[tmpI * 4 + 3] = locationSplit[j + 1] * heightCvs;
+							}
 						}
 						ctx.lineTo(locationSplit[0] * widthCvs, locationSplit[1] * heightCvs);
 						//绘制直线线段到坐标点(60, 90)
@@ -109,11 +129,26 @@ function innitCavas() {
 						//ctx.closePath();
 						//最后，按照绘制路径画出直线
 						ctx.stroke();
-						ctx.fillStyle = models[i].fillcolor;
+						if(models[i].dangerScore == 0) {
+							ctx.fillStyle = "blue";
+						} else if(models[i].dangerScore == 1) {
+							ctx.fillStyle = "yellow";
+						} else if(models[i].dangerScore == 2) {
+							ctx.fillStyle = "sandybrown";
+						} else {
+							ctx.fillStyle = "red";
+						}
+						if(models[i].regionID == '10001')
+							ctx.fillStyle = "white";
+						//ctx.fillStyle = models[i].fillcolor;
 						ctx.fill();
-						ctx.fillStyle = "black";
+						if(models[i].regionID == '10001')
+							ctx.fillStyle = "black";
+						else
+							ctx.fillStyle = "white";
 						ctx.font = "20px Georgia";
-						ctx.fillText(models[i].showname, locationSplit[0] * widthCvs + 5, locationSplit[1] * heightCvs + 30);
+						ctx.fillText(models[i].showName, locationSplit[0] * widthCvs + 5, locationSplit[1] * heightCvs + 30);
+						tmpI++;
 					}
 				}
 
@@ -127,6 +162,19 @@ function innitCavas() {
 						//alert("red");
 					}
 				});
+
+				canvas.addEventListener('click', function(e) {
+
+					for(var i = 0;; i++) {
+						if(regionMapInfo[i].regionID == '10001')
+							continue;
+						if(locationArray[i * 4] < e.layerX && locationArray[i * 4 + 2] > e.layerX && locationArray[i * 4 + 1] < e.layerY && locationArray[i * 4 + 3] > e.layerY) {
+							alert(regionMapInfo[i].regionName);
+							return;
+						}
+					}
+
+				}, false)
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
