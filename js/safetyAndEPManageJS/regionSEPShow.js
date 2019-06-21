@@ -70,7 +70,8 @@ var locationArray = [];
 function innitCavas() {
 
 	$.ajax({
-		url: window.serviceIP + "/api/safetyandep/getsalesorderdetail?mainRegionID=10001",
+		url: window.serviceIP + "/api/safetyandep/getsalesorderdetailsst?mainRegionID=10001&startTime=" 
+		+ document.getElementById("startTime").value.toString() + "&endTime=" + document.getElementById("endTime").value.toString(),
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -91,6 +92,7 @@ function innitCavas() {
 					var ctx = canvas.getContext("2d");
 					//console.log(models);
 					var tmpI = 0;
+					console.log(models);
 					for (var  i  in  models)  {  
 						var locationSplit = models[i].shapeDrawParam.split(',');
 						//开始一个新的绘制路径
@@ -169,7 +171,9 @@ function innitCavas() {
 						if(regionMapInfo[i].regionID == '10001')
 							continue;
 						if(locationArray[i * 4] < e.layerX && locationArray[i * 4 + 2] > e.layerX && locationArray[i * 4 + 1] < e.layerY && locationArray[i * 4 + 3] > e.layerY) {
-							alert(regionMapInfo[i].regionName);
+							//alert(regionMapInfo[i].regionName);	
+							
+								showModelTable(regionMapInfo[i].regionID);
 							return;
 						}
 					}
@@ -179,6 +183,155 @@ function innitCavas() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
+		}
+	});
+}
+
+function showModelTable(plantID)
+{
+		var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+
+	columnsArray.push({
+		title: '序号',
+		field: 'rowNumber',
+		formatter: function(value, row, index) {
+			return index + 1;
+		}
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "预警等级",
+		"field": "dangerlevel"
+	});
+	columnsArray.push({
+		"title": "安全隐患类型",
+		"field": "hiddendangertype"
+	});
+
+	columnsArray.push({
+		"title": "隐患描述",
+		"field": "hiddendanger"
+	});
+	columnsArray.push({
+		"title": "隐患图片",
+		"field": "hiddendangerpicture"
+	});
+	columnsArray.push({
+		"title": "报告人",
+		"field": "reporter"
+	});
+	columnsArray.push({
+		"title": "报告时间",
+		"field": "reporttime"
+	});
+	columnsArray.push({
+		"title": "处理方法",
+		"field": "dealinfo"
+	});
+
+	columnsArray.push({
+		"title": "处理照片",
+		"field": "dealpicture"
+	});
+
+	columnsArray.push({
+		"title": "处理人",
+		"field": "dealstaff"
+	});
+	columnsArray.push({
+		"title": "处理时间",
+		"field": "dealtime"
+	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark",
+		formatter: function(value, row, index) {
+			if(value == '1') {
+				return '未处理';
+			}
+			if(value == '2') {
+				return '已处理';
+			}
+			return '未处理';
+		}
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", plantID);
+	formData.append("selectLevel", '-1');
+	formData.append("startTime", document.getElementById("startTime").value.toString());
+	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
+	$.ajax({
+		url: window.serviceIP + "/api/safetyandep/gethiddendangermanagerecord",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for(var i = 0; i < models.length; i++) {
+					models[i]["rowNumber"] = i + 1;
+				}
+				currentRowCount = 0;
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 18,
+					pageNumber: 1,
+					pageList: "[18, 36, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					columns: columnsArray
+				});
+				
+				$("#myDealModal").modal('show');
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
 		}
 	});
 }
