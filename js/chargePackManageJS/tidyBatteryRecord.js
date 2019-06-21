@@ -145,9 +145,9 @@ function tidyBatteryRecordProductionLineSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
-							$('#productionLineSlct').selectpicker('hide');
-
-							$("#productionLineLabel").css("display", "none");
+//							$('#productionLineSlct').selectpicker('hide');
+//
+//							$("#productionLineLabel").css("display", "none");
 						}
 					}
 					$('#productionLineSlct').selectpicker('refresh');

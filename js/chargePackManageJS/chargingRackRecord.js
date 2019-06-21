@@ -143,19 +143,19 @@ function chargingRackRecordProductionLineSlctFun() {
 				$('#lineid').selectpicker('refresh');
 				$('#lineid').selectpicker('render'); 
 
-				//				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
-				//					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
-				//					for(var j = 0; j < numbers.length; j++) {
-				//						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
-				//							$(numbers[j]).attr("selected", "selected");
-				//							$('#productionLineSlct').selectpicker('hide');
-				//
-				//							$("#productionLineLabel").css("display", "none");
-				//						}
-				//					}
-				//					$('#productionLineSlct').selectpicker('refresh');
-				//					$('#productionLineSlct').selectpicker('render'); 
-				//				}
+								if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
+									var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
+									for(var j = 0; j < numbers.length; j++) {
+										if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
+											$(numbers[j]).attr("selected", "selected");
+											//$('#productionLineSlct').selectpicker('hide');
+				
+											//$("#productionLineLabel").css("display", "none");
+										}
+									}
+									$('#productionLineSlct').selectpicker('refresh');
+									$('#productionLineSlct').selectpicker('render'); 
+								}
 
 				setTimeout(function() {
 					chargingRackRecordWorkingLocationSlctFun();
