@@ -956,7 +956,6 @@ function recognitionQR(webName, qrCode) {
 }
 
 function showPackageInput(pileID) {
-	pileID = '20190526140018670016';
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/getpilerecordbypileid?id=" + pileID,
 		type: "GET",
