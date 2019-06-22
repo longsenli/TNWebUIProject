@@ -201,7 +201,7 @@
 			}
 			//默认10.0.0.151登录调用方法
 			function login() {
-				//localStorage.clear();
+				
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
 				// var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
@@ -224,6 +224,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '10.0.0.151:19001');
 							// console.log(result)
 							// var login_info = null;
@@ -332,7 +333,7 @@
 
 			//mes段网络登录调用方法
 			function second_login() {
-				//localStorage.clear();
+				
 				//				alert('second_login被调用了')
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
@@ -354,6 +355,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '192.168.80.228:19001');
 							// console.log(result)
 							// var login_info = null;
@@ -421,7 +423,6 @@
 							localStorage.setItem('userID', username);
 							localStorage.setItem('roleID', result.message.split("###")[1].trim());
 							localStorage.setItem('password', password);
-
 							// 							var aa = localStorage.getItem('$Global_UserLogin_Info');
 							// 							alert(aa.token)
 							// 							var users = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
