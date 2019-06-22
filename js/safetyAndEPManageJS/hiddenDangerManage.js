@@ -267,7 +267,6 @@ function deleteHiddenDangerManageRecord() {
 			} else {
 				alert("删除失败！" + data.message);
 			}
-
 		}
 	});
 }
@@ -325,7 +324,6 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 			}
 		}
 	});
-
 };
 
 function showHiddenDangerCharts() {

@@ -291,7 +291,7 @@ function saveEquipmentParam() {
 };
 
 function getEquipmentParamRecord() {
-
+	return;
 	if(document.equipmentSelectForm.equipmentInfo.value == null || document.equipmentSelectForm.equipmentInfo.value.toString().length < 1) {
 		$('#table').bootstrapTable('destroy');
 		return;
