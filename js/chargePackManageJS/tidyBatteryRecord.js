@@ -451,6 +451,11 @@ function getPileRecord(selectType) {
 		}
 	});
 	columnsArray.push({
+		"title": "责任人",
+		"field": "pilestaffname"
+	});
+
+	columnsArray.push({
 		"title": "备注",
 		"field": "remark"
 	});
@@ -546,27 +551,37 @@ function printPileQR() {
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
 		LODOP.ADD_PRINT_BARCODE(20, 20, 100, 100, "QRCode", selectRow[i].id);
 
-		LODOP.ADD_PRINT_TEXT(120, 5, 150, 50, selectRow[i].id); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(120, 8, 115, 50, selectRow[i].id.substr(0,14)); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(135, 8, 115, 50, selectRow[i].id.substr(14,14)); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+		LODOP.ADD_PRINT_TEXT(10, 140, 130, 100, "日期:" + selectRow[i].batterydate);
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
+		
+//		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
+//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
-		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-
-		LODOP.ADD_PRINT_TEXT(55, 160, 130, 100, selectRow[i].remark); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(35, 140, 130, 100, selectRow[i].remark + " * " + selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.ADD_PRINT_TEXT(80, 160, 130, 100, selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
+//		LODOP.ADD_PRINT_TEXT(60, 150, 130, 100,selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
+//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
+//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		
+		
+		LODOP.ADD_PRINT_TEXT(110, 140, 130, 100,  "责任人: " + selectRow[i].pilestaffname); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
