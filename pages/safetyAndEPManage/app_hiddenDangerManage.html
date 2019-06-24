@@ -45,6 +45,32 @@
 				$("body").delegate('#table tr', 'click', function() {
 					hiddenDangerManageRecordRowClick(this);
 				});
+				
+//				if (~navigator.userAgent.indexOf('Html5Plus')) {  
+//console.log('支持5+API')  
+//var plusReady = function (callback) {  
+//  if (window.plus) {  
+//    callback();  
+//  } else {  
+//    document.addEventListener('plusready', callback);  
+//  }  
+//}  
+//
+//plusReady(function () {  
+//  // 获取触发拍照的表单元素  
+//  var inputElem = document.getElementById('pictureName');  
+//  inputElem.addEventListener('click', function () {  
+//    var camera = plus.camera.getCamera();  
+//    camera.captureImage(function (filePath) {  
+//      console.log('拍照成功')  
+//      console.log('拍照生成的文件路径:' + filePath);  
+//      //TODO  
+//    }, function () {  
+//      console.error('拍照失败');  
+//    });  
+//  });  
+//});  
+//}  
 				var today = new Date();
 
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
@@ -167,7 +193,7 @@
 														<form id="myReportModalPictureUpload">
 															<div class="form-inline row">
 																<label>上传图片：</label>
-																<input type="file" id="pictureName"  capture="camera"name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+																<input type="file" id="pictureName"  name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
 															</div>
 														</form>
 													</div>

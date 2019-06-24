@@ -605,3 +605,20 @@ function showHiddenDangerCharts() {
 		}
 	});
 }
+
+function clickHandle() {
+	alert("diaoy");
+ 
+        var camera = window.plus.camera.getCamera();
+        alert("diaoy");
+          camera.captureImage(function (filePath) {  
+        console.log('拍照成功')  
+        console.log('拍照生成的文件路径:' + filePath);  
+        $("#hiddenDangerManageRecordReportForm #pictureName").value = filePath;
+        //TODO  
+      }, function () {  
+        console.error('拍照失败');  
+      });  
+      
+
+     };
