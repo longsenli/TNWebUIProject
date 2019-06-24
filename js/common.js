@@ -1,12 +1,14 @@
 var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
 //alert(RemoteServiceIP)
 //alert(RemoteServiceIP!=null)
-window.serviceIP = "http://192.168.80.228:19001/ilpsService";
-window.netServiceIP = "http://192.168.80.228:8088/";
-window.webUiService = "http://192.168.80.228:19001";
 //window.serviceIP = "http://192.168.80.228:19001/ilpsService";
 //window.netServiceIP = "http://192.168.80.228:8088/";
 //window.webUiService = "http://192.168.80.228:19001";
+window.serviceIP = "http://192.168.1.108:8080";
+window.webSocketIP = "ws://192.168.1.108:19001/tnpy-0.0.1-SNAPSHOT/websocket"; 
+//window.serviceIP = "http://192.168.1.108:19001/tnpy-0.0.1-SNAPSHOT";
+window.netServiceIP = "http://192.168.1.103:8088/";
+window.webUiService = "http://192.168.1.103:8020";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
 	window.serviceIP = 'http://'+RemoteServiceIP+'/ilpsService';

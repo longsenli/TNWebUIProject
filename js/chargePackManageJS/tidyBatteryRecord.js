@@ -748,9 +748,7 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 			disableChangeButton(modelID + "SaveButton", false);
 			return;
 		}
-
 		delete formMap["newrepairnumber"];
-
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/changetidybatteryrecord",

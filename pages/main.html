@@ -391,20 +391,23 @@
 	} 
 
 	function logout() {
-				$.cookie('plantID', '');
-				$.cookie('processID', '');
-				$.cookie('lineID', '');
-				$.cookie("token", "", {
+				localStorage.setItem('plantID', '');
+				localStorage.setItem('processID', '');
+				localStorage.setItem('lineID', '');
+				localStorage.setItem("token", "", {
 					expires: -1
 				});
 				window.location.href = "login.html";
 			};
-//
+			
+//			
 //			var websocket = null;
 //
 //			//判断当前浏览器是否支持WebSocket
 //			if('WebSocket' in window) {
-//				websocket = new WebSocket("ws://192.168.1.106:8080/websocket");
+//				//websocket = new WebSocket("ws://192.168.1.108:8080/websocket");
+//				websocket = new WebSocket(window.webSocketIP);
+//	
 //			} else {
 //				alert('Not support websocket')
 //			}
@@ -416,8 +419,9 @@
 //
 //			//连接成功建立的回调方法
 //			websocket.onopen = function(event) {
+//				
 //				setMessageInnerHTML("open");
-//				send($.cookie('token'));
+//				send(localStorage.getItem('token'));
 //			}
 //
 //			//接收到消息的回调方法
@@ -437,7 +441,7 @@
 //
 //			//将消息显示在网页上
 //			function setMessageInnerHTML(innerHTML) {
-//				//alert(innerHTML);
+//				alert(innerHTML);
 //				// document.getElementById('message').innerHTML += innerHTML + '<br/>';
 //			}
 //
