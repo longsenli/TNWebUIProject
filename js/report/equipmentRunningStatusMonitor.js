@@ -23,6 +23,41 @@ function equipStatusMntPlantSlctFun(webName) {
 				$('#equipMngPlantSlct').selectpicker('render');   
 				// $('#equipMngPlantSlct').selectpicker('mobile');
 				equipStatusMntEquipmentType(webName);
+				equipStatusMntProcessSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+
+function equipStatusMntProcessSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionprocess",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#equipMngProcessSlct").find('option').remove();
+			$('#equipMngProcessSlct').append(("<option value=" + "-1" + ">" + "全部"  + "</option>").toString())
+				
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#equipMngProcessSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				//console.log($('#productionProcessSlct'));
+				$('#equipMngProcessSlct').selectpicker('refresh');
+				$('#equipMngProcessSlct').selectpicker('render');   
+				// $('#productionProcessSlct').selectpicker('mobile');
+
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -114,7 +149,8 @@ function equipStatusAllParamMntInit(showType) {
 	$.ajax({
 		url: window.serviceIP + "/api/equipment/getrecentallparamrecord?equipType=" +
 			document.equipmentSelectForm.equipmentType.value.toString() +
-			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString(),
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString() +
+			"&processID=" + document.equipmentSelectForm.equipMngProcessSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
