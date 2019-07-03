@@ -100,17 +100,15 @@ function solidificationRoomInfoSlctFun() {
 
 function changeSolidificationRoomStatus() {
 
-if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1')
-{
-	alert("请选择确切的固化室,不能选择全部!")
-	return;
-}
+	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
+		alert("请选择确切的固化室,不能选择全部!")
+		return;
+	}
 
-if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1')
-{
-	alert("请选择当前固化阶段!")
-	return;
-}
+	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
+		alert("请选择当前固化阶段!")
+		return;
+	}
 	var formData = new FormData();
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
 	formData.append("orderIDList", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
@@ -538,7 +536,7 @@ function addOrderIDToBatchTable(orderID) {
 		return;
 	}
 	if($("#table").bootstrapTable('getData').length >= 20) {
-		alert("一次性最多发料20个!");
+		alert("一次性最多扫码20个!");
 		return;
 	}
 	var _data = {
@@ -559,7 +557,17 @@ function addSolidificationRecordManageByBatch() {
 		return;
 	}
 
+	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
+		alert("请选择确切的固化室,不能选择全部!")
+		return;
+	}
+
 	var tableData = $("#table").bootstrapTable('getData');
+	if(tableData.length < 1)
+	{
+		alert("请至少输入一个工单号");
+		return;
+	}
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
 		orderIDList += tableData[i].orderID + "###";
@@ -570,7 +578,7 @@ function addSolidificationRecordManageByBatch() {
 	formData.append("orderIDList", orderIDList);
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
 	formData.append("operatorName", localStorage.username);
-	formData.append("roomName",     $("#solidifyStepID").find("option:selected").text());
+	formData.append("roomName", $("#solidificationRoomInfoSlct").find("option:selected").text());
 
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/putinsolidifyroom",
