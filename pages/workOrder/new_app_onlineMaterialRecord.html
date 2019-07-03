@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -67,45 +68,33 @@
                                 	描述：panel3开始
                                 -->
 								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">线边仓管理</h3>
-									</div>
 									<div class="panel-body">
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
 												<div class="form-group">
 													<label id="industrialPlantLabel" class="col-sm-3 control-label" for="demo-hor-inputemail">厂区:</label>
-													<div class="col-sm-9">
-														<select class="selectpicker" id="industrialPlantSlct" name="industrialPlantSlct" onchange="onlineMaterialProductionLineSlctFun()">
-														</select>
-													</div>
+													<select class="selectpicker" id="industrialPlantSlct" name="industrialPlantSlct" onchange="onlineMaterialProductionLineSlctFun()">
+													</select>
 												</div>
 
 												<div class="form-group">
 													<label id="productionProcessLabel" class="col-sm-3 control-label" for="demo-hor-inputemail">流程:</label>
-													<div class="col-sm-9">
-														<select class="selectpicker" id="productionProcessSlct" name="productionProcessSlct" onchange="onlineMaterialProductionLineSlctFun()">
-														</select>
-													</div>
+													<select class="selectpicker" id="productionProcessSlct" name="productionProcessSlct" onchange="onlineMaterialProductionLineSlctFun()">
+													</select>
 												</div>
+
 												<div class="form-group">
 													<label id="productionLineLabel" class="col-sm-3 control-label" for="demo-hor-inputemail">产线:</label>
-													<div class="col-sm-9">
-														<select class="selectpicker" id="productionLineSlct" name="productionLineSlct">
-														</select>
-													</div>
+													<select class="selectpicker" id="productionLineSlct" name="productionLineSlct">
+													</select>
+
 												</div>
+
 												<div class="form-group">
-													<label class="col-sm-3 control-label" for="demo-hor-inputemail">开始时间:</label>
-													<div class="col-sm-9">
-														<input type="date" id="startTime" name="startTime" />
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label" for="demo-hor-inputemail">结束时间:</label>
-													<div class="col-sm-9">
-														<input type="date" id="endTime" name="endTime" />
-													</div>
+													<label class="col-sm-3 control-label" for="demo-hor-inputemail">时间:</label>
+													<input type="date" id="startTime" name="startTime" />
+													<label class="col-sm-3 control-label" for="demo-hor-inputemail">-</label>
+													<input type="date" id="endTime" name="endTime" />
 												</div>
 												<div class="form-group">
 													<div class="col-sm-9">

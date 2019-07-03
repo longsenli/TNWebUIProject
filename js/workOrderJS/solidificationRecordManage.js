@@ -460,7 +460,7 @@ function openBarcodeCustom() {
 
 function recognitionQR(webName, qrCode) {
 	if(webName == '1')
-		findsolidificationRecordManageByQR(qrCode.split("###")[0], qrCode.split("###")[1]);
+		selectByQuery(qrCode.split("###")[0], qrCode.split("###")[1]);
 	if(webName == '5')
 		addOrderIDToBatchTable(qrCode);
 }
