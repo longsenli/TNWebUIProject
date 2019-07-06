@@ -84,8 +84,8 @@ function innitCavas() {
 				var models = eval("(" + dataRes.data + ")");
 				regionMapInfo = models;
 				var canvas = document.getElementById("canvas1");
-				var heightCvs = document.getElementById("canvas1").height - 5;
-				var widthCvs = document.getElementById("canvas1").width - 5;
+				var heightCvs = document.getElementById("canvas1").height - 2;
+				var widthCvs = document.getElementById("canvas1").width - 2;
 				//简单地检测当前浏览器是否支持Canvas对象，以免在一些不支持html5的浏览器中提示语法错误
 				if(canvas.getContext) {
 					//获取对应的CanvasRenderingContext2D对象(画笔)
@@ -95,6 +95,10 @@ function innitCavas() {
 					console.log(models);
 					for (var  i  in  models)  {  
 						var locationSplit = models[i].shapeDrawParam.split(',');
+						for(var m = 1;m<locationSplit.length;m+=2)
+						{
+							locationSplit[m] = 1.0 - locationSplit[m];
+						}
 						//开始一个新的绘制路径
 						ctx.beginPath();
 						//设置线条颜色为蓝色

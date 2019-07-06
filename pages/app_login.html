@@ -115,7 +115,8 @@
 			$(function() {
 				document.addEventListener('plusready', function() {
 					// 在这里调用5+ API 
-					versionCompare();
+					if(window.plus)
+						versionCompare();
 				}, false);
 			});
 
@@ -226,7 +227,7 @@
 						if(result.status == "1") {
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '10.0.0.151:19001');
-							localStorage.setItem('unselectedMenu',unselectedMenu);
+							localStorage.setItem('unselectedMenu', unselectedMenu);
 							// console.log(result)
 							// var login_info = null;
 							// 							login_info = login_info || {};
@@ -260,24 +261,24 @@
 							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1) {
 								// $.cookie('plantID', result.message.split("###")[2].trim());
 								token.plantID = result.message.split("###")[2].trim();
-								
+
 								localStorage.setItem('plantID', result.message.split("###")[2].trim());
 							}
 							if(result.message.split("###")[3].trim() != "-1" && result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1) {
 								// $.cookie('processID', result.message.split("###")[3].trim());
 								token.processID = result.message.split("###")[3].trim();
-								
+
 								localStorage.setItem('processID', result.message.split("###")[3].trim());
 							}
 							if(result.message.split("###")[4].trim() != "-1" && result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1) {
 								// $.cookie('lineID', result.message.split("###")[4].trim());
 								token.lineID = result.message.split("###")[4].trim();
-								
+
 								localStorage.setItem('lineID', result.message.split("###")[4].trim());
 							}
 							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1) {
 								token.workingkLocation = result.message.split("###")[5].trim();
-								
+
 								localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
 							}
 							// alert(JSON.stringify(token));
@@ -287,7 +288,7 @@
 							localStorage.setItem('$Global_UserLogin_Info', JSON.stringify(token));
 							localStorage.setItem("LocalUserName", username);
 							localStorage.setItem("LocalUserPsw", password);
-							
+
 							localStorage.setItem('token', result.token);
 							localStorage.setItem('username', result.message.split("###")[0].trim());
 							localStorage.setItem('userID', username);
@@ -298,11 +299,11 @@
 							// 							alert(aa.token)
 							// 							var users = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 							// 							alert(users.token)
-							if('iOS' == window.plus.os.name) {
-								// alert('IOS')
-								window.location.href = "app_productionIndex_ios.html";
-								return;
-							}
+							//							if('iOS' == window.plus.os.name) {
+							//								// alert('IOS')
+							//								window.location.href = "app_productionIndex_ios.html";
+							//								return;
+							//							}
 							if(result.message.split("###")[1].trim() == "24") {
 								window.location.href = "app_productionIndex.html";
 							} else {
@@ -334,7 +335,7 @@
 
 			//mes段网络登录调用方法
 			function second_login() {
-				
+
 				//				alert('second_login被调用了')
 				var unselectedMenu = localStorage.getItem('unselectedMenu');
 				var username = document.getElementById("form-username").value;
@@ -359,7 +360,7 @@
 						if(result.status == "1") {
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '192.168.80.228:19001');
-							localStorage.setItem('unselectedMenu',unselectedMenu);
+							localStorage.setItem('unselectedMenu', unselectedMenu);
 							// console.log(result)
 							// var login_info = null;
 							// 							login_info = login_info || {};
@@ -430,11 +431,11 @@
 							// 							alert(aa.token)
 							// 							var users = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 							// 							alert(users.token)
-							if('iOS' == window.plus.os.name) {
-								// alert('IOS')
-								window.location.href = "app_productionIndex_ios.html";
-								return;
-							}
+							//							if('iOS' == window.plus.os.name) {
+							//								// alert('IOS')
+							//								window.location.href = "app_productionIndex_ios.html";
+							//								return;
+							//							}
 							if(result.message.split("###")[1].trim() == "24") {
 								window.location.href = "app_productionIndex.html";
 							} else {

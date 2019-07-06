@@ -113,6 +113,10 @@
 			 * @param {String} d	文档页面文件名称（doc目录下），不传入则使用页面的标题
 			 */
 			function clicked(id, t, d) {
+				if(!window.plus)
+				{
+					window.location.href = id;
+				}
 				if(_openw) {
 					return;
 				} // 防止快速点击
@@ -240,9 +244,7 @@
 			<button type="button" class="btn_radius" style="margin-top: 10px;" onclick="selectedSelfFunction()">设置自选功能</button>
 			<!--</div>-->
 		</div>
-
-		
-		
+	
 <!-- 模态框（Modal） -->
 		<div class="modal fade" id="mySelectedMenuModel" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:80%">

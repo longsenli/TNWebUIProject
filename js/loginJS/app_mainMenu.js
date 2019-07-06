@@ -119,6 +119,5 @@ function selectedSelfFunction() {
 		if(localStorage.getItem('unselectedMenu').indexOf(ary[i].text ) < 0)
 				$('#table').bootstrapTable('check', i);
 	}
-	
 	$('#mySelectedMenuModel').modal('show');
 }
