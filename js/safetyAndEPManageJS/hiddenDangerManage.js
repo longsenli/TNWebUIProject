@@ -622,3 +622,73 @@ function clickHandle() {
       
 
      };
+     
+function	clickInputLoader() {
+      let _this = this
+      if (~navigator.userAgent.indexOf("Html5Plus")) {
+        let plusReady = function(callback) {
+          if (window.plus) {
+            callback();
+          } else {
+            document.addEventListener("plusready", callback);
+          }
+        };
+        plusReady(function() {
+          let camera = plus.camera.getCamera(); // 调用相机
+          camera.captureImage(
+            function(filePath) {
+            	console.log("====" +filePath);
+              plus.io.resolveLocalFileSystemURL( // 通过URL参数获取目录对象或文件对象
+                filePath,
+                function(entry) {
+                  _this.lodingShow = true;
+                  let reader = null
+                  entry.file(function(file) {
+                    let sizeJudge = false;
+                    sizeJudge = _this.checkSize(file.size);
+                    if (sizeJudge === false) {
+                      return;
+                    }
+                    reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
+                    reader.onload = function(e) {
+                    }
+                    reader.readAsDataURL(file);
+                    reader.onloadend = function(e) {
+                      let dataBase = e.target.result; // 获取Base64，FileReader()返回
+                      uploadImgBase64({ //调用上传接口
+                        file:dataBase
+                      })
+                        .then(res => {
+                          if (res.data.code === 200) {
+                            _this.lodingShow = false;
+                            _this.alertVal = "图片上传成功";
+                            _this.showPluginAuto();
+                          } else {
+                            _this.lodingShow = false;
+                            _this.alertVal = res.data.msg;
+                            _this.showPluginAuto();
+                          }
+                        })
+                        .catch(() => {
+                          _this.lodingShow = false;
+                          _this.alertVal = "图片上传失败！";
+                          _this.showPluginAuto();
+                        });
+                    },function (e) {
+                      alert( e.message );
+                    } ;
+                  });
+                  reader.abort();
+                },
+                function(e) {
+                  plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+                }
+              );
+            },
+            function() {
+              alert("拍照失败");
+            }
+          );
+        });
+      }
+    }
