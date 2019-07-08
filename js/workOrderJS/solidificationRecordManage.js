@@ -270,7 +270,15 @@ function inSolidifyRoomDetail() {
 	});
 	columnsArray.push({
 		"title": "入窑时间",
-		"field": "starttime1"
+		"field": "starttime1",
+		formatter: function(value, row, index) {
+			if(value) {
+				if(value > '2019')
+				return value.toString().split(" ")[0];
+				else 
+				return '-';
+			}
+		}
 	});
 
 	columnsArray.push({
@@ -280,7 +288,15 @@ function inSolidifyRoomDetail() {
 
 	columnsArray.push({
 		"title": "转段时间",
-		"field": "endtime1"
+		"field": "endtime1",
+		formatter: function(value, row, index) {
+			if(value) {
+				if(value > '2019')
+				return value.toString().split(" ")[0];
+				else 
+				return '-';
+			}
+		}
 	});
 
 	columnsArray.push({
@@ -290,7 +306,15 @@ function inSolidifyRoomDetail() {
 
 	columnsArray.push({
 		"title": "转段时间",
-		"field": "endtime2"
+		"field": "endtime2",
+		formatter: function(value, row, index) {
+			if(value) {
+				if(value > '2019')
+				return value.toString().split(" ")[0];
+				else 
+				return '-';
+			}
+		}
 	});
 
 	columnsArray.push({
@@ -300,7 +324,15 @@ function inSolidifyRoomDetail() {
 
 	columnsArray.push({
 		"title": "出窑时间",
-		"field": "endtime3"
+		"field": "endtime3",
+		formatter: function(value, row, index) {
+			if(value) {
+				if(value > '2019')
+				return value.toString().split(" ")[0];
+				else 
+				return '-';
+			}
+		}
 	});
 
 	var formData = new FormData();
