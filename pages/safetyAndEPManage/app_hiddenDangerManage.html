@@ -32,6 +32,7 @@
 		<script type="text/javascript ">
 			hiddenDangerManagePlantSlctFun();
 			$(function() {
+
 				$('#myReportModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("hiddenDangerManageRecordReportForm").reset();
@@ -45,33 +46,33 @@
 				$("body").delegate('#table tr', 'click', function() {
 					hiddenDangerManageRecordRowClick(this);
 				});
-				
-//				if (~navigator.userAgent.indexOf('Html5Plus')) {  
-//console.log('支持5+API')  
-//var plusReady = function (callback) {  
-//  if (window.plus) {  
-//    callback();  
-//  } else {  
-//    document.addEventListener('plusready', callback);  
-//  }  
-//}  
-//
-//plusReady(function () {  
-//  // 获取触发拍照的表单元素  
-//  var inputElem = document.getElementById('pictureName');  
-//  inputElem.addEventListener('click', function () {  
-//    var camera = plus.camera.getCamera();  
-//    camera.captureImage(function (filePath) {  
-//      console.log('拍照成功')  
-//      console.log('拍照生成的文件路径:' + filePath);  
-//      //TODO  
-//    }, function () {  
-//      console.error('拍照失败');  
-//    });  
-//  });  
-//});  
-//}  
-				
+
+				//				if (~navigator.userAgent.indexOf('Html5Plus')) {  
+				//console.log('支持5+API')  
+				//var plusReady = function (callback) {  
+				//  if (window.plus) {  
+				//    callback();  
+				//  } else {  
+				//    document.addEventListener('plusready', callback);  
+				//  }  
+				//}  
+				//
+				//plusReady(function () {  
+				//  // 获取触发拍照的表单元素  
+				//  var inputElem = document.getElementById('pictureName');  
+				//  inputElem.addEventListener('click', function () {  
+				//    var camera = plus.camera.getCamera();  
+				//    camera.captureImage(function (filePath) {  
+				//      console.log('拍照成功')  
+				//      console.log('拍照生成的文件路径:' + filePath);  
+				//      //TODO  
+				//    }, function () {  
+				//      console.error('拍照失败');  
+				//    });  
+				//  });  
+				//});  
+				//}  
+
 				var today = new Date();
 
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
@@ -104,11 +105,10 @@
 													<label> 级别： </label>
 													<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
 														<option value='-1'>全部</option>
-														<option value='Ⅴ级'>Ⅴ级</option>
-														<option value='Ⅳ级'>Ⅳ级</option>
-														<option value='Ⅲ级'>Ⅲ级</option>
-														<option value='Ⅱ级'>Ⅱ级</option>
-														<option value='Ⅰ级'>Ⅰ级</option>
+														<option value='蓝'>蓝</option>
+														<option value='黄'>黄</option>
+														<option value='橙'>橙</option>
+														<option value='红'>红</option>
 													</select>
 												</div>
 												<div class="form-group">
@@ -155,25 +155,25 @@
 															<input type="text" id="reporter" name="reporter" style="display:none" />
 															<input type="text" id="reporttime" name="reporttime" style="display:none" />
 															<select class="selectpicker" id="dangerlevel" style="margin-top: 10px;" name="dangerlevel">
-																<option value='Ⅴ级'>Ⅴ级</option>
-																<option value='Ⅳ级'>Ⅳ级</option>
-																<option value='Ⅲ级'>Ⅲ级</option>
-																<option value='Ⅱ级'>Ⅱ级</option>
-																<option value='Ⅰ级'>Ⅰ级</option>
+
+																<option value='蓝'>蓝</option>
+																<option value='黄'>黄</option>
+																<option value='橙'>橙</option>
+																<option value='红'>红</option>
 															</select>
-															<br />
+															<!--<br />
 															<br />
 															<select class="selectpicker" id="hiddendangertype" style="margin-top: 10px;" name="hiddendangertype">
 																<option value='设备类'>设备类</option>
 																<option value='防护类'>防护类</option>
 																<option value='其他'>其他</option>
-															</select>
+															</select>-->
 															<br />
-															<br />
+															
 															<select class="selectpicker" id="plantid" style="margin-top: 10px;" name="plantid">
 															</select>
 															<br />
-															<br />
+															
 															<div class="form-inline row">
 																<label for="name">具体位置:</label>
 																<input type="text" class="form-control" id="areaid" name="areaid" placeholder="请输入具体位置">
@@ -181,20 +181,23 @@
 															<br />
 															<div class="form-inline row">
 																<label for="name">隐患描述:</label>
-																<input type="text" class="form-control" id="hiddendanger" name="hiddendanger" placeholder="请输入隐患描述">
+																<br />
+																<textarea id="hiddendanger" name="hiddendanger" style="width:90%;height:80px;" placeholder="请输入隐患描述"></textarea>
+																<!--<label for="name">隐患描述:</label>
+																<input type="text" class="form-control" id="hiddendanger" name="hiddendanger" placeholder="请输入隐患描述">-->
 															</div>
 															<br />
 
-															<div class="form-inline row">
+															<!--<div class="form-inline row">
 																<label for="name">备注:</label>
 																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
 															</div>
-															<br />
+															<br />-->
 														</form>
 														<form id="myReportModalPictureUpload">
 															<div class="form-inline row">
 																<label>上传图片：</label>
-																<input type="file" id="pictureName"  name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
+																<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
 															</div>
 														</form>
 													</div>
@@ -222,7 +225,10 @@
 															<input type="text" id="dealtime" name="dealtime" style="display:none" />
 															<div class="form-inline row">
 																<label for="name">处理内容:</label>
-																<input type="text" class="form-control" id="dealinfo" name="dealinfo" placeholder="请输入处理内容">
+																<br />
+																<textarea id="dealinfo" name="dealinfo" style="width:90%;height:80px;" placeholder="请输入处理内容"></textarea>
+																<!--<label for="name">处理内容:</label>
+																<input type="text" class="form-control" id="dealinfo" name="dealinfo" placeholder="请输入处理内容">-->
 															</div>
 															<br />
 															<div class="form-inline row">
@@ -230,11 +236,11 @@
 																<input type="text" class="form-control" id="dealstaff" name="dealstaff" placeholder="请输入处理人员">
 															</div>
 															<br />
-															<div class="form-inline row">
+															<!--<div class="form-inline row">
 																<label for="name">备注:</label>
 																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
 															</div>
-															<br />
+															<br />-->
 														</form>
 														<form id="myDealModalPictureUpload">
 															<div class="form-inline row">

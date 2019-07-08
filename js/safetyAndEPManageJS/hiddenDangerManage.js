@@ -60,10 +60,6 @@ function getHiddenDangerManageRecord(selectType) {
 		"title": "预警等级",
 		"field": "dangerlevel"
 	});
-	columnsArray.push({
-		"title": "安全隐患类型",
-		"field": "hiddendangertype"
-	});
 
 	columnsArray.push({
 		"title": "隐患描述",
@@ -71,7 +67,13 @@ function getHiddenDangerManageRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "隐患图片",
-		"field": "hiddendangerpicture"
+		"field": "hiddendangerpicture",
+		formatter: function(value, row, index) {
+			if(value)
+			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
+			return '';
+		}
 	});
 	columnsArray.push({
 		"title": "报告人",
@@ -88,7 +90,13 @@ function getHiddenDangerManageRecord(selectType) {
 
 	columnsArray.push({
 		"title": "处理照片",
-		"field": "dealpicture"
+		"field": "dealpicture",
+		formatter: function(value, row, index) {
+			if(value)
+			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+			+ window.stringToDatetimeLocalType(row.dealtime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
+			return '';
+		}
 	});
 
 	columnsArray.push({
@@ -100,8 +108,8 @@ function getHiddenDangerManageRecord(selectType) {
 		"field": "dealtime"
 	});
 	columnsArray.push({
-		"title": "备注",
-		"field": "remark",
+		"title": "状态",
+		"field": "status",
 		formatter: function(value, row, index) {
 			if(value == '1') {
 				return '未处理';
@@ -121,7 +129,7 @@ function getHiddenDangerManageRecord(selectType) {
 	$.ajax({
 		url: window.serviceIP + "/api/safetyandep/gethiddendangermanagerecord",
 		type: "POST",
-		data: formData,
+		data: formData, 
 		processData: false,
 		contentType: false,
 		//contentType: "application/json",
@@ -299,6 +307,11 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 			}
 		});
 	}
+	else
+	{
+		alert("请上传图片!");
+		return;
+	}
 	var formMap = window.formToObject($("#" + formID));
 	if(modelID == 'myReportModal')
 		formMap['hiddenDangerPicture'] = picLoadName;
@@ -316,7 +329,7 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 		processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				alert("保存成功！" + dataRes.message);
+				alert("保存成功！" );
 				getHiddenDangerManageRecord();
 				closeHiddenDangerManageRecordModel(modelID);
 			} else {

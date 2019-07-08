@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>消息推送分组</title>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px" onload="beginAudio()">
+		<!--	<div class="container">-->
+		<script type="text/javascript ">
+			function beginAudio() {
+				var audioObject = document.getElementById("waringAlarm");
+
+				//$("#waringAlarm").play();
+				audioObject.play();
+				// 延迟一丢丢加载音频。
+				$("#dangerInfo").html(localStorage.getItem("dangerMessage"));
+				//			$(function() {
+				//				var audioObject = document.getElementById("waringAlarm");
+				//				//$("#waringAlarm").play();
+				//				audioObject.play();
+				//			});
+			}
+		</script>
+
+		<audio id='waringAlarm' src="../../image/dangerAlarm.wav" controls="controls" style="display: none;">不支持</audio>
+		<h1 id='dangerInfo'></h1>
+	</body>
+
+</html>
