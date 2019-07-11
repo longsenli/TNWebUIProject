@@ -2423,7 +2423,8 @@
 					"pages/chargePackManage/app_batteryGearMark.html",
 					"pages/workOrder/app_materialWarehouseConfirm.html",
 					"pages/safetyAndEPManage/app_hiddenDangerManage.html",
-					"pages/workOrder/app_solidificationRecordManage.html"
+					"pages/workOrder/app_solidificationRecordManage.html",
+					"pages/contentManage/app_publishIdea.html"
 				],
 				"priority": 0
 			},

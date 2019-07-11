@@ -5,23 +5,30 @@ function publishIdea() {
 	formData.append("type", document.publishIdeaFrom.type.value);
 	formData.append("title", document.publishIdeaFrom.title.value);
 	formData.append("context", document.publishIdeaFrom.context.value);
-	if($('#anonymity').is(':checked')) {
+//	
+//$("input").attr("checked") == "checked" 
+
+//console.log($('#publishIdeaFrom #anonymity'));
+//alert($('#publishIdeaFrom #anonymity').attr('checked') );
+//alert($('#publishIdeaFrom #anonymity').is(':checked') );
+	if($('#publishIdeaFrom #anonymity').is(':checked')) {
 		formData.append("creator", "匿名");
 	} else {
-		formData.append("creator", $.cookie('username'));
+		formData.append("creator", localStorage.getItem('username'));
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/content/insertcontent",
 		type: "POST",
 		data: window.getFormDataToJson(formData),
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
+				filterContent();
 				alert('保存成功!');
 			} else {
 				alert("保存失败！" + data.message);
@@ -37,16 +44,17 @@ function initConentData() {
 		url: window.serviceIP + "/api/content/getcontenttype",
 		type: "GET",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		contentType: "application/json",
 		dataType: "json",
 		processData: true,
 		success: function(dataRes) {
 			$("#contentType").find('option').remove();
+			
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				console.log(models);
+				//console.log(models);
 				var htmlStr = "";        
 				for (var  i  in  models)  {  
 
@@ -74,7 +82,7 @@ function initContentTypeSlctData() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -109,28 +117,33 @@ function filterContent() {
 	var columnsArray = [];
 	columnsArray.push({
 		"title": "标题",
-		"field": "标题"
+		"field": "title"
 	});
 	columnsArray.push({
 		"title": "类型",
-		"field": "类型"
+		"field": "type",
+		formatter: function(value, row, index) {
+			
+			return $("#typeAll option[value='" + value + "']").text();
+		
+		}
 	});
 	columnsArray.push({
 		"title": "创建人",
-		"field": "创建人"
+		"field": "creator"
 	});
 	columnsArray.push({
 		"title": "创建时间",
-		"field": "创建时间"
+		"field": "createtime"
 	});
 	columnsArray.push({
 		"title": "内容",
-		"field": "内容",
+		"field": "context",
 		visible: false
 	});
 	columnsArray.push({
 		"title": "ID",
-		"field": "ID",
+		"field": "id",
 		visible: false
 	});
 	var formData = new FormData($("#form2")[0]);
@@ -142,7 +155,7 @@ function filterContent() {
 		type: "POST",
 		data: formData,
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -153,18 +166,18 @@ function filterContent() {
 				document.getElementById("selectedDetail").innerHTML = "";
 				document.getElementById("comment").innerHTML = "";
 				var models = eval("(" + dataRes.data + ")");
-				var dataShow = [];
-				for(var i = 0; i < models.length; i++) {
-					var obj = {};
-
-					obj["标题"] = models[i].title;
-					obj["类型"] = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
-					obj["创建人"] = models[i].creator;
-					obj["创建时间"] = models[i].createtime;
-					obj["内容"] = models[i].context; 
-					obj["ID"] = models[i].id;
-					dataShow.push(obj);
-				}
+//				var dataShow = [];
+//				for(var i = 0; i < models.length; i++) {
+//					var obj = {};
+//
+//					obj["标题"] = models[i].title;
+//					obj["类型"] = $("#contentType").find("option:eq(" + (models[i].type - 1) + ")").text(); 
+//					obj["创建人"] = models[i].creator;
+//					obj["创建时间"] = models[i].createtime;
+//					obj["内容"] = models[i].context; 
+//					obj["ID"] = models[i].id;
+//					dataShow.push(obj);
+//				}
 				//				columnsArray.splice(5, 1, {
 				//					"title": "ID",
 				//					"field": "ID",
@@ -176,7 +189,7 @@ function filterContent() {
 				//					visible: false
 				//				});
 				$('#mytable').bootstrapTable('destroy').bootstrapTable({
-					data: dataShow,
+					data: models,
 					toolbar: '#toolbar',
 					//singleSelect: true,
 					clickToSelect: true,
@@ -233,8 +246,8 @@ function showDetail(row) {
 	//		});
 	//		console.log(row1[0]);
 	//		console.log(row["ID"]);
-	selectedContentID = row["ID"];
-	document.getElementById("selectedDetail").innerHTML = row["内容"];
+	selectedContentID = row["id"];
+	document.getElementById("selectedDetail").innerHTML = row["context"];
 	//selectedContentID = row.cells[5].childNodes[0].textContent;
 
 	//document.getElementById("selectedDetail").innerHTML = row.cells[4].childNodes[0].textContent;
@@ -242,7 +255,7 @@ function showDetail(row) {
 		url: window.serviceIP + "/api/comment/selectbycontentid?contentID=" + selectedContentID,
 		type: "GET",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -253,7 +266,7 @@ function showDetail(row) {
 				var dataHtml = "";
 				for(var i in models) {
 
-					dataHtml += "<span>" + models[i].commentor + "</span><span style=\"float:right\">" + models[i].createtime + "</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + models[i].text + "</textarea></p>";
+					dataHtml += "<span>" + models[i].commentor + "</span><span style=\"float:right\">" + models[i].createtime + "</span><p><textarea readonly=\"readonly\" style=\"background:whitesmoke; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + models[i].text + "</textarea></p>";
 
 				}
 				document.getElementById("comment").innerHTML = dataHtml;
@@ -284,8 +297,8 @@ function submitComment() {
 		formData.append("commentor", "匿名");
 		submitName = "匿名";
 	} else {
-		formData.append("commentor", $.cookie('username').toString());
-		submitName = $.cookie('username').toString();
+		formData.append("commentor", localStorage.getItem('username').toString());
+		submitName = localStorage.getItem('username').toString();
 	}
 	//alert(getFormData(formData));
 	$.ajax({
@@ -293,24 +306,27 @@ function submitComment() {
 		type: "POST",
 		data: window.getFormDataToJson(formData),
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
 		contentType: 'application/json; charset=UTF-8',
 		success: function(data) {
 			if(data.status == 1) {
-				alert('保存成功!');
-
-				document.commentForm.context.value = "";
-
+				
 				var dataHtml = "";
 				var nowTime = new Date();
 				var nowStr = nowTime.format("yyyy-MM-dd hh:mm:ss");
 				dataHtml += "<span>" + submitName + "</span><span style=\"float:right\">" + nowStr +
-					"</span><p><textarea readonly=\"readonly\" style=\"background:darkgrey; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + document.commentForm.context.value + "</textarea></p>";
+					"</span><p><textarea readonly=\"readonly\" style=\"background:whitesmoke; resize:none;width: 99%\" rows=\"1\" class=\"msg\">" + document.commentForm.context.value + "</textarea></p>";
 				dataHtml += document.getElementById("comment").innerHTML;
 				document.getElementById("comment").innerHTML = dataHtml;
+				
+				
+				alert('保存成功!');
+
+				
+				document.commentForm.context.value = "";
 			} else {
 				alert("保存失败！" + data.message);
 			}

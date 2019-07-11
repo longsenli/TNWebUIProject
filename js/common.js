@@ -1,13 +1,10 @@
 var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
-//alert(RemoteServiceIP)
-//alert(RemoteServiceIP!=null)
-//window.serviceIP = "http://192.168.80.228:19001/ilpsService";
-//window.netServiceIP = "http://192.168.80.228:8088/";
-//window.webUiService = "http://192.168.80.228:19001";
-window.serviceIP = "http://192.168.1.101:8080";
-window.webSocketIP = "ws://192.168.1.101:8080/websocket"; 
+
+window.serviceIP = "http://192.168.1.103:8080";
+window.webSocketIP = "ws://192.168.80.228:19001/ilpsService/websocket"; 
+//window.webSocketIP = "ws://192.168.1.103:8080/websocket"; 
 //window.serviceIP = "http://192.168.1.108:19001/tnpy-0.0.1-SNAPSHOT";
-window.netServiceIP = "http://192.168.1.103:8088/";
+window.netServiceIP = "http://192.168.80.228:8088/";
 window.webUiService = "http://192.168.1.103:8020";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
@@ -118,6 +115,10 @@ function mesgNotice(tagmsg, message, linkedURL) {
 			}
 		});
 	}
+	localStorage.setItem("dangerTag",tagmsg);
+	localStorage.setItem("dangerMessage",message);
+	window.open("../../pages/notificationManage/waringInfoShow.html" );
+	//window.location.href = "../pages/notificationManage/waringInfoShow.html";
 }
 
 function changeConfirmDlg(msg) {
@@ -151,4 +152,17 @@ var windowProcessEnum = {
 	BZ: '1010',
 	JZ: '1011',
 	ZL: '1012'
+}
+
+var windowRoleID = {
+	CZG: '10010',  //操作工10010
+	KB: '10001',  //看板
+	XZ: '10020',  //线长
+	BZ: '10030',   //班长
+	KGY: '11010',  //库管员
+	ZJY: '11020',  //质检员
+	TJY: '11030',  //统计员
+	CJZG: '20010',  //车间主管
+	CJZR: '20020'  //车间主任
+	
 }

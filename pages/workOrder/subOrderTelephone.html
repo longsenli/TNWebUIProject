@@ -88,7 +88,7 @@
 			});
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
-				if ($.cookie('roleID') !=null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != 24){
+				if ($.cookie('roleID') !=null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != window.windowRoleID.CZG){
 					//取消完成
 //				subOrderCancelFinishBT
 				$("#subOrderCancelFinishBT").show();

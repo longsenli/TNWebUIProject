@@ -163,7 +163,7 @@
 								localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
 							}
 
-							if(result.message.split("###")[1].trim() == "24") {
+							if(result.message.split("###")[1].trim() == window.windowRoleID.CZG) {
 								window.location.href = "productionIndex.html";
 							} else {
 								window.location.href = "main.html";
