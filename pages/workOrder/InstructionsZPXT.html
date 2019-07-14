@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>装配下台流程使用说明</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+		<!--<meta name="viewport" content="user-scalable=0">-->
+
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script> -->
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<!--本页面onclick等事件自定义JS ，打包成APP后，app内可正常调用-->
+		<script type="text/javascript" src="../../js/workOrderJS/app_workOrder.js"></script>
+		<!--本页面onclick等事件自定义JS ，打包成APP后，app内可正常调用-->
+		<script type="text/javascript" src="../../js/workOrderJS/app_subOrder.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<!--H5+ js引入-->
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+		<style type="text/css">
+			h4{
+				color: #FF0000;
+			}
+			.carousel-caption {
+			  position: absolute;
+			  right: 15%;
+			  bottom: 20px;
+			  left: 15%;
+			  z-index: 10;
+			  padding-top: 20px;
+			  padding-bottom: 20px;
+			  color: #FF0000;
+			  text-align: center;
+			  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+			}
+		</style>
+</head>
+<body>
+	<div class="container">
+		<h4 style="float: left;color: #000000;" onclick="Previous()">返回</h4>
+		<h4 align="center" style="color: #000000;" >装配下台流程使用说明</h4>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+		</div>
+	</div>
+<!-- 	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<video width="320" height="240" controls autoplay>
+			  <source src="movie.ogg" type="video/ogg">
+			  <source src="movie.mp4" type="video/mp4">
+			  <source src="movie.webm" type="video/webm">
+			  <object data="movie.mp4" width="320" height="240">
+			    <embed width="320" height="240" src="movie.swf">
+			  </object>
+			</video>
+		</div>
+	</div> -->
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="carousel slide" id="carousel-647615">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-647615">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-647615">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-647615">
+					</li>
+					<li data-slide-to="3" data-target="#carousel-647615">
+					</li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="item active">
+						<img alt="" src="../../image/InstructionImage/zpxt/zpxt1.png" />
+						<div class="carousel-caption">
+							<h4 >
+								第一步
+							</h4>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="" src="../../image/InstructionImage/zpxt/zpxt2.png" />
+						<div class="carousel-caption">
+							<h4 >
+								第二步
+							</h4>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="" src="../../image/InstructionImage/zpxt/zpxt3.png" />
+						<div class="carousel-caption">
+							<h4 >
+								第三步
+							</h4>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="" src="../../image/InstructionImage/zpxt/zpxt4.png" />
+						<div class="carousel-caption">
+							<h4 >
+								第四步
+							</h4>
+							<p>
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+							</p>
+						</div>
+					</div>
+				</div>
+				<a class="left carousel-control" href="#carousel-647615" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-647615" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>

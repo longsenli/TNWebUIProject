@@ -177,6 +177,10 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderOutDryingBTJZ').show();
 		$('#subOrderCancelFinishBTJZEX').hide();
 		$('#subOrderOvertimeFinishBT').hide();
+		// $('#InstructionsJZ').show();
+		// $('#InstructionsJS').hide();
+		// $('#InstructionsZPXT').hide();
+		
 		//$('#subOrderCancelFinishBT').hide();
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}else{
@@ -188,6 +192,33 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderCancelFinishBT').show();
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}
+//使用说明
+	var j = parseInt(flag);
+	switch (j){
+		//浇铸
+	case 1011:$('#InstructionsJZ').show();
+		$('#InstructionsJS').hide();
+		$('#InstructionsZPXT').hide();
+		break;
+	// 	// 加酸
+	// case 1008:$('#InstructionsJS').show();
+	// 	$('#InstructionsZPXT').hide();
+	// 	$('#InstructionsJZ').hide();
+	// 	break;
+	// 	// 装配下台
+	// case 1007:$('#InstructionsZPXT').show();
+	// 	$('#InstructionsJZ').hide();
+	// 	$('#InstructionsJS').hide();
+	// 	break;
+	default:
+	$('#InstructionsJS').hide();
+	$('#InstructionsZPXT').hide();
+	$('#InstructionsJZ').hide();
+		break;
+	}
+
+
+
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -394,7 +425,6 @@ function finishSubOrderByQR(qrCode, orderType) {
 	});
 
 	$.ajax({
-
 		url: window.serviceIP + "/api/order/getsuborderbyidtomap?id=" + encodeURIComponent(qrCode) + "&type=" + orderType
 		+"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString()
 		+"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
@@ -2025,3 +2055,21 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 		}
 	});
 };
+//使用说明
+function openInstructionsJZ(){
+	window.location.href = "InstructionsJZ.html";
+	
+}
+
+function openInstructionsJS(){
+	window.location.href = "InstructionsJS.html";
+	
+}
+
+function openInstructionsZPXT(){
+	window.location.href = "InstructionsZPXT.html";
+	
+}
+function Previous(){
+	window.location.href="new_app_subOrderTelephone.html";
+}
