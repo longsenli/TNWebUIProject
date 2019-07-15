@@ -379,6 +379,9 @@
             </div>
         </div>
         <!--右侧边栏结束-->
+        
+        <audio id='waringAlarm' src="../image/dangerAlarm.wav" controls="controls" style="display: none;">不支持</audio>
+
     </div>
 </body>
 
@@ -429,7 +432,7 @@
 
 			//接收到消息的回调方法
 			websocket.onmessage = function(event) {
-				//setMessageInnerHTML(event.data);
+				setMessageInnerHTML(event.data);
 			}
 
 			//连接关闭的回调方法
@@ -444,10 +447,24 @@
 
 			//将消息显示在网页上
 			function setMessageInnerHTML(innerHTML) {
+				var audioObject = document.getElementById("waringAlarm");
+				//alert(window.location.pathname);
+				//$("#waringAlarm").play();
+				audioObject.play();
+				// 延迟一丢丢加载音频。
+				setTimeout(function() {
+					infoShow(innerHTML);
+				}, 1000);
+				
 				//alert(innerHTML);
-				window.mesgNotice("消息提示",innerHTML,"");
+				//window.mesgNotice("消息提示",innerHTML,"");
 				// document.getElementById('message').innerHTML += innerHTML + '<br/>';
 			}
+			
+			function infoShow(innerHTML) {
+				alert(innerHTML);
+			}
+
 
 			//关闭连接
 			function closeWebSocket() {

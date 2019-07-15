@@ -61,12 +61,10 @@
 		</style>
 
 		<script type="text/javascript" charset="utf-8">
-		
-			
-			
-		$(function() {
+			$(function() {
 				//console.log("34324324")
 				initMenu();
+
 			})
 
 			var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
@@ -116,8 +114,7 @@
 			 * @param {String} d	文档页面文件名称（doc目录下），不传入则使用页面的标题
 			 */
 			function clicked(id, t, d) {
-				if(!window.plus)
-				{
+				if(!window.plus) {
 					window.location.href = id;
 				}
 				if(_openw) {
@@ -178,15 +175,15 @@
 			// 			}, false);
 			// 			_openw.show('zoom-fade-out');
 			// 		}
-			
+
 			var websocket = null;
 
 			//判断当前浏览器是否支持WebSocket
 			if('WebSocket' in window) {
-				console.log(window.webSocketIP);
+				//console.log(window.webSocketIP);
 				//websocket = new WebSocket("ws://192.168.1.108:8080/websocket");
 				websocket = new WebSocket(window.webSocketIP);
-	
+
 			} else {
 				//alert('Not support websocket')
 				console.log("不支持socket连接");
@@ -200,7 +197,7 @@
 
 			//连接成功建立的回调方法
 			websocket.onopen = function(event) {
-				
+
 				//setMessageInnerHTML("open");
 				console.log("socket连接成功！" + window.webSocketIP);
 				send(localStorage.getItem('token'));
@@ -208,7 +205,7 @@
 
 			//接收到消息的回调方法
 			websocket.onmessage = function(event) {
-				//setMessageInnerHTML(event.data);
+				setMessageInnerHTML(event.data);
 			}
 
 			//连接关闭的回调方法
@@ -220,12 +217,25 @@
 			window.onbeforeunload = function() {
 				websocket.close();
 			}
- 
+
 			//将消息显示在网页上
 			function setMessageInnerHTML(innerHTML) {
+				var audioObject = document.getElementById("waringAlarm");
+				//alert(window.location.pathname);
+				//$("#waringAlarm").play();
+				audioObject.play();
+				// 延迟一丢丢加载音频。
+				setTimeout(function() {
+					infoShow(innerHTML);
+				}, 1000);
 				//alert(innerHTML);
-				window.mesgNotice("消息提示",innerHTML,"");
+				//$("#dangerInfo").html(localStorage.getItem("dangerMessage"));
+				//window.mesgNotice("消息提示",innerHTML,"");
 				// document.getElementById('message').innerHTML += innerHTML + '<br/>';
+			}
+
+			function infoShow(innerHTML) {
+				alert(innerHTML);
 			}
 
 			//关闭连接
@@ -242,7 +252,7 @@
 
 	</head>
 
-	<body id="aaa" style="background-color: #F5F5F5" b >
+	<body id="aaa" style="background-color: #F5F5F5" b>
 		<div class="title_1">
 			<h2 align="center">功能菜单</h2>
 		</div>
@@ -287,8 +297,7 @@
 			<div id="div_4" class="btn-block">-->
 			<button id="../pages/safetyAndEPManage/app_hiddenDangerManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '安全隐患排查' )">安全隐患排查</button>
 			<button id="../pages/contentManage/app_publishIdea.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '心声社区' )">心声社区</button>
-			
-				
+
 			<!--</div>-->
 			<!--<div id="div_4" class="btn-block">
 				<button id="../pages/semifinishedBattery/new_app_batteryRepairTelephone.html" type="button" style="display: none;" class="btn_radius" onclick="clicked(this.id, '电池报修')">
@@ -310,8 +319,8 @@
 			<button type="button" class="btn_radius" style="margin-top: 10px;" onclick="selectedSelfFunction()">设置自选功能</button>
 			<!--</div>-->
 		</div>
-	
-<!-- 模态框（Modal） -->
+
+		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="mySelectedMenuModel" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:80%">
 				<div class="modal-content">
@@ -324,12 +333,12 @@
 						<table id="table" style="font-size:30px;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 						</table>
 					</div>
-					<div class="modal-footer" >
+					<div class="modal-footer">
 						<!--<div class="form-inline row">
 							<div class="form-group">-->
-								<button type="button"  align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="saveMyMenu()">保存</button>  
-								<button type="button"  align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="closeMyMenu()">关闭</button>
-							<!--</div>
+						<button type="button" align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="saveMyMenu()">保存</button>
+						<button type="button" align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="closeMyMenu()">关闭</button>
+						<!--</div>
 						</div>-->
 					</div>
 				</div>
@@ -337,6 +346,8 @@
 			</div>
 			<!-- /.modal -->
 		</div>
+
+		<audio id='waringAlarm' src="../image/dangerAlarm.wav" controls="controls" style="display: none;">不支持</audio>
 
 	</body>
 
