@@ -1,5 +1,7 @@
 var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
 
+window.IPOnly = "192.168.80.228";
+window.PicturePort = "19005";
 window.serviceIP = "http://192.168.1.103:8080";
 window.webSocketIP = "ws://192.168.80.228:19001/ilpsService/websocket"; 
 //window.webSocketIP = "ws://192.168.1.103:8080/websocket"; 
@@ -9,6 +11,7 @@ window.webUiService = "http://192.168.1.103:8020";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
 	window.serviceIP = 'http://'+RemoteServiceIP+'/ilpsService';
+	window.IPOnly = RemoteServiceIP.split(":");
 }
 
 

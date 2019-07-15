@@ -37,6 +37,17 @@ function hiddenDangerManagePlantSlctFun() {
 	});
 };
 
+function closeImageShow() {
+	$("#imageShow").css('display', 'none');
+}
+
+function wholeImg(_this) {
+
+	var img = document.getElementById("imageShow");
+	img.src = $(_this).attr("src"); //将结果数据显示到img标签上
+	$("#imageShow").css('display', 'block');
+}
+
 function getHiddenDangerManageRecord(selectType) {
 
 	var columnsArray = [];
@@ -70,8 +81,14 @@ function getHiddenDangerManageRecord(selectType) {
 		"field": "hiddendangerpicture",
 		formatter: function(value, row, index) {
 			if(value)
-			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
-			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
+				//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+				//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
+				//			
+				return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+
+			//			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+			//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
 			return '';
 		}
 	});
@@ -93,8 +110,12 @@ function getHiddenDangerManageRecord(selectType) {
 		"field": "dealpicture",
 		formatter: function(value, row, index) {
 			if(value)
-			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
-			+ window.stringToDatetimeLocalType(row.dealtime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
+			return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+
+
+//				return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' +
+//					window.stringToDatetimeLocalType(row.dealtime, "yyyy-MM-dd") + '/' + value + '"  target="_blank" >' + value + "</a>";
 			return '';
 		}
 	});
@@ -129,7 +150,7 @@ function getHiddenDangerManageRecord(selectType) {
 	$.ajax({
 		url: window.serviceIP + "/api/safetyandep/gethiddendangermanagerecord",
 		type: "POST",
-		data: formData, 
+		data: formData,
 		processData: false,
 		contentType: false,
 		//contentType: "application/json",
@@ -306,9 +327,7 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 				}
 			}
 		});
-	}
-	else
-	{
+	} else {
 		alert("请上传图片!");
 		return;
 	}
@@ -329,7 +348,7 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 		processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				alert("保存成功！" );
+				alert("保存成功！");
 				getHiddenDangerManageRecord();
 				closeHiddenDangerManageRecordModel(modelID);
 			} else {
@@ -621,87 +640,86 @@ function showHiddenDangerCharts() {
 
 function clickHandle() {
 	alert("diaoy");
- 
-        var camera = window.plus.camera.getCamera();
-        alert("diaoy");
-          camera.captureImage(function (filePath) {  
-        console.log('拍照成功')  
-        console.log('拍照生成的文件路径:' + filePath);  
-        $("#hiddenDangerManageRecordReportForm #pictureName").value = filePath;
-        //TODO  
-      }, function () {  
-        console.error('拍照失败');  
-      });  
-      
 
-     };
-     
-function	clickInputLoader() {
-      let _this = this
-      if (~navigator.userAgent.indexOf("Html5Plus")) {
-        let plusReady = function(callback) {
-          if (window.plus) {
-            callback();
-          } else {
-            document.addEventListener("plusready", callback);
-          }
-        };
-        plusReady(function() {
-          let camera = plus.camera.getCamera(); // 调用相机
-          camera.captureImage(
-            function(filePath) {
-            	console.log("====" +filePath);
-              plus.io.resolveLocalFileSystemURL( // 通过URL参数获取目录对象或文件对象
-                filePath,
-                function(entry) {
-                  _this.lodingShow = true;
-                  let reader = null
-                  entry.file(function(file) {
-                    let sizeJudge = false;
-                    sizeJudge = _this.checkSize(file.size);
-                    if (sizeJudge === false) {
-                      return;
-                    }
-                    reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
-                    reader.onload = function(e) {
-                    }
-                    reader.readAsDataURL(file);
-                    reader.onloadend = function(e) {
-                      let dataBase = e.target.result; // 获取Base64，FileReader()返回
-                      uploadImgBase64({ //调用上传接口
-                        file:dataBase
-                      })
-                        .then(res => {
-                          if (res.data.code === 200) {
-                            _this.lodingShow = false;
-                            _this.alertVal = "图片上传成功";
-                            _this.showPluginAuto();
-                          } else {
-                            _this.lodingShow = false;
-                            _this.alertVal = res.data.msg;
-                            _this.showPluginAuto();
-                          }
-                        })
-                        .catch(() => {
-                          _this.lodingShow = false;
-                          _this.alertVal = "图片上传失败！";
-                          _this.showPluginAuto();
-                        });
-                    },function (e) {
-                      alert( e.message );
-                    } ;
-                  });
-                  reader.abort();
-                },
-                function(e) {
-                  plus.nativeUI.toast("读取拍照文件错误：" + e.message);
-                }
-              );
-            },
-            function() {
-              alert("拍照失败");
-            }
-          );
-        });
-      }
-    }
+	var camera = window.plus.camera.getCamera();
+	alert("diaoy");
+	camera.captureImage(function(filePath) {
+		console.log('拍照成功')
+		console.log('拍照生成的文件路径:' + filePath);
+		$("#hiddenDangerManageRecordReportForm #pictureName").value = filePath;
+		//TODO  
+	}, function() {
+		console.error('拍照失败');
+	});
+
+};
+
+function clickInputLoader() {
+	let _this = this
+	if(~navigator.userAgent.indexOf("Html5Plus")) {
+		let plusReady = function(callback) {
+			if(window.plus) {
+				callback();
+			} else {
+				document.addEventListener("plusready", callback);
+			}
+		};
+		plusReady(function() {
+			let camera = plus.camera.getCamera(); // 调用相机
+			camera.captureImage(
+				function(filePath) {
+					console.log("====" + filePath);
+					plus.io.resolveLocalFileSystemURL( // 通过URL参数获取目录对象或文件对象
+						filePath,
+						function(entry) {
+							_this.lodingShow = true;
+							let reader = null
+							entry.file(function(file) {
+								let sizeJudge = false;
+								sizeJudge = _this.checkSize(file.size);
+								if(sizeJudge === false) {
+									return;
+								}
+								reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
+								reader.onload = function(e) {}
+								reader.readAsDataURL(file);
+								reader.onloadend = function(e) {
+										let dataBase = e.target.result; // 获取Base64，FileReader()返回
+										uploadImgBase64({ //调用上传接口
+												file: dataBase
+											})
+											.then(res => {
+												if(res.data.code === 200) {
+													_this.lodingShow = false;
+													_this.alertVal = "图片上传成功";
+													_this.showPluginAuto();
+												} else {
+													_this.lodingShow = false;
+													_this.alertVal = res.data.msg;
+													_this.showPluginAuto();
+												}
+											})
+											.catch(() => {
+												_this.lodingShow = false;
+												_this.alertVal = "图片上传失败！";
+												_this.showPluginAuto();
+											});
+									},
+									function(e) {
+										alert(e.message);
+									};
+							});
+							reader.abort();
+						},
+						function(e) {
+							plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+						}
+					);
+				},
+				function() {
+					alert("拍照失败");
+				}
+			);
+		});
+	}
+}

@@ -9,6 +9,16 @@
 				background-color: #31b0d5 !important;
 				color: black;
 			}
+			
+			.jump_img {
+				position: absolute;
+				z-index: 99999;
+				width: 80%;
+				height: 80%;
+				top: 5%;
+				left: 5%;
+				/*margin:-20% 0 0 -40%;*/
+			}
 		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
@@ -140,6 +150,8 @@
 
 										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 										</table>
+										<img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
+								
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="myReportModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -155,7 +167,6 @@
 															<input type="text" id="reporter" name="reporter" style="display:none" />
 															<input type="text" id="reporttime" name="reporttime" style="display:none" />
 															<select class="selectpicker" id="dangerlevel" style="margin-top: 10px;" name="dangerlevel">
-
 																<option value='蓝'>蓝</option>
 																<option value='黄'>黄</option>
 																<option value='橙'>橙</option>
@@ -169,11 +180,11 @@
 																<option value='其他'>其他</option>
 															</select>-->
 															<br />
-															
+
 															<select class="selectpicker" id="plantid" style="margin-top: 10px;" name="plantid">
 															</select>
 															<br />
-															
+
 															<div class="form-inline row">
 																<label for="name">具体位置:</label>
 																<input type="text" class="form-control" id="areaid" name="areaid" placeholder="请输入具体位置">

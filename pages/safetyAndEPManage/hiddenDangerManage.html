@@ -9,7 +9,18 @@
 				background-color: #31b0d5 !important;
 				color: black;
 			}
+			
+			.jump_img {
+				position: absolute;
+				z-index: 99999;
+				width: 80%;
+				height: 80%;
+				top: 5%;
+				left: 5%;
+				/*margin:-20% 0 0 -40%;*/
+			}
 		</style>
+
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
@@ -21,9 +32,11 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/swiper-4.5.0/js/swiper.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/swiper-4.5.0/css/swiper.css" media="screen">
 	</head>
 
 	<body style="padding-left:20px;padding-top:5px">
@@ -70,8 +83,6 @@
 				<input type="date" id="startTime" name="startTime" />
 				<label>-</label>
 				<input type="date" id="endTime" name="endTime" />
-
-				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
 			<br />
 		</form>
@@ -100,6 +111,8 @@
 
 			<div id="myChart" style="width: 95%;"></div>
 		</div>
+		<img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
+
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myReportModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog">
