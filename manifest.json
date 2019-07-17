@@ -2424,7 +2424,8 @@
 					"pages/workOrder/app_materialWarehouseConfirm.html",
 					"pages/safetyAndEPManage/app_hiddenDangerManage.html",
 					"pages/workOrder/app_solidificationRecordManage.html",
-					"pages/contentManage/app_publishIdea.html"
+					"pages/contentManage/app_publishIdea.html",
+					"pages/workOrder/app_pushinDryingKiln.html"
 				],
 				"priority": 0
 			},
@@ -2520,6 +2521,13 @@
 				"priority": 0
 			},
 			"pages/workOrder/app_solidificationRecordManage.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/app_pushinDryingKiln.html": {
 				"resources": [],
 				"refer": [
 					"pages/workOrder/barcode_scan.html"

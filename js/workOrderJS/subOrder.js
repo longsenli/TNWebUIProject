@@ -166,7 +166,7 @@ function subOrderProductionLineSlctFun() {
 	//获取流程IP
 	var flag = document.PlantToLineSelectForm.productionProcessSlct.value.toString();
 	//判断是否为浇铸流程
-	if(flag == '1011') {
+	if(flag == window.windowProcessEnum.JZ) {
 
 		//		$('#subOrderFinishBT').attr("onclick", "pushInDryingKilnjzsuborder()");
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码入窑');
@@ -174,9 +174,11 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderOutDryingBTJZ').show();
 		$('#subOrderCancelFinishBTJZEX').hide();
 		$('#subOrderOvertimeFinishBT').hide();
+		$('#subOrderFinishOnlyBTJZ').show();
 		//$('#subOrderCancelFinishBT').hide();
 		//		alert($('#subOrderFinishBT').attr("onclick"));
 	} else {
+		$('#subOrderFinishOnlyBTJZ').hide();
 		$('#subOrderOvertimeFinishBT').show();
 		$('#subOrderCancelFinishBT').show();
 		$('#subOrderCancelFinishBTJZEX').hide();
