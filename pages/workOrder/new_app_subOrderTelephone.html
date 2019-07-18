@@ -86,18 +86,26 @@
 			});
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
-				if($Global_UserLogin_Info.roleID != window.windowRoleID.CZG) {
+				if(localStorage.roleID != window.windowRoleID.CZG) {
 					//取消完成
 					//				subOrderCancelFinishBT
+					//alert(localStorage.roleID)
 					$("#subOrderCancelFinishBT").show();
 					//补充入库
 					//				subOrderOvertimeFinishBT
 					$("#subOrderOvertimeFinishBT").show();
 					//				alert($Global_UserLogin_Info.roleID);
 					$("#cancelInputSuborderBT").show();
-					$("#industrialPlantSlct1").selectpicker('hide');
+					//$("#industrialPlantSlct1").selectpicker('hide');
 
+				}				
+				else
+				{
+					$("#cancelInputSuborderBT").hide();
+					$("#subOrderOvertimeFinishBT").hide();
+					$("#subOrderCancelFinishBT").hide();
 				}
+				
 			});
 
 			$(function() {
@@ -159,24 +167,24 @@
 													</select>
 												</div>
 												<div class="form-group">
-													<button id="subOrderFinishBT" type="button" class="btn btn-info" onclick="FinishSubOrder()">
+													<button id="subOrderFinishBT" type="button" class="btn btn-danger" onclick="FinishSubOrder()">
 											                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成
 											     		</button>
-													<button id="subOrderCancelFinishBT" type="button" class="btn btn-danger" onclick="cancelFinishSuborder()">
+													<button id="subOrderCancelFinishBT" type="button" class="btn btn-info" onclick="cancelFinishSuborder()">
 											                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消完成
 											            </button>
-													<button id="subOrderCancelFinishBTJZEX" type="button" style="display: none;" class="btn btn-danger" onclick="cancelFinishSuborder()">
+													<button id="subOrderCancelFinishBTJZEX" type="button" style="display: none;" class="btn btn-info" onclick="cancelFinishSuborder()">
 											                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消入窑
 											            </button>
 													<button id="subOrderOutDryingBTJZ" type="button" style="display: none;" class="btn btn-info" onclick="scanQR('dryingKilnjzPushOut')">
 	            											<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑    </button>
 												</div>
 												<div class="form-group">
-													<button id="subOrderFinishScanQRBT" type="button" class="btn btn-info" onclick="scanQR('finishSubOrder')">
+													<button id="subOrderFinishScanQRBT" type="button" class="btn btn-danger" onclick="scanQR('finishSubOrder')">
 											                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码切换工单
-											            </button>
+											           </button> 
 											          <!--  浇铸完成批次，不入窑-->
-											            <button id="subOrderFinishOnlyBTJZ" type="button" style="display: none;" class="btn btn-info" onclick="FinishSubOrder()">
+											            <button id="subOrderFinishOnlyBTJZ" type="button" style="display: none;" class="btn btn-danger" onclick="FinishSubOrder()">
 	            											<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成    </button>
 												
 													<button id="subOrderOvertimeFinishBT" type="button" class="btn btn-info " onclick="FinishSubOrder()">

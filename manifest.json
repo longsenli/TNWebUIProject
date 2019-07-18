@@ -2425,7 +2425,8 @@
 					"pages/safetyAndEPManage/app_hiddenDangerManage.html",
 					"pages/workOrder/app_solidificationRecordManage.html",
 					"pages/contentManage/app_publishIdea.html",
-					"pages/workOrder/app_pushinDryingKiln.html"
+					"pages/workOrder/app_pushinDryingKiln.html",
+					"pages/dashboard/app_queryDailyProduction.html"
 				],
 				"priority": 0
 			},
@@ -2531,6 +2532,13 @@
 				"resources": [],
 				"refer": [
 					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/dashboard/app_queryDailyProduction.html": {
+				"resources": [],
+				"refer": [
+					"pages/dashboard/barcode_scan.html"
 				],
 				"priority": 0
 			}

@@ -175,8 +175,8 @@ function subOrderProductionLineSlctFun() {
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码入窑');
 		$('#subOrderFinishBT').attr("onclick", "scanQR('dryingKilnjzPushIn')");
 		$('#subOrderOutDryingBTJZ').show();
-		$('#subOrderCancelFinishBTJZEX').hide();
-		$('#subOrderOvertimeFinishBT').hide();
+		//$('#subOrderCancelFinishBTJZEX').show();
+		//$('#subOrderOvertimeFinishBT').hide();
 		
 		$('#subOrderFinishOnlyBTJZ').show();
 		//$('#subOrderCancelFinishBT').hide();
@@ -584,12 +584,15 @@ function SelectSubOrder() {
 		$("#getUsableMaterialBT").attr('disabled', true);
 		$("#gainMaterialRecordBT").attr('disabled', true);
 		$("#gainPartMaterialRecordBT").attr('disabled', true);
+			$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
+
 	} else {
 		$("#subOrderFinishBT").attr('disabled', false);
 		$("#subOrderScanQRBT").attr('disabled', false);
 		$("#getUsableMaterialBT").attr('disabled', false);
 		$("#gainMaterialRecordBT").attr('disabled', false);
 		$("#gainPartMaterialRecordBT").attr('disabled', false);
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 	}
 	var columnsArray = [];
 	columnsArray.push({

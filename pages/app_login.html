@@ -78,7 +78,7 @@
 									<input type="password" name="form-password" placeholder="密码" class="form-password form-control" id="form-password" required>
 								</div>
 								<!--    <a href="index.html" class="btn btn-lg btn-success btn-block">登录</a>-->
-								<button type="submit" class="btn">登录</button>
+								<button type="submit" id="loginButton" class="btn">登录</button>
 							</form>
 							<div align="right" style="padding-top: 10px;">
 								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
@@ -140,6 +140,7 @@
 				if(RemoteServiceIP1 != null && RemoteServiceIP1 != 'undefined' && RemoteServiceIP1 != "") {
 					window.webUiService = 'http://' + RemoteServiceIP1;
 				}
+				//alert(window.serviceIP ); 
 				var versionNow;
 				plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 					versionNow = inf.version;
@@ -206,6 +207,8 @@
 				if(localStorage.getItem('myDefaultIP')) {
 					defaultIP = localStorage.getItem('myDefaultIP');
 				}
+
+				$("#loginButton").attr("disabled", true);
 				var unselectedMenu = localStorage.getItem('unselectedMenu');
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
@@ -230,6 +233,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							$("#loginButton").attr("disabled", false);
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', defaultIP.trim());
 							localStorage.setItem('unselectedMenu', unselectedMenu);
@@ -325,11 +329,11 @@
 					},
 
 					error: function(XMLHttpRequest, status, err) {
-						//						alert('出现错误,请联系管理员!')
+						//if(status != 'timeout')
 					},
 					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
-						// alert(XMLHttpRequest.status + status)
-						if(status == 'timeout') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+						// alert(XMLHttpRequest.status + status);
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
 							// alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 							//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
 							mes_login();
@@ -367,6 +371,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							$("#loginButton").attr("disabled", false);
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '10.0.0.151:19001');
 							localStorage.setItem('unselectedMenu', unselectedMenu);
@@ -466,7 +471,7 @@
 					},
 					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
 						// alert(XMLHttpRequest.status + status)
-						if(status == 'timeout') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
 							// alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 							//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
 							second_login();
@@ -503,6 +508,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							$("#loginButton").attr("disabled", false);
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '192.168.80.228:19001');
 							localStorage.setItem('myDefaultIP', '192.168.80.228:19001');
@@ -598,18 +604,19 @@
 
 					error: function(xhr, status, err) {
 						//					 	alert('出现错误,请联系管理员!')
-					},  
+					},
 					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
 
-						if(status == 'timeout') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
 							//alert(status + "，连接服务器失败，请检查配置信息及网络连接！");
-							if(localStorage.roleID) {
-								if(localStorage.roleID > windowRoleID.TJY)
-									ww_login();
-								else
-									alert(status + "，连接服务器失败，请检查配置信息及网络连接！");;
-							} else
-								alert(status + "，连接服务器失败，请检查配置信息及网络连接！");
+							ww_login();
+							//							if(localStorage.roleID) {
+							//								if(localStorage.roleID > windowRoleID.TJY)
+							//									ww_login();
+							//								else
+							//									alert(status + "，连接服务器失败，请检查配置信息及网络连接！");;
+							//							} else
+							//								alert(status + "，连接服务器失败，请检查配置信息及网络连接！");
 						}
 					}
 
@@ -643,6 +650,12 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
+							$("#loginButton").attr("disabled", false);
+							//							if((result.message.split("###")[1].trim() || '')> windowRoleID.TJY)
+							//							{
+							//								alert("主管及以上有外网权限！");
+							//								return;
+							//							}
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', '117.158.49.108:19001');
 							localStorage.setItem('unselectedMenu', unselectedMenu);
@@ -740,8 +753,8 @@
 						//					 	alert('出现错误,请联系管理员!')
 					},
 					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
-
-						if(status == 'timeout') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+						$("#loginButton").attr("disabled", false);
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
 							alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 						}
 					}

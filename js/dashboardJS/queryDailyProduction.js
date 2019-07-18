@@ -595,3 +595,115 @@ function nowInDryingKilnjz() {
 		}
 	});
 };
+
+
+var accept_webName = null;
+//重写scanQR方法
+function scanQR(grantType) {
+	//执行H5扫描二维码方法
+	openBarcode();
+	accept_webName = grantType;
+}
+
+////////以下是H5+调用摄像头进行扫一扫
+// alert(openBarcode())
+var img = null;
+var blist = [];
+
+function scaned(t, r, f) {
+	// alert('t='+t+'r='+r+'f='+f);
+	//获取扫描二维码信息
+	recognitionQR(accept_webName, r);
+}
+
+function selected(id) {
+	var h = blist[id];
+	update(h.type, h.result, h.file);
+	if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+		plus.nativeUI.confirm(h.result, function(i) {
+			if(i.index == 0) {
+				plus.runtime.openURL(h.result);
+			}
+		}, '', ['打开', '取消']);
+	} else {
+		plus.nativeUI.alert(h.result);
+	}
+}
+
+function update(t, r, f) {
+	outSet('扫描成功：');
+	outLine(t);
+	outLine(r);
+	outLine('\n图片地址：' + f);
+	if(!f || f == 'null') {
+		img.src = '../../vendor/H5+/img/barcode.png';
+	} else {
+		plus.io.resolveLocalFileSystemURL(f, function(entry) {
+			img.src = entry.toLocalURL();
+		});
+		//img.src = 'http://localhost:13131/'+f;
+	}
+}
+
+function onempty() {
+	if(window.plus) {
+		plus.nativeUI.alert('无扫描记录');
+	} else {
+		alert('无扫描记录');
+	}
+}
+
+function cleanHistroy() {
+	if(blist.length > 0) {
+		var hl = document.getElementById('history');
+		hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+	}
+	plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+		entry.removeRecursively(function() {
+			// Success
+		}, function(e) {
+			//alert( "failed"+e.message );
+		});
+	});
+}
+// 打开二维码扫描界面 
+function openBarcode() {
+	createWithoutTitle('barcode_scan.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:scanPicture()'
+			}]
+		}
+	});
+}
+// 打开自定义扫描界面 
+function openBarcodeCustom() {
+	createWithoutTitle('barcode_custom.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				// fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:switchFlash()'
+			}]
+		}
+	});
+}
+ 
+function recognitionQR(webName, qrCode) {
+	$("#subOrderName").val(qrCode);
+getOrderInfoDetail();
+}

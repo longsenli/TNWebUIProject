@@ -106,10 +106,10 @@ function getDryingKilnInfo(typeID) {
 		"title": "产线",
 		"field": "linename"
 	});
-//	columnsArray.push({
-//		"title": "工位",
-//		"field": "workLocationName"		
-//	});
+	//	columnsArray.push({
+	//		"title": "工位",
+	//		"field": "workLocationName"		
+	//	});
 	columnsArray.push({
 		"title": "入窑人",
 		"field": "inputerName"
@@ -372,9 +372,9 @@ function pushinDryingKilnByBatch() {
 		return;
 	}
 
-if(!window.changeConfirmDlg("确认将板栅放入" +  $("#dryingKilnEquipmentSlct").find("option:selected").text() + "?"))
-	return;
-	
+	if(!window.changeConfirmDlg("确认将板栅放入" + $("#dryingKilnEquipmentSlct").find("option:selected").text() + "?"))
+		return;
+
 	var tableData = $("#table").bootstrapTable('getData');
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
@@ -427,14 +427,14 @@ if(!window.changeConfirmDlg("确认将板栅放入" +  $("#dryingKilnEquipmentSl
 			}
 			alert("请求出错," + msg);
 		}
-	}); 
+	});
 }
 
 //添加单独浇铸出窑判断,如果不是浇铸工序则不会调用此方法
 function pushOutDryingKilnjzsuborder() {
-	
-	if(!window.changeConfirmDlg("确认将" +  $("#dryingKilnEquipmentSlct").find("option:selected").text() + "中板栅全部出窑?"))
-	return;
+
+	if(!window.changeConfirmDlg("确认将" + $("#dryingKilnEquipmentSlct").find("option:selected").text() + "中板栅全部出窑?"))
+		return;
 	//使用getSelections即可获得，row是json格式的数据
 	$("#subOrderCancelFinishBT").attr("disabled", true);
 	$("#subOrderOvertimeFinishBT").attr("disabled", true);
@@ -475,4 +475,4 @@ function pushOutDryingKilnjzsuborder() {
 			$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		}
 	});
-	};
+};
