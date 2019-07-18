@@ -398,7 +398,7 @@ function getOrderInfoDetail() {
 	//console.log("gainMaterialByQR" + recordID);
 	var recordID = $('#subOrderName').val().trim();
 	if(recordID.length < 2) {
-		alert("请确认订单!")
+		alert("请输入工单号!")
 		return;
 	}
 
@@ -578,7 +578,7 @@ function nowInDryingKilnjz() {
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
-					pageSize: 15,
+					pageSize: 15, 
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
 					showToggle: true,
