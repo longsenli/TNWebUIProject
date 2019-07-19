@@ -393,6 +393,82 @@ function getDailyProduction() {
 	});
 };
 
+function getSelfProductionRecord(){
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	
+	columnsArray.push({
+			width: 300,
+			"title": "姓名",
+			"field": "inputer"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialNameInfo"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "工单号",
+			"field": "subOrderID"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "产量",
+			"field": "number"
+		});
+	columnsArray.push({
+			width: 300,
+			"title": "完成时间",
+			"field": "inputTime"
+		});
+	var time = new Date(document.getElementById("endTime").value);
+	time.setDate(time.getDate() + 1);
+
+		
+	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + "test" +
+		"&startTime=" + document.getElementById("startTime").value + " 07:00:00" + "&endTime=" + time.format("yyyy-MM-dd") + " 07:00:00";
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
 function getOrderInfoDetail() {
 
 	//console.log("gainMaterialByQR" + recordID);
