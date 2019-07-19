@@ -65,21 +65,21 @@
 					subOrderRowClick(this);
 				});
 			});
-			
+
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
-				if ($.cookie('roleID') !=null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != window.windowRoleID.CZG){
+				if($.cookie('roleID') != null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != window.windowRoleID.CZG) {
 					//取消完成
-//				subOrderCancelFinishBT
-				$("#subOrderCancelFinishBT").show();
-				//补充入库
-//				subOrderOvertimeFinishBT
-				$("#subOrderOvertimeFinishBT").show();
-//				alert($Global_UserLogin_Info.roleID)  window.windowRoleID.CZG
-				$("#cancelInputSuborderBT").show();
+					//				subOrderCancelFinishBT
+					$("#subOrderCancelFinishBT").show();
+					//补充入库
+					//				subOrderOvertimeFinishBT
+					$("#subOrderOvertimeFinishBT").show();
+					//				alert($Global_UserLogin_Info.roleID)  window.windowRoleID.CZG
+					$("#cancelInputSuborderBT").show();
 				}
 			});
-			
+
 			$(function() {
 
 				$("body").delegate('#usableMaterialTable tr', 'click', function() {
@@ -108,7 +108,7 @@
 				<select class="selectpicker" id="workOrderSlct" style="width:100px;" name="workOrderSlct" onchange="SelectWorkOrderFun()">
 				</select>
 				<label id='workingkLocationSlctLabel'> 工位： </label>
-				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct" >
+				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
 				</select>
 				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
 			</div>
@@ -125,17 +125,17 @@
 			<button id="subOrderFinishBT" type="button" class="btn btn-default" onclick="FinishSubOrder()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成
             </button>
-			<button id="subOrderCancelFinishBTJZEX" type="button" style="display: none;" class="btn btn-default"   onclick="cancelFinishSuborder()">
+			<button id="subOrderCancelFinishBTJZEX" type="button" style="display: none;" class="btn btn-default" onclick="cancelFinishSuborder()">
 	            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消入窑
 	        </button>
 			<button id="subOrderFinishScanQRBT" type="button" class="btn btn-default" onclick="scanQR('finishSubOrder')">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码切换工单
            </button>
-            <!--  浇铸完成批次，不入窑-->
-											            <button id="subOrderFinishOnlyBTJZ" type="button" class="btn btn-default" onclick="FinishSubOrder()">
+			<!--  浇铸完成批次，不入窑-->
+			<button id="subOrderFinishOnlyBTJZ" type="button" class="btn btn-default" onclick="FinishSubOrder()">
 	            											<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成    </button>
-												
-           <button id="subOrderOutDryingBTJZ" type="button" style="display: none;" class="btn btn-default"   onclick="scanQR('dryingKilnjzPushOut')">
+
+			<button id="subOrderOutDryingBTJZ" type="button" style="display: none;" class="btn btn-default" onclick="scanQR('dryingKilnjzPushOut')">
 	            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>扫码批量出窑
 	        </button>
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
@@ -149,14 +149,14 @@
 			<button type="button" class="btn btn-default" onclick="subOrderChangeOrderNum()">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改订单数量
            </button>
-           <button id="subOrderOvertimeFinishBT" type="button" class="btn btn-default" onclick="FinishSubOrder()" style="display: none;">
+			<button id="subOrderOvertimeFinishBT" type="button" class="btn btn-default" onclick="FinishSubOrder()" style="display: none;">
                 <span class="glyphicon glyphicon-time" aria-hidden="true"></span>补充入库
             </button>
-           <input type="text"   class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
+			<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
 			<button type="button" class="btn btn-default" onclick="selectBySubOrderName()">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单详情
            </button>
-           
+
 		</div>
 		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
@@ -191,28 +191,27 @@
 		<section class="content table-content">
 			<form ID="gainMaterialForm" class="collapse">
 				<div class="form-inline row">
-				<div id="usableMaterialTableToolbar">
-					    <button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
+					<div id="usableMaterialTableToolbar">
+						<button id="getUsableMaterialBT" type="button" class="btn btn-default" onclick="getUsableMaterialFun()">
 		                	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
 		            	</button>
-				        <button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
+						<button id="gainMaterialRecordBT" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
 		                	<span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>投料
 		            	</button>
-				        <button id="subOrderScanQRBT" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
+						<button id="subOrderScanQRBT" type="button" class="btn btn-default" onclick="scanQR('subOrder')">
 			                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码投料
 			            </button>
-				        <button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
+						<button id="gainPartMaterialRecordBT" type="button" class="btn btn-default" onclick="showChangeGainModal()">
 			                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
 			            </button>
-			            <label>查询物料子工单: &nbsp;</label>
-				</div>
+						<label>查询物料子工单: &nbsp;</label>
+					</div>
 					<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 					</table>
 				</div>
 			</form>
 		</section>
 		<br />
-		
 
 		<!--<div id="materialidToolbar" class="btn-group">
 			<button id="workorder_add" type="button" class="btn btn-default" onclick="gainMaterialRecord()">
@@ -221,17 +220,15 @@
 
 		</div>-->
 		<div id="materialidToolbar">
-            <label style="font-size:18px">已投料统计：<label id='sumNumber'></label>&nbsp;&nbsp;</label>
-            <button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-default" onclick="cancelInputSuborder()">
+			<label style="font-size:18px">已投料统计：<label id='sumNumber'></label>&nbsp;&nbsp;</label>
+			<button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-default" onclick="cancelInputSuborder()">
             	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
         	</button>&nbsp;&nbsp;
-            <label>查询物料子工单: &nbsp;</label>
+			<label>查询物料子工单: &nbsp;</label>
 		</div>
 		<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
-		
-		
-		
+
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
 			<div class="modal-dialog" style="width:350px">
@@ -265,4 +262,5 @@
 			<!-- /.modal -->
 		</div>
 	</body>
+
 </html>

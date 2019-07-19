@@ -439,6 +439,8 @@ function finishSubOrderByQR(qrCode, orderType) {
 						$("#changeOrderProductionNum").attr("readonly", true);
 					}
 				});
+
+				$("#changeOrderProductionNum").val('');
 				var dataStr = "----";
 				var dateNow = new Date();
 				if(dateNow.getHours() < 7) {
@@ -453,8 +455,10 @@ function finishSubOrderByQR(qrCode, orderType) {
 				}
 				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
 					$("#subOrderFinishBT").attr('disabled', false);
+					$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 				} else {
 					$("#subOrderFinishBT").attr('disabled', true);
+					$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
 				}
 				$('#materialTable').bootstrapTable('destroy');
 				$('#usableMaterialTable').bootstrapTable('destroy');
@@ -467,7 +471,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 function FinishSubOrder() {
 	//使用getSelections即可获得，row是json格式的数据
-
+	$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
 	$("#subOrderFinishBT").attr("disabled", true);
 	$("#subOrderOvertimeFinishBT").attr("disabled", true);
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -476,6 +480,7 @@ function FinishSubOrder() {
 	var formData = new FormData();
 	if(row.length < 1) {
 		alert("请选择行数据!");
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		$("#subOrderFinishBT").attr("disabled", false);
 		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		return;
@@ -484,12 +489,14 @@ function FinishSubOrder() {
 		alert("一次只能完成一个批次!您当前选择" + row.length + "个批次!");
 		$("#subOrderFinishBT").attr("disabled", false);
 		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		return;
 	}
 	if(row[0]["status"] > 3) {
 		alert("该工单已完成!");
 		$("#subOrderFinishBT").attr("disabled", false);
 		$("#subOrderOvertimeFinishBT").attr("disabled", false);
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		return;
 	}
 	for(var key in row[0]) {
@@ -497,7 +504,12 @@ function FinishSubOrder() {
 			continue;
 		}
 		if(key == "productionnum") {
-			formData.append(key, $("#changeOrderProductionNum").val());
+			if($("#changeOrderProductionNum").val().length < 1) {
+				formData.append(key, row[0][key]);
+			} else {
+				formData.append(key, $("#changeOrderProductionNum").val());
+			}
+
 			continue;
 		}
 
@@ -540,6 +552,7 @@ function FinishSubOrder() {
 
 			$("#subOrderFinishBT").attr("disabled", false);
 			$("#subOrderOvertimeFinishBT").attr("disabled", false);
+			$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		}
 	});
 };
@@ -576,12 +589,14 @@ function SelectSubOrder() {
 		$("#getUsableMaterialBT").attr('disabled', true);
 		$("#gainMaterialRecordBT").attr('disabled', true);
 		$("#gainPartMaterialRecordBT").attr('disabled', true);
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
 	} else {
 		$("#subOrderFinishBT").attr('disabled', false);
 		$("#subOrderScanQRBT").attr('disabled', false);
 		$("#getUsableMaterialBT").attr('disabled', false);
 		$("#gainMaterialRecordBT").attr('disabled', false);
 		$("#gainPartMaterialRecordBT").attr('disabled', false);
+		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 	}
 	var columnsArray = [];
 	columnsArray.push({
@@ -991,7 +1006,7 @@ function printQRCode() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
+
 		LODOP.ADD_PRINT_TEXT(135, 5, 170, 50, selectRow[i].id.substr(orderLength - 11, 11)); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
@@ -1016,7 +1031,7 @@ function printQRCode() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
+
 		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
 		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
