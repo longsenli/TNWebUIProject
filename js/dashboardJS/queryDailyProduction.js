@@ -429,7 +429,7 @@ function getSelfProductionRecord(){
 	time.setDate(time.getDate() + 1);
 
 		
-	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + "test" +
+	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.userID +
 		"&startTime=" + document.getElementById("startTime").value + " 07:00:00" + "&endTime=" + time.format("yyyy-MM-dd") + " 07:00:00";
 
 	$.ajax({
