@@ -509,9 +509,10 @@ function FinishSubOrder() {
 		if(key == "productionnum") {
 
 			if($("#changeOrderProductionNum").val().length < 1) {
-				formData.append(key, row[0][key]);
+				formMap[key]    = row[0][key] ;  // formData.append(key, row[0][key]);
 			} else {
-				formData.append(key, $("#changeOrderProductionNum").val());
+				formMap[key]    = $("#changeOrderProductionNum").val();
+				//formData.append(key, $("#changeOrderProductionNum").val());
 			}
 			continue;
 		}
