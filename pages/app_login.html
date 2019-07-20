@@ -208,7 +208,7 @@
 					defaultIP = localStorage.getItem('myDefaultIP');
 				}
 
-				$("#loginButton").attr("disabled", true);
+	
 				var unselectedMenu = localStorage.getItem('unselectedMenu');
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
@@ -233,7 +233,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
-							$("#loginButton").attr("disabled", false);
+					
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', defaultIP.trim());
 							localStorage.setItem('unselectedMenu', unselectedMenu);
@@ -271,7 +271,6 @@
 							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1) {
 								// $.cookie('plantID', result.message.split("###")[2].trim());
 								token.plantID = result.message.split("###")[2].trim();
-
 								localStorage.setItem('plantID', result.message.split("###")[2].trim());
 							}
 							if(result.message.split("###")[3].trim() != "-1" && result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1) {
@@ -323,7 +322,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">用户名或密码错误，请重新填写。</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -461,7 +460,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">用户名或密码错误，请重新填写。</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -597,7 +596,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">用户名或密码错误，请重新填写。</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -744,7 +743,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">用户名或密码错误，请重新填写。</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},

@@ -114,7 +114,7 @@
         <![endif]-->
 		<script type="text/javascript">
 			function login() {
-				localStorage.clear();
+				
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
 				$.ajax({
@@ -130,7 +130,7 @@
 					success: function(result) {
 
 						if(result.status == "1") {
-
+localStorage.clear();
 							localStorage.setItem('token', result.token);
 							localStorage.setItem('username', result.message.split("###")[0].trim());
 							localStorage.setItem('userID', username);
@@ -171,7 +171,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerText = "用户名或密码错误，请重新填写。";
+							hintinfo.innerText = result.message;
 						}
 					},
 					error: function(xhr, status, err) {
