@@ -697,7 +697,7 @@ function SelectSubOrder() {
 						$("#changeOrderProductionNum").attr("readonly", true);
 					}
 				});
-$('#table').attr('disabled', true);
+				$('#table').attr('disabled', true);
 				setTimeout(function() {
 					getUsableMaterialFun();
 				}, 100);

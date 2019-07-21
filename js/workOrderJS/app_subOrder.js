@@ -357,16 +357,15 @@ function finishSubOrderByQR(qrCode, orderType) {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true,
-                formatter: function (value, row, index) {
-                	
-                    if(index==0) 
-                    {                  
-                    	$("#changeOrderProductionNum").val(row.productionnum);
-                    	return {
-                            checked : true//设置选中
-                        };
-                    }       
-                }
+		formatter: function(value, row, index) {
+
+			if(index == 0) {
+				$("#changeOrderProductionNum").val(row.productionnum);
+				return {
+					checked: true //设置选中
+				};
+			}
+		}
 	});
 	columnsArray.push({
 		width: 300,
@@ -564,7 +563,12 @@ function FinishSubOrder() {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功! ' + data.message);
-				SelectSubOrder()
+				if(window.windowRoleID.CZG == localStorage.roleID) {
+					getSelfProductionRecord();
+				} else {
+					SelectSubOrder();
+				}
+
 				$("#changeOrderProductionNum").attr("readonly", true);
 			} else {
 				alert("保存失败！" + data.message);
@@ -576,6 +580,93 @@ function FinishSubOrder() {
 		}
 	});
 };
+
+function getSelfProductionRecord() {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+
+	columnsArray.push({
+		width: 300,
+		"title": "姓名",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "物料型号",
+		"field": "materialNameInfo"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "subOrderID"
+	});
+
+	columnsArray.push({
+		width: 300,
+		"title": "产量",
+		"field": "number"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "完成时间",
+		"field": "inputTime"
+	});
+
+	var timeNow = new Date();
+	var startTime = "";
+	var endTime = "";
+	if(timeNow.getHours() < 7) {
+		endTime = timeNow.format("yyyy-MM-dd " + "07:00:00");
+		timeNow.setDate(timeNow.getDate() - 1);
+		startTime = timeNow.format("yyyy-MM-dd " + "07:00:00");
+	} else {
+		startTime = timeNow.format("yyyy-MM-dd " + "07:00:00");
+		timeNow.setDate(timeNow.getDate() + 1);
+		endTime = timeNow.format("yyyy-MM-dd " + "07:00:00");
+	}
+
+	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.userID +
+		"&startTime=" + startTime + "&endTime=" + endTime;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
 
 function SelectWorkOrderFun() {
 	SelectSubOrder();
@@ -620,6 +711,7 @@ function SelectSubOrder() {
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 	}
+
 	var columnsArray = [];
 	columnsArray.push({
 		radio: true
@@ -707,7 +799,7 @@ function SelectSubOrder() {
 					$('#table').bootstrapTable('destroy').bootstrapTable({
 						data: models,
 						toolbar: '#toolbar',
-						singleSelect: false, 
+						singleSelect: false,
 						clickToSelect: true,
 						striped: true,
 						sortName: "orderSplitid",
@@ -731,6 +823,10 @@ function SelectSubOrder() {
 				setTimeout(function() {
 					getUsableMaterialFun();
 				}, 100);
+
+				if(window.windowRoleID.CZG == localStorage.roleID) {
+					getSelfProductionRecord();
+				}
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
