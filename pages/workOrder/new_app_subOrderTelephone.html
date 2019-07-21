@@ -53,10 +53,10 @@
 
 	<body>
 		<script type="text/javascript">
-			//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-			// var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
-			// 							alert($Global_UserLogin_Info)
-			if($Global_UserLogin_Info.token == null) {
+			//获取全局token等信息，放入变量localStorage., app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
+			// var localStorage. = JSON.parse(localStorage.getItem('localStorage.'));
+			// 							alert(localStorage.)
+			if(localStorage.token == null) {
 
 				window.location.href = "../app_login.html";
 			}
@@ -94,18 +94,16 @@
 					//补充入库
 					//				subOrderOvertimeFinishBT
 					$("#subOrderOvertimeFinishBT").show();
-					//				alert($Global_UserLogin_Info.roleID);
+					//				alert(localStorage.roleID);
 					$("#cancelInputSuborderBT").show();
 					//$("#industrialPlantSlct1").selectpicker('hide');
 
-				}				
-				else
-				{
+				} else {
 					$("#cancelInputSuborderBT").hide();
 					$("#subOrderOvertimeFinishBT").hide();
 					$("#subOrderCancelFinishBT").hide();
 				}
-				
+
 			});
 
 			$(function() {
@@ -137,7 +135,7 @@
                                 	描述：panel1
                                 -->
 								<div class="panel">
-							
+
 									<div class="panel-body">
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
@@ -160,6 +158,8 @@
 													<label> 单号： </label>
 													<select class="selectpicker" id="workOrderSlct" data-width="76%" name="workOrderSlct" onchange="SelectWorkOrderFun()">
 													</select>
+													
+													<input type="text" class="form-control " style="margin-top: 10px;" readonly="true" id="materialNameOfOrder" name="materialNameOfOrder">
 												</div>
 												<div class="form-group">
 													<label id='workingkLocationSlctLabel'> 工位： </label>
@@ -182,11 +182,11 @@
 												<div class="form-group">
 													<button id="subOrderFinishScanQRBT" type="button" class="btn btn-danger" onclick="scanQR('finishSubOrder')">
 											                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>扫码切换工单
-											           </button> 
-											          <!--  浇铸完成批次，不入窑-->
-											            <button id="subOrderFinishOnlyBTJZ" type="button" style="display: none;" class="btn btn-danger" onclick="FinishSubOrder()">
+											           </button>
+													<!--  浇铸完成批次，不入窑-->
+													<button id="subOrderFinishOnlyBTJZ" type="button" style="display: none;" class="btn btn-danger" onclick="FinishSubOrder()">
 	            											<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成    </button>
-												
+
 													<button id="subOrderOvertimeFinishBT" type="button" class="btn btn-info " onclick="FinishSubOrder()">
 											                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>补充入库
 											            </button>

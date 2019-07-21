@@ -1,5 +1,5 @@
-//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
+//获取全局token等信息，放入变量localStorage., app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
+//var localStorage. = JSON.parse(localStorage.getItem('localStorage.'));
 
 function subOrderIndustrialPlantSlctFun() {
 	$.ajax({
@@ -25,10 +25,10 @@ function subOrderIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
-				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
+				if(localStorage.plantID != null && localStorage.plantID != 'undefined' && localStorage.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.plantID) {
+						if($(numbers[j]).val().toString() == localStorage.plantID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 							$("#industrialPlantLabel").css("display", "none");
@@ -140,10 +140,10 @@ function subOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
+				if(localStorage.processID != null && localStorage.processID != 'undefined' && localStorage.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.processID) {
+						if($(numbers[j]).val().toString() == localStorage.processID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -179,8 +179,12 @@ function subOrderProductionLineSlctFun() {
 		//$('#subOrderOvertimeFinishBT').hide();
 
 		$('#subOrderFinishOnlyBTJZ').show();
-		//$('#subOrderCancelFinishBT').hide();
-		//alert($('#subOrderFinishBT').attr("onclick"));
+
+		if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
+			$("#subOrderFinishBT").hide();
+			$("#subOrderOutDryingBTJZ").hide();
+		}
+
 	} else {
 		$('#subOrderFinishOnlyBTJZ').hide();
 		$('#subOrderOvertimeFinishBT').show();
@@ -220,10 +224,10 @@ function subOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				// $('#productionLineSlct').selectpicker('mobile');
-				if($Global_UserLogin_Info.lineID != null && $Global_UserLogin_Info.lineID != 'undefined' && $Global_UserLogin_Info.lineID.toString().length > 0) {
+				if(localStorage.lineID != null && localStorage.lineID != 'undefined' && localStorage.lineID.toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.lineID) {
+						if($(numbers[j]).val().toString() == localStorage.lineID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 
@@ -285,10 +289,10 @@ function subOrderWorkingLocationSlctFun() {
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
 				// $('#workingkLocationSlct').selectpicker('mobile');
-				if($Global_UserLogin_Info.workingkLocation != null && $Global_UserLogin_Info.workingkLocation != 'undefined' && $Global_UserLogin_Info.workingkLocation.toString().length > 0) {
+				if(localStorage.workingkLocation != null && localStorage.workingkLocation != 'undefined' && localStorage.workingkLocation.toString().length > 0) {
 					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.workingkLocation) {
+						if($(numbers[j]).val().toString() == localStorage.workingkLocation) {
 							$(numbers[j]).attr("selected", "selected");
 							//$('#workingkLocationSlct').selectpicker('hide');
 							//$("#workingkLocationSlctLabel").css("display", "true");
@@ -350,10 +354,19 @@ function subOrderChangeOrderNum() {
 
 function finishSubOrderByQR(qrCode, orderType) {
 	$("#myModal").modal('hide');
-
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		checkbox: true,
+                formatter: function (value, row, index) {
+                	
+                    if(index==0) 
+                    {                  
+                    	$("#changeOrderProductionNum").val(row.productionnum);
+                    	return {
+                            checked : true//设置选中
+                        };
+                    }       
+                }
 	});
 	columnsArray.push({
 		width: 300,
@@ -509,9 +522,9 @@ function FinishSubOrder() {
 		if(key == "productionnum") {
 
 			if($("#changeOrderProductionNum").val().length < 1) {
-				formMap[key]    = row[0][key] ;  // formData.append(key, row[0][key]);
+				formMap[key] = row[0][key]; // formData.append(key, row[0][key]);
 			} else {
-				formMap[key]    = $("#changeOrderProductionNum").val();
+				formMap[key] = $("#changeOrderProductionNum").val();
 				//formData.append(key, $("#changeOrderProductionNum").val());
 			}
 			continue;
@@ -529,12 +542,12 @@ function FinishSubOrder() {
 
 	var formMap2 = {};
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formMap2["name"] = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID + "###-1###" + row[0]["materialName"];
+		formMap2["name"] = localStorage.username + "###" + localStorage.userID + "###-1###" + row[0]["materialName"];
 	} else {
-		formMap2["name"] = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID + "###" +
+		formMap2["name"] = localStorage.username + "###" + localStorage.userID + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"];
 	}
-	//formMap2["name"] = $Global_UserLogin_Info.username;
+	//formMap2["name"] = localStorage.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 
 	$.ajax({
@@ -682,31 +695,39 @@ function SelectSubOrder() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+				$('#materialNameOfOrder').val(models[0].materialName);
 
-				$('#table').bootstrapTable('destroy').bootstrapTable({
-					data: models,
-					toolbar: '#toolbar',
-					singleSelect: false,
-					clickToSelect: true,
-					striped: true,
-					sortName: "orderSplitid",
-					sortOrder: "asc",
-					pageSize: 30,
-					pageNumber: 1,
-					pageList: "[10, 25, 50, 100, All]",
-					showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					//search: true,
-					pagination: true,
-					columns: columnsArray,
-					onClickRow: function(row) {
-
-						$("#changeOrderProductionNum").val(row["productionnum"]);
-						$("#changeOrderProductionNum").attr("readonly", true);
+				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JZ && window.windowRoleID.CZG == localStorage.roleID) {
+					$('#table').bootstrapTable('destroy');
+					if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
+						$("#subOrderFinishBT").hide();
+						$("#subOrderOutDryingBTJZ").hide();
 					}
-				});
+				} else {
+					$('#table').bootstrapTable('destroy').bootstrapTable({
+						data: models,
+						toolbar: '#toolbar',
+						singleSelect: false, 
+						clickToSelect: true,
+						striped: true,
+						sortName: "orderSplitid",
+						sortOrder: "asc",
+						pageSize: 30,
+						pageNumber: 1,
+						pageList: "[10, 25, 50, 100, All]",
+						showToggle: true,
+						//showRefresh: true,
+						//showColumns: true,
+						//search: true,
+						pagination: true,
+						columns: columnsArray,
+						onClickRow: function(row) {
 
+							$("#changeOrderProductionNum").val(row["productionnum"]);
+							$("#changeOrderProductionNum").attr("readonly", true);
+						}
+					});
+				}
 				setTimeout(function() {
 					getUsableMaterialFun();
 				}, 100);
@@ -946,12 +967,12 @@ function gainMaterialRecord() {
 	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
 	formData.append("materialOrderID", selectRow[0].orderid);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
+	formData.append("outputter", localStorage.username) //localStorage.username;
 
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formData.append("outputter", $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID + "###-1");
+		formData.append("outputter", localStorage.username + "###" + localStorage.userID + "###-1");
 	} else {
-		formData.append("outputter", $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userID + "###" +
+		formData.append("outputter", localStorage.username + "###" + localStorage.userID + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	}
 	$.ajax({
@@ -1306,7 +1327,7 @@ function gainMaterialByQR(recordID) {
 	}
 	var formData = new FormData();
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
+	formData.append("outputter", localStorage.username) //localStorage.username;
 	formData.append("qrCode", recordID);
 
 	$.ajax({
@@ -1571,7 +1592,7 @@ function gotoNextSolidifyRoom() {
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + $Global_UserLogin_Info.username + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+			"&status=" + stageNum + "&recorder=" + localStorage.username + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
@@ -1619,7 +1640,7 @@ function gainPartMaterialRecord() {
 	formData.append("materialRecordID", selectRow[0].id);
 	formData.append("number", result1);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
+	formData.append("outputter", localStorage.username) //localStorage.username;
 	formData.append("materialOrderID", selectRow[0].orderid);
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainpartmaterialrecord",
@@ -1947,18 +1968,18 @@ function pushInDryingKilnjzsuborder(qrCode) {
 	var checkText = $("#workingkLocationSlct").find("option:selected").text();
 	formMap['worklocationname'] = checkText;
 	formMap['materialquantity'] = $("#changeOrderProductionNum").val();
-	formMap['inputerid'] = $Global_UserLogin_Info.userid;
-	formMap['inputername'] = $Global_UserLogin_Info.username;
+	formMap['inputerid'] = localStorage.userid;
+	formMap['inputername'] = localStorage.username;
 	//console.log(formMap);
 	//alert(row[0].productionnum);
 	var formMap2 = {};
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formMap2["name"] = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userid + "###-1###" + row[0]["materialName"];
+		formMap2["name"] = localStorage.username + "###" + localStorage.userid + "###-1###" + row[0]["materialName"];
 	} else {
-		formMap2["name"] = $Global_UserLogin_Info.username + "###" + $Global_UserLogin_Info.userid + "###" +
+		formMap2["name"] = localStorage.username + "###" + localStorage.userid + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"];
 	}
-	//formMap2["name"] = $Global_UserLogin_Info.username;
+	//formMap2["name"] = localStorage.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 
 	$.ajax({
@@ -2004,10 +2025,10 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 	//浇铸干燥窑扫码后ID赋值
 	//alert(qrCode)
 	formMap['dryingkilnid'] = qrCode;
-	formMap['outputerid'] = $Global_UserLogin_Info.userid;
-	formMap['outputername'] = $Global_UserLogin_Info.username;
+	formMap['outputerid'] = localStorage.userid;
+	formMap['outputername'] = localStorage.username;
 	var formMap2 = {};
-	formMap2["name"] = $Global_UserLogin_Info.username;
+	formMap2["name"] = localStorage.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 	$.ajax({
 		url: window.serviceIP + "/api/order/pushOutDryingKilnjzsuborder",
