@@ -442,7 +442,7 @@ function pushOutDryingKilnjzsuborder() {
 	//浇铸干燥窑扫码后ID赋值
 	//alert(qrCode)
 	formMap['dryingkilnid'] = document.PlantToLineSelectForm.dryingKilnEquipmentSlct.value.toString();
-	formMap['outputerid'] = localStorage.userid;
+	formMap['outputerid'] = localStorage.userID;
 	formMap['outputername'] = localStorage.username;
 	var formMap2 = {};
 	formMap2["name"] = localStorage.username;

@@ -552,9 +552,9 @@ function FinishSubOrder() {
 
 	var formMap2 = {};
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formMap2["name"] = localStorage.username + "###" + localStorage.userID + "###-1###" + row[0]["materialName"];
+		formMap2["name"] = localStorage.username + "###" + localStorage.useridID + "###-1###" + row[0]["materialName"];
 	} else {
-		formMap2["name"] = localStorage.username + "###" + localStorage.userID + "###" +
+		formMap2["name"] = localStorage.username + "###" + localStorage.useridID + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"];
 	}
 	//formMap2["name"] = localStorage.username;
@@ -638,7 +638,7 @@ function getSelfProductionRecord() {
 		endTime = timeNow.format("yyyy-MM-dd " + "07:00:00");
 	}
 
-	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.userID +
+	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.useridID +
 		"&startTime=" + startTime + "&endTime=" + endTime;
 
 	$.ajax({
@@ -1077,9 +1077,9 @@ function gainMaterialRecord() {
 	formData.append("outputter", localStorage.username) //localStorage.username;
 
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formData.append("outputter", localStorage.username + "###" + localStorage.userID + "###-1");
+		formData.append("outputter", localStorage.username + "###" + localStorage.useridID + "###-1");
 	} else {
-		formData.append("outputter", localStorage.username + "###" + localStorage.userID + "###" +
+		formData.append("outputter", localStorage.username + "###" + localStorage.useridID + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	}
 	$.ajax({
@@ -2075,15 +2075,15 @@ function pushInDryingKilnjzsuborder(qrCode) {
 	var checkText = $("#workingkLocationSlct").find("option:selected").text();
 	formMap['worklocationname'] = checkText;
 	formMap['materialquantity'] = $("#changeOrderProductionNum").val();
-	formMap['inputerid'] = localStorage.userid;
+	formMap['inputerid'] = localStorage.useridID;
 	formMap['inputername'] = localStorage.username;
 	//console.log(formMap);
 	//alert(row[0].productionnum);
 	var formMap2 = {};
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formMap2["name"] = localStorage.username + "###" + localStorage.userid + "###-1###" + row[0]["materialName"];
+		formMap2["name"] = localStorage.username + "###" + localStorage.useridID + "###-1###" + row[0]["materialName"];
 	} else {
-		formMap2["name"] = localStorage.username + "###" + localStorage.userid + "###" +
+		formMap2["name"] = localStorage.username + "###" + localStorage.useridID + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"];
 	}
 	//formMap2["name"] = localStorage.username;
@@ -2132,7 +2132,7 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 	//浇铸干燥窑扫码后ID赋值
 	//alert(qrCode)
 	formMap['dryingkilnid'] = qrCode;
-	formMap['outputerid'] = localStorage.userid;
+	formMap['outputerid'] = localStorage.useridID;
 	formMap['outputername'] = localStorage.username;
 	var formMap2 = {};
 	formMap2["name"] = localStorage.username;
