@@ -193,6 +193,12 @@ function subOrderProductionLineSlctFun() {
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
 		$('#subOrderCancelFinishBT').show();
+		
+		if(localStorage.roleID == window.windowRoleID.CZG) {
+			$('#subOrderCancelFinishBT').hide();
+			$('#subOrderOvertimeFinishBT').hide();
+		}
+		
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}
 	var formData = new FormData();
@@ -309,6 +315,20 @@ function subOrderWorkingLocationSlctFun() {
 };
 
 function lineWorkOrderSlct() {
+	
+		var dataStr = "2";
+	var dateNow = new Date();
+	if(dateNow.getHours() < 7) {
+		dateNow.setDate(dateNow.getDate() - 1);
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
+		dataStr = "BB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 18) {
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+	
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
@@ -330,8 +350,12 @@ function lineWorkOrderSlct() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#workOrderSlct').append(("<option value=" + models[i].id + ">" +
-						models[i].orderid  + "</option>").toString())
+					if(models[i].orderid.toString().indexOf(dataStr)  > 0)
+					{
+						$('#workOrderSlct').append(("<option value=" + models[i].id + ">" +
+						models[i].orderid  + "</option>").toString());
+					}
+					
 				}
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
