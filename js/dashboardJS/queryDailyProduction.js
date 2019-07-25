@@ -348,6 +348,42 @@ function getDailyProduction() {
 		}
 		});
 	}
+	
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLineMaterial') {
+			columnsArray.push({
+				width: 300,
+				"title": "产线",
+				"field": "inputLineID",
+				formatter: function(value, row, index) {
+					return $("#productionLineSlct option[value='" + row.inputLineID + "']").text();
+				}
+			});
+			
+			columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialNameInfo"
+		});
+		
+			columnsArray.push({
+				width: 300,
+				"title": "班次",
+				"field": "orderHour"
+			});
+
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "orderDay"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "总产量",
+			"field": "sumProduction"
+		});
+	}
+	
 	//console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
 
 	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
