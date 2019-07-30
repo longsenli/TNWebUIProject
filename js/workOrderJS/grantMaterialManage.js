@@ -203,6 +203,7 @@ function findGrantMaterialByQR(recordID, grantType) {
 			}
 		}
 	});
+
 }
 
 function grantMaterialByInputID() {
@@ -275,6 +276,7 @@ function grantMaterialByInputID() {
 			}
 		}
 	});
+
 }
 
 function grantMaterialDetail() {
@@ -305,7 +307,7 @@ function grantMaterialDetail() {
 
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-		"&startTime=" + document.getElementById("startTime").value  + "&endTime=" + document.getElementById("endTime").value ;
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
 
 	$.ajax({
 		url: urlStr,
@@ -343,6 +345,7 @@ function grantMaterialDetail() {
 			}
 		}
 	});
+
 }
 
 var accept_webName = null;
@@ -460,7 +463,7 @@ function recognitionQR(webName, qrCode) {
 	if(webName == '1' || webName == '2')
 		findGrantMaterialByQR(qrCode, webName);
 	if(webName == '5')
-		addOrderIDToBatchTable(qrCode);
+		addOrderIDToBatchTable(qrCode, "SJ");
 }
 
 function innitOrderIDTable(models) {
@@ -487,7 +490,7 @@ function innitOrderIDTable(models) {
 		singleSelect: false,
 		clickToSelect: true,
 		sortName: "orderID12",
-		uniqueId : "orderID",
+		uniqueId: "orderID",
 		sortOrder: "asc",
 		pageSize: 20,
 		pageNumber: 1,
@@ -501,7 +504,7 @@ function innitOrderIDTable(models) {
 	});
 }
 
-function addOrderIDToBatchTable(orderID) {
+function addOrderIDToBatchTable(orderID, type) {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
 		innitOrderIDTable();
@@ -510,10 +513,9 @@ function addOrderIDToBatchTable(orderID) {
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
 	}
-	var rows = $('#table').bootstrapTable('getRowByUniqueId',orderID);//行的数据
-	
-	if(rows)
-	{
+	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
+
+	if(rows) {
 		alert("该工单已添加!" + orderID);
 		return;
 	}
@@ -521,21 +523,23 @@ function addOrderIDToBatchTable(orderID) {
 		alert("工单错误,请确认!" + orderID);
 		return;
 	}
-	if($("#table").bootstrapTable('getData').length >= 20)
-	{
-		alert("一次性最多发料20个!" );
+	if($("#table").bootstrapTable('getData').length >= 20) {
+		alert("一次性最多发料20个!");
 		return;
 	}
 	var _data = {
 		"orderID": orderID,
 		"status": "",
 		"returnMessage": ""
-	} 
+	}
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
-	setTimeout(function() {
-					scanQR('5');
-	}, 2000); 
+	if("SJ" == type) {
+		setTimeout(function() {
+			scanQR('5');
+		}, 2000);
+	}
+
 }
 
 function grantMaterialByBatch(grantType) {
@@ -598,4 +602,58 @@ function grantMaterialByBatch(grantType) {
 			alert("请求出错," + msg);
 		}
 	});
+}
+
+function onTextareaKeyDown() {
+
+	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
+		event.preventDefault(); //禁止默认事件（默认是换行） 
+		var orderID = $("#orderIDByBatch").val();
+		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+			innitOrderIDTable();
+		}
+
+		if(!orderID) {
+			orderID = $("#orderIDByBatch").val();
+		}
+		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
+
+		if(rows) {
+			console.log("该工单已添加!" + orderID);
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		if(orderID.length < 5) {
+			console.log("工单错误,请确认!" + orderID);
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		if($("#table").bootstrapTable('getData').length >= 20) {
+			console.log("一次性最多发料20个!");
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		var _data = {
+			"orderID": orderID,
+			"status": "",
+			"returnMessage": ""
+		}
+		$('#table').bootstrapTable('prepend', _data);
+
+		//alert("123");
+		//console.log($("#orderIDByBatch").val() + "=====huanh");
+		//event.keyCode = 17;
+		//addOrderIDToBatchTable($("#orderIDByBatch").val(),"PDA");
+
+		$("#orderIDByBatch").val("");
+		document.getElementById('orderIDByBatch').focus();
+		//console.log($("#orderIDByBatch").val() + "=====huanh123");
+
+	}
 }

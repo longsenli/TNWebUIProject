@@ -11,59 +11,28 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/workOrderJS/grantMaterialManage.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/pushinDryingKiln.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
-		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+	
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
-		<!--Nifty Stylesheet [ REQUIRED ]-->
-		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+
 	</head>
-  
+
 	<body style="padding-left:20px;padding-top:5px">
 
 		<script type="text/javascript">
-			
-//			$(function() {
-//				document.addEventListener('plusready', function() {
-//					// 在这里调用5+ API 
-//					if(window.plus)
-//						plusReady();
-//				}, false);
-//			});
-//
-//			function plusReady() {
-//				var main = plus.android.runtimeMainActivity(); //获取activity  
-//				var context = plus.android.importClass('android.content.Context'); //上下文  
-//				var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-//					onReceive: doReceive
-//				});
-//				var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-//				var Intent = plus.android.importClass('android.content.Intent');
-//				var filter = new IntentFilter();
-//				filter.addAction("com.zkc.scancode"); //监听扫描  
-//				main.registerReceiver(receiver, filter); //注册监听  
-//
-//				function doReceive(context, intent) {
-//					console.log("tetr======" + context + "====" + intent);
-//					plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
-//					var Number = intent.getStringExtra("code");
-//					console.log(Number);
-//					main.unregisterReceiver(receiver); //取消监听  
-//				}
-//			}
-
 			//			if($.cookie('token') == null) {
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-					var today = new Date();
+				var today = new Date();  
 				if(today.getHours() < 7) {   
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					today.setDate(today.getDate() - 1)
@@ -76,42 +45,26 @@
 					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
 				}
-				
-			
-//				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
-//				today.setDate(today.getDate() - 1)
-//				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 
-				grantMaterialPlantSlctFun("1");
+				pushinDryingKilnPlantSlctFun("1");
 			});
- 
-
 		</script>
-
-		<div id="container" class="effect aside-float aside-bright mainnav-lg">
-			<div class="boxed">
-				<div id="content-container">
-					<div id="page-content">
-						<div class="row">
-							<div class="col-lg-6">
-								<div class="panel">
-									<div class="panel-body">
 
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
 												<div class="form-group">
 													<label id="industrialPlantLabel"> 厂区： </label>
-													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct">
+													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="pushinDryingKilnEquipmentSlctFun()">
 													</select>
 												</div>
 												<div class="form-group">
-													<label id="productionProcessLabel"> 流程： </label>
-													<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct">
+													<label id="productionProcessLabel"> 干燥窑： </label>
+													<select class="selectpicker" id="dryingKilnEquipmentSlct" style="width:100px;" name="dryingKilnEquipmentSlct">
 													</select>
 												</div>
 												<div class="form-group">
 													<!--<label style="display: none;"> 产线： </label>
-				<select class="selectpicker" id="productionLineSlct" style="width:100px;display: none;" name="productionLineSlct" onchange="grantMaterialSelect()">
+				<select class="selectpicker" id="productionLineSlct" style="width:100px;display: none;" name="productionLineSlct" onchange="pushinDryingKilnSelect()">
 				</select>-->
 													<label> 时间： </label>
 													<input type="datetime-local" id="startTime" name="startTime" />
@@ -119,21 +72,20 @@
 													<input type="datetime-local" id="endTime" name="endTime" />
 												</div>
 
-												<br/>  
+												<br/>
 
-												<!--<input type="button" class="btn btn-default" value="查询 " onclick="grantMaterialSelect()">-->
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="grantMaterialDetail()">发料详情</button>
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">单个发料</button>
-
-												<input type="text"  autofocus="autofocus" onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;"   name="orderIDByBatch" placeholder="请输入工单号">
+												<!--<input type="button" class="btn btn-default" value="查询 " onclick="pushinDryingKilnSelect()">-->
+												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('1')">在窑查询</button>
+												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('2')">入窑记录查询</button>
+												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('3')">出窑记录查询</button>
+												<input type="text" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('1')">批量当日发料</button>
-												<br />
-												<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">批量预发料</button>
-												<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="scanQR('2')">单个预发料</button>
-												<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">批量取消发料</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('1')">干燥窑扫码</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="pushinDryingKilnByBatch()">批量入窑</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="pushOutDryingKilnjzsuborder()">批量出窑</button>
+
 											</div>
 											<br />
 										</form>
@@ -142,15 +94,6 @@
 											<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
 											</table>
 										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
 	</body>
 

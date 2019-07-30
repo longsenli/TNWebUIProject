@@ -100,7 +100,8 @@ function getDryingKilnInfo(typeID) {
 	});
 	columnsArray.push({
 		"title": "厂区",
-		"field": "plantname"
+		"field": "plantname",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "产线",
@@ -129,7 +130,7 @@ function getDryingKilnInfo(typeID) {
 	var urlStr = window.serviceIP + "/api/dashboard/getDryingKilnInfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&equipmentID=" + document.PlantToLineSelectForm.dryingKilnEquipmentSlct.value.toString() +
 		"&queryTypeID=" + typeID +
-		"&startTime=" + document.getElementById("startTime").value + " 02:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:00:00";
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value ;
 
 	$.ajax({
 		url: urlStr,
