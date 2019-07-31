@@ -33,8 +33,8 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-				var today = new Date();  
-				if(today.getHours() < 7) {   
+				var today = new Date();
+				if(today.getHours() < 7) {
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					today.setDate(today.getDate() - 1)
 					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
@@ -81,14 +81,12 @@
 													<label>-</label>
 													<input type="datetime-local" id="endTime" name="endTime" />
 												</div>
-
 												<br/>
-
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="pushinDryingKilnSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('1')">在窑查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('2')">入窑记录查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getDryingKilnInfo('3')">出窑记录查询</button>
-												<input type="text" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" autofocus="autofocus"  onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>

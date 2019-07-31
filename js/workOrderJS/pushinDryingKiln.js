@@ -368,6 +368,8 @@ function addOrderIDToBatchTable(orderID) {
 }
 
 function pushinDryingKilnByBatch() {
+	
+	
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
 		alert("请先添加工单号再发料!")
 		return;
@@ -382,7 +384,16 @@ function pushinDryingKilnByBatch() {
 		orderIDList += tableData[i].orderID + "###";
 	}
 	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
-
+	if( $("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("JZF") >0)
+	{
+		alert("干燥窑为正窑,工单含有负板栅或边负板栅,请确认后更换窑!")
+		return;
+	}
+	if( $("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("JZZ") >0)
+	{
+		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
+		return;
+	}
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("name", localStorage.username);
@@ -477,3 +488,58 @@ function pushOutDryingKilnjzsuborder() {
 		}
 	});
 };
+
+
+function onTextareaKeyDown() {
+
+	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
+		event.preventDefault(); //禁止默认事件（默认是换行） 
+		var orderID = $("#orderIDByBatch").val();
+		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+			innitOrderIDTable();
+		}
+
+		if(!orderID) {
+			orderID = $("#orderIDByBatch").val();
+		}
+		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
+
+		if(rows) {
+			console.log("该工单已添加!" + orderID);
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		if(orderID.length < 5) {
+			console.log("工单错误,请确认!" + orderID);
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		if($("#table").bootstrapTable('getData').length >= 30) {
+			console.log("一次性最多发料30个!");
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+		var _data = {
+			"orderID": orderID,
+			"status": "",
+			"returnMessage": ""
+		}
+		$('#table').bootstrapTable('prepend', _data);
+
+		//alert("123");
+		//console.log($("#orderIDByBatch").val() + "=====huanh");
+		//event.keyCode = 17;
+		//addOrderIDToBatchTable($("#orderIDByBatch").val(),"PDA");
+
+		$("#orderIDByBatch").val("");
+		document.getElementById('orderIDByBatch').focus();
+		//console.log($("#orderIDByBatch").val() + "=====huanh123");
+	}
+
+}
