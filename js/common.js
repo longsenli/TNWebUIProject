@@ -152,9 +152,9 @@ var windowProcessEnum = {
 	ZH: '1007',
 	JS: '1008',
 	CD: '1009',
-	BZ: '1010',
+	ZL: '1010',
 	JZ: '1011',
-	ZL: '1012'
+	BZ: '1012'
 }
 
 var windowRoleID = {
@@ -168,4 +168,9 @@ var windowRoleID = {
 	CJZG: '20010',  //车间主管
 	CJZR: '20020'  //车间主任
 	
+}
+
+var MaterialTypeEnum = {
+	BZDC: '2101',  //包装电池
+	ZBS: '1013'    //正板栅
 }

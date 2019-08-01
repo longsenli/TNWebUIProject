@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工单批次管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/chargePackManageJS/packageBatteryRecord.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			packageBatteryRecordIndustrialPlantSlctFun();
+			$(function() {
+				var today = new Date();
+
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+			});
+
+			$(function() {
+				$("body").delegate('#table tr', 'click', function() {
+					packageBatteryRecordRowClick(this);
+				});
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<label id='industrialPlantLabel'> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="packageBatteryRecordProductionLineSlctFun()">
+				</select>
+
+				<label id='productionLineLabel'> 产线： </label>
+				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct">
+				</select>
+
+				<!--<select class="selectpicker" id="materialName" name="materialName" >
+					
+				</select>-->
+
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+
+			</div>
+			<br />
+		</form>
+
+		<div class=" form-inline row">
+			<button type="button" class="btn btn-success" onclick="getPackageRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>包装查询
+            </button>
+
+		</div>
+		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+	</body>
+
+</html>

@@ -69,7 +69,7 @@ function tidyBatteryRecordProductionProcessSlctFun() {
 
 				var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 				for(var j = 0; j < numbers.length; j++) {
-					if($(numbers[j]).val().toString() == window.windowProcessEnum.ZL) {
+					if($(numbers[j]).val().toString() == window.windowProcessEnum.BZ) {
 						$(numbers[j]).attr("selected", "selected");
 						$('#productionProcessSlct').selectpicker('hide');
 
