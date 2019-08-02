@@ -7,7 +7,7 @@
 	"id": "H5EE481DB", //应用的标识，创建应用时自动生成，勿手动修改
 	"name": "天能（濮阳）集团", //应用名称，程序桌面图标名称
 	"version": {
-		"name": "1.1.8", //应用版本名称
+		"name": "1.2.0", //应用版本名称
 		"code": "001"
 	},
 	"description": "天能（濮阳）集团", //应用描述信息
@@ -161,8 +161,8 @@
 				"android": {
 					"mdpi": "image/icon/48x48.png", //普通屏程序图标，分辨率：48x48
 					"ldpi": "image/icon/48x48.png", //大屏程序图标，分辨率：48x48
-					"hdpi": "", //高分屏程序图标，分辨率：72x72
-					"xhdpi": "", //720P高分屏程序图标，分辨率：96x96
+					"hdpi": "image/icon/72x72.png", //高分屏程序图标，分辨率：72x72
+					"xhdpi": "image/icon/96x96.png", //720P高分屏程序图标，分辨率：96x96
 					"xxhdpi": "image/icon/144x144.png", //1080P 高分屏程序图标，分辨率：144x144
 					"xxxhdpi": "image/icon/192x192.png"
 				}
