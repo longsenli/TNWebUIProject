@@ -105,6 +105,44 @@ function chargingRackRecordProductionProcessSlctFun() {
 	});
 };
 
+function chargingRackRecordMaterialSlct()
+{
+	$.ajax({
+
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString() ,
+		type: "GET",
+
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+
+			$("#materialname").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
+						"###" + models[i].eachbatchnumber + "</option>").toString());
+				}
+				$('#materialname').selectpicker('refresh');
+				$('#materialname').selectpicker('render');   
+				// $('#materialid').selectpicker('mobile');
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	}); 
+}
 function chargingRackRecordProductionLineSlctFun() {
 
 	var formData = new FormData();
@@ -206,7 +244,7 @@ function chargingRackRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').append(("<option value=" + models[i].id +
 						">" + models[i].name + "</option>").toString());
 					$('#worklocation').append(("<option value=" + models[i].id +
-						">" + models[i].name + "</option>").toString());
+						">" + models[i].name + "###" + models[i].describeinfo + "</option>").toString());
 				}
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
@@ -260,7 +298,7 @@ function chargingRackRecordMaterialSlct() {
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
-						"###" + models[i].description + "</option>").toString());
+						 "</option>").toString());
 				}
 				$('#materialname').selectpicker('refresh');
 				$('#materialname').selectpicker('render');   
@@ -450,7 +488,7 @@ function closeChargingRackRecordModel(modelName) {
 }
 
 function setPutOnNum() {
-	var num = parseInt($("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[1].trim());
+	var num = parseInt($("#chargingRackRecordAddForm" + " #worklocation").find("option:selected").text().split("###")[1].trim());
 	$("#chargingRackRecordAddForm" + " #productionnumber").val(num);
 	$("#chargingRackRecordAddForm" + " #realnumber").val(num);
 }

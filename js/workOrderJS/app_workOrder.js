@@ -348,7 +348,7 @@ function setLineModal() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].description + "</option>").toString());
+					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].eachbatchnumber + "</option>").toString());
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
@@ -611,7 +611,7 @@ function createScrapModel() {
 				for (var  i  in  models)  {  
 					htmlInner += "<label " + labelStyle + " >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " + textStyle +
 						" onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id + "###" + models[i].name + "\" name=\"" + models[i].id +
-						"###" + models[i].name + "\"  value = \"" + models[i].description + "\"  placeholder=\"请输入报废数量\">";
+						"###" + models[i].name + "\"  value = \"" + models[i].eachbatchnumber + "\"  placeholder=\"请输入报废数量\">";
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
