@@ -342,7 +342,7 @@ function getDailyProduction() {
 		formatter: function(value, row, index) {
 			console.log(value);
 			if(value) {
-				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				return (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
 			}
 
 		}

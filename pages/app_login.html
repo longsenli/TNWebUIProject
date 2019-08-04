@@ -157,19 +157,24 @@
 						if(res.message > versionNow) //比对版本号
 						{
 
-							//console.log(new_version+'新版本'+version);
-							plus.nativeUI.confirm("应用有新版本，是否立即下载更新？", function(event) {
-								if(event.index == 1) {
-									plus.nativeUI.showWaiting();
-									//updateAppRun(window.webUiService + '/pages/H5EE481DB_0308142119.apk');
-									//									alert(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk')
-									updateAppRun(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk');
+							plus.nativeUI.showWaiting("新版本app下载中，请稍等......");
+							//updateAppRun(window.webUiService + '/pages/H5EE481DB_0308142119.apk');
+							//									alert(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk')
+							updateAppRun(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk');
 
-									//updateAppRun("http://fast.yingyonghui.com/82576ac98a5bf68aa822332c681ce0d9/5c84684a/apk/6363734/4e788c5e4446c6edece446bc92eef0af");
-									//ks.update_ksd(new_json.url); //更新函数,在下面
-
-								}
-							}, '更新确认', ['取消', '确认']);
+							//							//console.log(new_version+'新版本'+version);
+							//							plus.nativeUI.confirm("应用有新版本，是否立即下载更新？", function(event) {
+							//								if(event.index == 1) {
+							//									plus.nativeUI.showWaiting();
+							//									//updateAppRun(window.webUiService + '/pages/H5EE481DB_0308142119.apk');
+							//									//									alert(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk')
+							//									updateAppRun(window.webUiService + '/tnpyILPS_' + res.message.toString().trim() + '.apk');
+							//
+							//									//updateAppRun("http://fast.yingyonghui.com/82576ac98a5bf68aa822332c681ce0d9/5c84684a/apk/6363734/4e788c5e4446c6edece446bc92eef0af");
+							//									//ks.update_ksd(new_json.url); //更新函数,在下面
+							//
+							//								}
+							//							}, '更新确认', ['取消', '确认']);
 						}
 					}
 				});
@@ -208,7 +213,6 @@
 					defaultIP = localStorage.getItem('myDefaultIP');
 				}
 
-	
 				var unselectedMenu = localStorage.getItem('unselectedMenu');
 				var username = document.getElementById("form-username").value;
 				var password = document.getElementById("form-password").value;
@@ -233,7 +237,7 @@
 					timeout: 5000,
 					success: function(result) {
 						if(result.status == "1") {
-					
+
 							localStorage.clear();
 							localStorage.setItem('RemoteServiceIP', defaultIP.trim());
 							localStorage.setItem('unselectedMenu', unselectedMenu);
@@ -322,7 +326,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -460,7 +464,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -596,7 +600,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
@@ -743,7 +747,7 @@
 
 						} else {
 							var hintinfo = document.getElementById("hintinfo");
-							hintinfo.innerHTML = '<font color="red">' + result.message+'</font>';
+							hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
 							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
 						}
 					},
