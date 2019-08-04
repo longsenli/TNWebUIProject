@@ -859,7 +859,7 @@ function SelectSubOrder() {
 					getUsableMaterialFun();
 				}, 100);
 
-				if(window.windowRoleID.CZG == localStorage.roleID) {
+				if(window.windowRoleID.CZG == localStorage.roleID  && window.windowProcessEnum.JS !=localStorage.processID) {
 					getSelfProductionRecord();
 				}
 
