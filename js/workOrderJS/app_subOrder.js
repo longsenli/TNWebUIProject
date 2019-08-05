@@ -194,10 +194,10 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
 		$('#subOrderCancelFinishBT').show();
 		
-		if(localStorage.roleID == window.windowRoleID.CZG) {
-			$('#subOrderCancelFinishBT').hide();
-			$('#subOrderOvertimeFinishBT').hide();
-		}
+	//	if(localStorage.roleID == window.windowRoleID.CZG) {
+	//		$('#subOrderCancelFinishBT').hide();
+	//		$('#subOrderOvertimeFinishBT').hide();
+	//	}
 		
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}
