@@ -129,7 +129,7 @@ function changeSolidificationRoomStatus() {
 		contentType: false,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				warningInfo = dataRes.message + ",";
+				alert("转段成功!");
 			}
 		}
 	});
@@ -274,9 +274,9 @@ function inSolidifyRoomDetail() {
 		formatter: function(value, row, index) {
 			if(value) {
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 		}
 	});
@@ -292,9 +292,9 @@ function inSolidifyRoomDetail() {
 		formatter: function(value, row, index) {
 			if(value) {
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 		}
 	});
@@ -310,9 +310,9 @@ function inSolidifyRoomDetail() {
 		formatter: function(value, row, index) {
 			if(value) {
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 		}
 	});
@@ -328,9 +328,9 @@ function inSolidifyRoomDetail() {
 		formatter: function(value, row, index) {
 			if(value) {
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 		}
 	});
@@ -338,9 +338,10 @@ function inSolidifyRoomDetail() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
+	formData.append("status", document.PlantToLineSelectForm.solidifyStepID.value.toString());
 
 	$.ajax({
-		url: window.serviceIP + "/api/solidifyrecord/getinsolidifyroombyparam",
+		url: window.serviceIP + "/api/solidifyrecord/getInSolidifyRoomByParamNew",
 		type: "POST",
 		data: formData,
 		//contentType: "application/json",
@@ -595,8 +596,7 @@ function addSolidificationRecordManageByBatch() {
 	}
 
 	var tableData = $("#table").bootstrapTable('getData');
-	if(tableData.length < 1)
-	{
+	if(tableData.length < 1) {
 		alert("请至少输入一个工单号");
 		return;
 	}
@@ -605,6 +605,15 @@ function addSolidificationRecordManageByBatch() {
 		orderIDList += tableData[i].orderID + "###";
 	}
 	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
+
+	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("TBF") > 0) {
+		alert("干燥窑为正窑,工单含有负板栅或边负板栅,请确认后更换窑!")
+		return;
+	}
+	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("TBZ") > 0) {
+		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
+		return;
+	}
 
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
@@ -654,4 +663,51 @@ function addSolidificationRecordManageByBatch() {
 			alert("请求出错," + msg);
 		}
 	});
+}
+
+function onTextareaKeyDown() {
+
+	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
+		event.preventDefault(); //禁止默认事件（默认是换行） 
+		var orderID = $('#orderIDByBatch').val().trim();
+
+		if(orderID.length < 2) {
+			//alert("请确认订单!")
+			return;
+		}
+
+		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+			innitOrderIDTable();
+		}
+
+		if(!orderID) {
+			orderID = $("#orderIDByBatch").val();
+		}
+		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
+
+		if(rows) {
+			//alert("该工单已添加!" + orderID);
+			return;
+		}
+		if(orderID.length < 5) {
+			//alert("工单错误,请确认!" + orderID);
+			return;
+		}
+		if($("#table").bootstrapTable('getData').length >= 30) {
+			//alert("一次性最多扫码20个!");
+			return;
+		}
+		var _data = {
+			"orderID": orderID,
+			"status": "",
+			"returnMessage": ""
+		}
+		$('#table').bootstrapTable('prepend', _data);
+		//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
+
+		$("#orderIDByBatch").val("");
+		document.getElementById('orderIDByBatch').focus();
+		//console.log($("#orderIDByBatch").val() + "=====huanh123");
+
+	}
 }

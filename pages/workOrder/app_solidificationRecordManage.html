@@ -36,13 +36,21 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-				var today = new Date();
-
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
-				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
-
+					var today = new Date();
+				if(today.getHours() < 7) {   
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					today.setDate(today.getDate() - 1)
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				} else if(today.getHours() > 18) {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+					today.setDate(today.getDate() + 1)
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+				} else {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				}
 				solidificationRecordManagePlantSlctFun("1");
+				document.getElementById('orderIDByBatch').focus();
 			});
 		</script>
 
@@ -89,14 +97,12 @@
 												<input type="datetime-local" id="endTime" name="endTime" />
 												</div>
 
-												<br/>
-
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="solidificationRecordManageSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="inSolidifyRoomDetail()">在窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">固化室扫码</button>
 
-												<input type="text" class="form-control" style="margin-top: 10px;"  id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" class="form-control" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()"  id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addSolidificationRecordManageByBatch()">批量入固化室</button>

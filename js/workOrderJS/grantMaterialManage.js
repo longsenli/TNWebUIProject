@@ -112,9 +112,9 @@ function grantMaterialProcessSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
-							$('#productionProcessSlct').selectpicker('hide');
+							//$('#productionProcessSlct').selectpicker('hide');
 
-							$("#productionProcessLabel").css("display", "none");
+							//$("#productionProcessLabel").css("display", "none");
 						}
 					}
 					$('#productionProcessSlct').selectpicker('refresh');

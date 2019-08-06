@@ -34,17 +34,26 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-				var today = new Date();
-
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
-				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
+					var today = new Date();
+				if(today.getHours() < 7) {   
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					today.setDate(today.getDate() - 1)
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				} else if(today.getHours() > 18) {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+					today.setDate(today.getDate() + 1)
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+				} else {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				}
 
 				unqualifiedMaterialReturnIndustrialPlantSlctFun("1");
 				$('#myModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("workOrderManageForm").reset();
 					})
+				document.getElementById('subOrderName').focus();
 			});
 
 			//	getWorkOrder();
@@ -69,7 +78,7 @@
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
 												<div class="form-group">
-													<label> 厂区： </label>
+													<label id="industrialPlantLabel"> 厂区： </label>
 													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="unqualifiedMaterialReturnProductionLineSlctFun()">
 													</select>
 												</div>
@@ -84,31 +93,29 @@
 													</select>
 												</div>
 												<div class="form-group">
-													<label> 开始时间： </label>
+													
 													<input type="datetime-local" class="form-control" id="startTime" name="startTime" />
-												</div>
-												<div class="form-group">
-													<label>结束时间:</label>
+												<label> - </label>
 													<input type="datetime-local" class="form-control" id="endTime" name="endTime" />
 												</div>
 												<input type="button" class="btn btn-info" value="查询 " onclick="unqualifiedMaterialReturnSelect()">
 											</div>
-											<br />
+										
 											<div class=" form-group">
-												<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
-												<button type="button" class="btn btn-info" onclick="getOrderInfoDetail()">
+												<input type="text" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
+												<button type="button" style="margin-top: 10px;"  class="btn btn-info" onclick="getOrderInfoDetail()">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单详情
 						           </button>
-												<button type="button" class="btn btn-info" onclick="scanQR('materialReturn')">
+												<button type="button" style="margin-top: 10px;"  class="btn btn-info" onclick="scanQR('materialReturn')">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描订单号
 						           </button>
 											</div>
 											<div class=" form-group">
 												<input type="text" class="form-control" id="unqualifiedMaterialReturnNumber" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" name="unqualifiedMaterialReturnNumber" placeholder="请输入退返数量">
-												<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnAddReturnRecord()">
+												<button type="button" class="btn btn-info" style="margin-top: 10px;"  onclick="unqualifiedMaterialReturnAddReturnRecord()">
 						                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>添加退返
 						           </button>
-												<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
+												<button type="button" class="btn btn-info" style="margin-top: 10px;"  onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
 						                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>删除记录
 						           </button>
 											</div>

@@ -20,6 +20,22 @@ function unqualifiedMaterialReturnIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
+				
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
+					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+							$('#industrialPlantSlct').selectpicker('hide');
+
+							$("#industrialPlantLabel").css("display", "none");
+						}
+					}
+					$('#industrialPlantSlct').selectpicker('refresh');
+					$('#industrialPlantSlct').selectpicker('render'); 
+
+				}
+				
 				if(flag = "1")
 					unqualifiedMaterialReturnProductionProcessSlctFun();
 				else
@@ -54,6 +70,22 @@ function unqualifiedMaterialReturnProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
+				
+					if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
+					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('processID')) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#productionProcessSlct').selectpicker('hide');
+
+							//$("#productionProcessLabel").css("display", "none");
+						}
+					}
+					$('#productionProcessSlct').selectpicker('refresh');
+					$('#productionProcessSlct').selectpicker('render'); 
+
+				}
+					
 				unqualifiedMaterialReturnProductionLineSlctFun();
 			} else {
 				alert("初始化流程数据失败！" + dataRes.message);
@@ -112,20 +144,20 @@ function unqualifiedMaterialReturnSelect() {
 	columnsArray.push({
 		checkbox: true
 	});
-	columnsArray.push({
-		"title": "厂区",
-		"field": "inputPlantID",
-		formatter: function(value, row, index) {
-			return $("#industrialPlantSlct option[value='" + row.inputPlantID + "']").text();
-		}
-	});
-	columnsArray.push({
-		"title": "流程",
-		"field": "inputProcessID",
-		formatter: function(value, row, index) {
-			return $("#productionProcessSlct option[value='" + row.inputProcessID + "']").text();
-		}
-	});
+//	columnsArray.push({
+//		"title": "厂区",
+//		"field": "inputPlantID",
+//		formatter: function(value, row, index) {
+//			return $("#industrialPlantSlct option[value='" + row.inputPlantID + "']").text();
+//		}
+//	});
+//	columnsArray.push({
+//		"title": "流程",
+//		"field": "inputProcessID",
+//		formatter: function(value, row, index) {
+//			return $("#productionProcessSlct option[value='" + row.inputProcessID + "']").text();
+//		}
+//	});
 	columnsArray.push({
 		"title": "产线",
 		"field": "inputLineID",
@@ -189,7 +221,7 @@ function unqualifiedMaterialReturnSelect() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//search: true,
+					search: true,
 					pagination: true,
 					columns: columnsArray
 				});
@@ -212,7 +244,16 @@ function getOrderInfoDetail(recordID) {
 
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		checkbox: true,
+		formatter: function(value, row, index) {
+
+			if(index == 0) {
+				//$("#changeOrderProductionNum").val(row.productionnum);
+				return {
+					checked: true //设置选中
+				};
+			}
+		}
 	});
 	columnsArray.push({
 		"title": "工单号",
@@ -561,4 +602,124 @@ function openBarcodeCustom() {
 function recognitionQR(webName, qrCode) {
 	if(webName == 'materialReturn')
 		getOrderInfoDetail(qrCode);
+}
+
+function onTextareaKeyDown() {
+
+	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
+		event.preventDefault(); //禁止默认事件（默认是换行） 
+		var recordID = $('#subOrderName').val().trim();
+		
+	
+	if(recordID.length < 2) {
+		//alert("请确认订单!")
+		return;
+	}
+$('#returntable').bootstrapTable('destroy');
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+
+			if(index == 0) {
+				//$("#changeOrderProductionNum").val(row.productionnum);
+				return {
+					checked: true //设置选中
+				};
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "工单号",
+		"field": "subOrderID"
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialNameInfo"
+	});
+	columnsArray.push({
+		"title": "数量",
+		"field": "number"
+	});
+	columnsArray.push({
+		"title": "入库人员",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		"title": "入库时间",
+		"field": "inputTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			}
+
+		}
+	});
+	columnsArray.push({
+		"title": "出库人员",
+		"field": "outputer"
+	});
+	columnsArray.push({
+		"title": "出库时间",
+		"field": "outputTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "投入工单",
+		"field": "expendOrderID"
+	});
+
+	$.ajax({
+		url: window.serviceIP + "/api/material/getmaterialrecorddetailbysuborderid?subOrderID=" + recordID,
+		type: "GET",
+		processData: true,
+		contentType: "application/json",
+		dataType: "json",
+		//data: formData,
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+
+				if(models.length < 1) {
+					alert("未获取到物料信息,请核对!" + recordID);
+					return;
+				}
+				$('#ordertable').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#usableMaterialTableToolbar',
+					toolbarAlign: "left",
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: false,
+					searchAlign: 'left',
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+		$("#subOrderName").val("");
+		document.getElementById('subOrderName').focus();
+		//console.log($("#orderIDByBatch").val() + "=====huanh123");
+
+	}
 }
