@@ -1024,6 +1024,7 @@ function gainMaterialRecord() {
 	if(!selectRow[0]["number"])
 	{
 		alert("请先扫描物料二维码");
+		$("#gainMaterialRecordBT").attr("disabled", false);
 		return;
 	}
 	 
