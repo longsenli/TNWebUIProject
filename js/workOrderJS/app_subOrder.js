@@ -46,75 +46,6 @@ function subOrderIndustrialPlantSlctFun() {
 	});
 };
 
-function solidifyRoomSlctFun() {
-	var formData = new FormData();
-	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", "1004");
-	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getproductionline",
-		type: "POST",
-		data: formData,
-		//contentType: "application/json",
-		//dataType: "json",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		//processData: true,
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-
-			$("#solidifyRoomSlct").find('option').remove();
-
-			if(dataRes.status == 1) { 
-
-				var models = eval("(" + dataRes.data + ")");
-				for (var  i  in  models)  {  
-					$('#solidifyRoomSlct').append(("<option value=" + models[i].id +
-						">" + models[i].name + "</option>").toString());
-				}
-				$('#solidifyRoomSlct').selectpicker('refresh');
-				$('#solidifyRoomSlct').selectpicker('render');   
-				// $('#solidifyRoomSlct').selectpicker('mobile');
-				getSolidifyRoomOrder();
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-}
-
-function solidifyPlantSlctFun() {
-	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getindustrialplant",
-		type: "GET",
-		contentType: "application/json",
-		dataType: "json",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		processData: true,
-		success: function(dataRes) {
-
-			$("#industrialPlantSlct").find('option').remove();
-
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-				//	console.log(models);
-				for (var  i  in  models)  {  
-					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" +
-						models[i].name.toString() + "</option>").toString())
-				}
-				$('#industrialPlantSlct').selectpicker('refresh');
-				$('#industrialPlantSlct').selectpicker('render');   
-				// $('#industrialPlantSlct').selectpicker('mobile');
-				solidifyRoomSlctFun();
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-};
 
 function subOrderProductionProcessSlctFun() {
 	$.ajax({
@@ -842,11 +773,11 @@ function SelectSubOrder() {
 						pageSize: 30,
 						pageNumber: 1,
 						pageList: "[10, 25, 50, 100, All]",
-						showToggle: true,
+						//showToggle: true,
 						//showRefresh: true,
 						//showColumns: true,
 						//search: true,
-						pagination: true,
+						//pagination: true,
 						columns: columnsArray,
 						onClickRow: function(row) {
 
@@ -855,9 +786,9 @@ function SelectSubOrder() {
 						}
 					});
 				}
-				setTimeout(function() {
-					getUsableMaterialFun();
-				}, 100);
+//				setTimeout(function() {
+//					getUsableMaterialFun();
+//				}, 100);
 
 				if(window.windowRoleID.CZG == localStorage.roleID  && window.windowProcessEnum.JS !=localStorage.processID) {
 					getSelfProductionRecord();
@@ -885,13 +816,26 @@ function SelectMaterialRecord() {
 		"field": "materialName"
 	});
 	columnsArray.push({
+		"title": "数量",
+		"field": "number"
+	});
+	columnsArray.push({
+		"title": "领用人",
+		"field": "outputer"
+	});
+	columnsArray.push({
+		"title": "领用时间",
+		"field": "outputtime"
+	});
+	columnsArray.push({
 		"title": "物料工单",
 		"field": "orderid",
 		visible: false
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "inOrderName"
+		"field": "inOrderName",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "物料子工单",
@@ -902,10 +846,7 @@ function SelectMaterialRecord() {
 		"field": "suborderid",
 		visible: false
 	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
+	
 	columnsArray.push({
 		"title": "入库人员",
 		"field": "inputer"
@@ -914,14 +855,7 @@ function SelectMaterialRecord() {
 		"title": "入库时间",
 		"field": "inputtime"
 	});
-	columnsArray.push({
-		"title": "领用人",
-		"field": "outputer"
-	});
-	columnsArray.push({
-		"title": "领用时间",
-		"field": "outputtime"
-	});
+	
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -962,12 +896,12 @@ function SelectMaterialRecord() {
 					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
-					showToggle: true,
+					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
 					search: true,
 					searchAlign: 'left',
-					pagination: true,
+					//pagination: true,
 					columns: columnsArray
 				});
 
@@ -1086,6 +1020,13 @@ function gainMaterialRecord() {
 	$("#gainMaterialRecordBT").attr("disabled", true);
 	var formData = new FormData();
 	var selectRow = $("#usableMaterialTable").bootstrapTable('getSelections');
+	
+	if(!selectRow[0]["number"])
+	{
+		alert("请先扫描物料二维码");
+		return;
+	}
+	 
 	var arrayObj = new Array();
 	for(var i = 0; i < selectRow.length; i++) {
 		arrayObj.push(selectRow[i].id);
@@ -1098,7 +1039,7 @@ function gainMaterialRecord() {
 	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
 	formData.append("materialOrderID", selectRow[0].orderid);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", localStorage.username) //localStorage.username;
+	//formData.append("outputter", localStorage.username) //localStorage.username;
 
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
 		formData.append("outputter", localStorage.username + "###" + localStorage.userID + "###-1");
@@ -1118,8 +1059,9 @@ function gainMaterialRecord() {
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				getUsableMaterialFun();
+				//getUsableMaterialFun();
 				SelectMaterialRecord();
+				$('#usableMaterialTable').bootstrapTable('destroy');
 				alert("投料成功！");
 			} else {
 				alert("投料失败！" + dataRes.message);
@@ -1286,153 +1228,6 @@ function startQRScan() {
 
 }
 
-// function scanQR(webName) {
-// 	$('#myModal').modal('show');
-// 	if(context == null) { 
-// 		//window.addEventListener("DOMContentLoaded", function() {       
-// 		try {    
-// 
-// 			canvas = document.getElementById("canvasSubOrderScanQR");           
-// 			context = canvas.getContext("2d");           
-// 			video = document.getElementById("videoSubOrderScanQR");           
-// 			var videoObj = {
-// 				audio: false,
-// 				"video": true
-// 
-// 			};              
-// 			//			var videoObj = {
-// 			//				"video": true
-// 			//			};    
-// 			var  flag = true;             
-// 			var   MediaErr = function(error) {                   
-// 				flag = false;                   
-// 				if(error.PERMISSION_DENIED) {                       
-// 					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
-// 				} else if(error.NOT_SUPPORTED_ERROR) {                       
-// 					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-// 				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
-// 					alert('指定的媒体类型未接收到媒体流', '提示');                   
-// 				} else {                       
-// 					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
-// 				}               
-// 			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
-// 			      
-// 			//			var promisifiedOldGUM = function(constraints) {
-// 			//
-// 			//				// 第一个拿到getUserMedia，如果存在
-// 			//				var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
-// 			//
-// 			//				// 有些浏览器只是不实现它-返回一个不被拒绝的承诺与一个错误保持一致的接口
-// 			//				if(!getUserMedia) {
-// 			//					return Promise.reject(new Error('getUserMedia is not implemented in this browser-getUserMedia是不是在这个浏览器实现'));
-// 			//				}
-// 			//
-// 			//				// 否则，调用包在一个旧navigator.getusermedia承诺
-// 			//				return new Promise(function(resolve, reject) {
-// 			//					getUserMedia.call(navigator, constraints, resolve, reject);
-// 			//				});
-// 			//
-// 			//			}
-// 			//			if(navigator.mediaDevices === undefined) {
-// 			//				navigator.mediaDevices = {};
-// 			//			}
-// 			//			if(navigator.mediaDevices.getUserMedia === undefined) {
-// 			//				alert("getDlg");
-// 			//				navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
-// 			//			}   
-// 
-// 			//		  navigator.getUserMedia  = navigator.mediaDevices.getUserMedia ||navigator.getUserMedia ||
-// 			//      navigator.webkitGetUserMedia ||
-// 			//      navigator.mozGetUserMedia ||
-// 			//      navigator.msGetUserMedia;//获取媒体对象（这里指摄像头）
-// 			//  navigator.getUserMedia({video:true}, gotStream, noStream);//参数1获取用户打开权限；参数二成功打开后调用，并传一个视频流对象，参数三打开失败后调用，传错误信息
-// 			//
-// 			//  function gotStream(stream) {
-// 			//  	alert("mediaDevicesgetUserMedia");    
-// 			//      video.src = URL.createObjectURL(stream);
-// 			//      alert("mediaDevicesgetUserMedia");    
-// 			//      video.onerror = function () {
-// 			//      	alert("Errot");  
-// 			//          stream.stop();
-// 			//      };
-// 			//      alert("mediaDevicesgetUserMedia");    
-// 			//      stream.onended = noStream;
-// 			//      video.onloadedmetadata = function () {
-// 			//      };
-// 			//  }
-// 			//  function noStream(err) {
-// 			//      alert(err);
-// 			//  }
-// 			  
-// 			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
-// 				//				if(navigator.userAgent.indexOf('MQQBrowser') > -1) {                   
-// 				//					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-// 				//					return false;               
-// 				//				}     
-// 				try {  
-// 					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
-// 						//mediaStreamTrack = stream;                  
-// 						//video.src = window.URL.createObjectURL(stream);;                   
-// 						//video.play();
-// 
-// 						//mediaStreamTrack = stream; 
-// 
-// 						video.srcObject = stream;
-// 						video.onloadedmetadata = function(e) {
-// 							video.play();
-// 						};
-// 					}, MediaErr);   
-// 				} catch(err) {
-// 					alert(err);
-// 				}        
-// 			}    
-// 			else if(navigator.getUserMedia) { // Standard   
-// 				navigator.getUserMedia(videoObj, function(stream) {   
-// 					mediaStreamTrack = stream;       
-// 					video.src = stream;
-// 					video.play();
-// 				}, MediaErr);
-// 			}           
-// 			else if(navigator.webkitGetUserMedia) {              
-// 				navigator.webkitGetUserMedia(videoObj, function(stream) {  
-// 					mediaStreamTrack = stream;                  
-// 					video.src = window.webkitURL.createObjectURL(stream);                   
-// 					video.play();      
-// 				}, MediaErr);           
-// 			}       
-// 			else if(navigator.mozGetUserMedia) {              
-// 				navigator.mozGetUserMedia(videoObj, function(stream) { 
-// 					mediaStreamTrack = stream;                   
-// 					video.src = window.URL.createObjectURL(stream);                   
-// 					video.play();               
-// 				}, MediaErr);           
-// 			}           
-// 			else if(navigator.msGetUserMedia) {           
-// 				navigator.msGetUserMedia(videoObj, function(stream) { 
-// 					mediaStreamTrack = stream;                   
-// 					$(document).scrollTop($(window).height());                   
-// 					video.src = window.URL.createObjectURL(stream);                   
-// 					video.play();               
-// 				}, MediaErr);           
-// 			} else {               
-// 				alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器');               
-// 				return false;           
-// 			}           
-// 			if(flag) {                // alert('为了获得更准确的测试结果，请尽量将二维码置于框中，然后进行拍摄、扫描。 请确保浏览器有权限使用摄像功能');
-// 				          }            //这个是拍照按钮的事件，
-// 			           
-// 
-// 			//				$("#snap").click(function() {
-// 			//					startPat();
-// 			//				}).show();       
-// 		} catch(e) {           
-// 			//printHtml("浏览器不支持HTML5 CANVAS");       
-// 		}   
-// 		//}, false);    //打印内容到页面
-// 	} 
-// 	//console.log("start");
-// 	setTimeout(startScanQR(webName), 1000) ; 
-// }
 
 var accept_webName = null;
 //重写scanQR方法
@@ -1473,7 +1268,7 @@ function gainMaterialByQR(recordID) {
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				getUsableMaterialFun();
+				//getUsableMaterialFun();
 				SelectMaterialRecord();
 				alert("领取成功！");
 			} else {
@@ -1498,7 +1293,16 @@ function getMaterialRecordBySuborderID(recordID) {
 
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		checkbox: true,
+		formatter: function(value, row, index) {
+ 
+			if(index == 0) {
+				
+				return {
+					checked: true //设置选中
+				};
+			}
+		}
 	});
 	columnsArray.push({
 		"title": "物料号",
@@ -1510,27 +1314,24 @@ function getMaterialRecordBySuborderID(recordID) {
 		"field": "materialName"
 	});
 	columnsArray.push({
+		"title": "数量",
+		"field": "number"
+	});
+	columnsArray.push({
 		"title": "物料工单",
 		"field": "orderid",
 		visible: false
 	});
 	columnsArray.push({
 		"title": "物料工单",
-		"field": "inOrderName"
+		"field": "inOrderName",
+		visible: false
 	});
 	columnsArray.push({
 		"title": "物料子工单",
 		"field": "inSubOrderName"
 	});
-	columnsArray.push({
-		"title": "物料子工单",
-		"field": "suborderid",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "数量",
-		"field": "number"
-	});
+	
 	columnsArray.push({
 		"title": "入库人员",
 		"field": "inputer"
@@ -1539,6 +1340,12 @@ function getMaterialRecordBySuborderID(recordID) {
 		"title": "入库时间",
 		"field": "inputtime"
 	});
+	columnsArray.push({
+		"title": "物料子工单",
+		"field": "suborderid",
+		visible: false
+	});
+	
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -1588,165 +1395,6 @@ function getMaterialRecordBySuborderID(recordID) {
 	});
 }
 
-function getSolidifyRoomOrder() {
-	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "工单号",
-		"field": "ordersplitname"
-	});
-	columnsArray.push({
-		"title": "一段操作人",
-		width: 300,
-		"field": "recorder1"
-	});
-	columnsArray.push({
-		"title": "一段开始时间",
-		width: 300,
-		"field": "starttime1"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "一段结束时间",
-		"field": "endtime1"
-	});
-	columnsArray.push({
-		"title": "二段操作人",
-		width: 300,
-		"field": "recorder2"
-	});
-	columnsArray.push({
-		"title": "二段开始时间",
-		width: 300,
-		"field": "starttime2"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "二段结束时间",
-		"field": "endtime2"
-	});
-	columnsArray.push({
-		"title": "三段操作人",
-		width: 300,
-		"field": "recorder3"
-	});
-	columnsArray.push({
-		"title": "三段开始时间",
-		width: 300,
-		"field": "starttime3"
-	});
-	columnsArray.push({
-		width: 300,
-		"title": "三段结束时间",
-		"field": "endtime3"
-	});
-
-	columnsArray.push({
-		width: 300,
-		"title": "状态",
-		"field": "status",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "orderid",
-		"field": "orderid",
-		visible: false
-	});
-	$.ajax({
-		url: window.serviceIP + "/api/solidifyrecord/selectbyroom?roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString() +
-			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
-		type: "GET",
-
-		contentType: "application/json",
-		dataType: "json",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				var models = eval("(" + dataRes.data + ")");
-				$('#solidifyRecordTable').bootstrapTable('destroy').bootstrapTable({
-					data: models,
-					toolbar: '#toolbar',
-					singleSelect: false,
-					clickToSelect: true,
-					sortName: "orderSplitid",
-					sortOrder: "asc",
-					pageSize: 15,
-					pageNumber: 1,
-					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					//search: true,
-					pagination: true,
-					columns: columnsArray
-				});
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-}
-
-function gotoNextSolidifyRoom() {
-	//使用getSelections即可获得，row是json格式的数据
-	var row = $.map($('#solidifyRecordTable').bootstrapTable('getSelections'), function(row) {
-		return row;
-	});
-
-	if(row.length < 1) {
-		alert("请选择行数据!");
-		return;
-	}
-	//console.log(row);
-	var stageNum = 1;
-	if(row[0]["endtime3"] != null && row[0]["endtime3"].toString().length > 8) {
-		alert("该工单已固化结束!");
-		return;
-	}
-	if(row[0]["starttime3"] != null && row[0]["starttime3"].toString().length > 8) {
-		stageNum = 4;
-	} else if(row[0]["starttime2"] != null && row[0]["starttime2"].toString().length > 8) {
-		stageNum = 3;
-	} else if(row[0]["starttime1"] != null && row[0]["starttime1"].toString().length > 8) {
-		stageNum = 2;
-	}
-	$.ajax({
-		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + localStorage.username + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
-		type: "GET",
-
-		contentType: "application/json",
-		dataType: "json",
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				getSolidifyRoomOrder();
-
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-}
-
-function gotoNextSolidifyRoomByQR() {
-
-}
-
 function gainPartMaterialRecord() {
 	var formData = new FormData();
 	var selectRow = $("#usableMaterialTable").bootstrapTable('getSelections');
@@ -1754,12 +1402,19 @@ function gainPartMaterialRecord() {
 		alert("请选择一行有效投料数据,当前选择行数为" + selectRow.length);
 		return;
 	}
+	if(!selectRow[0]["number"])
+	{
+		alert("请先扫描物料二维码");
+		return;
+	}
+	
 	if(selectRow.length < 1 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
 		alert("请确认已选择物料和订单!")
 		return;
 	}
 	var result1 = parseFloat($("#changeGainProductionNum").val());
 	var result2 = parseFloat(selectRow[0]["number"]);
+	
 	if(result1 <= 0) {
 		alert("领料数量必须大于0!");
 		return;
@@ -1785,11 +1440,13 @@ function gainPartMaterialRecord() {
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				getUsableMaterialFun();
+				//getUsableMaterialFun();
 				SelectMaterialRecord();
+				$('#usableMaterialTable').bootstrapTable('destroy')
 				$('#changeGainProductionModal').modal('hide');
+				alert("投料成功！");
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("初始化数据失败！" + dataRes.message); 
 			}
 		}
 	});
@@ -2034,7 +1691,7 @@ function cancelInputSuborder() {
 			if(data.status == 1) {
 				alert('取消成功! ' + data.message);
 				SelectMaterialRecord()
-				getUsableMaterialFun()
+				//getUsableMaterialFun()
 
 			} else {
 				alert("取消失败！" + data.message);
