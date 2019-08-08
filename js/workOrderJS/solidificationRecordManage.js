@@ -607,18 +607,18 @@ function addSolidificationRecordManageByBatch() {
 	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
 
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("TBF") > 0) {
-		alert("干燥窑为正窑,工单含有负板栅或边负板栅,请确认后更换窑!")
+		alert("固化室为正,工单含有负极板或边负极板,请确认后更换固化室!")
 		return;
 	}
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("TBZ") > 0) {
-		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
+		alert("固化室为负,工单含有正极板,请确认后更换固化室!")
 		return;
 	}
 
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
-	formData.append("operatorName", localStorage.username);
+	formData.append("operatorName", localStorage.username + "###"+ localStorage.userID );
 	formData.append("roomName", $("#solidificationRoomInfoSlct").find("option:selected").text());
 
 	$.ajax({
@@ -710,4 +710,46 @@ function onTextareaKeyDown() {
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
 
 	}
+}
+
+function changeAllSolidificationRoomStatusAuto()
+{
+	
+//if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
+//		alert("请选择确切的固化室,不能选择全部!")
+//		return;
+//	}
+//
+//	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
+//		alert("请选择当前固化阶段!")
+//		return;
+//	}
+
+if(!window.changeConfirmDlg("确认将全部转段" + $("#solidificationRoomInfoSlct").find("option:selected").text() + "?"))
+		return;
+	var formData = new FormData();
+	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
+	formData.append("operatorName", localStorage.username);
+
+
+	$.ajax({
+		url: window.serviceIP + "/api/solidifyrecord/changeAllSolidifyStatusAuto",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				inSolidifyRoomDetail();
+				alert("转段成功!");
+			}
+		}
+	});
+
 }
