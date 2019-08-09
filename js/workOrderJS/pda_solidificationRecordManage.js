@@ -743,13 +743,13 @@ function onTextareaKeyDown() {
 var testNumber = 0;
 
 function selectInput(nowNumber) {
-	console.log("=====" + testNumber);
+	//console.log("=====" + testNumber);
 	document.getElementById('orderIDByBatch').focus();
 	//document.activeElement.blur();
 	if(testNumber == nowNumber) {
 		setTimeout(function() {
 			selectInput(++testNumber);
-		}, 5000);
+		}, 10000);
 	}
 
 }
