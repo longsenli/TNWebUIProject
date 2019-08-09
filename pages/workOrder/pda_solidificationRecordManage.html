@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/workOrderJS/solidificationRecordManage.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/pda_solidificationRecordManage.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
@@ -58,23 +58,24 @@
 //    }
 // 
 //}
-
+ 
 			$(function() {
-					var today = new Date();
-				if(today.getHours() < 7) {   
-					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
-					today.setDate(today.getDate() - 1)
-					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
-				} else if(today.getHours() > 18) {
-					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
-					today.setDate(today.getDate() + 1)
-					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
-				} else {
-					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
-					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
-				}
+//					var today = new Date();
+//				if(today.getHours() < 7) {   
+//					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+//					today.setDate(today.getDate() - 1)
+//					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+//				} else if(today.getHours() > 18) {
+//					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+//					today.setDate(today.getDate() + 1)
+//					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+//				} else {
+//					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
+//					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
+//				}
 				solidificationRecordManagePlantSlctFun("1");
 				document.getElementById('orderIDByBatch').focus();
+				selectInput(0)
 			});
 		</script>
 
@@ -87,6 +88,11 @@
 								<div class="panel">
 									<div class="panel-body">
 
+			<div id="class=table-responsive">
+											<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
+											</table>
+										</div>
+										
 										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 											<div class="form-inline row">
 												<!--<select class="selectpicker" id="batterytype" style="width:100px;" name="batterytype">
@@ -102,7 +108,7 @@
 												</select>
 												</div>
 												<div class="form-group">
-												<label> 阶段： </label>
+												<!--<label> 阶段： </label>-->
 												<select class="selectpicker" id="solidifyStepID" style="width:100px;" name="solidifyStepID">
 													<option value="-1">全部</option>
 													<option value="1">一段</option>
@@ -115,20 +121,20 @@
 												<!--<label style="display: none;"> 产线： </label>
 				<select class="selectpicker" id="productionLineSlct" style="width:100px;display: none;" name="productionLineSlct" onchange="solidificationRecordManageSelect()">
 				</select>-->
-												<label> 时间： </label>
+												<!--<label> 时间： </label>
 												<input type="datetime-local" id="startTime" name="startTime" />
 												<label>-</label>
-												<input type="datetime-local" id="endTime" name="endTime" />
+												<input type="datetime-local" id="endTime" name="endTime" />-->
 												</div>
 
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="solidificationRecordManageSelect()">-->
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="inSolidifyRoomDetail()">在窑数据查询</button>
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">固化室扫码</button>
+												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="inSolidifyRoomDetail()">在窑数据查询</button>
+												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
+												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="scanQR('1')">固化室扫码</button>
 
 												<input type="text" class="form-control" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()"  id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="addOrderIDToBatchTable()">添加工单</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="scanQR('5')">扫码添加</button>
 												<br />
 												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="addSolidificationRecordManageByBatch()">批量入固化室</button>
 												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="changeAllSolidificationRoomStatusAuto()">一键转段</button>
@@ -138,10 +144,7 @@
 											<br />
 										</form>
 
-										<div id="class=table-responsive">
-											<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
-											</table>
-										</div>
+							
 
 									</div>
 								</div>

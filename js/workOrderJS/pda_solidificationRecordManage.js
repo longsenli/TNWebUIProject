@@ -47,6 +47,8 @@ function solidificationRoomInfoSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", "1004");
+	$('#solidifyStepID').selectpicker('hide');
+
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionline",
 		type: "POST",
@@ -591,34 +593,37 @@ function addSolidificationRecordManageByBatch() {
 	}
 
 	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
-		alert("请选择确切的固化室,不能选择全部!")
+		//alert("请选择确切的固化室,不能选择全部!")
 		return;
 	}
 
 	var tableData = $("#table").bootstrapTable('getData');
 	if(tableData.length < 1) {
-		alert("请至少输入一个工单号");
+		//alert("请至少输入一个工单号");
 		return;
 	}
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
+		if(tableData[i].status) {
+			continue;
+		}
 		orderIDList += tableData[i].orderID + "###";
 	}
 	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
 
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("TBF") > 0) {
-		alert("固化室为正,工单含有负极板或边负极板,请确认后更换固化室!")
+		//alert("固化室为正,工单含有负极板或边负极板,请确认后更换固化室!")
 		return;
 	}
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("TBZ") > 0) {
-		alert("固化室为负,工单含有正极板,请确认后更换固化室!")
+		//alert("固化室为负,工单含有正极板,请确认后更换固化室!")
 		return;
 	}
 
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
-	formData.append("operatorName", localStorage.username + "###"+ localStorage.userID );
+	formData.append("operatorName", localStorage.username + "###" + localStorage.userID);
 	formData.append("roomName", $("#solidificationRoomInfoSlct").find("option:selected").text());
 
 	$.ajax({
@@ -638,9 +643,10 @@ function addSolidificationRecordManageByBatch() {
 
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
-
+				$("#orderIDByBatch").val("");
+				document.getElementById('orderIDByBatch').focus();
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				//alert("初始化数据失败！" + dataRes.message);
 			}
 		},
 		error: function(jqXHR, exception) {
@@ -660,7 +666,7 @@ function addSolidificationRecordManageByBatch() {
 			} else {
 				msg = 'Uncaught Error.\n' + jqXHR.responseText;
 			}
-			alert("请求出错," + msg);
+			//alert("请求出错," + msg);
 		}
 	});
 }
@@ -670,6 +676,22 @@ function onTextareaKeyDown() {
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 		event.preventDefault(); //禁止默认事件（默认是换行） 
 		var orderID = $('#orderIDByBatch').val().trim();
+		var roomID = false;
+		var numbers = $('#solidificationRoomInfoSlct').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbers.length; j++) {
+			if($(numbers[j]).val().toString() == orderID) {
+				$(numbers[j]).attr("selected", "selected");
+				roomID = true;
+			}
+		}
+		$('#solidificationRoomInfoSlct').selectpicker('refresh');
+		$('#solidificationRoomInfoSlct').selectpicker('render'); 
+
+		if(roomID) {
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
 
 		if(orderID.length < 2) {
 			//alert("请确认订单!")
@@ -686,14 +708,20 @@ function onTextareaKeyDown() {
 		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
 
 		if(rows) {
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
 			//alert("该工单已添加!" + orderID);
 			return;
 		}
 		if(orderID.length < 5) {
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
 			//alert("工单错误,请确认!" + orderID);
 			return;
 		}
 		if($("#table").bootstrapTable('getData').length >= 30) {
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
 			//alert("一次性最多扫码20个!");
 			return;
 		}
@@ -705,32 +733,44 @@ function onTextareaKeyDown() {
 		$('#table').bootstrapTable('prepend', _data);
 		//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
 
+		addSolidificationRecordManageByBatch();
 		$("#orderIDByBatch").val("");
 		document.getElementById('orderIDByBatch').focus();
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
 
 	}
 }
+var testNumber = 0;
 
-function changeAllSolidificationRoomStatusAuto()
-{
-	
-if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
+function selectInput(nowNumber) {
+	console.log("=====" + testNumber);
+	document.getElementById('orderIDByBatch').focus();
+	//document.activeElement.blur();
+	if(testNumber == nowNumber) {
+		setTimeout(function() {
+			selectInput(++testNumber);
+		}, 5000);
+	}
+
+}
+
+function changeAllSolidificationRoomStatusAuto() {
+
+	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
 		alert("请选择确切的固化室,不能选择全部!")
 		return;
 	}
-//
-//	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
-//		alert("请选择当前固化阶段!")
-//		return;
-//	}
+	//
+	//	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
+	//		alert("请选择当前固化阶段!")
+	//		return;
+	//	}
 
-if(!window.changeConfirmDlg("确认将全部转段" + $("#solidificationRoomInfoSlct").find("option:selected").text() + "?"))
+	if(!window.changeConfirmDlg("确认将全部转段" + $("#solidificationRoomInfoSlct").find("option:selected").text() + "?"))
 		return;
 	var formData = new FormData();
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
 	formData.append("operatorName", localStorage.username);
-
 
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/changeAllSolidifyStatusAuto",
