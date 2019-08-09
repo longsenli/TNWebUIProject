@@ -198,6 +198,9 @@
 		}
 	},
 	"unpackage": [
+	  "pages/CLodop_Setup_for_Win32NT.exe",
+	  "pages/chargePackManage/CLodop_Setup_for_Win32NT.exe",
+	  "pages/workOrder/CLodop_Setup_for_Win32NT.exe",
 	  "js/update.json",
 	  "data/flot-data.js",
 	  "dist/css/sb-admin-2.min.css",
