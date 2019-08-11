@@ -130,7 +130,7 @@ function getDryingKilnInfo(typeID) {
 	var urlStr = window.serviceIP + "/api/dashboard/getDryingKilnInfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&equipmentID=" + document.PlantToLineSelectForm.dryingKilnEquipmentSlct.value.toString() +
 		"&queryTypeID=" + typeID +
-		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value ;
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
 
 	$.ajax({
 		url: urlStr,
@@ -183,7 +183,7 @@ function scanQR(grantType) {
 	openBarcode();
 	accept_webName = grantType;
 	if(grantType == '5') {
-		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 	}
@@ -296,7 +296,14 @@ function recognitionQR(webName, qrCode) {
 
 function innitOrderIDTable(models) {
 	var columnsArray = [];
-
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});  
 	columnsArray.push({
 		"title": "工单号",
 		"field": "orderID"
@@ -334,9 +341,11 @@ function innitOrderIDTable(models) {
 
 function addOrderIDToBatchTable(orderID) {
 
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
+		
 		innitOrderIDTable();
 	}
+
 
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
@@ -368,29 +377,31 @@ function addOrderIDToBatchTable(orderID) {
 }
 
 function pushinDryingKilnByBatch() {
-	
-	
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
-		alert("请先添加工单号再发料!")
-		return;
+
+	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
+		alert("请先添加工单号再操作!")
+		return; 
 	}
 
 	if(!window.changeConfirmDlg("确认将板栅放入" + $("#dryingKilnEquipmentSlct").find("option:selected").text() + "?"))
 		return;
 
-	var tableData = $("#table").bootstrapTable('getData');
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(!tableData || tableData.length  <1)
+	{
+		alert("请先添加工单号再操作!")
+		return; 
+	}
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
 		orderIDList += tableData[i].orderID + "###";
 	}
 	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
-	if( $("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("JZF") >0)
-	{
+	if($("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("JZF") > 0) {
 		alert("干燥窑为正窑,工单含有负板栅或边负板栅,请确认后更换窑!")
 		return;
 	}
-	if( $("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("JZZ") >0)
-	{
+	if($("#dryingKilnEquipmentSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("JZZ") > 0) {
 		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
 		return;
 	}
@@ -489,13 +500,12 @@ function pushOutDryingKilnjzsuborder() {
 	});
 };
 
-
 function onTextareaKeyDown() {
 
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 		event.preventDefault(); //禁止默认事件（默认是换行） 
 		var orderID = $("#orderIDByBatch").val();
-		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 
@@ -542,4 +552,68 @@ function onTextareaKeyDown() {
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
 	}
 
+}
+
+function orderOutOfDryingKiln(models) {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});
+	columnsArray.push({
+		"title": "工单号",
+		"field": "orderID"
+	});
+	columnsArray.push({
+		"title": "状态",
+		"field": "status"
+	});
+	columnsArray.push({
+		"title": "返回消息",
+		"field": "returnMessage"
+	});
+	var urlStr = window.serviceIP + "/api/order/orderOutOfDryingKiln?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + window.windowProcessEnum.JZ +
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					showToggle: true,
+					showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
 }

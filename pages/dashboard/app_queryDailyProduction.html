@@ -84,6 +84,8 @@
 														<option value='byClassType'>班次</option>
 														<option value='byLineMaterial'>产线物料</option>
 														<option value='byStaffAndMaterial'>人员物料</option>
+														<option value='byLineExpend'>产线投料</option>
+														<option value='byStaffExpend'>人员投料</option>
 														<option value='byWage'>人员工资</option>
 														<option value='byOrderDetail'>工单详情</option>
 													</select>
@@ -95,16 +97,15 @@
 													<input type="date" id="endTime" name="endTime" />
 												</div>
 
-												
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
 												<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="getDailyProduction()">按条件查询</button>
 												<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="getSelfProductionRecord()">个人产量查询</button>
 												<input type="text" class="form-control" id="subOrderName" style="margin-top: 10px;" name="subOrderName" placeholder="请输入工单号">
 												<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="getOrderInfoDetail()">工单信息查询</button>
-													<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="scanQR('5')">工单扫码</button>
+												<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="scanQR('5')">工单扫码</button>
 												<!--<button type="button" class="btn btn-primary alert-info" style="margin-top: 10px;" onclick="nowInDryingKilnjz()">浇铸当前在窑数据查询</button>-->
 											</div>
-								
+
 										</form>
 
 										<div align="center">

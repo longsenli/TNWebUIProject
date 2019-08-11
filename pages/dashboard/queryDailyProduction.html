@@ -46,7 +46,7 @@
 			<div class="form-inline row">
 				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct">
 				</select>
-				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct" >
+				<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
 				</select>
 				<label id="industrialPlantLabel"> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="queryDailyProductionLineSlctFun()">
@@ -63,6 +63,8 @@
 					<option value='byClassType'>班次</option>
 					<option value='byLineMaterial'>产线物料</option>
 					<option value='byStaffAndMaterial'>人员物料</option>
+					<option value='byLineExpend'>产线投料</option>
+					<option value='byStaffExpend'>人员投料</option>
 					<option value='byWage'>人员工资</option>
 					<option value='byOrderDetail'>工单详情</option>
 				</select>
@@ -74,7 +76,7 @@
 				<br/>
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="productionStatisticsSelect()">-->
 				<button type="button" class="btn btn-primary alert-info" onclick="getDailyProduction()">按条件查询</button>
-				<input type="text"   class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
+				<input type="text" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
 				<button type="button" class="btn btn-primary alert-info" onclick="getOrderInfoDetail()">工单批次查询</button>
 				<button type="button" class="btn btn-primary alert-info" onclick="nowInDryingKilnjz()">浇铸当前在窑数据查询</button>
 			</div>

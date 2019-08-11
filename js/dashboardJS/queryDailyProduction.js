@@ -252,13 +252,12 @@ function getDailyProduction() {
 				}
 			});
 		}
-	
-			columnsArray.push({
-				width: 300,
-				"title": "班次",
-				"field": "orderHour"
-			});
 
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "orderHour"
+		});
 
 		columnsArray.push({
 			width: 300,
@@ -339,38 +338,37 @@ function getDailyProduction() {
 			width: 300,
 			"title": "完成时间",
 			"field": "inputTime",
-		formatter: function(value, row, index) {
-			console.log(value);
-			if(value) {
-				return (new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-			}
+			formatter: function(value, row, index) {
+				console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
 
-		}
+			}
 		});
 	}
-	
+
 	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLineMaterial') {
-			columnsArray.push({
-				width: 300,
-				"title": "产线",
-				"field": "inputLineID",
-				formatter: function(value, row, index) {
-					return $("#productionLineSlct option[value='" + row.inputLineID + "']").text();
-				}
-			});
-			
-			columnsArray.push({
+		columnsArray.push({
+			width: 300,
+			"title": "产线",
+			"field": "inputLineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + row.inputLineID + "']").text();
+			}
+		});
+
+		columnsArray.push({
 			width: 300,
 			"title": "物料型号",
 			"field": "materialNameInfo"
 		});
-		
-			columnsArray.push({
-				width: 300,
-				"title": "班次",
-				"field": "orderHour"
-			});
 
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "orderHour"
+		});
 
 		columnsArray.push({
 			width: 300,
@@ -383,7 +381,72 @@ function getDailyProduction() {
 			"field": "sumProduction"
 		});
 	}
-	
+
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLineExpend') {
+		columnsArray.push({
+			width: 300,
+			"title": "产线",
+			"field": "outputLineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + row.outputLineID + "']").text();
+			}
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialNameInfo"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "banci"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "投料数量",
+			"field": "number"
+		});
+	}
+
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byStaffExpend') {
+		columnsArray.push({
+			width: 300,
+			"title": "人员",
+			"field": "outputer"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialNameInfo"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "banci"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			width: 300,
+			"title": "投料数量",
+			"field": "number"
+		});
+	}
+
 	//console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
 
 	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
@@ -429,42 +492,41 @@ function getDailyProduction() {
 	});
 };
 
-function getSelfProductionRecord(){
+function getSelfProductionRecord() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
-	
-	columnsArray.push({
-			width: 300,
-			"title": "姓名",
-			"field": "inputer"
-		});
-		columnsArray.push({
-			width: 300,
-			"title": "物料型号",
-			"field": "materialNameInfo"
-		});
-		columnsArray.push({
-			width: 300,
-			"title": "工单号",
-			"field": "subOrderID"
-		});
 
-		columnsArray.push({
-			width: 300,
-			"title": "产量",
-			"field": "number"
-		});
 	columnsArray.push({
-			width: 300,
-			"title": "完成时间",
-			"field": "inputTime"
-		});
+		width: 300,
+		"title": "姓名",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "物料型号",
+		"field": "materialNameInfo"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "工单号",
+		"field": "subOrderID"
+	});
+
+	columnsArray.push({
+		width: 300,
+		"title": "产量",
+		"field": "number"
+	});
+	columnsArray.push({
+		width: 300,
+		"title": "完成时间",
+		"field": "inputTime"
+	});
 	var time = new Date(document.getElementById("endTime").value);
 	time.setDate(time.getDate() + 1);
 
-		
 	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.userID +
 		"&startTime=" + document.getElementById("startTime").value + " 07:00:00" + "&endTime=" + time.format("yyyy-MM-dd") + " 07:00:00";
 
@@ -505,6 +567,7 @@ function getSelfProductionRecord(){
 		}
 	});
 }
+
 function getOrderInfoDetail() {
 
 	//console.log("gainMaterialByQR" + recordID);
@@ -558,7 +621,7 @@ function getOrderInfoDetail() {
 			}
 		}
 	});
-	
+
 	columnsArray.push({
 		"title": "投料人员",
 		"field": "outputer"
@@ -690,7 +753,7 @@ function nowInDryingKilnjz() {
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
-					pageSize: 15, 
+					pageSize: 15,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
 					showToggle: true,
@@ -707,7 +770,6 @@ function nowInDryingKilnjz() {
 		}
 	});
 };
-
 
 var accept_webName = null;
 //重写scanQR方法
@@ -814,8 +876,8 @@ function openBarcodeCustom() {
 		}
 	});
 }
- 
+
 function recognitionQR(webName, qrCode) {
 	$("#subOrderName").val(qrCode);
-getOrderInfoDetail();
+	getOrderInfoDetail();
 }
