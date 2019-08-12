@@ -392,6 +392,11 @@ function pushinDryingKilnByBatch() {
 		alert("请先添加工单号再操作!")
 		return; 
 	}
+	if(tableData.length > 30)
+	{
+		alert("一次最多选择30个,请确认!,当前选择个数为:" + tableData.length)
+		return; 
+	}
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
 		orderIDList += tableData[i].orderID + "###";
@@ -600,7 +605,7 @@ function orderOutOfDryingKiln(models) {
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
-					pageSize: 15,
+					pageSize: 50,
 					pageNumber: 1,
 					pageList: "[10, 25, 50, 100, All]",
 					showToggle: true,
