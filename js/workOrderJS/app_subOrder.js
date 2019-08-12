@@ -46,7 +46,6 @@ function subOrderIndustrialPlantSlctFun() {
 	});
 };
 
-
 function subOrderProductionProcessSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionprocess",
@@ -124,12 +123,12 @@ function subOrderProductionLineSlctFun() {
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
 		$('#subOrderCancelFinishBT').show();
-		
-	//	if(localStorage.roleID == window.windowRoleID.CZG) {
-	//		$('#subOrderCancelFinishBT').hide();
-	//		$('#subOrderOvertimeFinishBT').hide();
-	//	}
-		
+
+		//	if(localStorage.roleID == window.windowRoleID.CZG) {
+		//		$('#subOrderCancelFinishBT').hide();
+		//		$('#subOrderOvertimeFinishBT').hide();
+		//	}
+
 		//alert($('#subOrderFinishBT').attr("onclick"));
 	}
 	var formData = new FormData();
@@ -246,8 +245,8 @@ function subOrderWorkingLocationSlctFun() {
 };
 
 function lineWorkOrderSlct() {
-	
-		var dataStr = "2";
+
+	var dataStr = "2";
 	var dateNow = new Date();
 	if(dateNow.getHours() < 7) {
 		dateNow.setDate(dateNow.getDate() - 1);
@@ -259,7 +258,6 @@ function lineWorkOrderSlct() {
 	if(dateNow.getHours() > 18) {
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
-	
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
@@ -281,12 +279,11 @@ function lineWorkOrderSlct() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					if(models[i].orderid.toString().indexOf(dataStr)  > 0)
-					{
+					if(models[i].orderid.toString().indexOf(dataStr) > 0) {
 						$('#workOrderSlct').append(("<option value=" + models[i].id + ">" +
-						models[i].orderid  + "</option>").toString());
+							models[i].orderid  + "</option>").toString());
 					}
-					
+
 				}
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
@@ -410,7 +407,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 				$("#changeOrderProductionNum").val('');
 				var dataStr = "----";
-				var dateNow = new Date();  
+				var dateNow = new Date();
 				if(dateNow.getHours() < 7) {
 					dateNow.setDate(dateNow.getDate() - 1);
 					dataStr = "YB" + dateNow.format("yyyyMMdd");
@@ -438,7 +435,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 }
 
 function FinishSubOrder() {
-	
+
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -446,13 +443,12 @@ function FinishSubOrder() {
 	$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
 	$("#subOrderFinishBT").attr("disabled", true);
 	$("#subOrderOvertimeFinishBT").attr("disabled", true);
-	
 
 	var formMap = {};
 
 	if(row.length < 1) {
 		alert("请选择行数据!");
-		
+
 		$("#subOrderFinishBT").attr("disabled", false);
 		$("#subOrderOvertimeFinishBT").attr("disabled", false);
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
@@ -465,8 +461,7 @@ function FinishSubOrder() {
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		return;
 	}
-	if(!row[0]["status"] || !row[0]["ordersplitid"] )
-	{
+	if(!row[0]["status"] || !row[0]["ordersplitid"]) {
 		alert("请先扫码获取工单信息!");
 		$("#subOrderFinishBT").attr("disabled", false);
 		$("#subOrderOvertimeFinishBT").attr("disabled", false);
@@ -595,7 +590,7 @@ function getSelfProductionRecord() {
 
 	var urlStr = window.serviceIP + "/api/material/getShelfProductionRecord?staffID=" + localStorage.userID +
 		"&startTime=" + startTime + "&endTime=" + endTime;
-//console.log(urlStr);
+	//console.log(urlStr);
 	$.ajax({
 		url: urlStr,
 		type: "GET",
@@ -786,11 +781,11 @@ function SelectSubOrder() {
 						}
 					});
 				}
-//				setTimeout(function() {
-//					getUsableMaterialFun();
-//				}, 100);
+				//				setTimeout(function() {
+				//					getUsableMaterialFun();
+				//				}, 100);
 
-				if(window.windowRoleID.CZG == localStorage.roleID  && window.windowProcessEnum.JS !=localStorage.processID) {
+				if(window.windowRoleID.CZG == localStorage.roleID && window.windowProcessEnum.JS != localStorage.processID) {
 					getSelfProductionRecord();
 				}
 
@@ -846,7 +841,7 @@ function SelectMaterialRecord() {
 		"field": "suborderid",
 		visible: false
 	});
-	
+
 	columnsArray.push({
 		"title": "入库人员",
 		"field": "inputer"
@@ -855,7 +850,7 @@ function SelectMaterialRecord() {
 		"title": "入库时间",
 		"field": "inputtime"
 	});
-	
+
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -1020,14 +1015,13 @@ function gainMaterialRecord() {
 	$("#gainMaterialRecordBT").attr("disabled", true);
 	var formData = new FormData();
 	var selectRow = $("#usableMaterialTable").bootstrapTable('getSelections');
-	
-	if(!selectRow[0]["number"])
-	{
+
+	if(!selectRow[0]["number"]) {
 		alert("请先扫描物料二维码");
 		$("#gainMaterialRecordBT").attr("disabled", false);
 		return;
 	}
-	 
+
 	var arrayObj = new Array();
 	for(var i = 0; i < selectRow.length; i++) {
 		arrayObj.push(selectRow[i].id);
@@ -1229,7 +1223,6 @@ function startQRScan() {
 
 }
 
-
 var accept_webName = null;
 //重写scanQR方法
 function scanQR(webName) {
@@ -1296,9 +1289,9 @@ function getMaterialRecordBySuborderID(recordID) {
 	columnsArray.push({
 		checkbox: true,
 		formatter: function(value, row, index) {
- 
+
 			if(index == 0) {
-				
+
 				return {
 					checked: true //设置选中
 				};
@@ -1332,7 +1325,7 @@ function getMaterialRecordBySuborderID(recordID) {
 		"title": "物料子工单",
 		"field": "inSubOrderName"
 	});
-	
+
 	columnsArray.push({
 		"title": "入库人员",
 		"field": "inputer"
@@ -1346,7 +1339,7 @@ function getMaterialRecordBySuborderID(recordID) {
 		"field": "suborderid",
 		visible: false
 	});
-	
+
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -1403,19 +1396,18 @@ function gainPartMaterialRecord() {
 		alert("请选择一行有效投料数据,当前选择行数为" + selectRow.length);
 		return;
 	}
-	if(!selectRow[0]["number"])
-	{
+	if(!selectRow[0]["number"]) {
 		alert("请先扫描物料二维码");
 		return;
 	}
-	
+
 	if(selectRow.length < 1 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
 		alert("请确认已选择物料和订单!")
 		return;
 	}
 	var result1 = parseFloat($("#changeGainProductionNum").val());
 	var result2 = parseFloat(selectRow[0]["number"]);
-	
+
 	if(result1 <= 0) {
 		alert("领料数量必须大于0!");
 		return;
@@ -1447,7 +1439,7 @@ function gainPartMaterialRecord() {
 				$('#changeGainProductionModal').modal('hide');
 				alert("投料成功！");
 			} else {
-				alert("初始化数据失败！" + dataRes.message); 
+				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -1761,7 +1753,7 @@ function pushInDryingKilnjzsuborder(qrCode) {
 	formMap['inputername'] = localStorage.username;
 	//console.log(formMap);
 	//alert(row[0].productionnum);
-	var formMap2 = {};  
+	var formMap2 = {};
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
 		formMap2["name"] = localStorage.username + "###" + localStorage.userID + "###-1###" + row[0]["materialName"];
 	} else {

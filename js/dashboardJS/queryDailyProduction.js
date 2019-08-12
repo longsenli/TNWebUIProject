@@ -339,7 +339,7 @@ function getDailyProduction() {
 			"title": "完成时间",
 			"field": "inputTime",
 			formatter: function(value, row, index) {
-				console.log(value);
+				//console.log(value);
 				if(value) {
 					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
 				}
