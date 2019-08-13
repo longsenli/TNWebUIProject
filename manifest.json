@@ -2430,7 +2430,8 @@
 					"pages/contentManage/app_publishIdea.html",
 					"pages/workOrder/app_pushinDryingKiln.html",
 					"pages/dashboard/app_queryDailyProduction.html",
-					"pages/workOrder/pda_solidificationRecordManage.html"
+					"pages/workOrder/pda_solidificationRecordManage.html",
+					"pages/workOrder/app_materialScrapManage.html"
 				],
 				"priority": 0
 			},

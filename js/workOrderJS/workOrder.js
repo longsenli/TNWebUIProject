@@ -680,7 +680,12 @@ function saveScrap() {
 function initSplitDetailWorkOrder(orderID) {
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
 	});
 	columnsArray.push({
 		width: 300,
@@ -744,7 +749,7 @@ function initSplitDetailWorkOrder(orderID) {
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
-					pageSize: 30,
+					pageSize: 100,
 					pageNumber: 1,
 					pageList: "[15, 30, 50, 100, All]",
 					//showToggle: true,
@@ -764,4 +769,53 @@ function initSplitDetailWorkOrder(orderID) {
 
 function closeScrapModal() {
 	$("#scrapModal").modal('hide');
+}
+
+function printQRCode()
+{
+	var selectRow = $("#orderSplitTable").bootstrapTable('getSelections');
+	//var arrayObj = new Array();
+	//console.log(selectRow.length);
+	for(var i = 0; i < selectRow.length; i++) {
+		
+		var orderLength = selectRow[i].ordersplitid.length;
+		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
+		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
+		LODOP.ADD_PRINT_BARCODE(20, 20, 100, 100, "QRCode", selectRow[i].id);
+
+		LODOP.ADD_PRINT_TEXT(120, 5, 160, 50, selectRow[i].id.substr(0, orderLength - 11)); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(135, 5, 170, 50, selectRow[i].id.substr(orderLength - 11, 11)); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].ordersplitid.substr(orderLength - 11, 4) + "年" +
+			selectRow[i].ordersplitid.substr(orderLength - 7, 2) + "月" + selectRow[i].ordersplitid.substr(orderLength - 5, 2) + "日"); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(60, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].productionnum); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(130, 140, 130, 100, "员工签名:"); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		//LODOP.ADD_PRINT_HTM(5, 5, 200, 200, document.getElementById("QRImage")) //增加超文本项
+		//LODOP.PREVIEW();
+		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
+	}
 }

@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>报废信息查询</title>
+		
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -36,7 +37,10 @@
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 
 				scrapIndustrialPlantSlctFun("1");
-
+				$('#scrapModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("scrapModalForm").reset();
+					})
 			});
 
 			//	getWorkOrder();
@@ -83,7 +87,7 @@
 							<select class="selectpicker" id="lineID" name="lineID" onchange="changeMaterialInfo()">
 							</select>
 							<div class="form-inline row">
-								<label for="name" style="margin-top: 10px;margin-left: 10px;">日期:</label>
+								<!--<label for="name" style="margin-top: 10px;margin-left: 10px;">日期:</label>-->
 								<input type="date" class="form-control" style="margin-top: 10px;" id="productDate" name="productDate" onchange="changeMaterialInfo()">
 							</div>
 							<br />
