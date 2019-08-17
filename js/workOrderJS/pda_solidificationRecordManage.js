@@ -587,6 +587,7 @@ function addOrderIDToBatchTable(orderID) {
 }
 
 function addSolidificationRecordManageByBatch() {
+	$("#showMessage").html('');
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
 		alert("请先添加工单号再发料!")
 		return;
@@ -640,12 +641,12 @@ function addSolidificationRecordManageByBatch() {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
 				$("#orderIDByBatch").val("");
 				document.getElementById('orderIDByBatch').focus();
 			} else {
+				$("#showMessage").html("初始化数据失败！" + dataRes.message);
 				//alert("初始化数据失败！" + dataRes.message);
 			}
 		},
@@ -751,7 +752,6 @@ function selectInput(nowNumber) {
 			selectInput(++testNumber);
 		}, 10000);
 	}
-
 }
 
 function changeAllSolidificationRoomStatusAuto() {
@@ -791,5 +791,4 @@ function changeAllSolidificationRoomStatusAuto() {
 			}
 		}
 	});
-
 }

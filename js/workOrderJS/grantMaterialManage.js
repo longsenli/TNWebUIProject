@@ -278,7 +278,7 @@ function grantMaterialByInputID() {
 	});
 
 }
-
+var selected = false;
 function grantMaterialDetail() {
 	var columnsArray = [];
 	columnsArray.push({
@@ -308,7 +308,7 @@ function grantMaterialDetail() {
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
-
+selected = false;
 	$.ajax({
 		url: urlStr,
 		type: "GET",
@@ -335,8 +335,27 @@ function grantMaterialDetail() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
+					strictSearch:true,
 					search: true,
 					pagination: true,
+					onClickRow:function (row,element) {
+                    if(row.orderName =='总计')
+                    {
+                    	console.log(element);
+                    	console.log(1);
+                    	if(selected)
+                    	{
+                    		selected = false;
+                    		$("#table").bootstrapTable('resetSearch', '');
+                    	}
+                    	else
+                    	{
+                    		selected = true;
+                    		$("#table").bootstrapTable('resetSearch', row.name);
+                    		
+                    	}
+                    }
+},
 					columns: columnsArray
 				});
 
