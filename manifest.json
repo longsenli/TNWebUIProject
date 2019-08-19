@@ -2431,7 +2431,8 @@
 					"pages/workOrder/app_pushinDryingKiln.html",
 					"pages/dashboard/app_queryDailyProduction.html",
 					"pages/workOrder/pda_solidificationRecordManage.html",
-					"pages/workOrder/app_materialScrapManage.html"
+					"pages/workOrder/app_materialScrapManage.html",
+					"pages/workOrder/app_plasticUsedRecord.html"
 				],
 				"priority": 0
 			},
@@ -2551,6 +2552,13 @@
 				"resources": [],
 				"refer": [
 					"pages/workOrder/pda_solidificationRecordManage.html"
+				],
+				"priority": 0
+			},
+			"pages/workOrder/app_plasticUsedRecord.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
 				],
 				"priority": 0
 			}
