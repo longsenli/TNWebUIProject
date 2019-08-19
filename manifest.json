@@ -2558,7 +2558,8 @@
 			"pages/workOrder/app_plasticUsedRecord.html": {
 				"resources": [],
 				"refer": [
-					"pages/workOrder/barcode_scan.html"
+					"pages/workOrder/barcode_scan.html",
+					"pages/workOrder/app_plasticUsedRecord.html"
 				],
 				"priority": 0
 			}

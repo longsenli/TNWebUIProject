@@ -434,8 +434,8 @@ function addOrderIDToBatchTable(orderID, type) {
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
 	if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
-			selectMaterial(orderID);
-	}else if("SJ" == type) {
+		selectMaterial(orderID);
+	} else if("SJ" == type) {
 		setTimeout(function() {
 			scanQR('5');
 		}, 2000);
@@ -524,15 +524,27 @@ function plasticUsedRecordByBatch(grantType) {
 function onTextareaKeyDown() {
 
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
-		event.preventDefault(); //禁止默认事件（默认是换行） 
+
+		event.preventDefault(); //禁止默认事件（默认是换行）
+	
 		var orderID = $("#orderIDByBatch").val();
 		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 
+		
 		if(!orderID) {
 			orderID = $("#orderIDByBatch").val();
 		}
+		
+		if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
+			selectMaterial(orderID);
+			event.preventDefault(); //禁止默认事件（默认是换行） 
+			$("#orderIDByBatch").val("");
+			document.getElementById('orderIDByBatch').focus();
+			return;
+		}
+			
 		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
 
 		if(rows) {
@@ -549,6 +561,7 @@ function onTextareaKeyDown() {
 			document.getElementById('orderIDByBatch').focus();
 			return;
 		}
+
 		if($("#table").bootstrapTable('getData').length >= 20) {
 			console.log("一次性最多发料20个!");
 			event.preventDefault(); //禁止默认事件（默认是换行） 
@@ -556,6 +569,7 @@ function onTextareaKeyDown() {
 			document.getElementById('orderIDByBatch').focus();
 			return;
 		}
+
 		var _data = {
 			"orderID": orderID,
 			"status": "",
@@ -567,12 +581,12 @@ function onTextareaKeyDown() {
 		//console.log($("#orderIDByBatch").val() + "=====huanh");
 		//event.keyCode = 17;
 		//addOrderIDToBatchTable($("#orderIDByBatch").val(),"PDA");
-
+		//console.log($("#orderIDByBatch").val() + "=====huanh");
+		
+		
+	
 		$("#orderIDByBatch").val("");
 		document.getElementById('orderIDByBatch').focus();
-		if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
-			selectMaterial(orderID);
-		}
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
 
 	}
@@ -617,7 +631,7 @@ function selectMaterial(orderID) {
 					materialNumber = models[0].number;
 					materialName = models[0].materialNameInfo;
 					document.getElementById("inputMaterial").innerHTML = " " + materialName + "  " + materialNumber;
-					$('#table').bootstrapTable('destroy'); 
+					//$('#table').bootstrapTable('destroy');
 				}
 
 			} else {

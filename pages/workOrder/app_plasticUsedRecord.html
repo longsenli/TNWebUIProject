@@ -53,6 +53,7 @@
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
 				}
 				plasticUsedRecordPlantSlctFun("1");
+				document.getElementById('orderIDByBatch').focus();
 			});
 		</script>
 
@@ -90,11 +91,11 @@
 													<label>-</label>
 													<input type="datetime-local" id="endTime" name="endTime" />
 												</div>
-
+ 
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="plasticUsedRecordSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="plasticUsedRecordDetail()">投料详情</button>
 												<h4 id="inputMaterial"></h4>
-												<input type="text" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">
+												<input type="text" autofocus="autofocus" onkeydown="onTextareaKeyDown()" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加ID</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="selectMaterial()">查询工单</button>
