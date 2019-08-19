@@ -476,6 +476,7 @@ function plasticUsedRecordByBatch(grantType) {
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+	formData.append("orderID", materialID);
 	$.ajax({
 		url: window.serviceIP + "/api/plastic/addPlasticUsedRecord",
 		type: "POST",
@@ -594,6 +595,7 @@ function onTextareaKeyDown() {
 
 var materialName;
 var materialNumber;
+var materialID;
 
 function selectMaterial(orderID) {
 
@@ -626,10 +628,11 @@ function selectMaterial(orderID) {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-
+//console.log(models);
 				if(models.length > 0) {
 					materialNumber = models[0].number;
 					materialName = models[0].materialNameInfo;
+					materialID = models[0].subOrderID;
 					document.getElementById("inputMaterial").innerHTML = " " + materialName + "  " + materialNumber;
 					//$('#table').bootstrapTable('destroy');
 				}
@@ -640,4 +643,93 @@ function selectMaterial(orderID) {
 		}
 	});
 
+}
+
+function plasticDataProvenance()
+{
+	var orderID = $("#orderIDByBatch").val();
+	if(!orderID || orderID.length < 3)
+	{
+		alert("请输入底壳二维码!");
+		return;
+	}
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "底壳",
+		"field": "id"
+	});
+	columnsArray.push({
+		"title": "人员",
+		"field": "staffid"
+	});
+	columnsArray.push({
+		"title": "时间",
+		"field": "usedtime"
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "lineid",
+		formatter: function(value, row, index) {
+			return $("#productionLineSlct option[value='" + row.lineid + "']").text();
+		}
+	});
+columnsArray.push({
+		"title": "包板物料",
+		"field": "jqid"
+	});
+	columnsArray.push({
+		"title": "责任人",
+		"field": "jqstaff"
+	});
+	
+	columnsArray.push({
+		"title": "时间",
+		"field": "jqtime"
+	});
+	
+	var formData = new FormData();
+	formData.append("id", orderID);
+	
+	$.ajax({
+		url: window.serviceIP + "/api/plastic/plasticDataProvenance",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					strictSearch: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
 }
