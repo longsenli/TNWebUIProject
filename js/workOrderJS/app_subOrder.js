@@ -110,10 +110,10 @@ function subOrderProductionLineSlctFun() {
 
 		$('#subOrderFinishOnlyBTJZ').show();
 
-		if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
+		//if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
 			$("#subOrderFinishBT").hide();
 			$("#subOrderOutDryingBTJZ").hide();
-		}
+		//}
 
 	} else {
 		$('#subOrderFinishOnlyBTJZ').hide();
