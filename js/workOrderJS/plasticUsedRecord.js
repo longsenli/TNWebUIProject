@@ -106,7 +106,7 @@ function plasticUsedRecordLineSlctFun() {
 function plasticUsedRecordWorkingLocationSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", "1007");
+	formData.append("processID", "1015");
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getworklocation",
