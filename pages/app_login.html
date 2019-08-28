@@ -68,7 +68,7 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form action="" method="post" class="login-form" onsubmit="return login()">
+							<form id="login_form" action="" method="post" class="login-form" onsubmit="return login()">
 								<div class="form-group">
 									<!--    		<label class="sr-only" for="form-username">Username</label>-->
 									<input type="text" name="form-username" placeholder="用户名" class="form-username form-control" id="form-username" required>
@@ -86,7 +86,7 @@
 									<span style="font-size: x-large;color: #3C763D">设置</span></a>
 							</div>
 							<div id="collapseTwo" class="panel-collapse collapse">
-								<!-- <div class="form-group pad-ver">
+								 <!--<div class="form-group pad-ver">
 								    <label class="col-md-3 control-label">按连接WIFI选择服务器信息</label>
 								    <div class="col-md-9">
 								        <div class="radio">
@@ -98,7 +98,8 @@
 										<span>说明: 登录前请连接公司内部WIFI, 默认为连接的MES网络, 其他网络请选择非MES网</span>
 								    </div>
 								</div> -->
-								<!-- <input type="text" onblur="setRemoteServiceIP()" name="RemoteServiceIP" placeholder="设置服务器信息" class="form-username form-control" id="RemoteServiceIP" required> -->
+								 <input type="text" onblur="setRemoteServiceIP()" name="RemoteServiceIP" placeholder="设置服务器ip,例: 1.1.1.1" class="form-username form-control" id="RemoteServiceIP" required> 
+								 <!--<label name='tip' >例子: 120.194.241.54</label></br>-->
 								<label id="loginPage_show_RemoteServiceIP"></label>
 								<label id="versionInfo">当前版本号:&nbsp;&nbsp;</label>
 							</div>
@@ -119,14 +120,166 @@
 						versionCompare();
 				}, false);
 			});
+			//设置自定义服务器IP
+ 			function setRemoteServiceIP() {
+   				if(isValidIP($('#RemoteServiceIP').val())){
+   					//修改form提交方法
+   					$('#login_form').attr('onsubmit','return defLogin()');
+   				}else{
+   					alert('输入不是合法的ip地址,请重新输入');
+   				}
+ 			}
+			//验证是不是合法ip地址
+			function isValidIP(ip) {
+			    var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+			    return reg.test(ip);
+			}
+			
+			//自定义服务器ip地址登录方法
+			function defLogin(){
+//				var defaultIP = "10.0.0.151:19001";
+				var defaultIP = $('#RemoteServiceIP').val() + ':19001';
+//				alert('defaultIP:  '+defaultIP)
+				if(localStorage.getItem('myDefaultIP')) {
+					defaultIP = localStorage.getItem('myDefaultIP');
+				}
 
-			// 			function setRemoteServiceIP(ip) {
-			// 				alert(ip)
-			// 				var RemoteServiceIP = ip;
-			// 				localStorage.setItem('RemoteServiceIP', RemoteServiceIP);
-			// 				alert(localStorage.getItem('RemoteServiceIP', RemoteServiceIP));
-			// 			}
+				var unselectedMenu = localStorage.getItem('unselectedMenu');
+				var username = document.getElementById("form-username").value;
+				var password = document.getElementById("form-password").value;
+				// var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
 
+				// 				if(RemoteServiceIP1 != null && RemoteServiceIP1 != 'undefined' && RemoteServiceIP1 != "") {
+				// 					window.serviceIP = 'http://' + RemoteServiceIP1 + '/ilpsService';
+				// 				}
+				// 				alert('RemoteServiceIP1' + RemoteServiceIP1)
+				// 				alert('window.serviceIP' + window.serviceIP)
+				$.ajax({
+					type: 'POST',
+					// url:'http://192.168.1.100:8080/api/login',
+					//url: 'http://10.0.0.151:19001/ilpsService/api/login',
+					url: 'http://' + defaultIP.trim() + '/ilpsService/api/login',
+					dataType: "json",
+					data: {
+						'username': username,
+						"password": password
+					},
+					async: true, //设置为false时,timeout不生效
+					timeout: 5000,
+					success: function(result) {
+						if(result.status == "1") {
+
+							localStorage.clear();
+							localStorage.setItem('RemoteServiceIP', defaultIP.trim());
+							localStorage.setItem('unselectedMenu', unselectedMenu);
+							localStorage.setItem('myDefaultIP', defaultIP.trim());
+							// console.log(result)
+							// var login_info = null;
+							// 							login_info = login_info || {};
+							// 							login_info.token = result.token || '';
+							// 							login_info.username = result.message.split("###")[0].trim() || '';
+							// 							login_info.userID = username || '';
+							// 							login_info.roleID = result.message.split("###")[1].trim() || '';
+							// 							login_info.password = password || '';
+							//登陆成功后获取token
+							var token = JSON.parse(result.token);
+							token.username = result.message.split("###")[0].trim() || '';
+							token.userID = username || '';
+							token.roleID = result.message.split("###")[1].trim() || '';
+							token.password = password || '';
+
+							// 							login_info = {
+							// 								'token':result.token,
+							// 								'username':result.message.split("###")[0].trim(),
+							// 								'userID':username,
+							// 								'roleID':result.message.split("###")[1].trim(),
+							// 								'password': password
+							// 							};
+							// localStorage.setItem('Global_UserLogin_Info',Global_UserLogin_Info);
+							// alert(localStorage.getItem('$users'))
+
+							// 							$.cookie('username', result.message.split("###")[0].trim());
+							// 							$.cookie('userID', username);
+							// 							$.cookie('roleID', result.message.split("###")[1].trim());
+							// 							$.cookie('password', password);
+
+							if(result.message.split("###")[2].trim() != "-1" && result.message.split("###")[2].trim() != "null" && result.message.split("###")[2].trim().length > 1) {
+								// $.cookie('plantID', result.message.split("###")[2].trim());
+								token.plantID = result.message.split("###")[2].trim();
+								localStorage.setItem('plantID', result.message.split("###")[2].trim());
+							}
+							if(result.message.split("###")[3].trim() != "-1" && result.message.split("###")[3].trim() != "null" && result.message.split("###")[3].trim().length > 1) {
+								// $.cookie('processID', result.message.split("###")[3].trim());
+								token.processID = result.message.split("###")[3].trim();
+
+								localStorage.setItem('processID', result.message.split("###")[3].trim());
+							}
+							if(result.message.split("###")[4].trim() != "-1" && result.message.split("###")[4].trim() != "null" && result.message.split("###")[4].trim().length > 1) {
+								// $.cookie('lineID', result.message.split("###")[4].trim());
+								token.lineID = result.message.split("###")[4].trim();
+
+								localStorage.setItem('lineID', result.message.split("###")[4].trim());
+							}
+							if(result.message.split("###")[5].trim() != "-1" && result.message.split("###")[5].trim() != "null" && result.message.split("###")[5].trim().length > 1) {
+								token.workingkLocation = result.message.split("###")[5].trim();
+
+								localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
+							}
+							// alert(JSON.stringify(token));
+							// 							var Global_UserLogin_Info = [];
+							// 							Global_UserLogin_Info.push(login_info);
+							//将全局token等信息放入变量$Global_UserLogin_Info
+							localStorage.setItem('$Global_UserLogin_Info', JSON.stringify(token));
+							localStorage.setItem("LocalUserName", username);
+							localStorage.setItem("LocalUserPsw", password);
+
+							localStorage.setItem('token', result.token);
+							localStorage.setItem('username', result.message.split("###")[0].trim());
+							localStorage.setItem('userID', username);
+							localStorage.setItem('roleID', result.message.split("###")[1].trim());
+							localStorage.setItem('password', password);
+
+							// 							var aa = localStorage.getItem('$Global_UserLogin_Info');
+							// 							alert(aa.token)
+							// 							var users = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
+							// 							alert(users.token)
+							//							if('iOS' == window.plus.os.name) {
+							//								// alert('IOS')
+							//								window.location.href = "app_productionIndex_ios.html";
+							//								return;
+							//							}
+							window.location.href = "app_productionIndex.html";
+							//							if(result.message.split("###")[1].trim() == "24") {
+							//								window.location.href = "app_productionIndex.html";
+							//							} else {
+							//								window.location.href = "app_productionIndex.html";
+							//							}
+
+						} else {
+							var hintinfo = document.getElementById("hintinfo");
+							hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
+							//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
+						}
+					},
+
+					error: function(XMLHttpRequest, status, err) {
+						//if(status != 'timeout')
+					},
+					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
+						// alert(XMLHttpRequest.status + status);
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+							 alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
+							//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
+//							mes_login();
+						}
+					}
+
+				});
+				return false;
+			}
+			
+			
+			
 			function appLoginPageload() {
 				$("#form-username").val(localStorage.getItem('LocalUserName'));
 				$("#form-password").val(localStorage.getItem('LocalUserPsw'));
