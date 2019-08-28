@@ -122,6 +122,7 @@ function subOrderProductionLineSlctFun() {
 		$('#subOrderOutDryingBTJZ').hide();
 		$("#subOrderFinishBT").html('<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>完成');
 		$('#subOrderFinishBT').attr("onclick", "FinishSubOrder()");
+		$("#subOrderFinishBT").show();
 		$('#subOrderCancelFinishBT').show();
 
 		//	if(localStorage.roleID == window.windowRoleID.CZG) {

@@ -1033,3 +1033,154 @@ function savePackageInput() {
 		}
 	});
 }
+
+
+function getPackageRecord()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialname"
+	});
+	columnsArray.push({
+		"title": "物料类型",
+		"field": "materialtype",
+		formatter: function(value, row, index) {
+			return $("#materialtype option[value='" + row.materialtype + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "materialid",
+		"field": "materialid",
+		visible: false
+	});
+
+	columnsArray.push({
+		"title": "数量",
+		"field": "productionnumber"
+	});
+
+	columnsArray.push({
+		"title": "下架日期",
+		"field": "batterydate",
+		formatter: function(value, row, index) {
+			if(value) {
+				return value.toString().split(" ")[0];
+			}
+		}
+	});
+
+	columnsArray.push({
+		"title": "打堆时间",
+		"field": "piletime"
+	});
+	columnsArray.push({
+		"title": "存放位置",
+		"field": "location"
+	});
+	columnsArray.push({
+		"title": "状态",
+		"field": "status",
+		formatter: function(value, row, index) {
+			if(value == '1') {
+				return '在库中';
+			}
+			if(value == '2') {
+				return '已使用';
+			}
+			return '状态不明';
+		}
+	});
+	columnsArray.push({
+		"title": "责任人",
+		"field": "pilestaffname"
+	});
+columnsArray.push({
+		"title": "包装时间",
+		"field": "packagetime"
+	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("startTime", document.getElementById("startTime").value.toString());
+	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
+	formData.append("selectType", "selectType");
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/getPackageRecord",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//async: false,
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
+}

@@ -154,6 +154,7 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').selectpicker('refresh');
 					$('#workingkLocationSlct').selectpicker('render'); 
 				}
+				
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -191,7 +192,19 @@ function plasticUsedRecordDetail() {
 			return $("#productionLineSlct option[value='" + row.lineid + "']").text();
 		}
 	});
-
+columnsArray.push({
+		"title": "包板物料",
+		"field": "jqid"
+	});
+	columnsArray.push({
+		"title": "责任人",
+		"field": "jqstaff"
+	});
+	
+	columnsArray.push({
+		"title": "时间",
+		"field": "jqtime"
+	});
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
