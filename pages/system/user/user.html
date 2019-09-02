@@ -43,11 +43,11 @@
 		            <button type="button" class="btn btn-secondary"  onclick="searchUser()" id="searchUserBT">
 		              <i class="glyphicon glyphicon-search" aria-hidden="true">搜索用户</i>
 		            </button>
-		            <select class="form-control">
-			          <!--<option value="">Export Basic</option>-->
+		            <!--<select class="form-control">
+			          
 			          <option value="all">导出全部</option>
 			          <option value="selected">导出选中</option>
-			        </select>
+			        </select>-->
 			</div>
 			<!-- bootstrapTable -->
 			</form>
@@ -560,10 +560,10 @@ var columnsArray = [];
                 sidePagination: 'server',//指定服务器端分页
                 pageSize: 15,//单页记录数
                 pageList: [4, 10, 15, 20, 50, 100],//分页步进值
-                search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-                silent: true,
-                showRefresh: true,                  //是否显示刷新按钮
-                showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+                //search: true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+               // silent: true,
+                //showRefresh: true,                  //是否显示刷新按钮
+                //showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
                 onLoadSuccess: function(){  //加载成功时执行
     	  		console.info("用户列表加载成功");
 			      },
@@ -571,22 +571,22 @@ var columnsArray = [];
 			        console.info("用户列表加载失败");
 			    },
               //>>>>>>>>>>>>>>导出excel表格设置
-		      showExport: phoneOrPc(),              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
-		      exportDataType:"basic",             //basic', 'all', 'selected'.
-		      exportTypes:['doc','excel'],	    //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
-		      //exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
-		      exportOptions:{  //导出参数
-		          ignoreColumn: [0,0],            //忽略某一列的索引  
-		          fileName: '数据导出',              //文件名称设置  
-		          worksheetName: 'Sheet1',          //表格工作区名称  
-		          tableName: '数据导出表',  
-		          excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],  
-		          //onMsoNumberFormat: DoOnMsoNumberFormat  
-		      },
+//		      showExport: phoneOrPc(),              //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+//		      exportDataType:"basic",             //basic', 'all', 'selected'.
+//		      exportTypes:['doc','excel'],	    //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+//		      //exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+//		      exportOptions:{  //导出参数
+//		          ignoreColumn: [0,0],            //忽略某一列的索引  
+//		          fileName: '数据导出',              //文件名称设置  
+//		          worksheetName: 'Sheet1',          //表格工作区名称  
+//		          tableName: '数据导出表',  
+//		          excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],  
+//		          //onMsoNumberFormat: DoOnMsoNumberFormat  
+//		      },
 		      //导出excel表格设置<<<<<<<<<<<<<<<<
                 clickToSelect: true,                //是否启用点击选中行
-                showColumns: true,                  //是否显示所有的列
-                cardView: false,                    //是否显示详细视图
+               // showColumns: true,                  //是否显示所有的列
+               // cardView: false,                    //是否显示详细视图
                 minimumCountColumns: 2,             //最少允许的列数
                 uniqueId: "userid",                     //每一行的唯一标识，一般为主键列
 				paginationPreText: '上一页',

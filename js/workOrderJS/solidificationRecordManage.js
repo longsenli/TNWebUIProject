@@ -266,7 +266,40 @@ function inSolidifyRoomDetail() {
 	});
 	columnsArray.push({
 		"title": "入窑人",
-		"field": "recorder1"
+		"field": "recorder1",
+		formatter: function(value, row, index) {
+
+			if(value) {
+				if(value && value.length > 1) {
+
+					return value;
+				} else {
+
+					if(row["status"] == "1") {
+						return "一段";
+					}
+					if(row["status"] == "2") {
+						return "二段";
+					}
+					if(row["status"] == "3") {
+						return "三段";
+					}
+					return "";
+				};
+			} else {
+
+				if(row["status"] == "1") {
+					return "一段";
+				}
+				if(row["status"] == "2") {
+					return "二段";
+				}
+				if(row["status"] == "3") {
+					return "三段";
+				}
+				return "";
+			};
+		}
 	});
 	columnsArray.push({
 		"title": "入窑时间",
@@ -618,7 +651,7 @@ function addSolidificationRecordManageByBatch() {
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
-	formData.append("operatorName", localStorage.username + "###"+ localStorage.userID );
+	formData.append("operatorName", localStorage.username + "###" + localStorage.userID);
 	formData.append("roomName", $("#solidificationRoomInfoSlct").find("option:selected").text());
 
 	$.ajax({
@@ -712,25 +745,23 @@ function onTextareaKeyDown() {
 	}
 }
 
-function changeAllSolidificationRoomStatusAuto()
-{
-	
-if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
+function changeAllSolidificationRoomStatusAuto() {
+
+	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
 		alert("请选择确切的固化室,不能选择全部!")
 		return;
 	}
-//
-//	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
-//		alert("请选择当前固化阶段!")
-//		return;
-//	}
+	//
+	//	if(document.PlantToLineSelectForm.solidifyStepID.value.toString() == '-1') {
+	//		alert("请选择当前固化阶段!")
+	//		return;
+	//	}
 
-if(!window.changeConfirmDlg("确认将全部转段" + $("#solidificationRoomInfoSlct").find("option:selected").text() + "?"))
+	if(!window.changeConfirmDlg("确认将全部转段" + $("#solidificationRoomInfoSlct").find("option:selected").text() + "?"))
 		return;
 	var formData = new FormData();
 	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
 	formData.append("operatorName", localStorage.username);
-
 
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/changeAllSolidifyStatusAuto",

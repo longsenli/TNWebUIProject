@@ -1276,11 +1276,14 @@ function gainMaterialByQR(recordID) {
 function getMaterialRecordBySuborderID(recordID) {
 	$("#myModal").modal('hide');
 	//console.log("gainMaterialByQR" + recordID);
-
+	if("selectByText" == recordID) {
+		recordID = $("#selectByText").val();
+	}
 	if(recordID.length < 2 || document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2) {
 		alert("请确认已选择物料和订单!")
 		return;
 	}
+
 	var formData = new FormData();
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 
@@ -1658,8 +1661,14 @@ function cancelInputSuborder() {
 	});
 
 	if(row.length < 1) {
-		alert("请选择行数据!");
-		return;
+
+		row = $.map($('#usableMaterialTable').bootstrapTable('getSelections'), function(row) {
+			return row;
+		});
+		if(row.length < 1) {
+			alert("请选择行数据!");
+			return;
+		}
 	}
 	if(row.length > 1) {
 		alert("一次只能选择一个批次!您当前选择" + row.length + "个批次!");
