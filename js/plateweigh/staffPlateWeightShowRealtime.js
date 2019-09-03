@@ -272,7 +272,7 @@ function getStaffWeighShow(showType) {
 		if(!showType)
 		return;
 	}
-	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType)) {
+	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || (showType && infoList.length > 5 ))) {
 		if(!showType) {
 			$("#report2").height(heightAll);
 			infoList[3] = document.getElementById("plantSelect").value;
