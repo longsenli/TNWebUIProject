@@ -164,7 +164,7 @@ function getStaffWeighShow(showType) {
 				var myChart = echarts.init(document.getElementById('report1'));
 				var option = {
 					title: {
-						text: '个人称重趋势图'
+						text: infoList[1] +'称重趋势图'
 					},
 					tooltip: {
 						trigger: 'axis'
@@ -272,12 +272,16 @@ function getStaffWeighShow(showType) {
 		if(!showType)
 		return;
 	}
-	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || (showType && infoList.length > 5 ))) {
+	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType )) {
 		if(!showType) {
 			$("#report2").height(heightAll);
 			infoList[3] = document.getElementById("plantSelect").value;
 			infoList[4] = document.getElementById("weighQualifyStaff").value;
 			infoList[5] = document.getElementById("weighQualifyMaterialType").value;
+		}
+		if(showType && infoList.length < 5)
+		{
+			return;
 		}
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
 		urlAPI += infoList[3] + "&staffName=" + infoList[4] + "&materialName=" + infoList[5];
@@ -316,7 +320,7 @@ function getStaffWeighShow(showType) {
 					if(minNum > models[i].weight)
 						minNum = models[i].weight;
 				}
-				document.getElementById("showDetail2").innerHTML = "最近两小时共称重:" + total + ",低于标准:" + overMin +
+				document.getElementById("showDetail2").innerHTML = "最近两小时共称重:" + total + ",±" + maxWeighQualifyRange + "g,低于标准:" + overMin +
 					",高于标准:" + overMax + ",合格:" + (total - overMax - overMin) +
 					",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
 				//var percent = Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%";
@@ -324,7 +328,7 @@ function getStaffWeighShow(showType) {
 				var myChart = echarts.init(document.getElementById('report2'));
 				var option = {
 					title: {
-						text: '个人称重趋势图'
+						text: infoList[4] +'称重趋势图'
 					},
 					tooltip: {
 						trigger: 'axis'
@@ -397,7 +401,7 @@ function getStaffWeighShow(showType) {
 												}
 											}
 										},
-										name: '-5克合格线',
+										name: '-'+maxWeighQualifyRange+'克合格线',
 										yAxis: centerValue - maxWeighQualifyRange
 									},
 									{
@@ -408,7 +412,7 @@ function getStaffWeighShow(showType) {
 												}
 											}
 										},
-										name: '+5克合格线',
+										name: '+'+maxWeighQualifyRange+'克合格线',
 										yAxis: centerValue + maxWeighQualifyRange
 									},
 									{
