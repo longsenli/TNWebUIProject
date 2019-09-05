@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工资详情管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/wageManageJS/wageInfoDetail.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			$(function() {
+				$('#addRewardingPunishmentModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("rewardingPunishmentForm").reset();
+					})
+
+				$(function() {
+					$("body").delegate('#table tr', 'click', function() {
+						wageInfoDetailRowClick(this);
+					});
+				});
+
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				if(today.getHours() < 7) {
+					today.setDate(today.getDay() - 1);
+				}
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+				wageInfoDetailIndustrialPlantSlctFun("1");
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<label id='industrialPlantLabel'> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="wageInfoDetailStaffInfoSlctFun()">
+				</select>
+				<label id='productionProcessLabel'> 流程： </label>
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="wageInfoDetailStaffInfoSlctFun()">
+				</select>
+				<label> 人员： </label>
+				<select class="selectpicker" id="staffNameSlct" style="width:100px;" data-live-search="true" name="staffNameSlct">
+				</select>
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<input type="date" id="endTime" name="endTime" />
+				<button type="button" class="btn btn-primary" onclick="getProdutionWageDetail()">产量工资查询</button>
+				<button type="button" class="btn btn-primary" onclick="getRewardingPunishmentDetail()">奖惩详情查询</button>
+				<button type="button" class="btn btn-primary" onclick="addRewardingPunishmentDetail()">添加奖惩记录</button>
+				<button type="button" class="btn btn-primary" onclick="deleteRewardingPunishmentDetail()">删除奖惩记录</button>
+
+			</div>
+			<br />
+		</form>
+		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="addRewardingPunishmentModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 奖惩明细添加</h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="rewardingPunishmentForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="updaterID" name="updaterID" style="display:none" />
+
+							<div class="form-inline row">
+								<select class="selectpicker" id="staffID" data-live-search="true" name="staffID">
+								</select>
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">原因:</label>
+								<textarea id="reason" name="reason" style="width:85%;height:70px;" value="请输入原因"></textarea>
+							</div>
+							<br />
+
+							<div class="form-inline row">
+								<label for="name">奖罚金额:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9\-]/g,'')" id="wage" name="wage" placeholder="请输入奖罚金额">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">添加人员:</label>
+								<input type="text" readonly="readonly" class="form-control" id="updaterName" name="updaterName" placeholder="请输入添加人员">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="saveModelBT" class="btn btn-info" onclick="saveRewardingPunishmentDetail()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeModel()">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>

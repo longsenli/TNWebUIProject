@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工资条管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/wageManageJS/wageMonthRecordManage.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			$(function() {
+				$('#payStubModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("payStubForm").reset();
+					})
+
+				$(function() {
+					$("body").delegate('#table tr', 'click', function() {
+						wageMonthRrecordManageRowClick(this);
+					});
+				});
+
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM");
+				document.getElementById("startTime").value = today.format("yyyy-MM");
+
+				wageMonthRrecordManageIndustrialPlantSlctFun();
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<label id='industrialPlantLabel'> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="wageMonthRrecordManageStaffInfoSlctFun()">
+				</select>
+				<label id='productionProcessLabel'> 流程： </label>
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="wageMonthRrecordManageStaffInfoSlctFun()">
+				</select>
+				<label> 人员： </label>
+				<select class="selectpicker" id="staffNameSlct" style="width:100px;" data-live-search="true" name="staffNameSlct">
+				</select>
+				<label> 时间： </label>
+				<input type="month" id="startTime" name="startTime" />
+				<input type="month" id="endTime" name="endTime" />
+				<button type="button" class="btn btn-primary" onclick="getPayStubDetail()">工资查询</button>
+				<button type="button" class="btn btn-primary" onclick="changePayStubDetail()">工资调整</button>
+				<button type="button" class="btn btn-primary" onclick="deletePayStubDetail()">删除记录</button>
+			</div>
+			<br />
+		</form>
+		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="payStubModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 奖惩明细添加</h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="payStubForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="updaterID" name="updaterID" style="display:none" />
+							<input type="text" id="updaterName" name="updaterName" style="display:none" />
+							<br />
+							<div class="form-inline row">
+								<label for="name">姓名:</label>
+								<input type="text" readonly="readonly" class="form-control" id="staffName" name="staffName" placeholder="请输入添加人员">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">结算日期:</label>
+								<input type="text" readonly="readonly" class="form-control" id="closingDate" name="closingDate">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">产量工资:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.]/g,'')" id="productionWage" name="productionWage" placeholder="请输入产量工资">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">奖励金额:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.]/g,'')" id="rewardingWage" name="rewardingWage" placeholder="请输入奖励金额">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">处罚金额:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.-]/g,'')" id="punishmentWage" name="punishmentWage" placeholder="请输入处罚金额">
+							</div>
+							<br />
+							<div class="form-inline row">
+								<label for="name">其他工资1:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.-]/g,'')" id="extdWage1" name="extdWage1" placeholder="请输入金额">
+							</div>
+							<br />
+
+							<div class="form-inline row">
+								<label for="name">其他工资2:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.-]/g,'')" id="extdWage2" name="extdWage2" placeholder="请输入金额">
+							</div>
+							<br />
+
+							<div class="form-inline row">
+								<label for="name">其他工资3:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9.-]/g,'')" id="extdWage3" name="extdWage3" placeholder="请输入金额">
+							</div>
+							<br />
+							<!--<div class="form-inline row">
+								<label for="name">修改人员:</label>
+								<input type="text" readonly="readonly" class="form-control" id="updaterName" name="updaterName" placeholder="请输入添加人员">
+							</div>
+							<br />-->
+							<div class="form-inline row">
+								<label for="name">备注:</label>
+								<textarea id="remark" name="remark" style="width:85%;height:70px;" value="请输入原因"></textarea>
+
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="saveModalBT" class="btn btn-info" onclick="savePayStubDetail()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeModal()">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>
