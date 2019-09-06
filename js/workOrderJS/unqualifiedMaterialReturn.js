@@ -144,6 +144,11 @@ function unqualifiedMaterialReturnSelect() {
 	columnsArray.push({
 		checkbox: true
 	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
 //	columnsArray.push({
 //		"title": "厂区",
 //		"field": "inputPlantID",
@@ -190,6 +195,21 @@ function unqualifiedMaterialReturnSelect() {
 			}
 		}
 	});
+	
+		columnsArray.push({
+		"title": "维修入库",
+		"field": "repairNumber"
+	});
+	columnsArray.push({
+		"title": "维修入库时间",
+		"field": "repairTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			}
+		}
+	});
+	
 	var urlStr = window.serviceIP + "/api/material/getunqualifiedmaterialreturn?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
@@ -208,10 +228,11 @@ function unqualifiedMaterialReturnSelect() {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+				$('#ordertable').bootstrapTable('destroy');
 				$('#returntable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar',
-					singleSelect: false,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -318,6 +339,7 @@ function getOrderInfoDetail(recordID) {
 					alert("未获取到物料信息,请核对!" + recordID);
 					return;
 				}
+				$('#returntable').bootstrapTable('destroy');
 				$('#ordertable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#usableMaterialTableToolbar',
@@ -356,7 +378,7 @@ function unqualifiedMaterialReturnDeleteReturnRecord() {
 	var selectRow = $.map($('#returntable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(selectRow.length != 1) {
+	if(selectRow.length != 1 || $("#returntable").bootstrapTable('getVisibleColumns').length < 4) {
 		alert("请选择行数据!");
 		return;
 	}
@@ -403,6 +425,8 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 	//		return;
 	//	}
 	//alert("生产线选择");
+	
+	
 	if(!$("#unqualifiedMaterialReturnNumber").val()) {
 		alert("退返数量无效!");
 		return;
@@ -417,10 +441,11 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 	var selectRow = $.map($('#ordertable').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(selectRow.length != 1) {
+	if(selectRow.length != 1 || $("#ordertable").bootstrapTable('getVisibleColumns').length < 4) {
 		alert("请选择行数据!");
 		return;
 	}
+
 	//console.log(selectRow[0].number);
 	if(returnNum > selectRow[0].number) {
 		alert("退返数量不能大于入库数量!");
@@ -692,6 +717,7 @@ $('#returntable').bootstrapTable('destroy');
 					alert("未获取到物料信息,请核对!" + recordID);
 					return;
 				}
+				$('#returntable').bootstrapTable('destroy');
 				$('#ordertable').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#usableMaterialTableToolbar',
@@ -722,4 +748,63 @@ $('#returntable').bootstrapTable('destroy');
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
 
 	}
+}
+
+function addRepairNumber()
+{
+		var row = $.map($('#returntable').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1 || $("#returntable").bootstrapTable('getVisibleColumns').length < 4) {
+		alert("请选择退返记录! " );
+		return;
+	}
+	$("#id").val(row[0].id);
+	$("#materialNumber").val(row[0].materialNumber);
+	$("#addRepairModal").modal('show');
+}
+
+function saveRepairNumberDetail()
+{
+	if(isNaN($("#repairNumber").val())) {
+		alert("输入入库数量不是合法数字!");
+		return;
+	}
+	var materialNum  = parseInt($("#materialNumber").val());
+	var repairNum = parseInt($("#repairNumber").val()); 
+	if(repairNum > materialNum)
+	{
+		alert("输入入库数量超过退返数量,请重新输入!");
+		return;
+	}
+	
+		$.ajax({
+		url: window.serviceIP + "/api/material/unqualifiedMaterialRepair?id=" + $("#id").val() + "&repairNumber=" + $("#repairNumber").val(),
+		type: "POST",
+		//data: JSON.stringify(returnRecord).toString(),
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+
+		success: function(dataRes) {
+
+			if(dataRes.status == 1) { 
+				unqualifiedMaterialReturnSelect();
+				$("#addRepairModal").modal('hide');
+				alert("修改成功！");
+			} else {
+				alert("修改失败！" + dataRes.message);
+			}
+		}
+	});
+	
+
+}
+
+function closeModal()
+{
+	$("#addRepairModal").modal('hide');
 }

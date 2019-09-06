@@ -190,32 +190,32 @@ function getProdutionWageDetail() {
 	});
 
 	columnsArray.push({
-		width: 300,
+
 		"title": "日期",
 		"field": "closingDate"
 	});
 	columnsArray.push({
-		width: 300,
+
 		"title": "员工",
 		"field": "staffName"
 	});
 	columnsArray.push({
-		width: 300,
+
 		"title": "工资",
 		"field": "wage"
 	});
 	columnsArray.push({
-		width: 300,
+
 		"title": "物料型号",
 		"field": "materialName"
 	});
 	columnsArray.push({
-		width: 300,
+
 		"title": "产量",
 		"field": "productionNumber"
 	});
 	columnsArray.push({
-		width: 300,
+
 		"title": "单价",
 		"field": "unitPrice"
 	});

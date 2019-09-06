@@ -34,8 +34,8 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-					var today = new Date();
-				if(today.getHours() < 7) {   
+				var today = new Date();
+				if(today.getHours() < 7) {
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					today.setDate(today.getDate() - 1)
 					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
@@ -93,31 +93,34 @@
 													</select>
 												</div>
 												<div class="form-group">
-													
+
 													<input type="datetime-local" class="form-control" id="startTime" name="startTime" />
-												<label> - </label>
+													<label> - </label>
 													<input type="datetime-local" class="form-control" id="endTime" name="endTime" />
 												</div>
 												<input type="button" class="btn btn-info" value="查询 " onclick="unqualifiedMaterialReturnSelect()">
 											</div>
-										
+
 											<div class=" form-group">
 												<input type="text" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单号">
-												<button type="button" style="margin-top: 10px;"  class="btn btn-info" onclick="getOrderInfoDetail()">
+												<button type="button" style="margin-top: 10px;" class="btn btn-info" onclick="getOrderInfoDetail()">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询订单详情
 						           </button>
-												<button type="button" style="margin-top: 10px;"  class="btn btn-info" onclick="scanQR('materialReturn')">
+												<button type="button" style="margin-top: 10px;" class="btn btn-info" onclick="scanQR('materialReturn')">
 						                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>扫描订单号
 						           </button>
 											</div>
 											<div class=" form-group">
 												<input type="text" class="form-control" id="unqualifiedMaterialReturnNumber" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" name="unqualifiedMaterialReturnNumber" placeholder="请输入退返数量">
-												<button type="button" class="btn btn-info" style="margin-top: 10px;"  onclick="unqualifiedMaterialReturnAddReturnRecord()">
+												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="unqualifiedMaterialReturnAddReturnRecord()">
 						                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>添加退返
 						           </button>
-												<button type="button" class="btn btn-info" style="margin-top: 10px;"  onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
+												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
 						                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>删除记录
 						           </button>
+												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="addRepairNumber()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加修复
+           </button>
 											</div>
 										</form>
 										<br />
@@ -131,6 +134,36 @@
 											</table>
 										</div>
 									</div>
+								</div>
+
+								<!-- 模态框（Modal） -->
+								<div class="modal fade" id="addRepairModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">x</button>
+												<h4 class="modal-title" id="myModalLabel"> 红冲维修入库</h4>
+											</div>
+											<div class="modal-body" id="modal-body" style="padding-left:20px;">
+												<form id="repairForm">
+													<input type="text" id="id" name="id" style="display:none" />
+													<input type="text" id="materialNumber" name="materialNumber" style="display:none" />
+
+													<div class="form-inline row">
+														<label for="name">数量:</label>
+														<input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="repairNumber" name="repairNumber" placeholder="请输入数量">
+													</div>
+													<br />
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" id="saveModalBT" class="btn btn-info" onclick="saveRepairNumberDetail()">保存 </button>
+												<button type="button" class="btn btn-info" onclick="closeModal()">关闭 </button>
+											</div>
+										</div>
+										<!-- /.modal-content -->
+									</div>
+									<!-- /.modal -->
 								</div>
 
 							</div>

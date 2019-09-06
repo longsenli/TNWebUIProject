@@ -36,6 +36,12 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
+				
+				$('#addRepairModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("repairForm").reset();
+					})
+				
 				var today = new Date();
 
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd") + "T07:00:00";
@@ -88,6 +94,9 @@
 				<button type="button" class="btn btn-info" onclick="unqualifiedMaterialReturnDeleteReturnRecord()">
                 <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>删除记录
            </button>
+           <button type="button" class="btn btn-info" onclick="addRepairNumber()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加修复
+           </button>
 			</div>
 		</form>
 		<br />
@@ -100,6 +109,37 @@
 			<table id="returntable" class="table table-responsive table-striped    table-bordered table-hover table-condensed " style="word-break:break-all; word-wrap:break-all;">
 			</table>
 		</div>
+		
+			<!-- 模态框（Modal） -->
+		<div class="modal fade" id="addRepairModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 红冲维修入库</h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="repairForm">
+							<input type="text" id="id" name="id" style="display:none" />
+							<input type="text" id="materialNumber" name="materialNumber" style="display:none" />
+
+							<div class="form-inline row">
+								<label for="name">数量:</label>
+								<input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="repairNumber" name="repairNumber" placeholder="请输入数量">
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="saveModalBT" class="btn btn-info" onclick="saveRepairNumberDetail()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeModal()">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
 	</body>
 
 </html>
