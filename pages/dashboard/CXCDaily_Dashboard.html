@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>物料统计信息查询</title>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/dashboardJS/CXCDaily_Dashboard.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+
+		<script type="text/javascript">
+			//			if($.cookie('token') == null) {
+			//				window.location.href = "login.html";
+			//			}
+			$(function() {
+				var today = new Date();
+
+				
+				today.setDate(today.getDate() - 1)
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("endTime").max =  today.format("yyyy-MM-dd");
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				document.getElementById("startTime").max = today.format("yyyy-MM-dd");
+				CXCDaily_DashboardPlantSlctFun("1");
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				
+				<label id="industrialPlantLabel"> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" >
+				</select>
+				<label id="productionProcessLabel"> 流程： </label>
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" >
+				</select>
+				<!--<label> 查询统计类型： </label>
+				<select class="selectpicker" id="queryType" style="width:100px;" name="queryType">
+					<option value='byLine'>产线</option>
+					<option value='byMaterial'>物料</option>
+					<option value='byWorkingLocation'>工位</option>
+					<option value='byStaff'>人员</option>
+					<option value='byClassType'>班次</option>
+					<option value='byStaffAndMaterial'>人员物料</option>
+					<option value='byWage'>人员工资</option>
+					<option value='byOrderDetail'>工单详情</option>
+				</select>-->
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+			
+				<button type="button" class="btn btn-primary alert-info" onclick="getCXCDetailPicture()">产销存查询</button>
+				<!--<input type="text"   class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
+				<button type="button" class="btn btn-primary alert-info" onclick="getOrderInfoDetail()">工单批次查询</button>
+				<button type="button" class="btn btn-primary alert-info" onclick="nowInDryingKilnjz()">浇铸当前在窑数据查询</button>-->
+			</div>
+			<br />
+		</form>
+
+		<div class="container" style="width: 95%;background-color:#0000FF;" id="productionInventoryDashboardShow">
+
+			<br />
+			<h1 id="dashboardName" style="font-size:48px;text-align:center;color:#FFFFFF">产销存看板</h1>
+
+			<div class="row">
+
+				<div class="col-md-12" id="leftContainer" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+
+					<div id="inventoryInfoChart" style="width: 95%;height: 900px;"></div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+</html>

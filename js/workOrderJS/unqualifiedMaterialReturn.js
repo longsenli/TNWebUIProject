@@ -299,7 +299,6 @@ function getOrderInfoDetail(recordID) {
 			if(value) {
 				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
 			}
-
 		}
 	});
 	columnsArray.push({
