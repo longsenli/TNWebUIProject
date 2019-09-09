@@ -44,6 +44,7 @@ function CXCDaily_DashboardPlantSlctFun(flag) {
 	if(flag = "1") {
 		CXCDaily_DashboardProcessSlctFun();
 	}
+	
 };
 
 function CXCDaily_DashboardProcessSlctFun() {
@@ -82,7 +83,7 @@ function CXCDaily_DashboardProcessSlctFun() {
 					}
 					$('#productionProcessSlct').selectpicker('refresh');
 					$('#productionProcessSlct').selectpicker('render'); 
-
+					getCXCDetailPicture();
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -117,7 +118,7 @@ function getCXCDetailPicture() {
 
 			if(dataRes.status == 1) { 
 				inventoryData = eval("(" + dataRes.data + ")");
-				
+
 			} else {
 				alert("查询库存失败！" + dataRes.message);
 				return;
@@ -131,24 +132,29 @@ function getCXCDetailPicture() {
 		grantNumList.push(inventoryData[i].sumGrantNum);
 		inventoryNumList.push(inventoryData[i].currentNum);
 	}
-var realWidth = ($("#inventoryInfoChart").width() * 0.8) / (inventoryNumList.length * 6);
+	var realWidth = ($("#inventoryInfoChart").width() * 0.8) / (inventoryNumList.length * 6);
+
+	if(($(window).height() - $("#inventoryInfoChart").offset().top) < 800) {
+		$("#inventoryInfoChart").height(750);
+	} else {
+		$("#inventoryInfoChart").height($(window).height() - $("#inventoryInfoChart").offset().top-60);
+	}
 
 	var inventoryInfoChart = echarts.init(document.getElementById("inventoryInfoChart"));
 	// 指定图表的配置项和数据
 	var optionInventoryInfoChart = {
-//		title: {
-//			text: "产销存报表",
-//			textStyle: {
-//				fontWeight: 'bold', //标题颜色
-//				fontSize: '28',
-//				color: '#FFFFFF'
-//			},
-//		},
+		//		title: {
+		//			text: "产销存报表",
+		//			textStyle: {
+		//				fontWeight: 'bold', //标题颜色
+		//				fontSize: '28',
+		//				color: '#FFFFFF'
+		//			},
+		//		},
 		//鼠标触发提示数量
 		tooltip: {
 			trigger: "axis",
 		},
-
 
 		calculable: true,
 		legend: {
@@ -240,7 +246,7 @@ var realWidth = ($("#inventoryInfoChart").width() * 0.8) / (inventoryNumList.len
 						}
 					}
 				}
-			
+
 			},
 			{
 				name: "发料",
@@ -261,7 +267,7 @@ var realWidth = ($("#inventoryInfoChart").width() * 0.8) / (inventoryNumList.len
 						}
 					}
 				}
-			
+
 			},
 			{
 				name: "库存",
@@ -282,7 +288,7 @@ var realWidth = ($("#inventoryInfoChart").width() * 0.8) / (inventoryNumList.len
 						}
 					}
 				}
-			
+
 			}
 		]
 	};
