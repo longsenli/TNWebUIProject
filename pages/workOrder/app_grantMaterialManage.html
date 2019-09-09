@@ -25,47 +25,46 @@
 		<!--Nifty Stylesheet [ REQUIRED ]-->
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
-  
+
 	<body style="padding-left:20px;padding-top:5px">
 
 		<script type="text/javascript">
-			
-//			$(function() {
-//				document.addEventListener('plusready', function() {
-//					// 在这里调用5+ API 
-//					if(window.plus)
-//						plusReady();
-//				}, false);
-//			});
-//
-//			function plusReady() {
-//				var main = plus.android.runtimeMainActivity(); //获取activity  
-//				var context = plus.android.importClass('android.content.Context'); //上下文  
-//				var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-//					onReceive: doReceive
-//				});
-//				var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-//				var Intent = plus.android.importClass('android.content.Intent');
-//				var filter = new IntentFilter();
-//				filter.addAction("com.zkc.scancode"); //监听扫描  
-//				main.registerReceiver(receiver, filter); //注册监听  
-//
-//				function doReceive(context, intent) {
-//					console.log("tetr======" + context + "====" + intent);
-//					plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
-//					var Number = intent.getStringExtra("code");
-//					console.log(Number);
-//					main.unregisterReceiver(receiver); //取消监听  
-//				}
-//			}
+			//			$(function() {
+			//				document.addEventListener('plusready', function() {
+			//					// 在这里调用5+ API 
+			//					if(window.plus)
+			//						plusReady();
+			//				}, false);
+			//			});
+			//
+			//			function plusReady() {
+			//				var main = plus.android.runtimeMainActivity(); //获取activity  
+			//				var context = plus.android.importClass('android.content.Context'); //上下文  
+			//				var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+			//					onReceive: doReceive
+			//				});
+			//				var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+			//				var Intent = plus.android.importClass('android.content.Intent');
+			//				var filter = new IntentFilter();
+			//				filter.addAction("com.zkc.scancode"); //监听扫描  
+			//				main.registerReceiver(receiver, filter); //注册监听  
+			//
+			//				function doReceive(context, intent) {
+			//					console.log("tetr======" + context + "====" + intent);
+			//					plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+			//					var Number = intent.getStringExtra("code");
+			//					console.log(Number);
+			//					main.unregisterReceiver(receiver); //取消监听  
+			//				}
+			//			}
 
 			//			if($.cookie('token') == null) {
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-				
-					var today = new Date();
-				if(today.getHours() < 7) {   
+
+				var today = new Date();
+				if(today.getHours() < 7) {
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					today.setDate(today.getDate() - 1)
 					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
@@ -77,16 +76,13 @@
 					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
 				}
-				
-			
-//				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
-//				today.setDate(today.getDate() - 1)
-//				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
+
+				//				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+				//				today.setDate(today.getDate() - 1)
+				//				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 
 				grantMaterialPlantSlctFun("1");
 			});
- 
-
 		</script>
 
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
@@ -123,18 +119,18 @@
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="grantMaterialSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="grantMaterialDetail()">发料详情</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="notGrantMaterialDetail()">未发查询</button>
-													
+
 												<!--<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">单个发料</button>-->
 
-												<input type="text"  autofocus="autofocus" onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;"   name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" autofocus="autofocus" onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('1')">批量当日发料</button>
+												<button type="button" id="grantMaterialByBatch1" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('1')">批量当日发料</button>
 												<br />
-												<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">批量预发料</button>
+												<button type="button" id="grantMaterialByBatch2" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">批量预发料</button>
 												<!--<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="scanQR('2')">单个预发料</button>-->
-												<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">批量取消发料</button>
+												<button type="button" id="grantMaterialByBatch3" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">批量取消发料</button>
 											</div>
 											<!--<br />-->
 										</form>

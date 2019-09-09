@@ -33,9 +33,9 @@
 			$(function() {
 				var today = new Date();
 
-				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00") ;
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
 				today.setDate(today.getDate() - 1)
-				document.getElementById("startTime").value = today.format("yyyy-MM-dd"+ "T07:00") ;
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 
 				grantMaterialPlantSlctFun("1");
 			});
@@ -45,7 +45,7 @@
 				<!--<select class="selectpicker" id="batterytype" style="width:100px;" name="batterytype">
 				</select>-->
 				<label id="industrialPlantLabel"> 厂区： </label>
-				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" >
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct">
 				</select>
 				<label id="productionProcessLabel"> 流程： </label>
 				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct">
@@ -59,20 +59,20 @@
 				<input type="datetime-local" id="endTime" name="endTime" />
 				<br/>
 				<br/>
-			
+
 				<!--<input type="button" class="btn btn-default" value="查询 " onclick="grantMaterialSelect()">-->
-				<button type="button" class="btn btn-success" style="margin-top: 10px;"  onclick="grantMaterialDetail()">发料详情</button>
+				<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="grantMaterialDetail()">发料详情</button>
 				<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="notGrantMaterialDetail()">未发查询</button>
-												
-				<button type="button" class="btn btn-success" style="margin-top: 10px;"  onclick="scanQR('1')">扫码发料</button>
-				<button type="button" class="btn btn-success" style="margin-top: 10px;"  onclick="scanQR('2')">预发料</button>
-				
-				<input type="text" class="form-control" style="margin-top: 10px;"  id="orderIDByBatch" name="orderIDByBatch">					
-				<button type="button" class="btn btn-danger" style="margin-top: 10px;"  onclick="addOrderIDToBatchTable()">添加工单</button>
+
+				<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">扫码发料</button>
+				<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('2')">预发料</button>
+
+				<input type="text" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">
+				<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 				<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
-				<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('1')">批量当日发料</button>
-				<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">批量预发料</button>
-				<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">批量取消发料</button>
+				<button type="button" id="grantMaterialByBatch1" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('1')">批量当日发料</button>
+				<button type="button" id="grantMaterialByBatch2" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">批量预发料</button>
+				<button type="button" id="grantMaterialByBatch3" class="btn btn-danger" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">批量取消发料</button>
 			</div>
 			<br />
 		</form>
@@ -82,4 +82,5 @@
 			</table>
 		</div>
 	</body>
+
 </html>

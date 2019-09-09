@@ -410,6 +410,7 @@ function pushinDryingKilnByBatch() {
 		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
 		return;
 	}
+	
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("name", localStorage.username);

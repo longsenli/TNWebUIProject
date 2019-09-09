@@ -31,8 +31,6 @@
 			//			}
 			$(function() {
 				var today = new Date();
-
-				
 				today.setDate(today.getDate() - 1)
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
 				document.getElementById("endTime").max =  today.format("yyyy-MM-dd");
@@ -42,8 +40,7 @@
 			});
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
-			<div class="form-inline row">
-				
+			<div class="form-inline row">				
 				<label id="industrialPlantLabel"> 厂区： </label>
 				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" >
 				</select>

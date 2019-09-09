@@ -279,6 +279,7 @@ function grantMaterialByInputID() {
 
 }
 var selected = false;
+
 function grantMaterialDetail() {
 	var columnsArray = [];
 	columnsArray.push({
@@ -308,7 +309,7 @@ function grantMaterialDetail() {
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
-selected = false;
+	selected = false;
 	$.ajax({
 		url: urlStr,
 		type: "GET",
@@ -335,27 +336,23 @@ selected = false;
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					strictSearch:true,
+					strictSearch: true,
 					search: true,
 					pagination: true,
-					onClickRow:function (row,element) {
-                    if(row.orderName =='总计')
-                    {
-                    	console.log(element);
-                    	console.log(1);
-                    	if(selected)
-                    	{
-                    		selected = false;
-                    		$("#table").bootstrapTable('resetSearch', '');
-                    	}
-                    	else
-                    	{
-                    		selected = true;
-                    		$("#table").bootstrapTable('resetSearch', row.name);
-                    		
-                    	}
-                    }
-},
+					onClickRow: function(row, element) {
+						if(row.orderName == '总计') {
+							//console.log(element);
+							//console.log(1);
+							if(selected) {
+								selected = false;
+								$("#table").bootstrapTable('resetSearch', '');
+							} else {
+								selected = true;
+								$("#table").bootstrapTable('resetSearch', row.name);
+
+							}
+						}
+					},
 					columns: columnsArray
 				});
 
@@ -487,7 +484,7 @@ function recognitionQR(webName, qrCode) {
 
 function innitOrderIDTable(models) {
 	var columnsArray = [];
-columnsArray.push({
+	columnsArray.push({
 		checkbox: true,
 		formatter: function(value, row, index) {
 			return {
@@ -573,16 +570,14 @@ function grantMaterialByBatch(grantType) {
 		alert("请先添加工单号再发料!")
 		return;
 	}
-var tableData = $("#table").bootstrapTable('getAllSelections');
-	if(!tableData || tableData.length  <1)
-	{
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(!tableData || tableData.length < 1) {
 		alert("请先添加工单号再操作!")
-		return; 
+		return;
 	}
-	if(tableData.length > 30)
-	{
+	if(tableData.length > 30) {
 		alert("一次最多选择30个,请确认!,当前选择个数为:" + tableData.length)
-		return; 
+		return;
 	}
 	//var tableData = $("#table").bootstrapTable('getData');
 	var orderIDList = "";
@@ -596,6 +591,11 @@ var tableData = $("#table").bootstrapTable('getAllSelections');
 	formData.append("grantType", grantType);
 	formData.append("operator", localStorage.username);
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+
+	$("#grantMaterialByBatch1").attr("disabled", true);
+	$("#grantMaterialByBatch2").attr("disabled", true);
+	$("#grantMaterialByBatch3").attr("disabled", true);
+
 	$.ajax({
 		url: window.serviceIP + "/api/material/addgrantmaterialrecordbybatch",
 		type: "POST",
@@ -617,8 +617,14 @@ var tableData = $("#table").bootstrapTable('getAllSelections');
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
+			$("#grantMaterialByBatch1").attr("disabled", false);
+			$("#grantMaterialByBatch2").attr("disabled", false);
+			$("#grantMaterialByBatch3").attr("disabled", false);
 		},
 		error: function(jqXHR, exception) {
+			$("#grantMaterialByBatch1").attr("disabled", false);
+			$("#grantMaterialByBatch2").attr("disabled", false);
+			$("#grantMaterialByBatch3").attr("disabled", false);
 			var msg = '';
 			if(jqXHR.status === 0) {
 				msg = 'Not connect.\n Verify Network.';
@@ -694,11 +700,9 @@ function onTextareaKeyDown() {
 	}
 }
 
-
-
 function notGrantMaterialDetail() {
 	var columnsArray = [];
-		columnsArray.push({
+	columnsArray.push({
 		checkbox: true,
 		formatter: function(value, row, index) {
 			return {
