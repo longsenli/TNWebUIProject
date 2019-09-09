@@ -64,8 +64,7 @@ function solidificationRoomInfoSlctFun() {
 		success: function(dataRes) {
 
 			$("#solidificationRoomInfoSlct").find('option').remove();
-			$('#solidificationRoomInfoSlct').append(("<option value=" + "-1" +
-				">" + "全部" + "</option>").toString());
+		
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
@@ -586,7 +585,11 @@ function addOrderIDToBatchTable(orderID) {
 	}, 2000);
 }
 
+
 function addSolidificationRecordManageByBatch() {
+	
+					
+
 	$("#showMessage").html('');
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
 		alert("请先添加工单号再发料!")
@@ -743,14 +746,27 @@ function onTextareaKeyDown() {
 }
 var testNumber = 0;
 
-function selectInput(nowNumber) {
-	//console.log("=====" + testNumber);
+function hideInputKey()
+{
+	//console.log("2343") 
+	//document.getElementById("orderIDByBatch").readOnly=true;
+	//document.getElementById("orderIDByBatch").readOnly=false;
+	//console.log("2343") 
+//document.activeElement.blur();//屏蔽默认键盘弹出； 
+//console.log(document.getElementById("orderIDByBatch").type) 
+//document.getElementById("orderIDByBatch").type="button";
+//document.getElementById("orderIDByBatch").type="text";
+//document.getElementById('orderIDByBatch').focus();
+}
+
+function selectInput(nowNumber) {	
+	//console.log(nowNumber)
 	document.getElementById('orderIDByBatch').focus();
-	//document.activeElement.blur();
+	 //document.activeElement.blur();
 	if(testNumber == nowNumber) {
-		setTimeout(function() {
+		setTimeout(function() { 
 			selectInput(++testNumber);
-		}, 10000);
+		}, 5000);
 	}
 }
 

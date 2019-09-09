@@ -35,7 +35,7 @@
 		<form ID="basicInfoCfgSelectForm" name="basicInfoCfgSelectForm">
 			<div class="form-inline row">
 				<label> 物料： </label>
-				<select class="selectpicker" id="materialSlct" style="width:100px;" name="materialSlct" onchange="materialMaterialTableFun()">
+				<select class="selectpicker" id="materialSlct" data-live-search="true" style="width:100px;" name="materialSlct" onchange="materialMaterialTableFun()">
 				</select>
 
 				<!--<label> 类型： </label>
@@ -59,18 +59,17 @@
 							<input type="text" id="id" name="id" style="display:none" />
 							<label for="name">输入物料:</label>
 							<br />
-							<select class="selectpicker" id="inmaterialid" style="width:100px;" name="inmaterialid">
+							<select class="selectpicker" id="inmaterialid" data-live-search="true" style="width:100px;" name="inmaterialid">
 							</select>
 							<br />
 							<label for="name">输出物料:</label>
 							<br />
-							<select class="selectpicker" id="outmaterialid" style="width:100px;" name="outmaterialid">
+							<select class="selectpicker" id="outmaterialid" data-live-search="true" style="width:100px;" name="outmaterialid">
 							</select>
 							<br />
 							<label for="name">比例关系:</label>
 							<br />
 							<input type="text" class="form-control" id="proportionality" name="proportionality">
-
 							<br />
 						</form>
 					</div>

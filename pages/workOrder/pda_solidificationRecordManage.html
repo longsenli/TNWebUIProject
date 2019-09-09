@@ -72,12 +72,21 @@
 				//					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 				//					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
 				//				}
+
+//				$('#orderIDByBatch').on("focus", function() {
+//
+//					document.activeElement.blur(); //屏蔽默认键盘弹出；
+//				});
+
+
 				solidificationRecordManagePlantSlctFun("1");
 				document.getElementById('orderIDByBatch').focus();
 				selectInput(0)
 			});
+		
 		</script>
-
+		<!--<div contenteditable="true" onkeydown="onTextareaKeyDown()"  id="orderIDByBatch" name="orderIDByBatch" >
+	-->
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
 			<div class="boxed">
 				<div id="content-container">
@@ -102,6 +111,7 @@
 													<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="solidificationRoomInfoSlctFun()">
 													</select>
 												</div>
+
 												<div class="form-group">
 													<label id="solidificationRoomInfoSlctLabel"> 固化： </label>
 													<select class="selectpicker" id="solidificationRoomInfoSlct" style="width:100px;" name="solidificationRoomInfoSlct">
@@ -127,12 +137,14 @@
 												<input type="datetime-local" id="endTime" name="endTime" />-->
 												</div>
 
+												<!--<div contenteditable="true"  style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" >
+</div>-->
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="solidificationRecordManageSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="inSolidifyRoomDetail()">在窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="scanQR('1')">固化室扫码</button>
 
-												<input type="text" class="form-control" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" class="form-control"   style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="addOrderIDToBatchTable()">添加工单</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="scanQR('5')">扫码添加</button>
 												<br />
@@ -152,7 +164,7 @@
 				</div>
 			</div>
 		</div>
-
+		<!--</div>-->
 	</body>
 
 </html>
