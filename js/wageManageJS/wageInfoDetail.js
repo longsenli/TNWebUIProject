@@ -239,6 +239,8 @@ function getProdutionWageDetail() {
 		processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
+				pageNum = 1;
+				$("#refreshID").html('stop');
 				var models = eval("(" + dataRes.data + ")");
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
@@ -321,6 +323,8 @@ function getRewardingPunishmentDetail() {
 		processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
+				pageNum = 1;
+				$("#refreshID").html('stop');
 				var models = eval("(" + dataRes.data + ")");
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
@@ -421,7 +425,7 @@ function deleteRewardingPunishmentDetail() {
 
 		success: function(data) {
 			if(data.status == 1) {
-getRewardingPunishmentDetail();
+				getRewardingPunishmentDetail();
 				alert('删除成功!');
 			} else {
 				alert("删除失败！" + data.message);
@@ -430,9 +434,34 @@ getRewardingPunishmentDetail();
 	});
 }
 
-function wageInfoDetailRowClick(row){
+function wageInfoDetailRowClick(row) {
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	if($(row).hasClass('selected')) {
 		$(row).find("td").addClass('changeTableRowColor');
 	}
+}
+var pageNum = 1;
+
+function showDetailRepeat(showType) {
+	//$('#table').bootstrapTable('selectPage', 3);
+
+	//获取每一页的行数
+	//var pagesize=$(yourtableId).bootstrapTable("getOptions").pageSize;
+	//获取总页数
+	//var pages = $(table).bootstrapTable("getOptions").totalPages;
+
+	if(showType) {
+		if(showType != document.getElementById("refreshID").innerHTML) {
+			return;
+		}
+		//console.log("refresh");
+	}
+	
+	var tmpDate = new Date();
+	$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+	setTimeout("showDetailRepeat('" + document.getElementById("refreshID").innerHTML + "')", 1000 * 20);
+	if(pageNum > $(table).bootstrapTable("getOptions").totalPages)
+		pageNum = 1;
+	$('#table').bootstrapTable('selectPage', pageNum);
+	pageNum = pageNum +1;
 }

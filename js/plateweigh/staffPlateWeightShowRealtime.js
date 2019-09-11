@@ -101,7 +101,7 @@ function getStaffWeighShow(showType) {
 		if(showType != document.getElementById("refreshID").innerHTML) {
 			return;
 		}
-		console.log("refresh");
+		//console.log("refresh");
 	}
 	var tmpDate = new Date();
 	$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));

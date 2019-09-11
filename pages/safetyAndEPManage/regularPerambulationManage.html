@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>隐患排查</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+			
+			.jump_img {
+				position: absolute;
+				z-index: 99999;
+				width: 80%;
+				height: 80%;
+				top: 5%;
+				left: 5%;
+				/*margin:-20% 0 0 -40%;*/
+			}
+		</style>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/safetyAndEPManageJS/hiddenDangerReport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/swiper-4.5.0/js/swiper.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/swiper-4.5.0/css/swiper.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript ">
+			getLocationInfoSlct('定点巡查');
+			$(function() {
+
+				$("body").delegate('#table tr', 'click', function() {
+					hiddenDangerManageRecordRowClick(this);
+				});
+				var today = new Date();
+
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+			});
+		</script>
+
+		<form ID="hiddenDangerSelectForm" name="hiddenDangerSelectForm">
+			<div class="form-inline row">
+
+				<label>巡查点： </label>
+				<select class="selectpicker" id="locationInfoSlct" data-width="220px" name="locationInfoSlct">
+				</select>
+
+				<!--<label> 厂区： </label>
+				<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
+				</select>
+				<label> 级别： </label>
+				<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
+					<option value='-1'>全部</option>
+					<option value='蓝'>蓝</option>
+					<option value='黄'>黄</option>
+					<option value='橙'>橙</option>
+					<option value='红'>红</option>
+				</select>-->
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+			</div>
+			<br />
+		</form>
+
+		<div class=" form-inline row">
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getRegularPerambulationRecord()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>巡查记录
+            </button>
+
+			<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getRegularTimesPicture()">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>巡查频次图
+          </button>
+		</div>
+
+		<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+		<div class="container" style="width: 95%;background-color:#0000FF;">
+
+			<div id="myChart" style="width: 95%;"></div>
+		</div>
+		<img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
+
+	</body>
+
+</html>
