@@ -1,5 +1,5 @@
 function scrapIndustrialPlantSlctFun(flag) {
-	console.log("test")
+	//console.log("test")
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
 		type: "GET",

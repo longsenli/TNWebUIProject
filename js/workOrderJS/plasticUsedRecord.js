@@ -154,7 +154,7 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').selectpicker('refresh');
 					$('#workingkLocationSlct').selectpicker('render'); 
 				}
-				
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -192,7 +192,7 @@ function plasticUsedRecordDetail() {
 			return $("#productionLineSlct option[value='" + row.lineid + "']").text();
 		}
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "包板物料",
 		"field": "jqid"
 	});
@@ -200,7 +200,7 @@ columnsArray.push({
 		"title": "责任人",
 		"field": "jqstaff"
 	});
-	
+
 	columnsArray.push({
 		"title": "时间",
 		"field": "jqtime"
@@ -535,22 +535,71 @@ function plasticUsedRecordByBatch(grantType) {
 	});
 }
 
+function TextInput(orderID) {
+	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
+		innitOrderIDTable();
+	}
+
+	if(!orderID) {
+		orderID = $("#orderIDByBatch").val();
+	}
+
+	if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
+		selectMaterial(orderID);
+		//	event.preventDefault(); //禁止默认事件（默认是换行） 
+		$("#orderIDByBatch").val("");
+		//	document.getElementById('orderIDByBatch').focus();
+		return;
+	}
+
+	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
+
+	if(rows) {
+		console.log("该工单已添加!" + orderID);
+		//	event.preventDefault(); //禁止默认事件（默认是换行） 
+		$("#orderIDByBatch").val("");
+		//	document.getElementById('orderIDByBatch').focus();
+		return;
+	}
+	if(orderID.length < 5) {
+		console.log("工单错误,请确认!" + orderID);
+
+		$("#orderIDByBatch").val("");
+		//document.getElementById('orderIDByBatch').focus();
+		return;
+	}
+
+	if($("#table").bootstrapTable('getData').length >= 20) {
+		console.log("一次性最多发料20个!");
+		//	event.preventDefault(); //禁止默认事件（默认是换行） 
+		$("#orderIDByBatch").val("");
+		//	document.getElementById('orderIDByBatch').focus();
+		return;
+	}
+
+	var _data = {
+		"orderID": orderID,
+		"status": "",
+		"returnMessage": ""
+	}
+	$('#table').bootstrapTable('prepend', _data);
+}
+
 function onTextareaKeyDown() {
 
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 
 		event.preventDefault(); //禁止默认事件（默认是换行）
-	
+
 		var orderID = $("#orderIDByBatch").val();
 		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 
-		
 		if(!orderID) {
 			orderID = $("#orderIDByBatch").val();
 		}
-		
+
 		if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
 			selectMaterial(orderID);
 			event.preventDefault(); //禁止默认事件（默认是换行） 
@@ -558,7 +607,7 @@ function onTextareaKeyDown() {
 			document.getElementById('orderIDByBatch').focus();
 			return;
 		}
-			
+
 		var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
 
 		if(rows) {
@@ -596,9 +645,7 @@ function onTextareaKeyDown() {
 		//event.keyCode = 17;
 		//addOrderIDToBatchTable($("#orderIDByBatch").val(),"PDA");
 		//console.log($("#orderIDByBatch").val() + "=====huanh");
-		
-		
-	
+
 		$("#orderIDByBatch").val("");
 		document.getElementById('orderIDByBatch').focus();
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
@@ -641,7 +688,7 @@ function selectMaterial(orderID) {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-//console.log(models);
+				//console.log(models);
 				if(models.length > 0) {
 					materialNumber = models[0].number;
 					materialName = models[0].materialNameInfo;
@@ -658,11 +705,9 @@ function selectMaterial(orderID) {
 
 }
 
-function plasticDataProvenance()
-{
+function plasticDataProvenance() {
 	var orderID = $("#orderIDByBatch").val();
-	if(!orderID || orderID.length < 3)
-	{
+	if(!orderID || orderID.length < 3) {
 		alert("请输入底壳二维码!");
 		return;
 	}
@@ -689,7 +734,7 @@ function plasticDataProvenance()
 			return $("#productionLineSlct option[value='" + row.lineid + "']").text();
 		}
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "包板物料",
 		"field": "jqid"
 	});
@@ -697,15 +742,15 @@ columnsArray.push({
 		"title": "责任人",
 		"field": "jqstaff"
 	});
-	
+
 	columnsArray.push({
 		"title": "时间",
 		"field": "jqtime"
 	});
-	
+
 	var formData = new FormData();
 	formData.append("id", orderID);
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/plastic/plasticDataProvenance",
 		type: "POST",

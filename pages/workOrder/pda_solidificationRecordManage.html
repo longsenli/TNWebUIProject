@@ -73,17 +73,82 @@
 				//					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
 				//				}
 
-//				$('#orderIDByBatch').on("focus", function() {
-//
-//					document.activeElement.blur(); //屏蔽默认键盘弹出；
-//				});
-
+				//				$('#orderIDByBatch').on("focus", function() {
+				//
+				//					document.activeElement.blur(); //屏蔽默认键盘弹出；
+				//				});
 
 				solidificationRecordManagePlantSlctFun("1");
 				document.getElementById('orderIDByBatch').focus();
 				selectInput(0)
 			});
-		
+
+			$(function() {
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						//         alert(context)
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+						//addOrderIDToBatchTable(Number,"PDA");
+						if(Number.indexOf("TB") < 0) {
+						
+							var numbers = $('#solidificationRoomInfoSlct').find("option"); //获取select下拉框的所有值
+							for(var j = 0; j < numbers.length; j++) {
+								if($(numbers[j]).val().toString() == Number) {
+									$(numbers[j]).attr("selected", "selected");
+									
+								}
+							}
+							$('#solidificationRoomInfoSlct').selectpicker('refresh');
+							$('#solidificationRoomInfoSlct').selectpicker('render'); 
+
+//							if(roomID) {
+//								$("#orderIDByBatch").val("");
+//								document.getElementById('orderIDByBatch').focus();
+//								return;
+//							}
+						} else
+							addOrderIDToBatchTable(Number, "PDA"); 
+						//console.log(Number);
+
+						//           main.unregisterReceiver(receiver);//取消监听  
+					}
+					//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
+					//      
+					////      // 方法一：  
+					//      plus.android.importClass(android.intent.action.SCANRESULT);  
+					//      var simSerialNumber = tm.getSimSerialNumber();  
+
+					//方法二：  
+					//      plus.android.invoke(tm,"getSimSerialNumber");  
+
+					//返回SIM卡的序列号(IMEI)  
+					//      console.log(simSerialNumber+'111111');   
+					//      alert(simSerialNumber)
+
+					//      console.log(sc);
+					//      alert(sc);
+				}, false);
+			});
 		</script>
 		<!--<div contenteditable="true" onkeydown="onTextareaKeyDown()"  id="orderIDByBatch" name="orderIDByBatch" >
 	-->
@@ -144,7 +209,7 @@
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="scanQR('1')">固化室扫码</button>
 
-												<input type="text" class="form-control"   style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" class="form-control" style="margin-top: 10px;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="addOrderIDToBatchTable()">添加工单</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="scanQR('5')">扫码添加</button>
 												<br />

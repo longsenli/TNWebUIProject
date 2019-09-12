@@ -496,7 +496,7 @@ function recognitionQR(webName, qrCode) {
 	if(webName == '1')
 		selectByQuery(qrCode.split("###")[0], qrCode.split("###")[1]);
 	if(webName == '5')
-		addOrderIDToBatchTable(qrCode);
+		addOrderIDToBatchTable(qrCode,"SJ");
 }
 
 function selectByQuery(roomID, StepID) {
@@ -550,7 +550,7 @@ function innitOrderIDTable(models) {
 	});
 }
 
-function addOrderIDToBatchTable(orderID) {
+function addOrderIDToBatchTable(orderID,type) {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
 		innitOrderIDTable();
@@ -580,15 +580,21 @@ function addOrderIDToBatchTable(orderID) {
 	}
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
-	setTimeout(function() {
+	if(type == "SJ")
+	{
+		setTimeout(function() {
 		scanQR('5');
 	}, 2000);
+	}
+	else
+	{
+		addSolidificationRecordManageByBatch();
+	}
+	
 }
 
 
 function addSolidificationRecordManageByBatch() {
-	
-					
 
 	$("#showMessage").html('');
 	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
@@ -647,7 +653,7 @@ function addSolidificationRecordManageByBatch() {
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
 				$("#orderIDByBatch").val("");
-				document.getElementById('orderIDByBatch').focus();
+				//document.getElementById('orderIDByBatch').focus();
 			} else {
 				$("#showMessage").html("初始化数据失败！" + dataRes.message);
 				//alert("初始化数据失败！" + dataRes.message);
@@ -760,14 +766,14 @@ function hideInputKey()
 }
 
 function selectInput(nowNumber) {	
-	//console.log(nowNumber)
-	document.getElementById('orderIDByBatch').focus();
-	 //document.activeElement.blur();
-	if(testNumber == nowNumber) {
-		setTimeout(function() { 
-			selectInput(++testNumber);
-		}, 5000);
-	}
+//	//console.log(nowNumber)
+//	document.getElementById('orderIDByBatch').focus();
+//	 //document.activeElement.blur();
+//	if(testNumber == nowNumber) {
+//		setTimeout(function() { 
+//			selectInput(++testNumber);
+//		}, 5000);
+//	}
 }
 
 function changeAllSolidificationRoomStatusAuto() {
