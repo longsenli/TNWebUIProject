@@ -51,7 +51,7 @@
 				$('#myDealModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("hiddenDangerManageRecordDealForm").reset();
-						document.getElementById("myDealModalPictureUpload").reset();
+						//document.getElementById("myDealModalPictureUpload").reset();
 					})
 				$("body").delegate('#table tr', 'click', function() {
 					hiddenDangerManageRecordRowClick(this);
@@ -249,19 +249,23 @@
 															<br />
 															<!--<div class="form-inline row">
 																<label for="name">备注:</label>
-																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+																<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注"> 
 															</div>
 															<br />-->
 														</form>
-														<form id="myDealModalPictureUpload">
-															<div class="form-inline row">
-																<label>上传图片：</label>
-																<input type="file" id="pictureName" name="pictureName" style="display: inline-block;" value="图片" accept="image/*">
-															</div>
-														</form>
+																				<button type="button" class="btn btn-info" onclick="showActionSheet()">拍照 </button>
+
+										<input type="hidden" id="picIndex" value="0">
+										<div id='image-list' class="row image-list">
+											<!-- <input id="upload_image" type="file" name="image" accept="image/*" /> -->
+											<div class="image-item space" οnclick="showActionSheet()">
+												<div class="image-up"></div>
+											</div>
+
+										</div>
 													</div>
 													<div class="modal-footer">
-														<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveHiddenDangerManageRecordModel('myDealModal','hiddenDangerManageRecordDealForm')">保存 </button>
+														<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveDealDangerFun( )">保存 </button>
 														<button type="button" class="btn btn-info" onclick="closeHiddenDangerManageRecordModel('myDealModal')">关闭 </button>
 													</div>
 												</div>

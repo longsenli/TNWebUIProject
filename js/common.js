@@ -10,13 +10,14 @@ window.netServiceIP = "http://192.168.80.228:8088/";
 window.webUiService = "http://192.168.1.103:8020";
 //window.webUiService = "http://192.168.1.108:8081";
 if (RemoteServiceIP!=null && RemoteServiceIP!='undefined' && RemoteServiceIP !=""){
+	
 	window.serviceIP = 'http://'+RemoteServiceIP+'/ilpsService';
-	window.IPOnly = RemoteServiceIP.split(":");
+	window.IPOnly = RemoteServiceIP.split(":")[0];
 }
 
 
 //设置时间格式
-Date.prototype.format = function(format) {
+Date.prototype.format = function(format) { 
 	var o = {
 		"M+": this.getMonth() + 1, //month 
 		"d+": this.getDate(), //day 

@@ -68,6 +68,10 @@ function getHiddenDangerManageRecord(selectType) {
 		visible: false
 	});
 	columnsArray.push({
+		"title": "地点",
+		"field": "areaid"
+	});
+	columnsArray.push({
 		"title": "预警等级",
 		"field": "dangerlevel"
 	});
@@ -83,9 +87,11 @@ function getHiddenDangerManageRecord(selectType) {
 			if(value)
 				//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
 				//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
-				//			
-				return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+				//		
+				return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
 					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+			//				return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+			//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 
 			//			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
 			//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
@@ -110,12 +116,13 @@ function getHiddenDangerManageRecord(selectType) {
 		"field": "dealpicture",
 		formatter: function(value, row, index) {
 			if(value)
-			return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+				//			return '<img style="width:40px;height:40px;" src="http://'+ window.IPOnly + ":" + window.PicturePort +'/TNFile/SafetyAndEPPicture/' +
+				//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+
+				return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
 					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
-
-
-//				return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' +
-//					window.stringToDatetimeLocalType(row.dealtime, "yyyy-MM-dd") + '/' + value + '"  target="_blank" >' + value + "</a>";
+			//				return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' +
+			//					window.stringToDatetimeLocalType(row.dealtime, "yyyy-MM-dd") + '/' + value + '"  target="_blank" >' + value + "</a>";
 			return '';
 		}
 	});
@@ -654,72 +661,180 @@ function clickHandle() {
 
 };
 
-function clickInputLoader() {
-	let _this = this
-	if(~navigator.userAgent.indexOf("Html5Plus")) {
-		let plusReady = function(callback) {
-			if(window.plus) {
-				callback();
-			} else {
-				document.addEventListener("plusready", callback);
-			}
-		};
-		plusReady(function() {
-			let camera = plus.camera.getCamera(); // 调用相机
-			camera.captureImage(
-				function(filePath) {
-					console.log("====" + filePath);
-					plus.io.resolveLocalFileSystemURL( // 通过URL参数获取目录对象或文件对象
-						filePath,
-						function(entry) {
-							_this.lodingShow = true;
-							let reader = null
-							entry.file(function(file) {
-								let sizeJudge = false;
-								sizeJudge = _this.checkSize(file.size);
-								if(sizeJudge === false) {
-									return;
-								}
-								reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
-								reader.onload = function(e) {}
-								reader.readAsDataURL(file);
-								reader.onloadend = function(e) {
-										let dataBase = e.target.result; // 获取Base64，FileReader()返回
-										uploadImgBase64({ //调用上传接口
-												file: dataBase
-											})
-											.then(res => {
-												if(res.data.code === 200) {
-													_this.lodingShow = false;
-													_this.alertVal = "图片上传成功";
-													_this.showPluginAuto();
-												} else {
-													_this.lodingShow = false;
-													_this.alertVal = res.data.msg;
-													_this.showPluginAuto();
-												}
-											})
-											.catch(() => {
-												_this.lodingShow = false;
-												_this.alertVal = "图片上传失败！";
-												_this.showPluginAuto();
-											});
-									},
-									function(e) {
-										alert(e.message);
-									};
-							});
-							reader.abort();
-						},
-						function(e) {
-							plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+function upload(path) {
+	var wt = plus.nativeUI.showWaiting();
+	var task = plus.uploader.createUpload(window.serviceIP + "/api/safetyandep/pictureupload", {
+			method: "POST"
+		},
+		function(t, status) { //上传完成
+			// this.upLoadCount++;
+			if(status == 200) {
+				//console.log("添加成功：" + t.responseText);
+				res = JSON.parse(t.responseText)
+				wt.close(); //关闭等待提示按钮
+				if(res.status == 1) {
+					fileLocation = "";
+					var formMap = window.formToObject($("#hiddenDangerManageRecordDealForm"));
+					var today = new Date();
+					formMap['dealPicture'] = res.data;
+
+					//					formMap['reporttime'] = today.format("yyyy-MM-dd hh:mm");
+					//					formMap['reporter'] = localStorage.username;
+					//					formMap['hiddenDangerType'] = dangerType;
+
+					$.ajax({
+						url: window.serviceIP + "/api/safetyandep/changehiddendangermanagerecord",
+						type: "POST",
+						contentType: "application/json",
+						dataType: "json",
+						data: JSON.stringify(formMap).toString(),
+						//		headers: {
+						//			Token: $.cookie('token')
+						//		}, 
+						processData: true,
+						success: function(dataRes) {
+							if(dataRes.status == 1) { 
+
+								alert("保存成功！");
+								$("#image-list").html("");
+								$("#myDealModal").modal('hide');
+								getHiddenDangerManageRecord();
+								//document.getElementById("hiddenDangerManageRecordDealForm").reset();
+							} else {
+								alert("保存失败！" + dataRes.message);
+							}
 						}
-					);
-				},
-				function() {
-					alert("拍照失败");
+					});
 				}
-			);
-		});
-	}
+
+				//  this.pictureList.push(entry.toLocalURL())
+			} else {
+				console.log("添加失败：" + status + t);
+				wt.close(); //关闭等待提示按钮
+			}
+		}
+	);
+	task.addFile(path, {
+		key: "pictureName"
+	})
+	task.start();
 }
+
+function addHiddenDangerManageRecord() {
+	$('#dangerlevel').selectpicker('refresh');
+	$('#dangerlevel').selectpicker('render'); 
+
+	$('#hiddendangertype').selectpicker('refresh');
+	$('#hiddendangertype').selectpicker('render'); 
+
+	$('#plantid').selectpicker('refresh');
+	$('#plantid').selectpicker('render'); 
+
+	$("#hiddenDangerManageRecordReportForm" + " #reporter").val(localStorage.username);
+	var today = new Date();
+	$("#hiddenDangerManageRecordReportForm" + " #reporttime").val(today.format("yyyy-MM-dd hh:mm"));
+
+	$("#myReportModal").modal('show');
+}
+
+//图片显示
+function showPics(url, name) {
+	//根据路径读取到文件 
+	plus.io.resolveLocalFileSystemURL(url, function(entry) {
+		entry.file(function(file) {
+			var fileReader = new plus.io.FileReader();
+			fileReader.readAsDataURL(file);
+			fileReader.onloadend = function(e) {
+				var picUrl = e.target.result.toString();
+				var picIndex = $("#picIndex").val();
+				var nowIndex = parseInt(picIndex) + 1;
+				$("#picIndex").val(nowIndex);
+				var html = '';
+				html += '<div class="image-item " id="item' + nowIndex + '">';
+				//html += '<div class="image-close" οnclick="delPic(' + nowIndex + ')">X</div>';
+				html += '<div><img src="' + picUrl + '" class="upload_img" style="width:50%;height:50%;"/></div>';
+				html += '</div>';
+				html += $("#image-list").html();
+				$("#image-list").html(html);
+			}
+		});
+	});
+}
+//压缩图片  
+function compressImage(url, filename) {
+	var name = "_doc/upload/" + filename;
+	plus.zip.compressImage({
+			src: url, //src: (String 类型 )压缩转换原始图片的路径  
+			dst: url, //压缩转换目标图片的路径  
+			quality: 80, //quality: (Number 类型 )压缩图片的质量.取值范围为1-100 
+			width: 800,
+			overwrite: true //overwrite: (Boolean 类型 )覆盖生成新文件  
+		},
+		function(zip) {
+			//页面显示图片
+			showPics(zip.target, name);
+		},
+		function(error) {
+			plus.nativeUI.toast("压缩图片失败，请稍候再试");
+		});
+}
+
+//调用手机摄像头并拍照
+function getImage() {
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(p) {
+		plus.io.resolveLocalFileSystemURL(p, function(entry) {
+			fileLocation = entry.toLocalURL();
+			compressImage(entry.toLocalURL(), entry.name);
+		}, function(e) {
+			plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+		});
+	}, function(e) {}, {
+		filter: 'image'
+	});
+}
+//从相册选择照片
+function galleryImgs() {
+	plus.gallery.pick(function(e) {
+		var name = e.substr(e.lastIndexOf('/') + 1);
+		compressImage(e, name);
+	}, function(e) {}, {
+		filter: "image"
+	});
+}
+
+//点击事件，弹出选择摄像头和相册的选项
+function showActionSheet() {
+	getImage();
+	return;
+
+	var bts = [{
+		title: "拍照"
+	}, {
+		title: "从相册选择"
+	}];
+	plus.nativeUI.actionSheet({
+			cancel: "取消",
+			buttons: bts
+		},
+		function(e) {
+			if(e.index == 1) {
+				getImage();
+			} else if(e.index == 2) {
+				galleryImgs();
+			}
+		}
+	);
+}
+
+var fileLocation = "";
+
+function saveDealDangerFun() {
+
+	if(fileLocation && fileLocation.length > 5) {
+		upload(fileLocation);
+	} else {
+		alert("请拍照!");
+	}
+
+};

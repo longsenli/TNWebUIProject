@@ -73,6 +73,62 @@ function hiddenDangerManageRecordRowClick(row) {
 	}
 }
 
+function upload(path, dangerType) {
+	var wt = plus.nativeUI.showWaiting();
+	var task = plus.uploader.createUpload(window.serviceIP + "/api/safetyandep/pictureupload", {
+			method: "POST"
+		},
+		function(t, status) { //上传完成
+			// this.upLoadCount++;
+			if(status == 200) {
+				//console.log("添加成功：" + t.responseText);
+				res = JSON.parse(t.responseText)
+				wt.close(); //关闭等待提示按钮
+				if(res.status == 1) {
+					fileLocation = "";
+					var formMap = window.formToObject($("#hiddenDangerManageRecordReportForm"));
+					var today = new Date();
+					formMap['hiddenDangerPicture'] = res.data;
+					formMap['reporttime'] = today.format("yyyy-MM-dd hh:mm");
+					formMap['reporter'] = localStorage.username;
+					formMap['hiddenDangerType'] = dangerType;
+
+					$.ajax({
+						url: window.serviceIP + "/api/safetyandep/changehiddendangermanagerecord",
+						type: "POST",
+						contentType: "application/json",
+						dataType: "json",
+						data: JSON.stringify(formMap).toString(),
+						//		headers: {
+						//			Token: $.cookie('token')
+						//		}, 
+						processData: true,
+						success: function(dataRes) {
+							if(dataRes.status == 1) { 
+								getHiddenDangerManageRecord(dangerType);
+								alert("保存成功！");
+								$("#image-list").html("");
+								document.getElementById("hiddenDangerManageRecordReportForm").reset();
+							} else {
+								alert("保存失败！" + dataRes.message);
+							}
+						}
+					});
+				}
+
+				//  this.pictureList.push(entry.toLocalURL())
+			} else {
+				console.log("添加失败：" + status + t);
+				wt.close(); //关闭等待提示按钮
+			}
+		}
+	);
+	task.addFile(path, {
+		key: "pictureName"
+	})
+	task.start();
+}
+
 function addHiddenDangerManageRecord() {
 	$('#dangerlevel').selectpicker('refresh');
 	$('#dangerlevel').selectpicker('render'); 
@@ -90,6 +146,98 @@ function addHiddenDangerManageRecord() {
 	$("#myReportModal").modal('show');
 }
 
+//图片显示
+function showPics(url, name) {
+	//根据路径读取到文件 
+	plus.io.resolveLocalFileSystemURL(url, function(entry) {
+		entry.file(function(file) {
+			var fileReader = new plus.io.FileReader();
+			fileReader.readAsDataURL(file);
+			fileReader.onloadend = function(e) {
+				var picUrl = e.target.result.toString();
+				var picIndex = $("#picIndex").val();
+				var nowIndex = parseInt(picIndex) + 1;
+				$("#picIndex").val(nowIndex);
+				var html = '';
+				html += '<div class="image-item " id="item' + nowIndex + '">';
+				//html += '<div class="image-close" οnclick="delPic(' + nowIndex + ')">X</div>';
+				html += '<div><img src="' + picUrl + '" class="upload_img" style="width:50%;height:50%;"/></div>';
+				html += '</div>';
+				html += $("#image-list").html();
+				$("#image-list").html(html);
+			}
+		});
+	});
+}
+//压缩图片  
+function compressImage(url, filename) {
+	var name = "_doc/upload/" + filename;
+	plus.zip.compressImage({
+			src: url, //src: (String 类型 )压缩转换原始图片的路径  
+			dst: url, //压缩转换目标图片的路径  
+			quality: 80, //quality: (Number 类型 )压缩图片的质量.取值范围为1-100 
+			width: 800,
+			overwrite: true //overwrite: (Boolean 类型 )覆盖生成新文件  
+		},
+		function(zip) {
+			//页面显示图片
+			showPics(zip.target, name);
+		},
+		function(error) {
+			plus.nativeUI.toast("压缩图片失败，请稍候再试");
+		});
+}
+
+//调用手机摄像头并拍照
+function getImage() {
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(p) {
+		plus.io.resolveLocalFileSystemURL(p, function(entry) {
+			fileLocation = entry.toLocalURL();
+			compressImage(entry.toLocalURL(), entry.name);
+		}, function(e) {
+			plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+		});
+	}, function(e) {}, {
+		filter: 'image'
+	});
+}
+//从相册选择照片
+function galleryImgs() {
+	plus.gallery.pick(function(e) {
+		var name = e.substr(e.lastIndexOf('/') + 1);
+		compressImage(e, name);
+	}, function(e) {}, {
+		filter: "image"
+	});
+}
+
+//点击事件，弹出选择摄像头和相册的选项
+function showActionSheet() {
+	getImage();
+	return;
+
+	var bts = [{
+		title: "拍照"
+	}, {
+		title: "从相册选择"
+	}];
+	plus.nativeUI.actionSheet({
+			cancel: "取消",
+			buttons: bts
+		},
+		function(e) {
+			if(e.index == 1) {
+				getImage();
+			} else if(e.index == 2) {
+				galleryImgs();
+			}
+		}
+	);
+}
+
+var fileLocation = "";
+
 function saveHiddenDangerManageRecordModel(dangerType) {
 
 	if(dangerType == "定点巡查") {
@@ -98,63 +246,13 @@ function saveHiddenDangerManageRecordModel(dangerType) {
 			return;
 		}
 	}
-	var picLoadName = "";
 
-	if($("#pictureName").get(0).files[0]) {
-		var formData = new FormData($("#myReportModalPictureUpload")[0]);
-		$.ajax({
-			url: window.serviceIP + "/api/safetyandep/pictureupload",
-			type: "POST",
-			data: formData,
-			headers: {
-				Token: $.cookie('token')
-			},
-			cache: false, //不需要缓存
-			processData: false,
-			contentType: false,
-			async: false,
-			success: function(dataRes) {
-				if(dataRes.status == 1) {
-					picLoadName = dataRes.data.toString();
-					$("#myReportModalPictureUpload #pictureName").val("");
-				} else {
-					alert("保存失败！" + dataRes.message);
-					return;
-				}
-			}
-		});
+	if(fileLocation && fileLocation.length > 5) {
+		upload(fileLocation, dangerType);
 	} else {
-		alert("请上传图片!");
-		return;
+		alert("请拍照!");
 	}
-	var formMap = window.formToObject($("#hiddenDangerManageRecordReportForm"));
-	var today = new Date();
-	formMap['hiddenDangerPicture'] = picLoadName;
-	formMap['reporttime'] = today.format("yyyy-MM-dd hh:mm");
-	formMap['reporter'] = localStorage.username;
-	formMap['hiddenDangerType'] = dangerType;
 
-	$.ajax({
-		url: window.serviceIP + "/api/safetyandep/changehiddendangermanagerecord",
-		type: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: $.cookie('token')
-		//		},
-		processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				getHiddenDangerManageRecord(dangerType);
-				alert("保存成功！");
-
-				document.getElementById("hiddenDangerManageRecordReportForm").reset();
-			} else {
-				alert("保存失败！" + dataRes.message);
-			}
-		}
-	});
 };
 
 function getRegularPerambulationRecord() {
@@ -189,11 +287,15 @@ function getRegularPerambulationRecord() {
 		"field": "hiddendangerpicture",
 		formatter: function(value, row, index) {
 			if(value)
-				//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
-				//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
-				//			
-				return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
-					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+//				console.log('<img style="width:40px;height:40px;" src="http://' + "192.168.80.228:19001" + '/SafetyAndEPPicture/' +
+//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >')
+			return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
+				window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+			//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+			//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
+			//			
+			//				return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
+			//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 
 			//			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
 			//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
@@ -285,6 +387,17 @@ function getRegularPerambulationRecord() {
 	});
 }
 
+function closeImageShow() {
+	$("#imageShow").css('display', 'none');
+}
+
+function wholeImg(_this) {
+
+	var img = document.getElementById("imageShow");
+	img.src = $(_this).attr("src"); //将结果数据显示到img标签上
+	$("#imageShow").css('display', 'block');
+}
+
 function getHiddenDangerManageRecord(dangerType) {
 
 	var columnsArray = [];
@@ -305,14 +418,14 @@ function getHiddenDangerManageRecord(dangerType) {
 		visible: false
 	});
 
-	if("定点巡查" == dangerType) {
+	if("隐患上报" == dangerType) {
 		columnsArray.push({
 			"title": "预警等级",
 			"field": "dangerlevel"
 		});
 		columnsArray.push({
 			"title": "具体位置",
-			"field": "areaID"
+			"field": "areaid"
 		});
 		columnsArray.push({
 			"title": "隐患描述",
@@ -323,11 +436,17 @@ function getHiddenDangerManageRecord(dangerType) {
 			"field": "hiddendangerpicture",
 			formatter: function(value, row, index) {
 				if(value)
-					//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
-					//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
-					//			
-					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
+					//				console.log(window.IPOnly); 
+					//				console.log('<img style="width:40px;height:40px;" src="http://' +window.IPOnly+ ":19001" +  '/SafetyAndEPPicture/' +
+					//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >')
+					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
 						window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+
+				//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+				//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
+				//			
+				//					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
+				//						window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 
 				//			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
 				//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'"  target="_blank" >' + value +"</a>";
@@ -353,7 +472,7 @@ function getHiddenDangerManageRecord(dangerType) {
 			"field": "dealpicture",
 			formatter: function(value, row, index) {
 				if(value)
-					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
+					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
 						window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 
 				//				return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' +
@@ -387,7 +506,7 @@ function getHiddenDangerManageRecord(dangerType) {
 
 		columnsArray.push({
 			"title": "巡查位置",
-			"field": "areaID"
+			"field": "areaid"
 		});
 		columnsArray.push({
 			"title": "状态描述",
@@ -398,10 +517,12 @@ function getHiddenDangerManageRecord(dangerType) {
 			"field": "hiddendangerpicture",
 			formatter: function(value, row, index) {
 				if(value)
-					//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
-					//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
+					//				console.log('<img style="width:40px;height:40px;" src="http://' +window.IPOnly+ ":19001"  +  '/SafetyAndEPPicture/' +
+					//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >')
+					//								return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
+					//								+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
 					//			
-					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":" + window.PicturePort + '/TNFile/SafetyAndEPPicture/' +
+					return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
 						window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 
 				//			return '<a href="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
@@ -635,8 +756,6 @@ function selectLoactionInfo(locationID) {
 	});
 }
 
-
-
 function getRegularTimesPicture() {
 	var formData = new FormData();
 	formData.append("startTime", document.getElementById("startTime").value.toString());
@@ -663,14 +782,13 @@ function getRegularTimesPicture() {
 				}
 				$("#table").hide();
 				$("#myChart").show();
-			var locationName = [];
+				var locationName = [];
 				var inspectTimes = [];
-			for(var i in models) {
-				locationName.push(models[i].name);
-				inspectTimes.push(models[i].num);
-			}
+				for(var i in models) {
+					locationName.push(models[i].name);
+					inspectTimes.push(models[i].num);
+				}
 
-				
 				if(($(window).height() - $("#myChart").offset().top) < 800) {
 					$("#myChart").height(800);
 
