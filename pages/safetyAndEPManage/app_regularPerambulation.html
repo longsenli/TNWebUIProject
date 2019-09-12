@@ -41,56 +41,56 @@
 	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript ">
 			hiddenDangerManagePlantSlctFun('定点巡查');
-
-			$(function() {
-				document.addEventListener('plusready', function() {
-
-					// Android平台导入Intent类  
-					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
-					//      alert(window.plus)
-
-					//      var main = plus.android.runtimeMainActivity();  
-					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
-					//      console.log(Context)
-					var main = plus.android.runtimeMainActivity(); //获取activity  
-					var context = plus.android.importClass('android.content.Context'); //上下文  
-					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-						onReceive: doReceive
-					});
-					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-					var Intent = plus.android.importClass('android.content.Intent');
-					var filter = new IntentFilter();
-					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
-					main.registerReceiver(receiver, filter); //注册监听  
-					//   android.intent.action.SCANRESULT
-					function doReceive(context, intent) {
-						//         alert(context)
-						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
-						var Number = intent.getStringExtra("value");
-						selectLoactionInfo(Number);
-						console.log(Number);
-
-						//           main.unregisterReceiver(receiver);//取消监听  
-					}
-					//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
-					//      
-					////      // 方法一：  
-					//      plus.android.importClass(android.intent.action.SCANRESULT);  
-					//      var simSerialNumber = tm.getSimSerialNumber();  
-
-					//方法二：  
-					//      plus.android.invoke(tm,"getSimSerialNumber");  
-
-					//返回SIM卡的序列号(IMEI)  
-					//      console.log(simSerialNumber+'111111');   
-					//      alert(simSerialNumber)
-
-					//      console.log(sc);
-					//      alert(sc);
-				}, false);
-			});
+			//pda扫码实现监听
+			//			$(function() {
+			//				document.addEventListener('plusready', function() {
+			//
+			//					// Android平台导入Intent类  
+			//					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+			//					//      alert(window.plus)
+			//
+			//					//      var main = plus.android.runtimeMainActivity();  
+			//					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+			//					//      console.log(Context)
+			//					var main = plus.android.runtimeMainActivity(); //获取activity  
+			//					var context = plus.android.importClass('android.content.Context'); //上下文  
+			//					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+			//						onReceive: doReceive
+			//					});
+			//					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+			//					var Intent = plus.android.importClass('android.content.Intent');
+			//					var filter = new IntentFilter();
+			//					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+			//					main.registerReceiver(receiver, filter); //注册监听  
+			//					//   android.intent.action.SCANRESULT
+			//					function doReceive(context, intent) {
+			//						//         alert(context)
+			//						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+			//						var Number = intent.getStringExtra("value");
+			//						selectLoactionInfo(Number);
+			//						//console.log(Number);
+			//
+			//						//           main.unregisterReceiver(receiver);//取消监听  
+			//					}
+			//					//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
+			//					//      
+			//					////      // 方法一：  
+			//					//      plus.android.importClass(android.intent.action.SCANRESULT);  
+			//					//      var simSerialNumber = tm.getSimSerialNumber();  
+			//
+			//					//方法二：  
+			//					//      plus.android.invoke(tm,"getSimSerialNumber");  
+			//
+			//					//返回SIM卡的序列号(IMEI)  
+			//					//      console.log(simSerialNumber+'111111');   
+			//					//      alert(simSerialNumber)
+			//
+			//					//      console.log(sc);
+			//					//      alert(sc);
+			//				}, false);
+			//			});
 		</script>
- 
+
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
 			<div class="boxed">
 				<div id="content-container">
@@ -103,10 +103,10 @@
 									</div>-->
 									<div class="panel-body">
 										<button style="margin-top: 10px;" type="button" class="btn btn-info" onclick="scanQR()">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>定点扫码
+                <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>定点扫码
            </button>
-           <img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
-								
+										<img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
+
 										<br />
 										<br />
 										<form id="hiddenDangerManageRecordReportForm">
@@ -141,18 +141,17 @@
 											<div class="form-inline row">
 												<label for="name">备注:</label>
 												<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
-											</div> 
+											</div>
 											<br />
 										</form>
-											<button type="button" class="btn btn-info" onclick="showActionSheet()">拍照 </button>
-
+										<button type="button" class="btn btn-info" onclick="showActionSheet()">现场拍照 </button>
+										<br />
 										<input type="hidden" id="picIndex" value="0">
 										<div id='image-list' class="row image-list">
 											<!-- <input id="upload_image" type="file" name="image" accept="image/*" /> -->
 											<div class="image-item space" οnclick="showActionSheet()">
 												<div class="image-up"></div>
 											</div>
-
 										</div>
 
 										<div class="modal-footer">

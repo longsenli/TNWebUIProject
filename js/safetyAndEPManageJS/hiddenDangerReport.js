@@ -394,6 +394,7 @@ function closeImageShow() {
 function wholeImg(_this) {
 
 	var img = document.getElementById("imageShow");
+	img.width($(window).width() * 0.9);
 	img.src = $(_this).attr("src"); //将结果数据显示到img标签上
 	$("#imageShow").css('display', 'block');
 }

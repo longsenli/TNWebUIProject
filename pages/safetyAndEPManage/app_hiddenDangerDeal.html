@@ -105,31 +105,31 @@
 									<div class="panel-body">
 
 										<form ID="hiddenDangerSelectForm" name="hiddenDangerSelectForm">
-											<div class="form-inline row">
-												<div class="form-group">
-													<label> 厂区： </label>
-													<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
-													</select>
-												</div>
-												<div class="form-group">
-													<label> 级别： </label>
-													<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
-														<option value='-1'>全部</option>
-														<option value='蓝'>蓝</option>
-														<option value='黄'>黄</option>
-														<option value='橙'>橙</option>
-														<option value='红'>红</option>
-													</select>
-												</div>
-												<div class="form-group">
-													<label> 时间： </label>
-													<input type="date" id="startTime" name="startTime" />
-													<label>-</label>
-													<input type="date" id="endTime" name="endTime" />
-												</div>
-
-												<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+											<!--<div class="form-inline row">-->
+											<div class="form-group">
+												<label> 厂区： </label>
+												<select class="selectpicker" id="hiddenDangerPlantSlct" data-width="220px" name="hiddenDangerPlantSlct">
+												</select>
 											</div>
+											<div class="form-group">
+												<label> 级别： </label>
+												<select class="selectpicker" id="hiddenDangerLevel" style="width:100px;" name="hiddenDangerLevel">
+													<option value='-1'>全部</option>
+													<option value='蓝'>蓝</option>
+													<option value='黄'>黄</option>
+													<option value='橙'>橙</option>
+													<option value='红'>红</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label> 时间： </label>
+												<input type="date" id="startTime" name="startTime" />
+												<label>-</label>
+												<input type="date" id="endTime" name="endTime" />
+											</div>
+
+											<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+											<!--</div>-->
 											<br />
 										</form>
 
@@ -151,7 +151,6 @@
 										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 										</table>
 										<img class="jump_img" id="imageShow" style="display: none;" src="" onclick="closeImageShow()" />
-								
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="myReportModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -253,16 +252,16 @@
 															</div>
 															<br />-->
 														</form>
-																				<button type="button" class="btn btn-info" onclick="showActionSheet()">拍照 </button>
+														<button type="button" class="btn btn-info" onclick="showActionSheet()">拍照 </button>
+														<br />
+														<input type="hidden" id="picIndex" value="0">
+														<div id='image-list' class="row image-list">
+															<!-- <input id="upload_image" type="file" name="image" accept="image/*" /> -->
+															<div class="image-item space" οnclick="showActionSheet()">
+																<div class="image-up"></div>
+															</div>
 
-										<input type="hidden" id="picIndex" value="0">
-										<div id='image-list' class="row image-list">
-											<!-- <input id="upload_image" type="file" name="image" accept="image/*" /> -->
-											<div class="image-item space" οnclick="showActionSheet()">
-												<div class="image-up"></div>
-											</div>
-
-										</div>
+														</div>
 													</div>
 													<div class="modal-footer">
 														<button type="button" id="myRepairModalSaveButton" class="btn btn-info" onclick="saveDealDangerFun( )">保存 </button>

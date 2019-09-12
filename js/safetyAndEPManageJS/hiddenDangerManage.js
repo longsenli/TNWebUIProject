@@ -29,7 +29,7 @@ function hiddenDangerManagePlantSlctFun() {
 
 				$('#plantid').selectpicker('refresh');
 				$('#plantid').selectpicker('render');   
-
+				getHiddenDangerManageRecord();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
