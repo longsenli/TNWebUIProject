@@ -402,8 +402,10 @@ function closeImageShow() {
 
 function wholeImg(_this) {
 
+//console.log($(window).width() + "===" + $(window).height()); 
 	var img = document.getElementById("imageShow");
-	img.width($(window).width() * 0.9);
+	img.style.width = $(window).width() * 0.8; 
+	img.style.height = $(window).height() * 0.8; 
 	img.src = $(_this).attr("src"); //将结果数据显示到img标签上
 	$("#imageShow").css('display', 'block');
 }
