@@ -104,7 +104,14 @@ function getHiddenDangerManageRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "报告时间",
-		"field": "reporttime"
+		"field": "reporttime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 	});
 	columnsArray.push({
 		"title": "处理方法",
@@ -133,7 +140,14 @@ function getHiddenDangerManageRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "处理时间",
-		"field": "dealtime"
+		"field": "dealtime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 	});
 	columnsArray.push({
 		"title": "状态",

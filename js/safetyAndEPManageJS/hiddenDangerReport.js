@@ -81,18 +81,19 @@ function upload(path, dangerType) {
 		function(t, status) { //上传完成
 			// this.upLoadCount++;
 			if(status == 200) {
-				//console.log("添加成功：" + t.responseText);
+				//console.log(fileLocation + "添加成功：" + t.responseText);
 				res = JSON.parse(t.responseText)
-				wt.close(); //关闭等待提示按钮
+				wt.close(); //关闭等待提示按钮 
 				if(res.status == 1) {
-					fileLocation = "";
+					
 					var formMap = window.formToObject($("#hiddenDangerManageRecordReportForm"));
 					var today = new Date();
 					formMap['hiddenDangerPicture'] = res.data;
-					formMap['reporttime'] = today.format("yyyy-MM-dd hh:mm");
+					//formMap['reporttime'] = today.format("yyyy-MM-dd hh:mm");
 					formMap['reporter'] = localStorage.username;
 					formMap['hiddenDangerType'] = dangerType;
-
+					//console.log(JSON.stringify(formMap).toString());
+					
 					$.ajax({
 						url: window.serviceIP + "/api/safetyandep/changehiddendangermanagerecord",
 						type: "POST",
@@ -105,6 +106,7 @@ function upload(path, dangerType) {
 						processData: true,
 						success: function(dataRes) {
 							if(dataRes.status == 1) { 
+								fileLocation = "";
 								getHiddenDangerManageRecord(dangerType);
 								alert("保存成功！");
 								$("#image-list").html("");
@@ -247,7 +249,7 @@ function saveHiddenDangerManageRecordModel(dangerType) {
 		}
 	}
 
-	if(fileLocation && fileLocation.length > 5) {
+	if(fileLocation && fileLocation.length > 5) { 
 		upload(fileLocation, dangerType);
 	} else {
 		alert("请拍照!");
@@ -308,7 +310,14 @@ function getRegularPerambulationRecord() {
 	});
 	columnsArray.push({
 		"title": "巡查时间",
-		"field": "reporttime"
+		"field": "reportTime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 	});
 
 	columnsArray.push({
@@ -460,7 +469,14 @@ function getHiddenDangerManageRecord(dangerType) {
 		});
 		columnsArray.push({
 			"title": "报告时间",
-			"field": "reporttime"
+			"field": "reporttime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 		});
 
 		columnsArray.push({
@@ -488,7 +504,14 @@ function getHiddenDangerManageRecord(dangerType) {
 		});
 		columnsArray.push({
 			"title": "处理时间",
-			"field": "dealtime"
+			"field": "dealtime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 		});
 		columnsArray.push({
 			"title": "状态",
@@ -537,7 +560,14 @@ function getHiddenDangerManageRecord(dangerType) {
 		});
 		columnsArray.push({
 			"title": "巡查时间",
-			"field": "reporttime"
+			"field": "reporttime",
+			formatter: function(value, row, index) {
+				//console.log(value);
+				if(value) {
+					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+				}
+
+			}
 		});
 
 		columnsArray.push({
