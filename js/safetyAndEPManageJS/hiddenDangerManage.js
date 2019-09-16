@@ -768,7 +768,7 @@ function showPics(url, name) {
 				//html += '<div class="image-close" οnclick="delPic(' + nowIndex + ')">X</div>';
 				html += '<div><img src="' + picUrl + '" class="upload_img" style="width:50%;height:50%;"/></div>';
 				html += '</div>';
-				html += $("#image-list").html();
+				//html += $("#image-list").html();
 				$("#image-list").html(html);
 			}
 		});
@@ -810,7 +810,7 @@ function getImage() {
 //从相册选择照片
 function galleryImgs() {
 	plus.gallery.pick(function(e) {
-		var name = e.substr(e.lastIndexOf('/') + 1);
+		var name = e.substr(e.lastIndexOf('/') + 1); 
 		compressImage(e, name);
 	}, function(e) {}, {
 		filter: "image"

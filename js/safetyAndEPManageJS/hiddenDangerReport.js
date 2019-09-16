@@ -165,7 +165,7 @@ function showPics(url, name) {
 				//html += '<div class="image-close" οnclick="delPic(' + nowIndex + ')">X</div>';
 				html += '<div><img src="' + picUrl + '" class="upload_img" style="width:50%;height:50%;"/></div>';
 				html += '</div>';
-				html += $("#image-list").html();
+				//html += $("#image-list").html();
 				$("#image-list").html(html);
 			}
 		});
