@@ -85,7 +85,7 @@ function upload(path, dangerType) {
 				res = JSON.parse(t.responseText)
 				wt.close(); //关闭等待提示按钮 
 				if(res.status == 1) {
-					
+
 					var formMap = window.formToObject($("#hiddenDangerManageRecordReportForm"));
 					var today = new Date();
 					formMap['hiddenDangerPicture'] = res.data;
@@ -93,7 +93,7 @@ function upload(path, dangerType) {
 					formMap['reporter'] = localStorage.username;
 					formMap['hiddenDangerType'] = dangerType;
 					//console.log(JSON.stringify(formMap).toString());
-					
+
 					$.ajax({
 						url: window.serviceIP + "/api/safetyandep/changehiddendangermanagerecord",
 						type: "POST",
@@ -249,7 +249,7 @@ function saveHiddenDangerManageRecordModel(dangerType) {
 		}
 	}
 
-	if(fileLocation && fileLocation.length > 5) { 
+	if(fileLocation && fileLocation.length > 5) {
 		upload(fileLocation, dangerType);
 	} else {
 		alert("请拍照!");
@@ -289,10 +289,10 @@ function getRegularPerambulationRecord() {
 		"field": "hiddendangerpicture",
 		formatter: function(value, row, index) {
 			if(value)
-//				console.log('<img style="width:40px;height:40px;" src="http://' + "192.168.80.228:19001" + '/SafetyAndEPPicture/' +
-//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >')
-			return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
-				window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
+				//				console.log('<img style="width:40px;height:40px;" src="http://' + "192.168.80.228:19001" + '/SafetyAndEPPicture/' +
+				//					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >')
+				return '<img style="width:40px;height:40px;" src="http://' + window.IPOnly + ":19001" + '/SafetyAndEPPicture/' +
+					window.stringToDatetimeLocalType(row.reporttime, "yyyy-MM-dd") + '/' + value + '" onclick="wholeImg(this) "/ >';
 			//			return '<img style="width:5px;height:5px;" src="ftp://192.168.80.228:2121/TNFile/SafetyAndEPPicture/' 
 			//			+ window.stringToDatetimeLocalType(row.reporttime,"yyyy-MM-dd")+'/' + value+'" onclick="wholeImg(this) "/ >' ;
 			//			
@@ -310,14 +310,15 @@ function getRegularPerambulationRecord() {
 	});
 	columnsArray.push({
 		"title": "巡查时间",
-		"field": "reportTime",
-			formatter: function(value, row, index) {
-				//console.log(value);
-				if(value) {
-					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-				}
-
-			}
+		"field": "reportTime"
+		//		,
+		//			formatter: function(value, row, index) {
+		//				//console.log(value);
+		//				if(value) {
+		//					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+		//				}
+		//
+		//			}
 	});
 
 	columnsArray.push({
@@ -344,7 +345,8 @@ function getRegularPerambulationRecord() {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-
+				$("#table").show();
+				$("#myChart").hide();
 				var models = eval("(" + dataRes.data + ")");
 				for(var i = 0; i < models.length; i++) {
 					models[i]["rowNumber"] = i + 1;
@@ -402,10 +404,10 @@ function closeImageShow() {
 
 function wholeImg(_this) {
 
-//console.log($(window).width() + "===" + $(window).height()); 
+	//console.log($(window).width() + "===" + $(window).height()); 
 	var img = document.getElementById("imageShow");
-	img.style.width = $(window).width() * 0.8; 
-	img.style.height = $(window).height() * 0.8; 
+	img.style.width = $(window).width() * 0.8;
+	img.style.height = $(window).height() * 0.8;
 	img.src = $(_this).attr("src"); //将结果数据显示到img标签上
 	$("#imageShow").css('display', 'block');
 }
@@ -471,14 +473,15 @@ function getHiddenDangerManageRecord(dangerType) {
 		});
 		columnsArray.push({
 			"title": "报告时间",
-			"field": "reporttime",
-			formatter: function(value, row, index) {
-				//console.log(value);
-				if(value) {
-					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-				}
-
-			}
+			"field": "reporttime"
+			//			,
+			//			formatter: function(value, row, index) {
+			//				//console.log(value);
+			//				if(value) {
+			//					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			//				}
+			//
+			//			}
 		});
 
 		columnsArray.push({
@@ -506,14 +509,15 @@ function getHiddenDangerManageRecord(dangerType) {
 		});
 		columnsArray.push({
 			"title": "处理时间",
-			"field": "dealtime",
-			formatter: function(value, row, index) {
-				//console.log(value);
-				if(value) {
-					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-				}
-
-			}
+			"field": "dealtime"
+			//			,
+			//			formatter: function(value, row, index) {
+			//				//console.log(value);
+			//				if(value) {
+			//					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+			//				}
+			//
+			//			}
 		});
 		columnsArray.push({
 			"title": "状态",

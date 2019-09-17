@@ -104,14 +104,15 @@ function getHiddenDangerManageRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "报告时间",
-		"field": "reporttime",
-			formatter: function(value, row, index) {
-				//console.log(value);
-				if(value) {
-					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-				}
-
-			}
+		"field": "reporttime"
+		//		,
+		//			formatter: function(value, row, index) {
+		//				//console.log(value);
+		//				if(value) {
+		//					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+		//				}
+		//
+		//			}
 	});
 	columnsArray.push({
 		"title": "处理方法",
@@ -140,14 +141,15 @@ function getHiddenDangerManageRecord(selectType) {
 	});
 	columnsArray.push({
 		"title": "处理时间",
-		"field": "dealtime",
-			formatter: function(value, row, index) {
-				//console.log(value);
-				if(value) {
-					return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
-				}
-
-			}
+		"field": "dealtime"
+//		,
+//		formatter: function(value, row, index) {
+//			//console.log(value);
+//			if(value) {
+//				return(new Date(parseInt(value))).format("yyyy-MM-dd hh:mm");
+//			}
+//
+//		}
 	});
 	columnsArray.push({
 		"title": "状态",
@@ -810,7 +812,7 @@ function getImage() {
 //从相册选择照片
 function galleryImgs() {
 	plus.gallery.pick(function(e) {
-		var name = e.substr(e.lastIndexOf('/') + 1); 
+		var name = e.substr(e.lastIndexOf('/') + 1);
 		compressImage(e, name);
 	}, function(e) {}, {
 		filter: "image"
