@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="user-scalable=0">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>天能（濮阳）</title>
+
+		<!-- CSS -->
+		<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500"> -->
+		<link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+
+		<!-- Javascript -->
+		<!--<script src="../vendor/jquery/jquery.min.js"></script>-->
+		<script src="../vendor/jquery/jquery.min.js"></script>
+		<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/loginJS/userChange.js"></script>
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3 form-box">
+					<div class="form-top">
+						<div class="form-top-left">
+							<h3>用户切换</h3>
+						</div>
+
+					</div>
+					<ul id="userList">
+						<!--<li id='test' onclick='userSelected()'>test</li>-->
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		<!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+		<script type="text/javascript">
+			$(function() {
+				initUserInfo();
+			});
+		</script>
+	</body>
+
+</html>
