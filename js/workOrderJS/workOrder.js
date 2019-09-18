@@ -479,7 +479,7 @@ function selectedWorkOrderRow(param) {
 		}
 
 		deleteWorkOrder(row["id"]);
-	}else if(optionType == "workorder_deleteReal") {
+	} else if(optionType == "workorder_deleteReal") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
@@ -492,7 +492,7 @@ function selectedWorkOrderRow(param) {
 function deleteWorkOrderReally(orderid) {
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/deleteWorkOrder?orderID="+orderid ,
+		url: window.serviceIP + "/api/order/deleteWorkOrder?orderID=" + orderid,
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -504,7 +504,7 @@ function deleteWorkOrderReally(orderid) {
 
 		success: function(data) {
 			if(data.status == 1) {
-				
+
 				getWorkOrder();
 				alert('删除成功!');
 			} else {
@@ -517,7 +517,7 @@ function deleteWorkOrderReally(orderid) {
 function deleteWorkOrder(orderid) {
 
 	$.ajax({
-		url: window.serviceIP + "/api/order/changeworkorderstatus?ID="+orderid + "&status=" + window.windowOrderStatusEnum.closed,
+		url: window.serviceIP + "/api/order/changeworkorderstatus?ID=" + orderid + "&status=" + window.windowOrderStatusEnum.closed,
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -529,7 +529,7 @@ function deleteWorkOrder(orderid) {
 
 		success: function(data) {
 			if(data.status == 1) {
-				
+
 				getWorkOrder();
 				alert('订单已关闭!');
 			} else {
@@ -771,13 +771,30 @@ function closeScrapModal() {
 	$("#scrapModal").modal('hide');
 }
 
-function printQRCode()
-{
+function changePrintStatus(workOrderID) {
+	$.ajax({
+		url: window.serviceIP + "/api/order/changePrintStatus?workOrderID=" + workOrderID,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+		}
+	});
+}
+
+function printQRCode() {
 	var selectRow = $("#orderSplitTable").bootstrapTable('getSelections');
+
 	//var arrayObj = new Array();
 	//console.log(selectRow.length);
 	for(var i = 0; i < selectRow.length; i++) {
-		
+
 		var orderLength = selectRow[i].ordersplitid.length;
 		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
 		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
@@ -818,4 +835,9 @@ function printQRCode()
 		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
 	}
+
+	if(selectRow.length > 0 && selectRow[0].orderid) {
+		changePrintStatus(selectRow[0].orderid);
+	}
+
 }

@@ -986,6 +986,23 @@ function createQRCode() {
 	});
 }
 
+function changePrintStatus(workOrderID) {
+	$.ajax({
+		url: window.serviceIP + "/api/order/changePrintStatus?workOrderID=" + workOrderID,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+		}
+	});
+}
+
 function printQRCode() {
 	//createQRCode();
 	//	var img = document.getElementById("QRImage"); /// get image element
@@ -1036,7 +1053,9 @@ function printQRCode() {
 		//LODOP.PREVIEW();
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
 	}
-
+	if(selectRow.length > 0 && selectRow[0].orderid) {
+		changePrintStatus(selectRow[0].orderid);
+	}
 	//document.getElementById("QRImage").style.display="block";
 	//	//document.getElementById("QRImage").ExecWB(6,2);
 	//	$("#QRImage").jqprint({
