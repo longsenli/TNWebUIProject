@@ -81,55 +81,55 @@
 				//				today.setDate(today.getDate() - 1)
 				//				document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
 
-				grantMaterialPlantSlctFun("1");	
+				grantMaterialPlantSlctFun("1");
 			});
 			$(function() {
-							document.addEventListener('plusready', function() {
-			
-								// Android平台导入Intent类  
-								//      var sc = plus.android.importClass("com.android.ScannerInerface");  
-								//      alert(window.plus)
-			
-								//      var main = plus.android.runtimeMainActivity();  
-								//      var Context = plus.android.importClass("com.android.ScannerInerface");  
-								//      console.log(Context)
-								var main = plus.android.runtimeMainActivity(); //获取activity  
-								var context = plus.android.importClass('android.content.Context'); //上下文  
-								var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
-									onReceive: doReceive
-								});
-								var IntentFilter = plus.android.importClass('android.content.IntentFilter');
-								var Intent = plus.android.importClass('android.content.Intent');
-								var filter = new IntentFilter();
-								filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
-								main.registerReceiver(receiver, filter); //注册监听  
-								//   android.intent.action.SCANRESULT
-								function doReceive(context, intent) {
-									//         alert(context)
-									plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
-									var Number = intent.getStringExtra("value");
-									addOrderIDToBatchTable(Number,"PDA");
-									//console.log(Number);
-			
-									//           main.unregisterReceiver(receiver);//取消监听  
-								}
-								//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
-								//      
-								////      // 方法一：  
-								//      plus.android.importClass(android.intent.action.SCANRESULT);  
-								//      var simSerialNumber = tm.getSimSerialNumber();  
-			
-								//方法二：  
-								//      plus.android.invoke(tm,"getSimSerialNumber");  
-			
-								//返回SIM卡的序列号(IMEI)  
-								//      console.log(simSerialNumber+'111111');   
-								//      alert(simSerialNumber)
-			
-								//      console.log(sc);
-								//      alert(sc);
-							}, false);
-						});
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						//         alert(context)
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+						addOrderIDToBatchTable(Number, "PDA");
+						//console.log(Number);
+
+						//           main.unregisterReceiver(receiver);//取消监听  
+					}
+					//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
+					//      
+					////      // 方法一：  
+					//      plus.android.importClass(android.intent.action.SCANRESULT);  
+					//      var simSerialNumber = tm.getSimSerialNumber();  
+
+					//方法二：  
+					//      plus.android.invoke(tm,"getSimSerialNumber");  
+
+					//返回SIM卡的序列号(IMEI)  
+					//      console.log(simSerialNumber+'111111');   
+					//      alert(simSerialNumber)
+
+					//      console.log(sc);
+					//      alert(sc);
+				}, false);
+			});
 		</script>
 
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">

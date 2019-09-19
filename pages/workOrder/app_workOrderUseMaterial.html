@@ -53,15 +53,43 @@
 
 	<body>
 		<script type="text/javascript">
-		
 			if(localStorage.token == null) {
 
 				window.location.href = "../app_login.html";
 			}
 
 			subOrderIndustrialPlantSlctFun();
-		
 
+			$(function() {
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+						getMaterialRecordBySuborderID(Number);
+
+					}
+
+				}, false);
+			});
 		</script>
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
 			<div class="boxed">
@@ -69,7 +97,7 @@
 					<div id="page-content">
 						<div class="row">
 							<div class="col-lg-6">
-	
+
 								<div class="panel">
 
 									<div class="panel-body">
@@ -102,7 +130,7 @@
 													<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
 													</select>
 												</div>
-												
+
 											</div>
 
 										</form>
@@ -138,7 +166,7 @@
 
 										<div class="form-inline row">
 											<div id="usableMaterialTableToolbar">
-	
+
 												<div class="form-group">
 
 													<input type="text" id="selectByText" class="form-control " style="width:200px; display:inline">
@@ -164,11 +192,9 @@
 											<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 											</table>
 										</div>
-						
 
 									</div>
 								</div>
-
 
 								<div class="panel">
 									<div class="panel-heading">
@@ -176,14 +202,13 @@
 									</div>
 									<div class="panel-body">
 										<div class="form-inline row">
-		
+
 											<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 											</table>
 										</div>
 									</div>
 								</div>
-								
-								
+
 							</div>
 						</div>
 					</div>

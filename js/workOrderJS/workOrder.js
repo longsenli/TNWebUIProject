@@ -188,6 +188,7 @@ function getWorkOrder() {
 		formatter: function(value, row, index) {
 			if(value == '状态不详')
 				return '补打工单';
+			return value;
 		}
 	});
 	columnsArray.push({
