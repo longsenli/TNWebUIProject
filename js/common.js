@@ -140,7 +140,8 @@ var windowOrderStatusEnum = {
 	doing: 3,
 	finished: 4,
 	closed: 5,
-	deleted: 6
+	deleted: 6,
+	addmissing: 9
 }
 
 var windowProcessEnum = {

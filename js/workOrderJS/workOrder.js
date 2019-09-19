@@ -184,7 +184,11 @@ function getWorkOrder() {
 	columnsArray.push({
 		width: 100,
 		"title": "状态",
-		"field": "statusName"
+		"field": "statusName",
+		formatter: function(value, row, index) {
+			if(value == '状态不详')
+				return '补打工单';
+		}
 	});
 	columnsArray.push({
 		width: 70,
@@ -325,7 +329,8 @@ function setLineModal() {
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0],
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0] +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0],
 		type: "GET",
 
 		//contentType: "application/json",
@@ -411,7 +416,7 @@ function selectedWorkOrderRow(param) {
 		//$("#workOrderManageForm" + " #lineid").val(document.PlantToLineSelectForm.productionLineSlct.value.toString());
 		$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(), "yyyy-MM-dd"));
 		lineWorkOrderModalChange();
-
+		$("#workOrderType").html("workorder_add");
 		$('#myModal').modal('show');
 	} else if(optionType == "workorder_edit") {
 		if(row == null || row == 'undefined' || row.length < 1) {
@@ -565,6 +570,10 @@ function saveWorkOrderChange() {
 		formData.append("scheduledstarttime", formData.get("scheduledstarttime") + " 07:00:00");
 	else
 		formData.append("scheduledstarttime", formData.get("scheduledstarttime") + " 19:00:00");
+
+	if(document.getElementById("workOrderType").innerHTML == "addMissingWorkOrder") {
+		formData.append("status", window.windowOrderStatusEnum.addmissing);
+	}
 	//console.log(window.getFormDataToJson(formData));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
@@ -839,5 +848,19 @@ function printQRCode() {
 	if(selectRow.length > 0 && selectRow[0].orderid) {
 		changePrintStatus(selectRow[0].orderid);
 	}
+}
 
+function addMissingWorkOrder() {
+	setLineModal();
+	$(workOrderManageForm.elements).each(function() {
+		if($(this).attr("name") != "orderid")
+			$(this).attr('readonly', false);
+	});
+	$("#workOrderManageForm" + " #orderid").val(createWorkOrderID());
+	$("#workOrderManageForm" + " #plantid").val(document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	$("#workOrderManageForm" + " #processid").val(document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	$("#workOrderManageForm" + " #scheduledstarttime").val(window.stringToDatetimeLocalType(new Date(), "yyyy-MM-dd"));
+	lineWorkOrderModalChange();
+	$("#workOrderType").html("addMissingWorkOrder");
+	$('#myModal').modal('show');
 }
