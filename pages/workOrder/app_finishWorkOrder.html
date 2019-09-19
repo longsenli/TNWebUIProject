@@ -4,27 +4,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>工单批次管理</title>
-		<style>
-			/*.telephoneSelectStyle {
-				font-size: 36px !important;
-				height: 90px;
-				text-align: center;
-				background-color: gainsboro;
-			}
-			
-			.changeTableRowColor {
-				background-color: #31b0d5 !important;
-				color: black;
-			}
-			
-			.changeTableRowColorUsableMaterial {
-				background-color: #31b0d5 !important;
-				color: black;
-			}*/
-		</style>
-		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
-		<!--<meta name="viewport" content="user-scalable=0">-->
 
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+		
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<!-- <script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script> -->
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -53,37 +35,14 @@
 
 	<body>
 		<script type="text/javascript">
-			//获取全局token等信息，放入变量localStorage., app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-			// var localStorage. = JSON.parse(localStorage.getItem('localStorage.'));
-			// 							alert(localStorage.)
+
 			if(localStorage.token == null) {
 
 				window.location.href = "../app_login.html";
 			}
-			//			   jQuery(function(){
-			//  jQuery('#qrcode').qrcode("http://www.jq22.com");
-			//})
-			//			jQuery('#qrcode').qrcode({
-			//				render: "table",
-			//				text: "http://www.jq22.com"
-			//			});
+			
 			subOrderIndustrialPlantSlctFun();
-			$(function() {
-				$('#myModal').on('hide.bs.modal',
-					function() {
-						//canvas.clearRect( 0, 0, 320, 320);
-						canvas = null;
-						context = null;
-						video = null;
-						document.getElementById("videoSubOrderScanQR").pause();
-						//document.getElementById("videoSubOrderScanQR").srcObject = '';
-
-						document.getElementById("videoSubOrderScanQR").src = '';
-						if(mediaStreamTrack != null && mediaStreamTrack.getTracks().length > 0) {
-							mediaStreamTrack.getTracks()[0].stop();
-						}
-					})
-			});
+			
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
 				if(localStorage.roleID != window.windowRoleID.CZG) {
@@ -102,7 +61,7 @@
 					//$("#cancelInputSuborderBT").hide();
 					$("#subOrderOvertimeFinishBT").hide();
 					$("#subOrderCancelFinishBT").hide();
-				}
+				} 
 
 			});
 
@@ -113,15 +72,6 @@
 
 			});
 
-			//			$(function() {
-			//
-			//				$("#subOrderOvertimeFinishBT").show();
-			//			});
-			//subOrderProductionProcessSlctFun();
-			//			setTimeout(function() {
-			//				//add your code
-			//				lineWorkOrderSlct();
-			//			}, 5 * 100);
 		</script>
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">
 			<div class="boxed">
@@ -129,11 +79,7 @@
 					<div id="page-content">
 						<div class="row">
 							<div class="col-lg-6">
-								<!--
-                                	作者：lightpeng123@163.com
-                                	时间：2019-04-02
-                                	描述：panel1
-                                -->
+		
 								<div class="panel">
 
 									<div class="panel-body">
@@ -206,107 +152,8 @@
 										</form>
 									</div>
 								</div>
-								<!--
-                                	作者：lightpeng123@163.com
-                                	时间：2019-04-02
-                                	描述：panel2
-                                -->
-								<div class="panel">
-									<!--<div id="MaterialFormCollapsible" class="panel-heading">
-										<a href="#gainMaterialForm" onclick="getUsableMaterialFun()" data-toggle="collapse">
-											<h3 class="panel-title">扫码投料--点击展开</h3>
-										</a>
-									</div>-->
-									<div class="panel-body">
-										<!-- 模态框（Modal） -->
-										<div class="modal fade" id="changeGainProductionModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal">x</button>
-														<h4 class="modal-title" id="myModalLabel"> 部分领料 </h4>
-													</div>
-													<div class="modal-body" id="modal-body">
-														<label id="changeGainProductionLabel"></label>
-														<br />
-														<label>请输入投入数量：</label>
-														<input type="text" onkeyup="value=value.replace(/[^0-9]/g,'')" class="form-control" id="changeGainProductionNum" name="changeGainProductionNum">
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-primary" onclick="closeChangeGainProductionModal()">关闭 </button> &nbsp&nbsp &nbsp&nbsp
-														<button type="button" class="btn btn-primary" onclick="gainPartMaterialRecord()">确认部分领料 </button>
-													</div>
-												</div>
-												<!-- /.modal-content -->
-											</div>
-											<!-- /.modal -->
-										</div>
-
-										<!--<section class="content table-content">
-											<form ID="gainMaterialForm" class="collapse">-->
-
-										<div class="form-inline row">
-											<div id="usableMaterialTableToolbar">
-												<!--<button id="getUsableMaterialBT" type="button" class="btn btn-success " onclick="getUsableMaterialFun()">
-										                	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
-										            	</button>-->
-												<div class="form-group">
-
-													<input type="text" id="selectByText" class="form-control " style="width:200px; display:inline">
-
-													<button type="button" class="btn btn-warning" style="display:inline" onclick="getMaterialRecordBySuborderID('selectByText')">订单查询
-										           	</button>
-												</div>
-												<button id="subOrderScanQRBT" type="button" style="margin-top: 10px;" class="btn btn-info " onclick="scanQR('subOrder')">
-											                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>工单扫码
-											            </button>
-												<button id="gainMaterialRecordBT" type="button" style="margin-top: 10px;" class="btn btn-info " onclick="gainMaterialRecord()">
-										                	<span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>投料
-										            	</button>
-
-												<button id="gainPartMaterialRecordBT" type="button" style="margin-top: 10px;" class="btn btn-info " onclick="showChangeGainModal()">
-											                <span class="glyphicon glyphicon-import" aria-hidden="true"></span>部分投料
-											            </button>
-												<button id="cancelInputSuborderBT" type="button" style="margin-top: 10px;" class="btn btn-danger " onclick="cancelInputSuborder()">
-										        	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
-										    	</button>
-
-											</div>
-											<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-											</table>
-										</div>
-										<!--</form>
-										</section>-->
-
-									</div>
-								</div>
-								<!--
-                                	作者：lightpeng123@163.com
-                                	时间：2019-04-02
-                                	描述：panel3
-                                -->
-
-								<!--<h3 id='sumNumber' class="panel-title">已投料统计：</h3>
-                                <table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-											</table>-->
-
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 id='sumNumber' class="panel-title">已投料统计：</h3>
-									</div>
-									<div class="panel-body">
-										<div class="form-inline row">
-											<!--<div id="materialidToolbar">
-												
-												<button id="cancelInputSuborderBT" type="button" style="display: none;" class="btn btn-danger " onclick="cancelInputSuborder()">
-										        	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
-										    	</button>
-											</div>-->
-											<table id="materialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-											</table>
-										</div>
-									</div>
-								</div>
+							
+									
 							</div>
 						</div>
 					</div>
