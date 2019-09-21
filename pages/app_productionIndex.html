@@ -2,363 +2,201 @@
 <html>
 
 	<head>
-		<meta charset="UTF-8">
-		<!-- <meta name="referrer" content="never"> -->
-		<meta name="viewport" content=" user-scalable=0">
-		<!--<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
-		-->
-		<title>主菜单</title>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<script type="text/javascript" src="../vendor/hplus/js/jquery.min.js"></script>
-		<script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table.js"></script>
-		<script type="text/javascript" src="../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-		<script type="text/javascript" src="../js/loginJS/app_mainMenu.js"></script>
-		<script type="text/javascript" src="../js/common.js"></script>
-		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-
-		<!-- <script type="text/javascript" src="../vendor/jquery/jquery.cookie.js"></script> -->
-		<!-- <script type="text/javascript" src="../vendor/bootstrap/js/bootstrap.min.js"></script> -->
-		<!-- 	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css"> -->
+		<link rel="stylesheet" href="../vendor/mui/css/mui.min.css">
 		<style>
-			.btn_radius {
-				border-radius: 15px;
-				background: #FFFFFF;
-				width: 100%;
-				height: 120px;
-				font-size: 60px;
-				border: 5px;
-				/* 		text-align:left; */
+			html,
+			body {
+				background-color: #efeff4;
 			}
-			
-			.table th,
-			.table td {
-				text-align: center;
-				vertical-align: middle!important;
-				height: 80px;
-			}
-			
-			.btn-block {
-				width: 98%;
-				padding: 4px;
-			}
-			
-			#div_3 {
-				width: 100%;
-				padding: 5px;
-			}
-			
-			h2 {
-				font-size: 70px;
-				font-family: "book antiqua";
-			}
-			
-			.ccc {
-				align: center;
-			}
-			/* body{height: 100%;} */
 		</style>
-
-		<script type="text/javascript" charset="utf-8">
-			$(function() {
-				//console.log("34324324")
-				initMenu();
-
-			})
-
-			var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
-			// 							alert($Global_UserLogin_Info.token)
-			if($Global_UserLogin_Info.token == null) {
-				window.location.href = "../pages/app_login.html";
-			}
-			$(".btn_radius").height(($(window).height() * 0.086));
-			$(".bbb").height(($(window).height() * 0.19));
-			$(".title_1").height(($(window).height() * 0.09));
-			//取消浏览器的所有事件，使得active的样式在手机上正常生效
-			document.addEventListener('touchstart', function() {
-				return false;
-			}, true);
-			// 禁止选择
-			document.oncontextmenu = function() {
-				return false;
-			};
-			// H5 plus事件处理
-			function plusReady() {
-				// Android处理返回键
-				plus.key.addEventListener('backbutton', function() {
-					('iOS' == plus.os.name) ? plus.nativeUI.confirm('确认退出？', function(e) {
-						if(e.index > 0) {
-							plus.runtime.quit();
-						}
-					}, 'HelloH5', ['取消', '确定']): (confirm('确认退出？') && plus.runtime.quit());
-				}, false);
-				// 关闭启动界面
-				plus.navigator.setStatusBarBackground('#D74B28');
-				setTimeout(function() {
-					plus.navigator.closeSplashscreen();
-				}, 200);
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener('plusready', plusReady, false);
-			}
-			// 处理点击事件
-			var _openw = null;
-			var as = 'pop-in'; // 默认窗口动画
-			/**
-			 * 打开新窗口
-			 * @param {String} id	加载的页面地址，也用作窗口标识
-			 * @param {String} t    页面的标题
-			 * @param {String} d	文档页面文件名称（doc目录下），不传入则使用页面的标题
-			 */
-			function clicked(id, t, d) {
-				if(!window.plus) {
-					window.location.href = id;
-				}
-				if(_openw) {
-					return;
-				} // 防止快速点击
-				var ws = {
-					scrollIndicator: 'none',
-					scalable: false,
-					popGesture: 'close',
-					backButtonAutoControl: 'close',
-					titleNView: {
-						autoBackButton: true,
-						// backgroundColor: '#D74B28',
-						// titleColor: '#CCCCCC'
-					}
-				};
-				t && (ws.titleNView.titleText = t, d || (d = t.toLowerCase()));
-				// 			d&&(ws.titleNView.buttons=[{
-				// 				fontSrc: '_www/helloh5.ttf',
-				// 				text: '\ue301',
-				// 				fontSize: '22px',
-				// 				onclick: 'javascript:openDoc("/doc/'+d+'.html")'
-				// 			}]);
-				_openw = plus.webview.create(id, id, ws);
-				_openw.addEventListener('loaded', function() { //页面加载完成后才显示
-					_openw && _openw.show(as, null, function() {
-						_openw = null; //避免快速点击打开多个页面
-					});
-				}, false);
-				_openw.addEventListener('hide', function() {
-					_openw = null;
-				}, false);
-				_openw.addEventListener('close', function() { //页面关闭后可再次打开
-					_openw = null;
-				}, false);
-			}
-			// 		// 打开关于页面
-			// 		function openAbout(){
-			// 			if(_openw){return;}  // 防止快速点击
-			// 			_openw=plus.webview.create('about.html', 'about', {
-			// 				scrollIndicator: 'none',
-			// 				scalable: false,
-			// 				popGesture: 'close',
-			// 				backButtonAutoControl: 'close',
-			// 				titleNView: {
-			// 					autoBackButton: true,
-			// 					backgroundColor: '#D74B28',
-			// 					titleColor: '#CCCCCC',
-			// 					titleText: '关于',
-			// 					buttons: [{
-			// 						type: 'share',
-			// 						onclick: 'javascript:share()'
-			// 					}]
-			// 				}
-			// 			});
-			// 			_openw.addEventListener('close', function(){
-			// 				_openw=null;
-			// 			}, false);
-			// 			_openw.show('zoom-fade-out');
-			// 		}
-
-			var websocket = null;
-
-			//判断当前浏览器是否支持WebSocket
-			if('WebSocket' in window) {
-				//console.log(window.webSocketIP);
-				//websocket = new WebSocket("ws://192.168.1.108:8080/websocket");
-				websocket = new WebSocket(window.webSocketIP);
-
-			} else {
-				//alert('Not support websocket')
-				console.log("不支持socket连接");
-			}
-
-			//连接发生错误的回调方法
-			websocket.onerror = function() {
-				//setMessageInnerHTML("error");
-				console.log("socket连接失败！" + window.webSocketIP);
-			};
-
-			//连接成功建立的回调方法
-			websocket.onopen = function(event) {
-
-				//setMessageInnerHTML("open");
-				console.log("socket连接成功！" + window.webSocketIP);
-				send(localStorage.getItem('token'));
-			}
-
-			//接收到消息的回调方法
-			websocket.onmessage = function(event) {
-				setMessageInnerHTML(event.data);
-			}
-
-			//连接关闭的回调方法
-			websocket.onclose = function() {
-				//setMessageInnerHTML("close");
-			}
-
-			//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-			window.onbeforeunload = function() {
-				websocket.close();
-			}
-
-			//将消息显示在网页上
-			function setMessageInnerHTML(innerHTML) {
-				var audioObject = document.getElementById("waringAlarm");
-				//alert(window.location.pathname);
-				//$("#waringAlarm").play();
-				audioObject.play();
-				// 延迟一丢丢加载音频。
-				setTimeout(function() {
-					infoShow(innerHTML);
-				}, 1000);
-				//alert(innerHTML);
-				//$("#dangerInfo").html(localStorage.getItem("dangerMessage"));
-				//window.mesgNotice("消息提示",innerHTML,"");
-				// document.getElementById('message').innerHTML += innerHTML + '<br/>';
-			}
-
-			function infoShow(innerHTML) {
-				alert(innerHTML);
-			}
-
-			//关闭连接
-			function closeWebSocket() {
-				websocket.close();
-			}
-
-			//发送消息
-			function send(message) {
-				//var message = document.getElementById('text').value;
-				websocket.send(message);
-			}
-		</script>
-
 	</head>
 
-	<body id="aaa" style="background-color: #F5F5F5" b>
-		<!--<div class="title_1">
-			<h2 align="center">功能菜单</h2>
-		</div>-->
-		<div id="div_1" class="bbb" align="center">
-			<img src="../image/app_logo.png" style="background-size：cover;">
-		</div>
-		<div id="div_3">
-			<!--<div id="div_4" class="btn-block">-->
-			<button id="../pages/workOrder/new_app_subOrderTelephone.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '生产工单管理')">生产工单管理</button>
-			<button id="../pages/workOrder/app_materialScrapManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '物料报废管理')">物料报废管理</button>
-			 
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/workOrder/new_app_onlineMaterialRecord.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '线边仓管理')">线边仓管理</button>
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<!--<button id="../pages/workOrder/new_app_workOrderManageTelephone.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '物料报废')">物料报废</button>-->
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/workOrder/new_app_productionStatisticsTelephone.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '物料库存查询')">物料库存查询</button>
-			<!--</div>  
-			<div id="div_4" class="btn-block">-->  
-			<button id="../pages/workOrder/app_pushinDryingKiln.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '干燥窑物料管理')">干燥窑物料管理</button>
+	<body>
+		<!--底部导航-->
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="app_webview_main.html">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首 页</span>
+			</a>
+			<a class="mui-tab-item" href="app_myhome.html">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">我 的</span>
+			</a>
+		</nav>
+		<script src="../vendor/mui/js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			mui.init({
+				statusBarBackground: '#f7f7f7',
+				swipe: false, //默认为true
+				swipeBack:false //启用右滑关闭功能
+			});
+			var aniShow = "pop-in";
+			var menu = null,
+				showMenu = false;
+			var isInTransition = false;
+			var _self;
+			//只有ios支持的功能需要在Android平台隐藏；
+			if(mui.os.android) {
+				var list = document.querySelectorAll('.ios-only');
+				if(list) {
+					for(var i = 0; i < list.length; i++) {
+						list[i].style.display = 'none';
+					}
+				}
+				//Android平台暂时使用slide-in-right动画
+				if(parseFloat(mui.os.version) < 4.4) {
+					aniShow = "slide-in-right";
+				}
+			}
+			//初始化，并预加载webview模式的选项卡			
+			function preload() {
 
-		<!--	<button id="../pages/workOrder/new_app_scrapInfoTelephone.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '报废信息查询')">报废信息查询</button>-->
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/workOrder/new_app_unqualifiedMaterialReturn.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '物料红冲登记')">物料红冲登记</button>
-			<!--</div>
- 
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/workOrder/app_grantMaterialManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '物料发放管理')">物料发放管理</button>
-			<!--</div>
-			<div id="div_4" class="btn-block">--> 
-			<button id="../pages/workOrder/app_solidificationRecordManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '固化室管理' )">固化室管理</button>
-			<button id="../pages/workOrder/pda_solidificationRecordManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, 'PDA固化室' )">PDA固化室</button>
-			<button id="../pages/workOrder/app_plasticUsedRecord.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '底壳扫码' )">底壳扫码</button>
-	
-			<button id="../pages/dashboard/app_queryDailyProduction.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '生产信息查询' )">生产信息查询</button>
+				var menu_style = {
+					left: "-70%",
+					width: '70%',
+					popGesture: "none",
+					render:"always"
+				};
+
+				if(mui.os.ios) {
+					menu_style.zindex = -1;
+				}
+
+			}
 			
-				 
-			<!--</div>-->
-			<!--<div id="div_4" class="btn-block">
-				<button id="../pages/chargePackManage/app_batteryGearMark.html" type="button" style="display: none;" class="btn_radius" onclick="clicked(this.id, '电池档位标记')">电池档位标记</button>
-			</div>-->
-			<!--<div id="div_4" class="btn-block">-->
-			<button id="../pages/chargePackManage/app_chargingRackRecord.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '充电流程管理')">充电流程管理</button>
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/chargePackManage/app_tidyBatteryRecord.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick="clicked(this.id, '整理包装管理')">整理包装管理</button>
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button id="../pages/safetyAndEPManage/app_hiddenDangerManage.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '安全隐患排查' )">安全隐患排查</button>
-			<button id="../pages/contentManage/app_publishIdea.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '心声社区' )">心声社区</button>
+			
+			/**
+			 * 重写关闭方法
+			 */
+			//首次按下back按键的时间
+			var __back__first = null;
+			mui.back = function () {
+			var wobj = plus.webview.currentWebview();
+			var parent = wobj.parent();
+				wobj.canBack(function(e) {
+					//by chb 暂时注释，在碰到类似popover之类的锚点的时候，需多次点击才能返回；
+						//fixed by fxy 此处不应该用opener判断，因为用户有可能自己close掉当前窗口的opener。这样的话。opener就为空了，导致不能执行close
+						if (wobj.id === plus.runtime.appid) { //首页
+							//首页不存在opener的情况下，后退实际上应该是退出应用；
+							//首次按键，提示‘再按一次退出应用’
+							if (!mui.__back__first) {
+								mui.__back__first = new Date().getTime();
+								mui.toast('再按一次退出应用');
+								setTimeout(function() {
+									mui.__back__first = null;
+								}, 1500);
+							} else {
+								if (new Date().getTime() - mui.__back__first < 2000) {
+									plus.runtime.quit();
+								}
+							}
+						} else { //其他页面，
+							if (wobj.preload) {
+								wobj.hide("auto");
+							} else {
+								//关闭页面时，需要将其打开的所有子页面全部关闭；
+								mui.closeAll(wobj);
+							}
+						}
+				});
+			}  
+			
+			
+			mui.plusReady(function() {
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				plus.navigator.closeSplashscreen();
+				plus.navigator.setFullscreen(false);
+				//预加载
+				preload();
+//				绘制顶部图标
+				_self = plus.webview.currentWebview();
+				var titleView = _self.getNavigationbar();
+				var defaultTab = document.getElementById("defaultTab");
+				plus.webview.currentWebview().setStyle({titleNView:{titleText:defaultTab.innerText}});
+				if(!titleView) {
+					titleView = plus.webview.getLaunchWebview().getNavigationbar();
+				}
+				titleView.drawRect("#cccccc", {
+					top: "43px",
+					height:"1px",
+					left: "0px"
+				}); //绘制底部边线
+			});
+			var subpages = ['app_webview_main.html','app_myhome.html'];
+			var subpage_style = {
+				top: '45px',
+				bottom: '51px'
+			};
+			var aniShow = {};
+			
+			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				for (var i = 0; i < 2; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if (i > 0) {
+						sub.hide();
+					}else{
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow,temp);
+					}
+					self.append(sub);
+				}
+			});
+			 //当前激活选项
+			var activeTab = subpages[0];
+			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+				plus.webview.currentWebview().setStyle({titleNView:{titleText:this.querySelector('.mui-tab-label').innerHTML}});
+//				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",300);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				alert('home')
+				var defaultTab = document.getElementById("defaultTab");
+				plus.webview.currentWebview().setStyle({titleNView:{titleText:defaultTab.innerText}});
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
 
-			<!--</div>-->
-			<!--<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryRepairTelephone.html" type="button" style="display: none;" class="btn_radius" onclick="clicked(this.id, '电池报修')">
-					<span class="glyphicon"></span> 电池报修</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryScrapTelephone.html" type="button" style="display: none;" class="btn_radius" onclick="clicked(this.id, '电池报废')">
-					<span class="glyphicon"></span> 电池报废</button>
-			</div>
-			<div id="div_4" class="btn-block">
-				<button id="../pages/semifinishedBattery/new_app_batteryBorrowReturnTelephone.html" type="button" style="display: none;" class="btn_radius" onclick=" clicked(this.id, '电池流动' )">
-					<span class="glyphicon"></span> 电池流动</button>
-			</div>-->
-
-			<!--<div id="div_4" class="btn-block">-->
-			<button id="../pages/rights/new_app_changepassword.html" type="button" style="margin-top: 10px;" class="btn_radius" onclick=" clicked(this.id, '修改密码' )">修改我的密码</button>
-			<!--</div>
-			<div id="div_4" class="btn-block">-->
-			<button type="button" class="btn_radius" style="margin-top: 10px;" onclick="selectedSelfFunction()">设置自选功能</button>
-			<!--</div>-->
-		</div>
-
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="mySelectedMenuModel" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog" style="width:80%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" style="font-size:40px;" data-dismiss="modal">X</button>
-						<h4 class="modal-title" style="font-size:30px;" id="myModalLabel"> 自定义菜单 </h4>
-					</div>
-					<div class="modal-body" id="modal-body" style="padding-left:20px;">
-						<!--	style="font-size:12px"-->
-						<table id="table" style="font-size:30px;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-						</table>
-					</div>
-					<div class="modal-footer">
-						<!--<div class="form-inline row">
-							<div class="form-group">-->
-						<button type="button" align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="saveMyMenu()">保存</button>
-						<button type="button" align="left" style="font-size:40px;margin-top: 10px;" class="btn btn-info" onclick="closeMyMenu()">关闭</button>
-						<!--</div>
-						</div>-->
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
-
-		<audio id='waringAlarm' src="../image/dangerAlarm.wav" controls="controls" style="display: none;">不支持</audio>
-
+		</script>
 	</body>
 
 </html>
