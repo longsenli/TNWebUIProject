@@ -214,11 +214,11 @@ function getProdutionWageDetail() {
 		"title": "产量",
 		"field": "productionNumber"
 	});
-	columnsArray.push({
-
-		"title": "单价",
-		"field": "unitPrice"
-	});
+//	columnsArray.push({
+//
+//		"title": "单价",
+//		"field": "unitPrice"
+//	});
 
 	var urlStr = window.serviceIP + "/api/wage/getProductionWageDetail?staffName=" +
 		document.PlantToLineSelectForm.staffNameSlct.value +

@@ -230,7 +230,7 @@ function getElectricProductionPicture() {
 		series: [{
 				name: "产量",
 				stack: "产量",
-				type: "bar",
+				type: "line",
 				barWidth: realWidth,
 				data: productionNumList,
 				//显示颜色
@@ -251,7 +251,7 @@ function getElectricProductionPicture() {
 			{
 				name: "电量",
 				stack: "电量",
-				type: "bar",
+				type: "line",
 				barWidth: realWidth,
 				data: electricNumList,
 				//显示颜色
@@ -272,7 +272,7 @@ function getElectricProductionPicture() {
 			{
 				name: "每度电产量",
 				stack: "每度电产量",
-				type: "bar",
+				type: "line",
 				barWidth: realWidth,
 				data: perElectricProdList,
 				//显示颜色

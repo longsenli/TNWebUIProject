@@ -302,25 +302,30 @@ function getCXCDetailPicture(type) {
 	// 使用刚指定的配置项和数据显示图表。
 	inventoryInfoChart.setOption(optionInventoryInfoChart);
 
-	setTimeout("initProductionDashboardPicture('QP" + QPNumber + "')", 15000); //60000 * 10	
-	//	if("QP"+QPNumber == type)
-	//	{
-	//		QPNumber = QPNumber +1;
-	//		setTimeout("initProductionDashboardPicture('QP" + QPNumber +"')", 10000);   //60000 * 10	
-	//	}
+	//setTimeout("initProductionDashboardPicture('QP" + QPNumber + "')", 15000); //60000 * 10	
+	if("QP" + QPNumber == type) {
+		QPNumber = QPNumber + 1;
+		setTimeout("initProductionDashboardPicture('QP" + QPNumber + "')", 15000); //60000 * 10	
+	} else {
+		QPNumber = 0;
+	}
 }
 var QPNumber = 0;
 
 function initProductionDashboardPicture(type) {
-	console.log(type + "生产进度");
+
 	if(type) {
 		$("#productionInventoryDashboardShow").hide();
 		$("#wageInfoArea").hide();
 	}
 	$("#productionDashboardShow").show();
 
-	$("#productionInventoryDashboardShow").hide();
-	setTimeout("getProdutionWageDetail('QP" + QPNumber + "')", 15000); //60000 * 10	
+	if("QP" + QPNumber == type) {
+		QPNumber = QPNumber + 1;
+		setTimeout("getProdutionWageDetail('QP" + QPNumber + "')", 15000); //60000 * 10	
+	} else {
+		QPNumber = 0;
+	}
 
 	var plantProductionDashboardData;
 	var realProductionDashboardData;
@@ -948,7 +953,6 @@ function getProdutionWageDetail(type) {
 	if(type) {
 		$("#productionInventoryDashboardShow").hide();
 		$("#productionDashboardShow").hide();
-
 	}
 	$("#wageInfoArea").show();
 
@@ -989,11 +993,11 @@ function getProdutionWageDetail(type) {
 		"title": "产量",
 		"field": "productionNumber"
 	});
-	columnsArray.push({
-
-		"title": "单价",
-		"field": "unitPrice"
-	});
+	//	columnsArray.push({
+	//
+	//		"title": "单价",
+	//		"field": "unitPrice"
+	//	});
 
 	var urlStr = window.serviceIP + "/api/wage/getProductionWageDetail?staffName=-1" +
 		"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value +
@@ -1034,8 +1038,12 @@ function getProdutionWageDetail(type) {
 					columns: columnsArray
 				});
 
-				setTimeout("showDetailRepeat(2)", 15000);
-
+				if("QP" + QPNumber == type) {
+					QPNumber = QPNumber + 1;
+					setTimeout("showDetailRepeat(2)", 15000); //60000 * 10	
+				} else {
+					QPNumber = 0;
+				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -1053,7 +1061,10 @@ function showDetailRepeat(showType) {
 
 	$('#table').bootstrapTable('selectPage', showType);
 	if((showType + 1) > $(table).bootstrapTable("getOptions").totalPages) {
-		setTimeout("getCXCDetailPicture('QP" + QPNumber + "')", 5000); //60000 * 10	
+
+		QPNumber = QPNumber + 1;
+		setTimeout("getCXCDetailPicture('QP" + QPNumber + "')", 10000); //60000 * 10	
+
 	} else {
 		setTimeout("showDetailRepeat(" + (showType + 1) + ")", 15000);
 	}
