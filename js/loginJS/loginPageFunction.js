@@ -90,7 +90,7 @@ function initUserInfo() {
 			//创建元素Li
 			var li = document.createElement("li");
 			//向li中添加内容
-			li.innerHTML = "<li id='" + userList[i] + "' onclick='userSelected()' style='font-size:40px'>" + userList[i] +"  &nbsp; &nbsp; "+
+			li.innerHTML = "<li id='" + userList[i] + "' onclick='userSelected()' style='font-size:25px'>" + userList[i] +"  &nbsp; &nbsp; "+
 				'<span id = "' + userList[i] + '" class="glyphicon glyphicon-erase" onclick="deleteUserInfo()" style="width:10%;height: 20px;display: inline;"  aria-hidden="true"></span>' + "</li>";
 
 			//向ul追加元素li
