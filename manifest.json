@@ -2580,7 +2580,9 @@
 					"pages/chargePackManage/app_chargingRackRecord.html",
 					"pages/app_selectedSelfFunction.html",
 					"pages/workOrder/new_app_onlineMaterialRecord.html",
-					"pages/dashboard/app_queryDailyProduction.html"
+					"pages/dashboard/app_queryDailyProduction.html",
+					"pages/workOrder/app_workOrderUseMaterial.html",
+					"pages/workOrder/app_finishWorkOrder.html"
 				],
 				"priority": 0
 			}
