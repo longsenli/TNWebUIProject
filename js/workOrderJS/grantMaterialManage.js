@@ -533,6 +533,15 @@ function addOrderIDToBatchTable(orderID, type) {
 		innitOrderIDTable();
 	}
 
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(tableData.length > 0) {
+		if(tableData[0].status) {
+			if(tableData[0].status.length > 0) {
+				innitOrderIDTable();
+			}
+		}
+	}
+
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
 	}
@@ -562,7 +571,11 @@ function addOrderIDToBatchTable(orderID, type) {
 			scanQR('5');
 		}, 2000);
 	}
-
+	if($('#autoGrantMaterialCheck').is(':checked'))
+	{
+		grantMaterialByBatch(1);
+	}
+	
 }
 
 function grantMaterialByBatch(grantType) {
