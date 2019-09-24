@@ -428,6 +428,10 @@ function finishSubOrderByQR(qrCode, orderType) {
 				}
 				$('#materialTable').bootstrapTable('destroy');
 				$('#usableMaterialTable').bootstrapTable('destroy');
+
+				if($('#autoFinishOrderCheck').is(':checked')) {
+					FinishSubOrder();
+				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -1385,6 +1389,9 @@ function getMaterialRecordBySuborderID(recordID) {
 					pagination: true,
 					columns: columnsArray
 				});
+				if($('#autoGainMaterialCheck').is(':checked')) {
+					gainMaterialRecord();
+				}
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
