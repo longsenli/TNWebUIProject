@@ -25,7 +25,46 @@
 		<!--Nifty Stylesheet [ REQUIRED ]-->
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
+	<style>
+		    .alert {
+    	display: none;
+    	position: fixed;
+    	top: 70%;
+    	left: 50%;
+    	min-width: 300px;
+    	max-width: 600px;
+    	transform: translate(-50%,-50%);
+    	z-index: 99999;
+    	text-align: center;
+    	padding: 15px;
+    	border-radius: 3px;
+    }
+    
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+    
+    .alert-info {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+    
+    .alert-warning {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
+    
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
 
+	</style>
 	<body style="padding-left:20px;padding-top:5px">
 
 		<script type="text/javascript">
@@ -62,7 +101,7 @@
 			//				window.location.href = "login.html";
 			//			}
 			$(function() {
-
+				// $('<div>').appendTo('body').addClass('alert alert-success').html('发料成功').show().delay(1500).fadeOut();
 				var today = new Date();
 				if(today.getHours() < 7) {
 					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
@@ -83,6 +122,7 @@
 
 				grantMaterialPlantSlctFun("1");
 			});
+			
 			$(function() {
 				document.addEventListener('plusready', function() {
 

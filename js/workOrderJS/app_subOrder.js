@@ -528,7 +528,8 @@ function FinishSubOrder() {
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
-				alert('保存成功! ' + data.message);
+				// alert('保存成功! ' + data.message);
+				$('<div>').appendTo('body').addClass('alert alert-success').html('保存成功! ' + data.message).show().delay(1500).fadeOut();
 				if(window.windowRoleID.CZG == localStorage.roleID) {
 					getSelfProductionRecord();
 				} else {
@@ -1062,7 +1063,8 @@ function gainMaterialRecord() {
 				//getUsableMaterialFun();
 				SelectMaterialRecord();
 				$('#usableMaterialTable').bootstrapTable('destroy');
-				alert("投料成功！");
+				// alert("投料成功！");
+				$('<div>').appendTo('body').addClass('alert alert-success').html('投料成功').show().delay(1500).fadeOut();
 			} else {
 				alert("投料失败！" + dataRes.message);
 			}
@@ -1269,7 +1271,8 @@ function gainMaterialByQR(recordID) {
 			if(dataRes.status == 1) { 
 				//getUsableMaterialFun();
 				SelectMaterialRecord();
-				alert("领取成功！");
+				// alert("领取成功！");
+				$('<div>').appendTo('body').addClass('alert alert-success').html('领取成功').show().delay(1500).fadeOut();
 			} else {
 				alert("领取失败！" + dataRes.message);
 			}
@@ -1448,7 +1451,8 @@ function gainPartMaterialRecord() {
 				SelectMaterialRecord();
 				$('#usableMaterialTable').bootstrapTable('destroy')
 				$('#changeGainProductionModal').modal('hide');
-				alert("投料成功！");
+				// alert("投料成功！");
+				$('<div>').appendTo('body').addClass('alert alert-success').html('投料成功').show().delay(1500).fadeOut();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
