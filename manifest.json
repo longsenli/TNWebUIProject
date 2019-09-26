@@ -2590,6 +2590,13 @@
 					"pages/contentManage/app_publishIdea.html"
 				],
 				"priority": 0
+			},
+			"pages/app_myhome.html": {
+				"resources": [],
+				"refer": [
+					"pages/app_myhome.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
