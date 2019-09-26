@@ -420,7 +420,7 @@ function scanQR(grantType) {
 	openBarcode();
 	accept_webName = grantType;
 	if(grantType == '5') {
-		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 	}
@@ -593,7 +593,7 @@ columnsArray.push({
 
 function addOrderIDToBatchTable(orderID) {
 
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		innitOrderIDTable();
 	}
 
@@ -627,8 +627,8 @@ function addOrderIDToBatchTable(orderID) {
 }
 
 function addSolidificationRecordManageByBatch() {
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3 && $("#table").bootstrapTable('getVisibleColumns').length != 4) {
-		alert("请先添加工单号再发料!")
+	if( $("#table").bootstrapTable('getVisibleColumns').length != 4) {
+		alert("请先扫码!")
 		return;
 	}
 
@@ -718,7 +718,7 @@ function onTextareaKeyDown() {
 			return;
 		}
 
-		if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+		if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 			innitOrderIDTable();
 		}
 
