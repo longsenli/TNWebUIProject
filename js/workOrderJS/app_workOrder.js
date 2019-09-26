@@ -1,5 +1,5 @@
-//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
+//获取全局token等信息，放入变量localStorage, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
+//var localStorage = JSON.parse(localStorage.getItem('localStorage'));
 
 function workOrderIndustrialPlantSlctFun(flag) {
 	$.ajax({
@@ -24,10 +24,10 @@ function workOrderIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
+				if(localStorage.plantID != null && localStorage.plantID != 'undefined' && localStorage.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.plantID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.plantID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -74,10 +74,10 @@ function workOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
+				if(localStorage.processID != null && localStorage.processID != 'undefined' && localStorage.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.processID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.processID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -134,10 +134,10 @@ function workOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('render');   
 				$('#productionLineSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.lineID != null && $Global_UserLogin_Info.lineID != 'undefined' && $Global_UserLogin_Info.lineID.toString().length > 0) {
+				if(localStorage.lineID != null && localStorage.lineID != 'undefined' && localStorage.lineID.toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.lineID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.lineID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 

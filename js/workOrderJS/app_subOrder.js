@@ -84,10 +84,10 @@ function subOrderProductionProcessSlctFun() {
 					$('#productionProcessSlct').selectpicker('render'); 
 
 				}
-
-				setTimeout(function() {
-					subOrderProductionLineSlctFun();
-				}, 100);
+				subOrderProductionLineSlctFun();
+				//				setTimeout(function() {
+				//					subOrderProductionLineSlctFun();
+				//				}, 100);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -175,10 +175,10 @@ function subOrderProductionLineSlctFun() {
 					$('#productionLineSlct').selectpicker('render'); 
 
 				}
-
-				setTimeout(function() {
-					lineWorkOrderSlct();
-				}, 100);
+				lineWorkOrderSlct();
+				//				setTimeout(function() {
+				//					lineWorkOrderSlct();
+				//				}, 100);
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -289,10 +289,10 @@ function lineWorkOrderSlct() {
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
 				// $('#workOrderSlct').selectpicker('mobile');
-				setTimeout(function() {
-					SelectWorkOrderFun();
-				}, 100);
-
+				//				setTimeout(function() {
+				//					SelectWorkOrderFun();
+				//				}, 100);
+				SelectWorkOrderFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
