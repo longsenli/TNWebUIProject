@@ -9,6 +9,16 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../vendor/mui/css/mui.min.css">
+		<script src="../vendor/iconfont/iconfont.js"></script>
+			<style>
+			.icon {
+			  width: 1em;
+			  height: 1em;
+			  vertical-align: -0.15em;
+			  fill: currentColor;
+			  overflow: hidden; 
+			}
+			</style>
 		<style>
 			html,
 			body {
@@ -21,11 +31,22 @@
 		<!--底部导航-->
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="app_webview_main.html">
-				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-icon">
+					<svg class="icon" aria-hidden="true">
+						  <use xlink:href="#icon-home1"></use>
+						</svg>
+				</span>
 				<span class="mui-tab-label">首 页</span>
 			</a>
+			
+			
+			
 			<a class="mui-tab-item" href="app_myhome.html">
-				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-icon">
+					<svg class="icon" aria-hidden="true">
+						  <use xlink:href="#icon-wode"></use>
+						</svg>
+				</span>
 				<span class="mui-tab-label">我 的</span>
 			</a>
 		</nav>
