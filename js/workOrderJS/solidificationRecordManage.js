@@ -547,6 +547,15 @@ function selectByQuery(roomID, StepID) {
 function innitOrderIDTable(models) {
 	var columnsArray = [];
 
+columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});
+	
 	columnsArray.push({
 		"title": "工单号",
 		"field": "orderID"
@@ -618,7 +627,7 @@ function addOrderIDToBatchTable(orderID) {
 }
 
 function addSolidificationRecordManageByBatch() {
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+	if($("#table").bootstrapTable('getVisibleColumns').length != 3 && $("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		alert("请先添加工单号再发料!")
 		return;
 	}
@@ -628,7 +637,7 @@ function addSolidificationRecordManageByBatch() {
 		return;
 	}
 
-	var tableData = $("#table").bootstrapTable('getData');
+	var tableData = $("#table").bootstrapTable('getAllSelections');
 	if(tableData.length < 1) {
 		alert("请至少输入一个工单号");
 		return;
@@ -783,4 +792,69 @@ function changeAllSolidificationRoomStatusAuto() {
 		}
 	});
 
+}
+
+
+function uninputSolidifyRoom()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});
+	columnsArray.push({
+		"title": "工单号",
+		"field": "orderID"
+	});
+	columnsArray.push({
+		"title": "状态",
+		"field": "status"
+	});
+	columnsArray.push({
+		"title": "返回消息",
+		"field": "returnMessage"
+	});
+	var urlStr = window.serviceIP + "/api/solidifyrecord/uninputSolidifyRoom?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 50,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					showToggle: true,
+					showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
 }

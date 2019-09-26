@@ -514,7 +514,14 @@ function selectByQuery(roomID, StepID) {
 
 function innitOrderIDTable(models) {
 	var columnsArray = [];
-
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});  
 	columnsArray.push({
 		"title": "工单号",
 		"field": "orderID"
@@ -552,7 +559,7 @@ function innitOrderIDTable(models) {
 
 function addOrderIDToBatchTable(orderID,type) {
 
-	if($("#table").bootstrapTable('getVisibleColumns').length != 3) {
+	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		innitOrderIDTable();
 	}
 
@@ -607,7 +614,7 @@ function addSolidificationRecordManageByBatch() {
 		return;
 	}
 
-	var tableData = $("#table").bootstrapTable('getData');
+	var tableData = $("#table").bootstrapTable('getAllSelections');
 	if(tableData.length < 1) {
 		//alert("请至少输入一个工单号");
 		return;

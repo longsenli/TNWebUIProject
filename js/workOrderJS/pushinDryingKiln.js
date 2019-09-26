@@ -435,7 +435,7 @@ function pushinDryingKilnByBatch() {
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
-			}[]
+			}
 		},
 		error: function(jqXHR, exception) {
 			var msg = '';
