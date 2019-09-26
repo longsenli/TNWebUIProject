@@ -64,7 +64,7 @@ function solidificationRoomInfoSlctFun() {
 		success: function(dataRes) {
 
 			$("#solidificationRoomInfoSlct").find('option').remove();
-		
+
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
@@ -496,7 +496,7 @@ function recognitionQR(webName, qrCode) {
 	if(webName == '1')
 		selectByQuery(qrCode.split("###")[0], qrCode.split("###")[1]);
 	if(webName == '5')
-		addOrderIDToBatchTable(qrCode,"SJ");
+		addOrderIDToBatchTable(qrCode, "SJ");
 }
 
 function selectByQuery(roomID, StepID) {
@@ -521,7 +521,7 @@ function innitOrderIDTable(models) {
 				checked: true //设置选中
 			};
 		}
-	});  
+	});
 	columnsArray.push({
 		"title": "工单号",
 		"field": "orderID"
@@ -557,7 +557,7 @@ function innitOrderIDTable(models) {
 	});
 }
 
-function addOrderIDToBatchTable(orderID,type) {
+function addOrderIDToBatchTable(orderID, type) {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		innitOrderIDTable();
@@ -587,19 +587,15 @@ function addOrderIDToBatchTable(orderID,type) {
 	}
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
-	if(type == "SJ")
-	{
+	if(type == "SJ") {
 		setTimeout(function() {
-		scanQR('5');
-	}, 2000);
-	}
-	else
-	{
+			scanQR('5');
+		}, 2000);
+	} else {
 		addSolidificationRecordManageByBatch();
 	}
-	
-}
 
+}
 
 function addSolidificationRecordManageByBatch() {
 
@@ -689,7 +685,7 @@ function addSolidificationRecordManageByBatch() {
 }
 
 function onTextareaKeyDown() {
-
+	return;
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 		event.preventDefault(); //禁止默认事件（默认是换行） 
 		var orderID = $('#orderIDByBatch').val().trim();
@@ -759,28 +755,27 @@ function onTextareaKeyDown() {
 }
 var testNumber = 0;
 
-function hideInputKey()
-{
+function hideInputKey() {
 	//console.log("2343") 
 	//document.getElementById("orderIDByBatch").readOnly=true;
 	//document.getElementById("orderIDByBatch").readOnly=false;
 	//console.log("2343") 
-//document.activeElement.blur();//屏蔽默认键盘弹出； 
-//console.log(document.getElementById("orderIDByBatch").type) 
-//document.getElementById("orderIDByBatch").type="button";
-//document.getElementById("orderIDByBatch").type="text";
-//document.getElementById('orderIDByBatch').focus();
+	//document.activeElement.blur();//屏蔽默认键盘弹出； 
+	//console.log(document.getElementById("orderIDByBatch").type) 
+	//document.getElementById("orderIDByBatch").type="button";
+	//document.getElementById("orderIDByBatch").type="text";
+	//document.getElementById('orderIDByBatch').focus();
 }
 
-function selectInput(nowNumber) {	
-//	//console.log(nowNumber)
-//	document.getElementById('orderIDByBatch').focus();
-//	 //document.activeElement.blur();
-//	if(testNumber == nowNumber) {
-//		setTimeout(function() { 
-//			selectInput(++testNumber);
-//		}, 5000);
-//	}
+function selectInput(nowNumber) {
+	//	//console.log(nowNumber)
+	//	document.getElementById('orderIDByBatch').focus();
+	//	 //document.activeElement.blur();
+	//	if(testNumber == nowNumber) {
+	//		setTimeout(function() { 
+	//			selectInput(++testNumber);
+	//		}, 5000);
+	//	}
 }
 
 function changeAllSolidificationRoomStatusAuto() {

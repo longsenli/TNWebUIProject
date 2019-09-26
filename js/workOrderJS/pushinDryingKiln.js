@@ -303,7 +303,7 @@ function innitOrderIDTable(models) {
 				checked: true //设置选中
 			};
 		}
-	});  
+	});
 	columnsArray.push({
 		"title": "工单号",
 		"field": "orderID"
@@ -342,10 +342,9 @@ function innitOrderIDTable(models) {
 function addOrderIDToBatchTable(orderID) {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
-		
+
 		innitOrderIDTable();
 	}
-
 
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
@@ -380,22 +379,20 @@ function pushinDryingKilnByBatch() {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		alert("请先添加工单号再操作!")
-		return; 
+		return;
 	}
 
 	if(!window.changeConfirmDlg("确认将板栅放入" + $("#dryingKilnEquipmentSlct").find("option:selected").text() + "?"))
 		return;
 
 	var tableData = $("#table").bootstrapTable('getAllSelections');
-	if(!tableData || tableData.length  <1)
-	{
+	if(!tableData || tableData.length < 1) {
 		alert("请先添加工单号再操作!")
-		return; 
+		return;
 	}
-	if(tableData.length > 30)
-	{
+	if(tableData.length > 30) {
 		alert("一次最多选择30个,请确认!,当前选择个数为:" + tableData.length)
-		return; 
+		return;
 	}
 	var orderIDList = "";
 	for(var i = 0; i < tableData.length; i++) {
@@ -410,7 +407,7 @@ function pushinDryingKilnByBatch() {
 		alert("干燥窑为负窑,工单含有正板栅,请确认后更换窑!")
 		return;
 	}
-	
+
 	var formData = new FormData();
 	formData.append("orderIDList", orderIDList);
 	formData.append("name", localStorage.username);
@@ -507,7 +504,7 @@ function pushOutDryingKilnjzsuborder() {
 };
 
 function onTextareaKeyDown() {
-
+	return;
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 		event.preventDefault(); //禁止默认事件（默认是换行） 
 		var orderID = $("#orderIDByBatch").val();
