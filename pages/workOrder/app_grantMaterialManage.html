@@ -26,45 +26,45 @@
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
 	<style>
-		    .alert {
-    	display: none;
-    	position: fixed;
-    	top: 70%;
-    	left: 50%;
-    	min-width: 300px;
-    	max-width: 600px;
-    	transform: translate(-50%,-50%);
-    	z-index: 99999;
-    	text-align: center;
-    	padding: 15px;
-    	border-radius: 3px;
-    }
-    
-    .alert-success {
-        color: #3c763d;
-        background-color: #dff0d8;
-        border-color: #d6e9c6;
-    }
-    
-    .alert-info {
-        color: #31708f;
-        background-color: #d9edf7;
-        border-color: #bce8f1;
-    }
-    
-    .alert-warning {
-        color: #8a6d3b;
-        background-color: #fcf8e3;
-        border-color: #faebcc;
-    }
-    
-    .alert-danger {
-        color: #a94442;
-        background-color: #f2dede;
-        border-color: #ebccd1;
-    }
-
+		.alert {
+			display: none;
+			position: fixed;
+			top: 70%;
+			left: 50%;
+			min-width: 300px;
+			max-width: 600px;
+			transform: translate(-50%, -50%);
+			z-index: 99999;
+			text-align: center;
+			padding: 15px;
+			border-radius: 3px;
+		}
+		
+		.alert-success {
+			color: #3c763d;
+			background-color: #dff0d8;
+			border-color: #d6e9c6;
+		}
+		
+		.alert-info {
+			color: #31708f;
+			background-color: #d9edf7;
+			border-color: #bce8f1;
+		}
+		
+		.alert-warning {
+			color: #8a6d3b;
+			background-color: #fcf8e3;
+			border-color: #faebcc;
+		}
+		
+		.alert-danger {
+			color: #a94442;
+			background-color: #f2dede;
+			border-color: #ebccd1;
+		}
 	</style>
+
 	<body style="padding-left:20px;padding-top:5px">
 
 		<script type="text/javascript">
@@ -122,7 +122,7 @@
 
 				grantMaterialPlantSlctFun("1");
 			});
-			
+
 			$(function() {
 				document.addEventListener('plusready', function() {
 
@@ -201,15 +201,22 @@
 													<input type="datetime-local" id="startTime" name="startTime" />
 													<label>-</label>
 													<input type="datetime-local" id="endTime" name="endTime" />
-												</div>
+												</div> 
 
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="grantMaterialSelect()">-->
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="grantMaterialDetail()">发料详情</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="notGrantMaterialDetail()">未发查询</button>
-
+												<br />
+												<br />
+												<div class="form-group">
+													<label id="industrialPlantLabel"> 收料： </label>
+													<select class="selectpicker" id="acceptIndustrialPlantSlct" style="width:100px;" name="acceptIndustrialPlantSlct">
+													</select>
+												</div>
 												<!--<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scanQR('1')">单个发料</button>-->
 
-												<input type="text"  onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
+												<!--<input type="text"  onkeydown="onTextareaKeyDown()" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">-->
+												<input type="text" class="form-control" id="orderIDByBatch" style="margin-top: 10px;" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加工单</button>
 
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
@@ -218,7 +225,7 @@
 												<button type="button" id="grantMaterialByBatch2" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('2')">预发料</button>
 												<!--<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="scanQR('2')">单个预发料</button>-->
 												<button type="button" id="grantMaterialByBatch3" class="btn btn-warning" style="margin-top: 10px;" onclick="grantMaterialByBatch('3')">取消发料</button>
-											<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="autoGrantMaterialCheck"   checked type="checkbox">一扫即发</label>
+												<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="autoGrantMaterialCheck"   checked type="checkbox">一扫即发</label>
 
 											</div>
 											<!--<br />-->

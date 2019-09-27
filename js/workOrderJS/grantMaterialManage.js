@@ -12,13 +12,18 @@ function grantMaterialPlantSlctFun(flag) {
 		success: function(dataRes) {
 
 			$("#industrialPlantSlct").find('option').remove();
+			$("#acceptIndustrialPlantSlct").find('option').remove();
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#industrialPlantSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#acceptIndustrialPlantSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
-				$('#industrialPlantSlct').selectpicker('render');   
+				$('#industrialPlantSlct').selectpicker('render');  
+
+				$('#acceptIndustrialPlantSlct').selectpicker('refresh');
+				$('#acceptIndustrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
 				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
@@ -33,7 +38,9 @@ function grantMaterialPlantSlctFun(flag) {
 					}
 					$('#industrialPlantSlct').selectpicker('refresh');
 					$('#industrialPlantSlct').selectpicker('render'); 
-
+					$("#acceptIndustrialPlantSlct ").val($("#industrialPlantSlct ").val());
+					$('#acceptIndustrialPlantSlct').selectpicker('refresh');
+					$('#acceptIndustrialPlantSlct').selectpicker('render'); 
 				}
 
 				if(flag = "1") {
@@ -272,7 +279,7 @@ function grantMaterialByInputID() {
 			if(dataRes.status == 1) { 
 				grantMaterialDetail();
 				$('<div>').appendTo('body').addClass('alert alert-success').html('发料成功').show().delay(1500).fadeOut();
-				
+
 			} else {
 				alert("发料失败！" + dataRes.message);
 			}
@@ -573,11 +580,10 @@ function addOrderIDToBatchTable(orderID, type) {
 			scanQR('5');
 		}, 2000);
 	}
-	if($('#autoGrantMaterialCheck').is(':checked'))
-	{
+	if($('#autoGrantMaterialCheck').is(':checked')) {
 		grantMaterialByBatch(1);
 	}
-	
+
 }
 
 function grantMaterialByBatch(grantType) {
@@ -606,6 +612,7 @@ function grantMaterialByBatch(grantType) {
 	formData.append("grantType", grantType);
 	formData.append("operator", localStorage.username);
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+	formData.append("acceptPlantID", $("#acceptIndustrialPlantSlct").val());
 
 	$("#grantMaterialByBatch1").attr("disabled", true);
 	$("#grantMaterialByBatch2").attr("disabled", true);
