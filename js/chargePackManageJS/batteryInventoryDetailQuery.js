@@ -22,27 +22,26 @@ function batteryInventoryDetailQueryIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
-//				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
-//					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
-//					for(var j = 0; j < numbers.length; j++) {
-//						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
-//							$(numbers[j]).attr("selected", "selected");
-//							$('#industrialPlantSlct').selectpicker('hide');
-//							$("#industrialPlantLabel").css("display", "none");
-//						}
-//					}
-//					$('#industrialPlantSlct').selectpicker('refresh');
-//					$('#industrialPlantSlct').selectpicker('render'); 
-//
-//				}
-				
+				//				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
+				//					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
+				//					for(var j = 0; j < numbers.length; j++) {
+				//						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
+				//							$(numbers[j]).attr("selected", "selected");
+				//							$('#industrialPlantSlct').selectpicker('hide');
+				//							$("#industrialPlantLabel").css("display", "none");
+				//						}
+				//					}
+				//					$('#industrialPlantSlct').selectpicker('refresh');
+				//					$('#industrialPlantSlct').selectpicker('render'); 
+				//
+				//				}
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
 };
-
 
 function selectInventoryRecord() {
 
@@ -63,14 +62,14 @@ function selectInventoryRecord() {
 		"title": "库存数量",
 		"field": "currenttotalnum"
 	});
-	
+
 	columnsArray.push({
 		"title": "整理台电池",
 		"field": "ontidyingnum"
 	});
 
 	columnsArray.push({
-		"title": "返充电池",
+		"title": "待返充电池",
 		"field": "backchargenum"
 	});
 	columnsArray.push({
@@ -86,41 +85,26 @@ function selectInventoryRecord() {
 		"field": "pipenewnum"
 	});
 	columnsArray.push({
-		"title": "打堆包装",
+		"title": "包装数量",
 		"field": "packagenewnum"
+	});
+	columnsArray.push({
+		"title": "送维数量",
+		"field": "repairnewnum"
+	});
+	columnsArray.push({
+		"title": "返充数量",
+		"field": "putonnum"
+	});
+	columnsArray.push({
+		"title": "备注",
+		"field": "remark"
 	});
 
 	columnsArray.push({
 		"title": "盘点时间",
 		"field": "checktime"
 	});
-
-//	columnsArray.push({
-//		"title": "报修详情",
-//		"field": "repaircombine"
-//	});
-//	columnsArray.push({
-//		"title": "下架人员",
-//		"field": "pulloffstaffname"
-//	});
-//	columnsArray.push({
-//		"title": "下架日期",
-//		"field": "pulloffdate",
-//		formatter: function(value, row, index) {
-//			if(value) {
-//				
-//				if(value > '2019')
-//				return value.toString().split(" ")[0];
-//				else 
-//				return '-';
-//			}
-//
-//		}
-//	});
-//	columnsArray.push({
-//		"title": "备注",
-//		"field": "remark"
-//	});
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -213,34 +197,7 @@ var img = null;
 var blist = [];
 
 function scaned(t, r, f) {
-	// alert('t='+t+'r='+r+'f='+f);
-	//获取扫描二维码信息
 	recognitionQR(accept_webName, r);
-	// 					var d = new Date();
-	// 					var h=d.getHours(),m=d.getMinutes(),s=d.getSeconds(),ms=d.getMilliseconds();
-	// 					if(h < 10){ h='0'+h; }
-	// 					if(m < 10){ m='0'+m; }
-	// 					if(s < 10){ s='0'+s; }
-	// 					if(ms < 10){ ms='00'+ms; }
-	// 					else if(ms < 100){ ms='0'+ms; }
-	// 					var ts = '['+h+':'+m+':'+s+'.'+ms+']';
-	// 					var li=null,hl = document.getElementById('history');
-	// 					if(blist.length > 0){
-	// 						li = document.createElement('li');
-	// 						li.className = 'ditem';
-	// 						hl.insertBefore(li, hl.childNodes[0]);
-	// 					} else{
-	// 						li = document.getElementById('nohistory');
-	// 					}
-	// 					li.id = blist.length;
-	// 					var html = '['+h+':'+m+':'+s+'.'+ms+']'+'　　'+t+'码<div class="hdata">';
-	// 					html += r;
-	// 					html += '</div>';
-	// 					li.innerHTML = html;
-	// 					li.setAttribute('onclick', 'selected(id)');
-	// 					blist[blist.length] = {type:t,result:r,file:f};
-	// 					update(t, r, f);
-
 }
 
 function selected(id) {
@@ -339,149 +296,40 @@ function recognitionQR(webName, qrCode) {
 function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
-$('#workingkLocationSlct').selectpicker('val',qrCode);
-$('#workingkLocationSlct').selectpicker('refresh');
-		$('#workingkLocationSlct').selectpicker('render'); 
-		getOnRackRecord('onRack');
- //console.log($("#workingkLocationSlct").val())
-		// $('#workingkLocationSlct').selectpicker('render'); 
-//$("#weatherType").selectpicker('deselectAll'); 
-//	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
-//	console.log(qrCode + "  befor " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
-//	for(var i = 0; i < workingkLocationSlct.length; i++) {
-//
-//		//$(workingkLocationSlct[i]).removeAttr("selected");
-//		
-//		if($(workingkLocationSlct[i]).val().toString() == qrCode) {
-//			
-//			$(workingkLocationSlct[i]).attr("selected", "true");
-//			console.log(qrCode + " new  ");
-//			selected = true;
-//			//break;
-//		}
-//	}
-
-//	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
-//	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
-//		$(numbersWorkingkLocationSlct[j]).removeAttr("selected");
-//		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
-//			$(numbersWorkingkLocationSlct[j]).attr("selected", "true");
-//			selected = true;
-//		}
-//	}
-//	if(selected) {
-//console.log(qrCode + "  real " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
-////		$('#worklocation').selectpicker('refresh');
-////		$('#worklocation').selectpicker('render'); 
-//		$('#workingkLocationSlct').selectpicker('refresh');
-//		$('#workingkLocationSlct').selectpicker('render'); 
-//		getOnRackRecord('onRack');
-//	} else {
-//		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
-//	}
-
+	$('#workingkLocationSlct').selectpicker('val', qrCode);
+	$('#workingkLocationSlct').selectpicker('refresh');
+	$('#workingkLocationSlct').selectpicker('render'); 
+	getOnRackRecord('onRack');
 }
-//		<!-- 模态框（Modal） -->
-//		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-//			<div class="modal-dialog" style="width:450px">
-//				<div class="modal-content">
-//					<div class="modal-header">
-//						<button type="button" class="close" data-dismiss="modal">x</button>
-//						<h4 class="modal-title" id="myModalLabel"> 充电架记录 </h4>
-//					</div>
-//					<div class="modal-body" id="modal-body" style="padding-left:20px;">
-//						<form id="batteryInventoryDetailQueryForm">
-//							<input type="text" id="id" name="id" style="display:none" />
-//							<input type="text" id="plantid" name="plantid" style="display:none" />
-//							<input type="text" id="processid" name="processid" style="display:none" />
-//							<input type="text" id="staffid" name="staffid" style="display:none" />
-//							<input type="text" id="materialid" name="materialid" style="display:none" />
-//							<input type="text" id="repairid" name="repairid" style="display:none" />
-//							<input type="text" id="pulloffstaffid" name="pulloffstaffid" style="display:none" />
-//							<input type="text" id="repaircombine" name="repaircombine" style="display:none" />
-//							<input type="text" id="status" name="status" style="display:none" />
-//							<input type="text" id="pulloffstaffname" name="pulloffstaffname" style="display:none" />
-//							<input type="text" id="pulloffdate" name="pulloffdate" style="display:none" />
-//
-//							<!--<label> 产线： </label>-->
-//							<br />
-//							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid">
-//							</select>
-//							<br />
-//							<br />
-//							<!--<label for="name">充电架:</label>
-//							<br />-->
-//							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">
-//							</select>
-//							<br />
-//							<br />
-//							<!--<label for="name">产品型号:</label>
-//							<br />-->
-//							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;">
-//							</select>
-//							<br />
-//							<br />
-//							<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
-//								<option value=1>一等品</option>
-//								<option value=2>二等品</option>
-//								<option value=3>一次返充</option>
-//								<option value=4>二次返充</option>
-//							</select>
-//							<br />
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架时间:</label>
-//								<input type="date" class="form-control" id="putondate" name="putondate">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架人员:</label>
-//								<input type="text" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修原因:</label>
-//								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修人员:</label>
-//								<input type="text" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修时间:</label>
-//								<input type="date" class="form-control" id="repairtime" name="repairtime" onchange="lineWorkOrderModalChange()">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">在架实际数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="realnumber" name="realnumber" placeholder="请输入报修数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">备注:</label>
-//								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
-//							</div>
-//							<br />
-//						</form>
-//					</div>
-//					<div class="modal-footer">
-//						<button type="button" class="btn btn-default" onclick="savebatteryInventoryDetailQueryModel()">保存 </button>
-//						<button type="button" class="btn btn-default" onclick="closebatteryInventoryDetailQueryModel()">关闭 </button>
-//					</div>
-//				</div>
-//				<!-- /.modal-content -->
-//			</div>
-//			<!-- /.modal -->
-//		</div>
+
+function changeRecord()
+{
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	
+	for(var key in row[0]) {
+			
+			if(key == 0) {
+				continue;
+			}
+			
+			$("#inventoryRecordForm" + " #" + key).val(row[0][key]);
+
+			//$("#workOrderManageForm" + " #" + key).attr("value", row[key]);
+		}
+
+		$('#inventoryRecordModal').modal('show');
+}
+function closeModal()
+{
+	$('#inventoryRecordModal').modal('hide');
+}
+function saveInventoryRecord()
+{
+	
+}
