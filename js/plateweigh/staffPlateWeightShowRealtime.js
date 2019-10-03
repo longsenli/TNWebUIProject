@@ -106,7 +106,7 @@ function getStaffWeighShow(showType) {
 	var tmpDate = new Date();
 	$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
 	setTimeout("getStaffWeighShow('" + document.getElementById("refreshID").innerHTML + "')", 60000 * 2);
-	var heightAll = ($(window).height() - $("#productionDashboardShow").offset().top) / document.getElementById("reportCount").value - 50;
+	var heightAll = ($(window).height() - $("#productionDashboardShow").offset().top) / document.getElementById("reportCount").value ;
 	//var widthAll = $(window).width() - $("#productionDashboardShow").offset().left;
 
 	var maxWeighQualifyRange = document.getElementById("weighQualifyRange").value * 1.0;

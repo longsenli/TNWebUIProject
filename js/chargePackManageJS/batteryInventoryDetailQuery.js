@@ -319,8 +319,6 @@ function changeRecord()
 			}
 			
 			$("#inventoryRecordForm" + " #" + key).val(row[0][key]);
-
-			//$("#workOrderManageForm" + " #" + key).attr("value", row[key]);
 		}
 
 		$('#inventoryRecordModal').modal('show');
@@ -331,5 +329,27 @@ function closeModal()
 }
 function saveInventoryRecord()
 {
-	
+	var formMap = window.formToObject($("#inventoryRecordForm"));
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/changeBatteryInventoryRecord",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: $.cookie('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				selectInventoryRecord();
+				alert('保存成功!');
+				closeModal();
+			} else {
+				alert("保存失败！" + data.message);
+			}
+		}
+	});
+
 }

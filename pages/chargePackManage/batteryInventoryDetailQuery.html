@@ -35,14 +35,11 @@
 			$(function() {
 
 				var today = new Date();
-
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
 				//today.setDate(today.getDate() - 1)
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 
 			});
-
-
 
 			$(function() {
 				$("body").delegate('#table tr', 'click', function() {
@@ -53,7 +50,6 @@
 					function() {
 						document.getElementById("inventoryRecordForm").reset();
 					})
-				
 			});
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
