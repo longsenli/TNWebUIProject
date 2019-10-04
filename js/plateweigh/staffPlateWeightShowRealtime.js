@@ -103,22 +103,43 @@ function getStaffWeighShow(showType) {
 		}
 		//console.log("refresh");
 	}
+
 	var tmpDate = new Date();
 	$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
 	setTimeout("getStaffWeighShow('" + document.getElementById("refreshID").innerHTML + "')", 60000 * 2);
-	var heightAll = ($(window).height() - $("#productionDashboardShow").offset().top) / document.getElementById("reportCount").value ;
+	var heightAll = 500;
+	if($("#productionDashboardShow")) {
+		if(($(window).height() - $("#leftContainer1").offset().top) < 800) {
+			heightAll = 800 / document.getElementById("reportCount").value -70;
+
+		} else {
+			//$("#productionDashboardShow").height($(window).height());
+			heightAll = ($(window).height() - $("#report1").offset().top)  / document.getElementById("reportCount").value -70 ;
+		}
+	}
+	$("#leftContainer1").height(heightAll + 60);
+	if(document.getElementById("reportCount").value > 1)
+	{
+		$("#leftContainer2").show();
+		$("#leftContainer2").height(heightAll + 60);
+	}		
+	else
+		$("#leftContainer2").hide();
+	//console.log($("#productionDashboardShow").height() + "==" + heightAll + "==" + $("#leftContainer1").height())
+	//	if($("#productionDashboardShow"))
+	//	($(window).height() - $("#productionDashboardShow").offset().top) / document.getElementById("reportCount").value ;
 	//var widthAll = $(window).width() - $("#productionDashboardShow").offset().left;
 
 	var maxWeighQualifyRange = document.getElementById("weighQualifyRange").value * 1.0;
 	var minWeighQualifyRange = document.getElementById("weighQualifyRange").value * (-1.0);
 	if(document.getElementById("reportCount").value == 1 || infoList.length < 1 || showType) {
 		if(!showType) {
-			$("#report1").height(heightAll);
+			
 			infoList[0] = document.getElementById("plantSelect").value;
 			infoList[1] = document.getElementById("weighQualifyStaff").value;
 			infoList[2] = document.getElementById("weighQualifyMaterialType").value;
 		}
-
+$("#report1").height(heightAll);
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
 		urlAPI += infoList[0] + "&staffName=" + infoList[1] + "&materialName=" + infoList[2];
 		$.ajax({
@@ -164,7 +185,7 @@ function getStaffWeighShow(showType) {
 				var myChart = echarts.init(document.getElementById('report1'));
 				var option = {
 					title: {
-						text: infoList[1] +'称重趋势图'
+						text: infoList[1] + '称重趋势图'
 					},
 					tooltip: {
 						trigger: 'axis'
@@ -191,9 +212,9 @@ function getStaffWeighShow(showType) {
 					//					}
 					//				}],
 					yAxis: {
-						min: parseInt(minNum) - 1,
-						max: parseInt(maxNum) + 1,
-						splitNumber: parseInt((maxNum - minNum) / 5),
+						min: centerValue - 10,
+						max: centerValue + 10,
+						splitNumber: 4,
 						//					axisLine: {
 						//						lineStyle: {
 						//							color: '#dc143c'
@@ -270,17 +291,17 @@ function getStaffWeighShow(showType) {
 			}
 		});
 		if(!showType)
-		return;
+			return;
 	}
-	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType )) {
+	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType)) {
+		$("#report2").height(heightAll);
 		if(!showType) {
-			$("#report2").height(heightAll);
+			
 			infoList[3] = document.getElementById("plantSelect").value;
 			infoList[4] = document.getElementById("weighQualifyStaff").value;
 			infoList[5] = document.getElementById("weighQualifyMaterialType").value;
 		}
-		if(showType && infoList.length < 5)
-		{
+		if(showType && infoList.length < 5) {
 			return;
 		}
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
@@ -328,7 +349,7 @@ function getStaffWeighShow(showType) {
 				var myChart = echarts.init(document.getElementById('report2'));
 				var option = {
 					title: {
-						text: infoList[4] +'称重趋势图'
+						text: infoList[4] + '称重趋势图'
 					},
 					tooltip: {
 						trigger: 'axis'
@@ -352,9 +373,12 @@ function getStaffWeighShow(showType) {
 					//					}
 					//				}],
 					yAxis: {
-						min: parseInt(minNum) - 1,
-						max: parseInt(maxNum) + 1,
-						splitNumber: parseInt((maxNum - minNum) / 5),
+						min: centerValue - 10,
+						max: centerValue + 10,
+						splitNumber: 4,
+						//						min: parseInt(minNum) - 1,
+						//						max: parseInt(maxNum) + 1,
+						//						splitNumber: parseInt((maxNum - minNum) / 5),
 						//					axisLine: {
 						//						lineStyle: {
 						//							color: '#dc143c'
@@ -401,7 +425,7 @@ function getStaffWeighShow(showType) {
 												}
 											}
 										},
-										name: '-'+maxWeighQualifyRange+'克合格线',
+										name: '-' + maxWeighQualifyRange + '克合格线',
 										yAxis: centerValue - maxWeighQualifyRange
 									},
 									{
@@ -412,7 +436,7 @@ function getStaffWeighShow(showType) {
 												}
 											}
 										},
-										name: '+'+maxWeighQualifyRange+'克合格线',
+										name: '+' + maxWeighQualifyRange + '克合格线',
 										yAxis: centerValue + maxWeighQualifyRange
 									},
 									{
@@ -431,6 +455,6 @@ function getStaffWeighShow(showType) {
 			}
 		});
 		if(!showType)
-		return;
+			return;
 	}
 };
