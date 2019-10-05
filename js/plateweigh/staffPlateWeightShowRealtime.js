@@ -97,6 +97,7 @@ function clearPicture() {
 }
 
 function getStaffWeighShow(showType) {
+	var intervalWeigh = 6;
 	if(showType) {
 		if(showType != document.getElementById("refreshID").innerHTML) {
 			return;
@@ -110,20 +111,18 @@ function getStaffWeighShow(showType) {
 	var heightAll = 500;
 	if($("#productionDashboardShow")) {
 		if(($(window).height() - $("#leftContainer1").offset().top) < 800) {
-			heightAll = 800 / document.getElementById("reportCount").value -70;
+			heightAll = 800 / document.getElementById("reportCount").value - 70;
 
 		} else {
 			//$("#productionDashboardShow").height($(window).height());
-			heightAll = ($(window).height() - $("#report1").offset().top)  / document.getElementById("reportCount").value -70 ;
+			heightAll = ($(window).height() - $("#report1").offset().top) / document.getElementById("reportCount").value - 70;
 		}
 	}
 	$("#leftContainer1").height(heightAll + 60);
-	if(document.getElementById("reportCount").value > 1)
-	{
+	if(document.getElementById("reportCount").value > 1) {
 		$("#leftContainer2").show();
 		$("#leftContainer2").height(heightAll + 60);
-	}		
-	else
+	} else
 		$("#leftContainer2").hide();
 	//console.log($("#productionDashboardShow").height() + "==" + heightAll + "==" + $("#leftContainer1").height())
 	//	if($("#productionDashboardShow"))
@@ -134,12 +133,12 @@ function getStaffWeighShow(showType) {
 	var minWeighQualifyRange = document.getElementById("weighQualifyRange").value * (-1.0);
 	if(document.getElementById("reportCount").value == 1 || infoList.length < 1 || showType) {
 		if(!showType) {
-			
+
 			infoList[0] = document.getElementById("plantSelect").value;
 			infoList[1] = document.getElementById("weighQualifyStaff").value;
 			infoList[2] = document.getElementById("weighQualifyMaterialType").value;
 		}
-$("#report1").height(heightAll);
+		$("#report1").height(heightAll);
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
 		urlAPI += infoList[0] + "&staffName=" + infoList[1] + "&materialName=" + infoList[2];
 		$.ajax({
@@ -212,8 +211,8 @@ $("#report1").height(heightAll);
 					//					}
 					//				}],
 					yAxis: {
-						min: centerValue - 10,
-						max: centerValue + 10,
+						min: centerValue - intervalWeigh,
+						max: centerValue + intervalWeigh,
 						splitNumber: 4,
 						//					axisLine: {
 						//						lineStyle: {
@@ -296,7 +295,7 @@ $("#report1").height(heightAll);
 	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType)) {
 		$("#report2").height(heightAll);
 		if(!showType) {
-			
+
 			infoList[3] = document.getElementById("plantSelect").value;
 			infoList[4] = document.getElementById("weighQualifyStaff").value;
 			infoList[5] = document.getElementById("weighQualifyMaterialType").value;
@@ -373,8 +372,8 @@ $("#report1").height(heightAll);
 					//					}
 					//				}],
 					yAxis: {
-						min: centerValue - 10,
-						max: centerValue + 10,
+						min: centerValue - intervalWeigh,
+						max: centerValue + intervalWeigh,
 						splitNumber: 4,
 						//						min: parseInt(minNum) - 1,
 						//						max: parseInt(maxNum) + 1,
