@@ -110,7 +110,7 @@ function subOrderProductionLineSlctFun() {
 
 		$('#subOrderFinishOnlyBTJZ').show();
 
-		if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
+		if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() != "1003") {
 			$("#subOrderFinishBT").hide();
 			$("#subOrderOutDryingBTJZ").hide();
 		}
@@ -758,7 +758,7 @@ function SelectSubOrder() {
 
 				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JZ && window.windowRoleID.CZG == localStorage.roleID) {
 					$('#table').bootstrapTable('destroy');
-					if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() == "1002") {
+					if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() != "1003") {
 						$("#subOrderFinishBT").hide();
 						$("#subOrderOutDryingBTJZ").hide();
 					}
