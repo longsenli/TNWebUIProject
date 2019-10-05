@@ -54,30 +54,38 @@ function initBasicData() {
 		processData: true,
 		success: function(dataRes) {
 
-			$("#weighQualifyStaff").find('option').remove();
-			$("#weighQualifyMaterialType").find('option').remove();
+			//			$("#weighQualifyStaff").find('option').remove();
+			//			$("#weighQualifyMaterialType").find('option').remove();
+			$("#weighBalanceID").find('option').remove();
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				//console.log(models);
 				for (var  i  in  models)  {  
-					if(models[i].type == "2") {
-						$('#weighQualifyStaff').append(("<option value=" + models[i].name.toString() + ">" +
-							models[i].name.toString() + "</option>").toString());
-						continue;
-					}
-					if(models[i].type == "1") {
-						$('#weighQualifyMaterialType').append(("<option value=" + models[i].name.toString() + ">" +
+					//					if(models[i].type == "2") {
+					//						$('#weighQualifyStaff').append(("<option value=" + models[i].name.toString() + ">" +
+					//							models[i].name.toString() + "</option>").toString());
+					//						continue;
+					//					}
+					//					if(models[i].type == "1") {
+					//						$('#weighQualifyMaterialType').append(("<option value=" + models[i].name.toString() + ">" +
+					//							models[i].name.toString() + "</option>").toString());
+					//						continue;
+					//					}
+					if(models[i].type == "3") {
+						$('#weighBalanceID').append(("<option value=" + models[i].name.toString() + ">" +
 							models[i].name.toString() + "</option>").toString());
 						continue;
 					}
 				}
-				$('#weighQualifyMaterialType').selectpicker('refresh');
-				$('#weighQualifyMaterialType').selectpicker('render'); 
+				//				$('#weighQualifyMaterialType').selectpicker('refresh');
+				//				$('#weighQualifyMaterialType').selectpicker('render'); 
+				//
+				//				$('#weighQualifyStaff').selectpicker('refresh');
+				//				$('#weighQualifyStaff').selectpicker('render');   
 
-				$('#weighQualifyStaff').selectpicker('refresh');
-				$('#weighQualifyStaff').selectpicker('render');   
-
+				$('#weighBalanceID').selectpicker('refresh');
+				$('#weighBalanceID').selectpicker('render');  
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -135,12 +143,12 @@ function getStaffWeighShow(showType) {
 		if(!showType) {
 
 			infoList[0] = document.getElementById("plantSelect").value;
-			infoList[1] = document.getElementById("weighQualifyStaff").value;
-			infoList[2] = document.getElementById("weighQualifyMaterialType").value;
+			infoList[1] = document.getElementById("weighBalanceID").value;
+			infoList[2] = "-1";
 		}
 		$("#report1").height(heightAll);
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
-		urlAPI += infoList[0] + "&staffName=" + infoList[1] + "&materialName=" + infoList[2];
+		urlAPI += infoList[0] + "&staffName=" + "-1" + "&materialName=" + "-1" + "&balanceID=" + infoList[1];
 		$.ajax({
 			url: urlAPI,
 			type: "GET",
@@ -295,16 +303,18 @@ function getStaffWeighShow(showType) {
 	if(document.getElementById("reportCount").value > 1 && (infoList.length < 4 || showType)) {
 		$("#report2").height(heightAll);
 		if(!showType) {
-
 			infoList[3] = document.getElementById("plantSelect").value;
-			infoList[4] = document.getElementById("weighQualifyStaff").value;
-			infoList[5] = document.getElementById("weighQualifyMaterialType").value;
+			infoList[4] = document.getElementById("weighBalanceID").value;
+			infoList[5] = "-1";
+			//			infoList[3] = document.getElementById("plantSelect").value;
+			//			infoList[4] = document.getElementById("weighQualifyStaff").value;
+			//			infoList[5] = document.getElementById("weighQualifyMaterialType").value;
 		}
 		if(showType && infoList.length < 5) {
 			return;
 		}
 		var urlAPI = window.serviceIP + "/api/plateweigh/getRealtimeRecord?plantID=";
-		urlAPI += infoList[3] + "&staffName=" + infoList[4] + "&materialName=" + infoList[5];
+		urlAPI += infoList[0] + "&staffName=" + "-1" + "&materialName=" + "-1" + "&balanceID=" + infoList[1];
 		$.ajax({
 			url: urlAPI,
 			type: "GET",
