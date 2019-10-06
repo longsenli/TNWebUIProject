@@ -260,6 +260,9 @@ function lineWorkOrderSlct() {
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
 
+	if(document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS) {
+		dataStr = dateNow.format("yyyyMMdd");
+	}
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
 		type: "GET",
