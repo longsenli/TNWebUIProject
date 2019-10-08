@@ -180,6 +180,7 @@ function chargingRackRecordProductionLineSlctFun() {
 
 				$('#lineid').selectpicker('refresh');
 				$('#lineid').selectpicker('render'); 
+				$('#lineid').selectpicker('hide'); 
 
 								if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
 									var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
