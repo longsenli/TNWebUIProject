@@ -253,18 +253,7 @@ function chargingRackRecordWorkingLocationSlctFun() {
 
 				$('#worklocation').selectpicker('refresh');
 				$('#worklocation').selectpicker('render');  
-				//				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {
-				//					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
-				//					for(var j = 0; j < numbers.length; j++) {
-				//						if($(numbers[j]).val().toString() == localStorage.getItem('workingkLocation')) {
-				//							$(numbers[j]).attr("selected", "selected");
-				//							//$('#workingkLocationSlct').selectpicker('hide');
-				//							//$("#workingkLocationSlctLabel").css("display", "true");
-				//						}
-				//					}
-				//					$('#workingkLocationSlct').selectpicker('refresh');
-				//					$('#workingkLocationSlct').selectpicker('render'); 
-				//				}
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}

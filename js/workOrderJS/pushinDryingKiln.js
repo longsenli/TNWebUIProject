@@ -291,7 +291,7 @@ function recognitionQR(webName, qrCode) {
 	if(webName == '1' || webName == '2')
 		selectEquipment(qrCode);
 	if(webName == '5')
-		addOrderIDToBatchTable(qrCode);
+		addOrderIDToBatchTable(qrCode, 'SJ');
 }
 
 function innitOrderIDTable(models) {
@@ -339,7 +339,7 @@ function innitOrderIDTable(models) {
 	});
 }
 
-function addOrderIDToBatchTable(orderID) {
+function addOrderIDToBatchTable(orderID, type) {
 
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 
@@ -370,9 +370,12 @@ function addOrderIDToBatchTable(orderID) {
 	}
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
-	setTimeout(function() {
-		scanQR('5');
-	}, 2000);
+	if(type != 'PDA') {
+		setTimeout(function() {
+			scanQR('5');
+		}, 2000);
+	}
+
 }
 
 function pushinDryingKilnByBatch() {
