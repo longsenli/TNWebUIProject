@@ -306,6 +306,9 @@ function lineWorkOrderSlct() {
 
 function subOrderChangeOrderNum() {
 	$("#changeOrderProductionNum").attr("readonly", false);
+	$("#changeOrderProductionNum").focus();
+	$("#changeOrderProductionNum").focus();
+	$("#changeOrderProductionNum").val();
 }
 
 function finishSubOrderByQR(qrCode, orderType) {
@@ -383,7 +386,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 				var models = eval("(" + dataRes.data + ")");
 				if(models.length < 1) {
-					alert("未找到选定批次,请确认条码信息:" + qrCode);
+					alert("未找到选定二维码,请确认条码信息:" + qrCode);
 					return;
 				}
 				$('#table').bootstrapTable('destroy').bootstrapTable({
@@ -664,15 +667,7 @@ function SelectSubOrder() {
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
 
-	if($("#PlantToLineSelectForm #workOrderSlct").find("option:selected").text().toString().indexOf(dataStr) < 0) {
-		$("#subOrderFinishBT").attr('disabled', true);
-		$("#subOrderScanQRBT").attr('disabled', true);
-		$("#getUsableMaterialBT").attr('disabled', true);
-		$("#gainMaterialRecordBT").attr('disabled', true);
-		$("#gainPartMaterialRecordBT").attr('disabled', true);
-		$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
-
-	} else {
+	if($("#PlantToLineSelectForm #productionProcessSlct").val() == windowProcessEnum.JS) {
 		$("#subOrderFinishBT").attr('disabled', false);
 		$("#subOrderScanQRBT").attr('disabled', false);
 		$("#getUsableMaterialBT").attr('disabled', false);
@@ -680,6 +675,24 @@ function SelectSubOrder() {
 		$("#gainPartMaterialRecordBT").attr('disabled', false);
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
 		$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
+	} else {
+		if($("#PlantToLineSelectForm #workOrderSlct").find("option:selected").text().toString().indexOf(dataStr) < 0) {
+			$("#subOrderFinishBT").attr('disabled', true);
+			$("#subOrderScanQRBT").attr('disabled', true);
+			$("#getUsableMaterialBT").attr('disabled', true);
+			$("#gainMaterialRecordBT").attr('disabled', true);
+			$("#gainPartMaterialRecordBT").attr('disabled', true);
+			$("#subOrderFinishOnlyBTJZ").attr('disabled', true);
+
+		} else {
+			$("#subOrderFinishBT").attr('disabled', false);
+			$("#subOrderScanQRBT").attr('disabled', false);
+			$("#getUsableMaterialBT").attr('disabled', false);
+			$("#gainMaterialRecordBT").attr('disabled', false);
+			$("#gainPartMaterialRecordBT").attr('disabled', false);
+			$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
+			$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
+		}
 	}
 
 	var columnsArray = [];
