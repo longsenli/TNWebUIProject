@@ -324,7 +324,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 					checked: true //设置选中
 				};
 			}
-		}
+		} 
 	});
 	columnsArray.push({
 		width: 300,
