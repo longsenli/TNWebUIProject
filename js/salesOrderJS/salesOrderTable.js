@@ -6,7 +6,7 @@ function salesOrderPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -45,7 +45,7 @@ function salesOrderProductSlct() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -131,7 +131,7 @@ function getSalesOrderDetail() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -217,7 +217,7 @@ function salesOrderStatusAnalysis() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -303,7 +303,7 @@ function salesOrderDailyWork() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,

@@ -32,7 +32,7 @@
 
 	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
+			if(localStorage.getItem('token') == null) {
 				window.location.href = "../login.html";
 			}
 			//			   jQuery(function(){
@@ -68,7 +68,7 @@
 
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
-				if($.cookie('roleID') != null && $.cookie('roleID') != "undefined" && $.cookie('roleID') != window.windowRoleID.CZG) {
+				if(localStorage.getItem('roleID') != null && localStorage.getItem('roleID') != "undefined" && localStorage.getItem('roleID') != window.windowRoleID.CZG) {
 					//取消完成
 					//				subOrderCancelFinishBT
 					$("#subOrderCancelFinishBT").show();

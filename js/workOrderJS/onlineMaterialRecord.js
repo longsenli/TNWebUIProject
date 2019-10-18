@@ -6,7 +6,7 @@ function onlineMaterialIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -21,10 +21,10 @@ function onlineMaterialIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
-				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('plantID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -55,7 +55,7 @@ function onlineMaterialProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -71,10 +71,10 @@ function onlineMaterialProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('processID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -113,7 +113,7 @@ function onlineMaterialProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -138,10 +138,10 @@ function onlineMaterialProductionLineSlctFun() {
 				$('#lineid').selectpicker('render');   
 				$('#lineid').selectpicker('mobile');
 
-				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
+				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 
@@ -262,7 +262,7 @@ function getOnlineMaterial() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -318,7 +318,7 @@ function onlineMaterialMaterialSlct() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -415,7 +415,7 @@ function deleteonlineMaterial(id) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -437,10 +437,10 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//		return;
 	//	}
 	//	var formMap = window.formToObject($("#onlineMaterialModalForm"));
-	//	formMap["operator"] = $.cookie('username');
+	//	formMap["operator"] = localStorage.getItem('username');
 	$("#onlineMaterial_merge").attr("disabled", false);
 	$.ajax({
-		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $.cookie('username') +
+		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + localStorage.getItem('username') +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "POST",
 		contentType: "application/json",
@@ -448,7 +448,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -512,7 +512,7 @@ function saveOnlineMaterialReocrd() {
 		return;
 	}
 	var formMap = window.formToObject($("#onlineMaterialModalForm"));
-	formMap["operator"] = $.cookie('username');
+	formMap["operator"] = localStorage.getItem('username');
 	$("#saveOnlineMaterialRecordBT").attr("disabled", true);
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeonlinematerialrecord",
@@ -522,7 +522,7 @@ function saveOnlineMaterialReocrd() {
 
 		data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {

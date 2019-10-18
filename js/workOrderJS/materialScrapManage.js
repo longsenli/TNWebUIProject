@@ -400,7 +400,7 @@ function deleteSrapRecord() {
 		processData: false,
 		contentType: false,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {

@@ -6,7 +6,7 @@ function workLocationPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -37,7 +37,7 @@ function workLocationCfgProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -71,7 +71,7 @@ function workLocationLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -168,7 +168,7 @@ function workLocationDatatbleFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -216,7 +216,7 @@ function selectedWorkLocationRow(param) {
 		$("#workLocationCfgForm" + " #lineid").val(document.basicInfoCfgSelectForm.lineSlctType.value.toString());
 
 		$("#workLocationCfgForm" + " #updatetime").val((new Date()).format("yyyy-MM-dd hh:mm:ss"));
-		$("#workLocationCfgForm" + " #operator").val($.cookie('username'));
+		$("#workLocationCfgForm" + " #operator").val(localStorage.username);
 		$("#workLocationCfgForm" + " #status").val("1");
 
 		$('#myModal').modal('show');
@@ -236,7 +236,7 @@ function selectedWorkLocationRow(param) {
 			//$("#equipmentInfoManageForm" + " #" + key).attr("value", row[0][key]);
 		}
 		$("#workLocationCfgForm" + " #updatetime").val((new Date()).format("yyyy-MM-dd hh:mm:ss"));
-		$("#workLocationCfgForm" + " #operator").val($.cookie('username'));
+		$("#workLocationCfgForm" + " #operator").val(localStorage.username);
 		$("#workLocationCfgForm" + " #status").val("1");
 
 		$('#myModal').modal('show');
@@ -266,7 +266,7 @@ function deleteWorkLocationInfo(id) {
 		processData: false,
 		contentType: false,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -291,7 +291,7 @@ function addWorkLocationInfo() {
 		dataType: "json",
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {

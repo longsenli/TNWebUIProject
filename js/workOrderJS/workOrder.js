@@ -6,7 +6,7 @@ function workOrderIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -21,10 +21,10 @@ function workOrderIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
-				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('plantID')) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -55,7 +55,7 @@ function workOrderProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -71,10 +71,10 @@ function workOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('processID')) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -111,7 +111,7 @@ function workOrderProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -131,10 +131,10 @@ function workOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('render');   
 				// $('#productionLineSlct').selectpicker('mobile');
 
-				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
+				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 
@@ -260,7 +260,7 @@ function getWorkOrder() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -337,7 +337,7 @@ function setLineModal() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -505,7 +505,7 @@ function deleteWorkOrderReally(orderid) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -530,7 +530,7 @@ function deleteWorkOrder(orderid) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -584,7 +584,7 @@ function saveWorkOrderChange() {
 
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -627,7 +627,7 @@ function createScrapModel() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -673,7 +673,7 @@ function saveScrap() {
 
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -746,7 +746,7 @@ function initSplitDetailWorkOrder(orderID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -789,7 +789,7 @@ function changePrintStatus(workOrderID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {

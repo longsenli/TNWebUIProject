@@ -104,7 +104,7 @@
 
 	<body>
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
+			if(localStorage.getItem('token') == null) {
 				window.location.href = "login.html";
 			} else {
 								initSystemMenu();
@@ -616,7 +616,7 @@
 		<!-- /#wrapper -->
 
 		<script>
-			document.getElementById("loginname").innerText = $.cookie("username");
+			document.getElementById("loginname").innerText = localStorage.getItem("username");
 
 			function workSummary() {
 				document.getElementById("container-page-text").innerHTML = "极板称重月度统计";
@@ -838,7 +838,7 @@
 			}
 
 			function logout() {
-				$.cookie("token", "", {
+				localStorage.getItem("token", "", {
 					expires: -1
 				});
 				window.location.href = "login.html";
@@ -861,7 +861,7 @@
 			//连接成功建立的回调方法
 			websocket.onopen = function(event) {
 				setMessageInnerHTML("open");
-				send($.cookie('token'));
+				send(localStorage.getItem('token'));
 			}
 
 			//接收到消息的回调方法

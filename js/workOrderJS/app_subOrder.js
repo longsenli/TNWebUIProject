@@ -8,7 +8,7 @@ function subOrderIndustrialPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -54,7 +54,7 @@ function subOrderProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -142,7 +142,7 @@ function subOrderProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -199,7 +199,7 @@ function subOrderWorkingLocationSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -271,7 +271,7 @@ function lineWorkOrderSlct() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//async: false,
 		processData: true,
@@ -378,7 +378,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -530,7 +530,7 @@ function FinishSubOrder() {
 		//contentType: false,
 		data: formMap2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -767,7 +767,7 @@ function SelectSubOrder() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -898,7 +898,7 @@ function SelectMaterialRecord() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -1008,7 +1008,7 @@ function getUsableMaterialFun() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1097,7 +1097,7 @@ function gainMaterialRecord() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1306,7 +1306,7 @@ function gainMaterialByQR(recordID) {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1412,7 +1412,7 @@ function getMaterialRecordBySuborderID(recordID) {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1491,7 +1491,7 @@ function gainPartMaterialRecord() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1569,7 +1569,7 @@ function cancelFinishSuborder() {
 		contentType: false,
 		//data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1748,7 +1748,7 @@ function cancelInputSuborder() {
 		contentType: false,
 		//data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1842,7 +1842,7 @@ function pushInDryingKilnjzsuborder(qrCode) {
 		//contentType: false,
 		data: formMap2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1890,7 +1890,7 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 		//contentType: false,
 		data: formMap2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {

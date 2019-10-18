@@ -7,7 +7,7 @@ function LSworkOrderIndustrialPlantSlctFunEdit(flag,industrialplant_id, producti
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -45,7 +45,7 @@ function LSworkOrderProductionProcessSlctFunEdit(productionprocess_id,production
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -91,7 +91,7 @@ function LSworkOrderProductionLineSlctFunEdit(productionline_id) {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -140,7 +140,7 @@ function editSubOrderWorkingLocationSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -167,10 +167,10 @@ function editSubOrderWorkingLocationSlctFun() {
 				$('#edit_workingkLocationSlct').selectpicker('refresh');
 				$('#edit_workingkLocationSlct').selectpicker('render');   
 				// $('#edit_workingkLocationSlct').selectpicker('mobile');
-				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {	
+				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {	
 					var numbers = $('#edit_workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
 							//$('#edit_workingkLocationSlct').selectpicker('hide');
 							//$("#edit_workingkLocationSlctLabel").css("display", "true");

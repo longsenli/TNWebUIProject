@@ -9,7 +9,7 @@ function workOrderIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -58,7 +58,7 @@ function workOrderProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -114,7 +114,7 @@ function workOrderProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -258,7 +258,7 @@ function getWorkOrder() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -334,7 +334,7 @@ function setLineModal() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -495,7 +495,7 @@ function deleteWorkOrder(orderid) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -546,7 +546,7 @@ function saveWorkOrderChange() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -589,7 +589,7 @@ function createScrapModel() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -634,7 +634,7 @@ function saveScrap() {
 
 		data: JSON.stringify(jsonMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: false,
 		contentType: false,
@@ -707,7 +707,7 @@ function initSplitDetailWorkOrder(orderID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {

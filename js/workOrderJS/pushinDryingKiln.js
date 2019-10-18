@@ -139,7 +139,7 @@ function getDryingKilnInfo(typeID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -485,7 +485,7 @@ function pushOutDryingKilnjzsuborder() {
 		//contentType: false,
 		data: formMap2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -593,7 +593,7 @@ function orderOutOfDryingKiln(models) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {

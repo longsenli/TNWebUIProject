@@ -6,7 +6,7 @@ function planProductionIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -29,10 +29,10 @@ function planProductionIndustrialPlantSlctFun(flag) {
 				$('#plantid').selectpicker('render');   
 				// $('#plantid').selectpicker('mobile');
 
-				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('plantID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -58,7 +58,7 @@ function planProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -81,10 +81,10 @@ function planProductionProcessSlctFun() {
 				$('#processid').selectpicker('render');   
 				// $('#processid').selectpicker('mobile');
 
-				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('processID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -189,7 +189,7 @@ function getPlanProductionRecord() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -316,7 +316,7 @@ function deletePlanProduction(id) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -337,7 +337,7 @@ function savePlanProductionChange() {
 	formData.append("planmonth", window.stringToDatetimeLocalType(document.getElementById("planmonth").value, ("yyyy-MM")));
 	formData.append("materialname", $("#planProductionManageForm #materialid").find("option:selected").text())
 	if($('#operator').val().length < 2) {
-		formData.append("operator", $.cookie('username'))
+		formData.append("operator", localStorage.getItem('username'))
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeplanproductionrecord",
@@ -347,7 +347,7 @@ function savePlanProductionChange() {
 
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -393,7 +393,7 @@ function planProductionMaterialSlct() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,

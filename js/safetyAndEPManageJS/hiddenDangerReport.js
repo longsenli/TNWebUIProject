@@ -6,7 +6,7 @@ function hiddenDangerManagePlantSlctFun(type) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -39,7 +39,7 @@ function getLocationInfoSlct(dangerType) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -101,7 +101,7 @@ function upload(path, dangerType) {
 						dataType: "json",
 						data: JSON.stringify(formMap).toString(),
 						//		headers: {
-						//			Token: $.cookie('token')
+						//			Token: localStorage.getItem('token')
 						//		}, 
 						processData: true,
 						success: function(dataRes) {
@@ -771,7 +771,7 @@ function selectLoactionInfo(locationID) {
 		dataType: "json",
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {

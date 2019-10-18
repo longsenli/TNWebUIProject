@@ -15,14 +15,14 @@ function uploadFile() {
 	//	formData.append("file", ofile); //这个是文件，这里只是演示上传了一个文件，如果要上传多个的话将[0]去掉
 	//	formData.append("F_ID", "123"); //这个是上传的其他参数
 	//	formData.append("F_NAME", ofile.name);
-	formData.append("creator", $.cookie('username').toString());
+	formData.append("creator", localStorage.getItem('username').toString());
 
 	$.ajax({
 		url: window.serviceIP + "/api/documentupload",
 		type: "POST",
 		data: formData,
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -90,7 +90,7 @@ function filterFile() {
 		type: "POST",
 		data: formData,
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		cache: false, //不需要缓存
 		processData: false,

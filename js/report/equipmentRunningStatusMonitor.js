@@ -6,7 +6,7 @@ function equipStatusMntPlantSlctFun(webName) {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -74,7 +74,7 @@ function equipStatusMntEquipmentType(webName) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -112,7 +112,7 @@ function equipStatusMntParamType(webName) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -156,7 +156,7 @@ function equipStatusAllParamMntInit(showType) {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -226,7 +226,7 @@ function equipStatusMntParamType(webName) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -269,7 +269,7 @@ function equipStatusMntInit() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -330,7 +330,7 @@ function getEquipmentInfoEquipReport(webName) {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -370,7 +370,7 @@ function equipRecordChartShowInit() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -527,7 +527,7 @@ function equipParamRecordTableInit() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,

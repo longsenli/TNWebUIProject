@@ -6,7 +6,7 @@ function LSworkOrderIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -40,7 +40,7 @@ function LSworkOrderProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -80,7 +80,7 @@ function LSworkOrderProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -138,7 +138,7 @@ function LSsetLineModal() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -325,7 +325,7 @@ function LSsaveWorkOrderChange() {
 
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -368,7 +368,7 @@ function LScreateScrapModel() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -406,7 +406,7 @@ function LSsaveScrap() {
 
 		data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -474,7 +474,7 @@ function LSinitSplitDetailWorkOrder(orderID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -524,7 +524,7 @@ function subOrderWorkingLocationSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -551,10 +551,10 @@ function subOrderWorkingLocationSlctFun() {
 				$('#add_workingkLocationSlct').selectpicker('refresh');
 				$('#add_workingkLocationSlct').selectpicker('render');   
 				// $('#add_workingkLocationSlct').selectpicker('mobile');
-				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {	
+				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {	
 					var numbers = $('#add_workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
 							//$('#add_workingkLocationSlct').selectpicker('hide');
 							//$("#add_workingkLocationSlctLabel").css("display", "true");

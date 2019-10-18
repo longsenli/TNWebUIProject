@@ -656,7 +656,7 @@ function cancelInputmaterialWareHouseConfirm() {
 		contentType: false,
 		//data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {

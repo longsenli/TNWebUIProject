@@ -6,7 +6,7 @@ function hiddenDangerManagePlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -309,7 +309,7 @@ function deleteHiddenDangerManageRecord() {
 
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -334,7 +334,7 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 			type: "POST",
 			data: formData,
 			headers: {
-				Token: $.cookie('token')
+				Token: localStorage.getItem('token')
 			},
 			cache: false, //不需要缓存
 			processData: false,
@@ -366,7 +366,7 @@ function saveHiddenDangerManageRecordModel(modelID, formID) {
 		dataType: "json",
 		data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -705,7 +705,7 @@ function upload(path) {
 						dataType: "json",
 						data: JSON.stringify(formMap).toString(),
 						//		headers: {
-						//			Token: $.cookie('token')
+						//			Token: localStorage.getItem('token')
 						//		}, 
 						processData: true,
 						success: function(dataRes) {

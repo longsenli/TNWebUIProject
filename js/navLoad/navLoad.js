@@ -1,7 +1,7 @@
 function initSystemMenu() {
 	var isFirstMenu;
-	var userName = $.cookie('username');
-	var userID = $.cookie('userID');
+	var userName = localStorage.getItem('username');
+	var userID = localStorage.getItem('userID');
 	//alert(userName + userID);
 	$.ajax({
 		type: "Post",

@@ -5,7 +5,7 @@ function subOrderIndustrialPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -22,10 +22,10 @@ function subOrderIndustrialPlantSlctFun() {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
-				if($.cookie('plantID') != null && $.cookie('plantID') != 'undefined' && $.cookie('plantID').toString().length > 0) {
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('plantID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 							$("#industrialPlantLabel").css("display", "none");
@@ -54,7 +54,7 @@ function solidifyRoomSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -88,7 +88,7 @@ function solidifyPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -121,7 +121,7 @@ function subOrderProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -137,10 +137,10 @@ function subOrderProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($.cookie('processID') != null && $.cookie('processID') != 'undefined' && $.cookie('processID').toString().length > 0) {
+				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('processID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -198,7 +198,7 @@ function subOrderProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -217,10 +217,10 @@ function subOrderProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
 				// $('#productionLineSlct').selectpicker('mobile');
-				if($.cookie('lineID') != null && $.cookie('lineID') != 'undefined' && $.cookie('lineID').toString().length > 0) {
+				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('lineID')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 
@@ -256,7 +256,7 @@ function subOrderWorkingLocationSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -283,10 +283,10 @@ function subOrderWorkingLocationSlctFun() {
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
 				// $('#workingkLocationSlct').selectpicker('mobile');
-				if($.cookie('workingkLocation') != null && $.cookie('workingkLocation') != 'undefined' && $.cookie('workingkLocation').toString().length > 0) {
+				if(localStorage.getItem('workingkLocation') != null && localStorage.getItem('workingkLocation') != 'undefined' && localStorage.getItem('workingkLocation').toString().length > 0) {
 					var numbers = $('#workingkLocationSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $.cookie('workingkLocation')) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('workingkLocation')) {
 							$(numbers[j]).attr("selected", "selected");
 							//$('#workingkLocationSlct').selectpicker('hide');
 							//$("#workingkLocationSlctLabel").css("display", "true");
@@ -312,7 +312,7 @@ function lineWorkOrderSlct() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//async: false,
 		processData: true,
@@ -406,7 +406,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -524,9 +524,9 @@ function FinishSubOrder() {
 
 	var formData2 = new FormData();
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###-1###" + row[0]["materialName"]);
+		formData2.append("name", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###-1###" + row[0]["materialName"]);
 	} else {
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+		formData2.append("name", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"]);
 	}
 	formData2.append("jsonStr", window.getFormDataToJson(formData))
@@ -539,7 +539,7 @@ function FinishSubOrder() {
 		contentType: false,
 		data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -667,7 +667,7 @@ function SelectSubOrder() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -778,7 +778,7 @@ function SelectMaterialRecord() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -886,7 +886,7 @@ function getUsableMaterialFun() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -936,12 +936,12 @@ function gainMaterialRecord() {
 	formData.append("materialRecordIDListStr", JSON.stringify(arrayObj));
 	formData.append("materialOrderID", selectRow[0].orderid);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	//formData.append("outputter", $.cookie('username')) //$.cookie('username');
+	//formData.append("outputter", localStorage.getItem('username')) //localStorage.getItem('username');
 
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID') + "###-1");
+		formData.append("outputter", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###-1");
 	} else {
-		formData.append("outputter", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+		formData.append("outputter", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	}
 
@@ -952,7 +952,7 @@ function gainMaterialRecord() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -994,7 +994,7 @@ function changePrintStatus(workOrderID) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -1315,7 +1315,7 @@ function gainMaterialByQR(recordID) {
 	}
 	var formData = new FormData();
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $.cookie('username')) //$.cookie('username');
+	formData.append("outputter", localStorage.getItem('username')) //localStorage.getItem('username');
 	formData.append("qrCode", recordID);
 
 	$.ajax({
@@ -1325,7 +1325,7 @@ function gainMaterialByQR(recordID) {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1407,7 +1407,7 @@ function getMaterialRecordBySuborderID(recordID) {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1525,7 +1525,7 @@ function getSolidifyRoomOrder() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -1580,13 +1580,13 @@ function gotoNextSolidifyRoom() {
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/solidifyrecord/addsolidifyrecord?id=" + row[0]["id"] +
-			"&status=" + stageNum + "&recorder=" + $.cookie('username') + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
+			"&status=" + stageNum + "&recorder=" + localStorage.getItem('username') + "&roomID=" + document.PlantToLineSelectForm.solidifyRoomSlct.value.toString(),
 		type: "GET",
 
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -1628,7 +1628,7 @@ function gainPartMaterialRecord() {
 	formData.append("materialRecordID", selectRow[0].id);
 	formData.append("number", result1);
 	formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
-	formData.append("outputter", $.cookie('username')) //$.cookie('username');
+	formData.append("outputter", localStorage.getItem('username')) //localStorage.getItem('username');
 	formData.append("materialOrderID", selectRow[0].orderid);
 	$.ajax({
 		url: window.serviceIP + "/api/material/gainpartmaterialrecord",
@@ -1637,7 +1637,7 @@ function gainPartMaterialRecord() {
 		contentType: false,
 		data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {
@@ -1712,7 +1712,7 @@ function cancelFinishSuborder() {
 		contentType: false,
 		//data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1762,7 +1762,7 @@ function cancelInputSuborder() {
 		contentType: false,
 		//data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1829,16 +1829,16 @@ function pushInDryingKilnjzByQR(qrCode) {
 	formData.append('worklocationid', $('#workingkLocationSlct').val());
 	var checkText = $("#workingkLocationSlct").find("option:selected").text();
 	formData.append('worklocationname', checkText);
-	formData.append('inputerid', $.cookie('userid'));
-	formData.append('inputername', $.cookie('username'));
+	formData.append('inputerid', localStorage.getItem('userid'));
+	formData.append('inputername', localStorage.getItem('username'));
 	//	alert(row[0].productionnum)
 	formData.append('materialquantity', $("#changeOrderProductionNum").val());
 
 	var formData2 = new FormData();
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###-1###" + row[0]["materialName"]);
+		formData2.append("name", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###-1###" + row[0]["materialName"]);
 	} else {
-		formData2.append("name", $.cookie('username') + "###" + $.cookie('userID') + "###" +
+		formData2.append("name", localStorage.getItem('username') + "###" + localStorage.getItem('userID') + "###" +
 			document.PlantToLineSelectForm.workingkLocationSlct.value.toString() + "###" + row[0]["materialName"]);
 	}
 	formData2.append("jsonStr", window.getFormDataToJson(formData))
@@ -1851,7 +1851,7 @@ function pushInDryingKilnjzByQR(qrCode) {
 		contentType: false,
 		data: formData2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {
@@ -1899,7 +1899,7 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 		//contentType: false,
 		data: formMap2,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		success: function(data) {
 			if(data.status == 1) {

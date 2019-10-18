@@ -7,7 +7,7 @@ function equipParamEquipmentType() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -38,7 +38,7 @@ function equipDataPlantSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -71,7 +71,7 @@ function equipDataPlantSlctFun() {
 //		contentType: "application/json",
 //		dataType: "json",
 //		headers: {
-//			Token: $.cookie('token')
+//			Token: localStorage.getItem('token')
 //		},
 //		processData: true,
 //		success: function(dataRes) {
@@ -105,7 +105,7 @@ function getEquipmentInfoDataCollector() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -140,7 +140,7 @@ function getEquipmentParam() {
 		contentType: "application/json",
 		dataType: "json",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -206,7 +206,7 @@ function saveEquipmentParam() {
 			type: "POST",
 			data: formData,
 			headers: {
-				Token: $.cookie('token')
+				Token: localStorage.getItem('token')
 			},
 			cache: false, //不需要缓存
 			processData: false,
@@ -257,7 +257,7 @@ function saveEquipmentParam() {
 			return;
 		}
 		paramArray.push({
-			recorder: $.cookie('username'),
+			recorder: localStorage.getItem('username'),
 			equipmentTypeID: document.equipmentSelectForm.equipmentType.value.toString(),
 			equipmentID: document.equipmentSelectForm.equipmentInfo.value.toString(),
 			paramID: params[i].name.split("###")[0].trim(),
@@ -275,7 +275,7 @@ function saveEquipmentParam() {
 		dataType: "json",
 		data: JSON.stringify(paramArray),
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		processData: true,
 		success: function(dataRes) {
@@ -334,7 +334,7 @@ function getEquipmentParamRecord() {
 	$.ajax({
 		type: "GET",
 		headers: {
-			Token: $.cookie('token')
+			Token: localStorage.getItem('token')
 		},
 		url: window.serviceIP + "/api/equipment/getequipmentparamrecord?equipID=" + document.equipmentSelectForm.equipmentInfo.value.toString(),
 		contentType: "application/json;charset=utf-8",

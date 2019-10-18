@@ -9,7 +9,7 @@ function onlineMaterialIndustrialPlantSlctFun(flag) {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -58,7 +58,7 @@ function onlineMaterialProductionProcessSlctFun() {
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
 		success: function(dataRes) {
@@ -116,7 +116,7 @@ function onlineMaterialProductionLineSlctFun() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -266,7 +266,7 @@ function getOnlineMaterial() {
 		data: formData,
 		dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		cache: false, //不需要缓存
 		processData: false,
@@ -322,7 +322,7 @@ function onlineMaterialMaterialSlct() {
 		//contentType: "application/json",
 		//dataType: "json",
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		processData: false,
@@ -419,7 +419,7 @@ function deleteonlineMaterial(id) {
 
 		//data: window.getFormDataToJson(formData),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -441,7 +441,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//		return;
 	//	}
 	//	var formMap = window.formToObject($("#onlineMaterialModalForm"));
-	//	formMap["operator"] = $.cookie('username');
+	//	formMap["operator"] = localStorage.getItem('username');
 	$("#onlineMaterial_merge").attr("disabled", true);
 	$.ajax({
 		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $Global_UserLogin_Info.username +
@@ -452,7 +452,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -526,7 +526,7 @@ function saveOnlineMaterialReocrd() {
 
 		data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {

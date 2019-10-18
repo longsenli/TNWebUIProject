@@ -15,13 +15,13 @@ function changePswUserMng() {
 	var formData = new FormData();
 	formData.append("oldPsw", document.getElementById("oldPsw").value);
 	formData.append("newPsw", newPsw);
-	formData.append("userID", $.cookie('userID')); 
+	formData.append("userID", localStorage.getItem('userID')); 
 	$.ajax({
 			url: window.serviceIP + "/api/user/changepsw",
 			type: "POST",
 			data: formData,
 			headers: {
-				Token: $.cookie('token')
+				Token: localStorage.getItem('token')
 			},
 			cache: false, //不需要缓存
 			processData: false,
