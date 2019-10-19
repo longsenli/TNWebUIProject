@@ -296,6 +296,11 @@ function initProductionDashboardPicture(showType) {
 		materialTypeProductionArray.push(mapMaterial);
 	});
 
+for(var j in lineRemainProductionArray)
+{
+	if(lineRemainProductionArray[j] < 0)
+		lineRemainProductionArray[j] =0 - lineRemainProductionArray[j];
+}
 	if(planDailyProductionNumber > 500) {
 		totalPlanProduction = planDailyProductionNumber;
 	}
