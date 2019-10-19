@@ -758,7 +758,7 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 
 		data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -811,7 +811,7 @@ function pileTidyBatteryRecord() {
 		processData: false,
 		contentType: false,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -977,7 +977,7 @@ function showPackageInput(pileID) {
 
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {
@@ -1018,7 +1018,7 @@ function savePackageInput() {
 		contentType: false,
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 
 		success: function(data) {

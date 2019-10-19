@@ -172,7 +172,7 @@ function findDataProvenanceByQR(recordID) {
 		contentType: false,
 		//data: formData,
 		//		headers: {
-		//			Token: $.cookie('token')
+		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
 		success: function(dataRes) {

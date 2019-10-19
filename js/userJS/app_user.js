@@ -23,7 +23,7 @@ function changePswUserMng() {
 			type: "POST",
 			data: formData,
 			headers: {
-//				Token: $.cookie('token')
+//				Token: localStorage.getItem('token')
 			},
 			cache: false, //不需要缓存
 			processData: false,
