@@ -424,7 +424,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 				}
 				if(dateNow.getHours() > 18) {
 					dataStr = "YB" + dateNow.format("yyyyMMdd");
-				}
+				}  
 				if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
 					$("#subOrderFinishBT").attr('disabled', false);
 					$("#subOrderFinishOnlyBTJZ").attr('disabled', false);
@@ -436,7 +436,11 @@ function finishSubOrderByQR(qrCode, orderType) {
 				$('#usableMaterialTable').bootstrapTable('destroy');
 
 				if($('#autoFinishOrderCheck').is(':checked')) {
-					FinishSubOrder();
+					if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
+						FinishSubOrder();
+					} else {
+						$('<div>').appendTo('body').addClass('alert alert-success').html('改工单不是本班次工单,请补充入库!').show().delay(3000).fadeOut();
+					}
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -886,11 +890,11 @@ function SelectMaterialRecord() {
 		"field": "expendOrderid",
 		visible: false
 	});
-	var expendOrderIDInfo =  document.PlantToLineSelectForm.workOrderSlct.value.toString();
-		if(document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2 && document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS && document.PlantToLineSelectForm.industrialPlantSlct.value == "1001") {
+	var expendOrderIDInfo = document.PlantToLineSelectForm.workOrderSlct.value.toString();
+	if(document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2 && document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS && document.PlantToLineSelectForm.industrialPlantSlct.value == "1001") {
 		expendOrderIDInfo = document.PlantToLineSelectForm.industrialPlantSlct.value + "___" +
-		document.PlantToLineSelectForm.productionProcessSlct.value + "___" + document.PlantToLineSelectForm.productionLineSlct.value;
-	} 
+			document.PlantToLineSelectForm.productionProcessSlct.value + "___" + document.PlantToLineSelectForm.productionLineSlct.value;
+	}
 	$.ajax({
 		url: window.serviceIP + "/api/material/getmaterialrecord?expendOrderID=" + expendOrderIDInfo,
 		type: "GET",
@@ -1075,13 +1079,11 @@ function gainMaterialRecord() {
 	formData.append("materialOrderID", selectRow[0].orderid);
 	if(document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2 && document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS && document.PlantToLineSelectForm.industrialPlantSlct.value == "1001") {
 		formData.append("expendOrderID", document.PlantToLineSelectForm.industrialPlantSlct.value + "###" +
-		document.PlantToLineSelectForm.productionProcessSlct.value + "###" + document.PlantToLineSelectForm.productionLineSlct.value);
-	}
-	else
-	{
+			document.PlantToLineSelectForm.productionProcessSlct.value + "###" + document.PlantToLineSelectForm.productionLineSlct.value);
+	} else {
 		formData.append("expendOrderID", document.PlantToLineSelectForm.workOrderSlct.value.toString());
 	}
-	
+
 	//formData.append("outputter", localStorage.username) //localStorage.username;
 
 	if(document.PlantToLineSelectForm.workingkLocationSlct.value.toString().length < 2) {
@@ -1328,7 +1330,7 @@ function getMaterialRecordBySuborderID(recordID) {
 	if("selectByText" == recordID) {
 		recordID = $("#selectByText").val();
 	}
-	if(document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2  && document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS && document.PlantToLineSelectForm.industrialPlantSlct.value == "1001") {
+	if(document.PlantToLineSelectForm.workOrderSlct.value.toString().length < 2 && document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.JS && document.PlantToLineSelectForm.industrialPlantSlct.value == "1001") {
 		if(recordID.length < 2) {
 			alert("请确认已选择物料和订单!")
 			return;

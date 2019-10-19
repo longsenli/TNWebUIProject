@@ -46,6 +46,37 @@
 					$("#rsTitle").text(this.innerText + "返回结果");
 				});
 			});
+			
+			$(function() {
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+						getOrderInfoDetail(Number);
+					}
+
+				}, false);
+			});
+			
 		</script>
 
 		<div id="container" class="effect aside-float aside-bright mainnav-lg">

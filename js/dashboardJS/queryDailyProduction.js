@@ -568,10 +568,15 @@ function getSelfProductionRecord() {
 	});
 }
 
-function getOrderInfoDetail() {
+function getOrderInfoDetail(workOrder) {
 
 	//console.log("gainMaterialByQR" + recordID);
 	var recordID = $('#subOrderName').val().trim();
+	
+	if(workOrder)
+	{
+		recordID = workOrder;
+	}
 	if(recordID.length < 2) {
 		alert("请输入工单号!")
 		return;
