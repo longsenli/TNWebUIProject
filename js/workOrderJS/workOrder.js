@@ -492,9 +492,39 @@ function selectedWorkOrderRow(param) {
 		}
 
 		deleteWorkOrderReally(row["id"]);
+	}else if(optionType == "workorder_finish") {
+		if(row.length < 1) {
+			alert("请选择行数据!");
+			return;
+		}
+		finishWorkOrder(row["id"]);
 	}
 };
 
+function finishWorkOrder(orderid)
+{
+		$.ajax({
+		url: window.serviceIP + "/api/order/changeworkorderstatus?ID=" + orderid + "&status=" + window.windowOrderStatusEnum.finished,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: window.getFormDataToJson(formData),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+
+				getWorkOrder();
+				alert('完工成功!');
+			} else {
+				alert("订单完工失败!" + data.message);
+			}
+		}
+	});
+}
 function deleteWorkOrderReally(orderid) {
 
 	$.ajax({

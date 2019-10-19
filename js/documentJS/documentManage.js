@@ -156,6 +156,4 @@ function exportFile(obj) {  
 	form.append(input1);
 	$("body").append(form); //将表单放置在web中
 	form.submit(); //表单提交
-
-	   
 };

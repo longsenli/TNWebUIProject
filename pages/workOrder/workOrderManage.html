@@ -31,7 +31,7 @@
 	<body style="padding-left:20px;padding-top:5px">
 
 		<script type="text/javascript">
-			if($.cookie('token') == null) {
+			if(localStorage.getItem('token') == null) {
 				window.location.href = "../login.html";
 			}
 			workOrderIndustrialPlantSlctFun("1");
@@ -151,6 +151,9 @@
             </button>-->
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印工单
+            </button>
+            <button id="workorder_finish" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
+                <span class="glyphicon glyphicon-saved" aria-hidden="true"></span>订单完工
             </button>
 			<button id="workorder_deleteReal" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除订单
