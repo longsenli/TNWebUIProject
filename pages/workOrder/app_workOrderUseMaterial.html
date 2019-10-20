@@ -51,45 +51,45 @@
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
 	<style>
-		    .alert {
-		display: none;
-		position: fixed;
-		top: 70%;
-		left: 50%;
-		min-width: 300px;
-		max-width: 600px;
-		transform: translate(-50%,-50%);
-		z-index: 99999;
-		text-align: center;
-		padding: 15px;
-		border-radius: 3px;
-	}
-	
-	.alert-success {
-	    color: #3c763d;
-	    background-color: #dff0d8;
-	    border-color: #d6e9c6;
-	}
-	
-	.alert-info {
-	    color: #31708f;
-	    background-color: #d9edf7;
-	    border-color: #bce8f1;
-	}
-	
-	.alert-warning {
-	    color: #8a6d3b;
-	    background-color: #fcf8e3;
-	    border-color: #faebcc;
-	}
-	
-	.alert-danger {
-	    color: #a94442;
-	    background-color: #f2dede;
-	    border-color: #ebccd1;
-	}
-	
+		.alert {
+			display: none;
+			position: fixed;
+			top: 70%;
+			left: 50%;
+			min-width: 300px;
+			max-width: 600px;
+			transform: translate(-50%, -50%);
+			z-index: 99999;
+			text-align: center;
+			padding: 15px;
+			border-radius: 3px;
+		}
+		
+		.alert-success {
+			color: #3c763d;
+			background-color: #dff0d8;
+			border-color: #d6e9c6;
+		}
+		
+		.alert-info {
+			color: #31708f;
+			background-color: #d9edf7;
+			border-color: #bce8f1;
+		}
+		
+		.alert-warning {
+			color: #8a6d3b;
+			background-color: #fcf8e3;
+			border-color: #faebcc;
+		}
+		
+		.alert-danger {
+			color: #a94442;
+			background-color: #f2dede;
+			border-color: #ebccd1;
+		}
 	</style>
+
 	<body>
 		<script type="text/javascript">
 			if(localStorage.token == null) {
@@ -98,6 +98,15 @@
 			}
 
 			subOrderIndustrialPlantSlctFun();
+			$(function() {
+				if(localStorage.roleID != window.windowRoleID.CZG) {
+					$("#cancelInputSuborderBT").show();
+				} else {
+					$("#cancelInputSuborderBT").hide();
+
+				}
+
+			});
 
 			$(function() {
 				document.addEventListener('plusready', function() {
@@ -227,19 +236,17 @@
 										        	<span class="glyphicon glyphicon-erase" aria-hidden="true"></span>取消投料
 										    	</button>
 												<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="autoGainMaterialCheck"   checked type="checkbox">自动投料</label>
-
+											
 											</div>
 											<table id="usableMaterialTable" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 											</table>
 										</div>
-
+  
 									</div>
 								</div>
 
 								<div class="panel">
-									<div class="panel-heading">
-										<h3 id='sumNumber'  style="display: none;" class="panel-title">已投料统计：</h3>
-									</div>
+
 									<div class="panel-body">
 										<div class="form-inline row">
 

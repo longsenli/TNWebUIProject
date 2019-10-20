@@ -66,6 +66,14 @@
 			});
 
 			$(function() {
+				if(localStorage.roleID != window.windowRoleID.CZG) {
+					$("#deleteChargingRackRecord").show();
+				} else {
+					$("#deleteChargingRackRecord").hide();
+
+				}
+
+
 				$("body").delegate('#table tr', 'click', function() {
 					chargingRackRecordRowClick(this);
 				});
@@ -146,7 +154,7 @@
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池下架
            </button>
 
-												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="deleteChargingRackRecord()">
+												<button type="button" id="deleteChargingRackRecord" class="btn btn-info" style="margin-top: 10px;" onclick="deleteChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
            </button>
 											</div>
@@ -194,6 +202,7 @@
 																	<option value=2>二等品</option>
 																	<option value=3>一次返充</option>
 																	<option value=4>二次返充</option>
+																	<option value=5>补电</option>
 																</select>
 																<br />
 																<br />
