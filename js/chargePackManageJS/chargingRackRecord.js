@@ -105,12 +105,11 @@ function chargingRackRecordProductionProcessSlctFun() {
 	});
 };
 
-function chargingRackRecordMaterialSlct()
-{
+function chargingRackRecordMaterialSlct() {
 	$.ajax({
 
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString() ,
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "GET",
 
 		//contentType: "application/json",
@@ -143,6 +142,7 @@ function chargingRackRecordMaterialSlct()
 		}
 	}); 
 }
+
 function chargingRackRecordProductionLineSlctFun() {
 
 	var formData = new FormData();
@@ -182,19 +182,19 @@ function chargingRackRecordProductionLineSlctFun() {
 				$('#lineid').selectpicker('render'); 
 				$('#lineid').selectpicker('hide'); 
 
-								if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
-									var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
-									for(var j = 0; j < numbers.length; j++) {
-										if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
-											$(numbers[j]).attr("selected", "selected");
-											//$('#productionLineSlct').selectpicker('hide');
-				
-											//$("#productionLineLabel").css("display", "none");
-										}
-									}
-									$('#productionLineSlct').selectpicker('refresh');
-									$('#productionLineSlct').selectpicker('render'); 
-								}
+				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
+					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
+							$(numbers[j]).attr("selected", "selected");
+							//$('#productionLineSlct').selectpicker('hide');
+
+							//$("#productionLineLabel").css("display", "none");
+						}
+					}
+					$('#productionLineSlct').selectpicker('refresh');
+					$('#productionLineSlct').selectpicker('render'); 
+				}
 
 				setTimeout(function() {
 					chargingRackRecordWorkingLocationSlctFun();
@@ -288,7 +288,7 @@ function chargingRackRecordMaterialSlct() {
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
-						 "</option>").toString());
+						"</option>").toString());
 				}
 				$('#materialname').selectpicker('refresh');
 				$('#materialname').selectpicker('render');   
@@ -317,9 +317,9 @@ function getOnRackRecord(selectType) {
 		"field": "worklocation",
 		formatter: function(value, row, index) {
 			if(value != '总计')
-			return $("#workingkLocationSlct option[value='" + row.worklocation + "']").text();
+				return $("#workingkLocationSlct option[value='" + row.worklocation + "']").text();
 			else
-			return value;
+				return value;
 		}
 	});
 	columnsArray.push({
@@ -357,9 +357,9 @@ function getOnRackRecord(selectType) {
 		formatter: function(value, row, index) {
 			if(value) {
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 		}
 	});
@@ -380,11 +380,11 @@ function getOnRackRecord(selectType) {
 		"field": "pulloffdate",
 		formatter: function(value, row, index) {
 			if(value) {
-				
+
 				if(value > '2019')
-				return value.toString().split(" ")[0];
-				else 
-				return '-';
+					return value.toString().split(" ")[0];
+				else
+					return '-';
 			}
 
 		}
@@ -538,12 +538,15 @@ function repairChargingRackRecord() {
 
 	if(row[0].pulloffdate) {
 		var today = new Date();
-		if(row[0].pulloffdate.toString().split(" ")[0] != today.format("yyyy-MM-dd"))
-		{
+		if(row[0].pulloffdate.toString().split(" ")[0] != today.format("yyyy-MM-dd")) {
 			alert("该记录不能修改!");
 			return;
 		}
-		
+
+	}
+	if(!row[0].realnumber) {
+		alert("请正确选择充电架!");
+		return;
 	}
 	//console.log(row[0]);
 	$("#chargingRackRecordRepairForm" + " #id").val(row[0].id);
@@ -583,6 +586,11 @@ function pullOffChargingRackRecord() {
 	}
 	if(row[0].pulloffdate) {
 		alert("该记录已下架,不要重复操作!");
+		disableChangeButton("pullOffRackButton", false);
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
 		disableChangeButton("pullOffRackButton", false);
 		return;
 	}
@@ -632,6 +640,10 @@ function deleteChargingRackRecord() {
 	}
 	if(row[0].repaircombine || row[0].pulloffdate) {
 		alert("该记录已有报修信息或者下架,不能删除!");
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
 		return;
 	}
 	$.ajax({
@@ -733,30 +745,6 @@ function scaned(t, r, f) {
 	// alert('t='+t+'r='+r+'f='+f);
 	//获取扫描二维码信息
 	recognitionQR(accept_webName, r);
-	// 					var d = new Date();
-	// 					var h=d.getHours(),m=d.getMinutes(),s=d.getSeconds(),ms=d.getMilliseconds();
-	// 					if(h < 10){ h='0'+h; }
-	// 					if(m < 10){ m='0'+m; }
-	// 					if(s < 10){ s='0'+s; }
-	// 					if(ms < 10){ ms='00'+ms; }
-	// 					else if(ms < 100){ ms='0'+ms; }
-	// 					var ts = '['+h+':'+m+':'+s+'.'+ms+']';
-	// 					var li=null,hl = document.getElementById('history');
-	// 					if(blist.length > 0){
-	// 						li = document.createElement('li');
-	// 						li.className = 'ditem';
-	// 						hl.insertBefore(li, hl.childNodes[0]);
-	// 					} else{
-	// 						li = document.getElementById('nohistory');
-	// 					}
-	// 					li.id = blist.length;
-	// 					var html = '['+h+':'+m+':'+s+'.'+ms+']'+'　　'+t+'码<div class="hdata">';
-	// 					html += r;
-	// 					html += '</div>';
-	// 					li.innerHTML = html;
-	// 					li.setAttribute('onclick', 'selected(id)');
-	// 					blist[blist.length] = {type:t,result:r,file:f};
-	// 					update(t, r, f);
 
 }
 
@@ -856,149 +844,8 @@ function recognitionQR(webName, qrCode) {
 function workLocationChangeByQR(qrCode) {
 	var selected = false;
 
-$('#workingkLocationSlct').selectpicker('val',qrCode);
-$('#workingkLocationSlct').selectpicker('refresh');
-		$('#workingkLocationSlct').selectpicker('render'); 
-		getOnRackRecord('onRack');
- //console.log($("#workingkLocationSlct").val())
-		// $('#workingkLocationSlct').selectpicker('render'); 
-//$("#weatherType").selectpicker('deselectAll'); 
-//	var workingkLocationSlct = $('#workingkLocationSlct').find("option");
-//	console.log(qrCode + "  befor " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
-//	for(var i = 0; i < workingkLocationSlct.length; i++) {
-//
-//		//$(workingkLocationSlct[i]).removeAttr("selected");
-//		
-//		if($(workingkLocationSlct[i]).val().toString() == qrCode) {
-//			
-//			$(workingkLocationSlct[i]).attr("selected", "true");
-//			console.log(qrCode + " new  ");
-//			selected = true;
-//			//break;
-//		}
-//	}
-
-//	var numbersWorkingkLocationSlct = $('#worklocation').find("option"); //获取select下拉框的所有值
-//	for(var j = 0; j < numbersWorkingkLocationSlct.length; j++) {
-//		$(numbersWorkingkLocationSlct[j]).removeAttr("selected");
-//		if($(numbersWorkingkLocationSlct[j]).val().toString() == qrCode) {
-//			$(numbersWorkingkLocationSlct[j]).attr("selected", "true");
-//			selected = true;
-//		}
-//	}
-//	if(selected) {
-//console.log(qrCode + "  real " + document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
-////		$('#worklocation').selectpicker('refresh');
-////		$('#worklocation').selectpicker('render'); 
-//		$('#workingkLocationSlct').selectpicker('refresh');
-//		$('#workingkLocationSlct').selectpicker('render'); 
-//		getOnRackRecord('onRack');
-//	} else {
-//		alert("未找到二维码对应的信息,请重新扫描!" + qrCode);
-//	}
-
+	$('#workingkLocationSlct').selectpicker('val', qrCode);
+	$('#workingkLocationSlct').selectpicker('refresh');
+	$('#workingkLocationSlct').selectpicker('render'); 
+	getOnRackRecord('onRack');
 }
-//		<!-- 模态框（Modal） -->
-//		<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-//			<div class="modal-dialog" style="width:450px">
-//				<div class="modal-content">
-//					<div class="modal-header">
-//						<button type="button" class="close" data-dismiss="modal">x</button>
-//						<h4 class="modal-title" id="myModalLabel"> 充电架记录 </h4>
-//					</div>
-//					<div class="modal-body" id="modal-body" style="padding-left:20px;">
-//						<form id="chargingRackRecordForm">
-//							<input type="text" id="id" name="id" style="display:none" />
-//							<input type="text" id="plantid" name="plantid" style="display:none" />
-//							<input type="text" id="processid" name="processid" style="display:none" />
-//							<input type="text" id="staffid" name="staffid" style="display:none" />
-//							<input type="text" id="materialid" name="materialid" style="display:none" />
-//							<input type="text" id="repairid" name="repairid" style="display:none" />
-//							<input type="text" id="pulloffstaffid" name="pulloffstaffid" style="display:none" />
-//							<input type="text" id="repaircombine" name="repaircombine" style="display:none" />
-//							<input type="text" id="status" name="status" style="display:none" />
-//							<input type="text" id="pulloffstaffname" name="pulloffstaffname" style="display:none" />
-//							<input type="text" id="pulloffdate" name="pulloffdate" style="display:none" />
-//
-//							<!--<label> 产线： </label>-->
-//							<br />
-//							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid">
-//							</select>
-//							<br />
-//							<br />
-//							<!--<label for="name">充电架:</label>
-//							<br />-->
-//							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">
-//							</select>
-//							<br />
-//							<br />
-//							<!--<label for="name">产品型号:</label>
-//							<br />-->
-//							<select class="selectpicker" id="materialname" name="materialname" style="width:100px;">
-//							</select>
-//							<br />
-//							<br />
-//							<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
-//								<option value=1>一等品</option>
-//								<option value=2>二等品</option>
-//								<option value=3>一次返充</option>
-//								<option value=4>二次返充</option>
-//							</select>
-//							<br />
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="productionnumber" name="productionnumber" placeholder="请输入上架数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架时间:</label>
-//								<input type="date" class="form-control" id="putondate" name="putondate">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">上架人员:</label>
-//								<input type="text" class="form-control" id="staffname" name="staffname" placeholder="请输入上架员工">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="repairnumber" name="repairnumber" placeholder="请输入报修数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修原因:</label>
-//								<input type="text" class="form-control" id="reason" name="reason" placeholder="请输入报修原因">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修人员:</label>
-//								<input type="text" class="form-control" id="repairname" name="repairname" placeholder="请输入报修人员">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">报修时间:</label>
-//								<input type="date" class="form-control" id="repairtime" name="repairtime" onchange="lineWorkOrderModalChange()">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">在架实际数量:</label>
-//								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="realnumber" name="realnumber" placeholder="请输入报修数量">
-//							</div>
-//							<br />
-//							<div class="form-inline row">
-//								<label for="name">备注:</label>
-//								<input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
-//							</div>
-//							<br />
-//						</form>
-//					</div>
-//					<div class="modal-footer">
-//						<button type="button" class="btn btn-default" onclick="saveChargingRackRecordModel()">保存 </button>
-//						<button type="button" class="btn btn-default" onclick="closeChargingRackRecordModel()">关闭 </button>
-//					</div>
-//				</div>
-//				<!-- /.modal-content -->
-//			</div>
-//			<!-- /.modal -->
-//		</div>
