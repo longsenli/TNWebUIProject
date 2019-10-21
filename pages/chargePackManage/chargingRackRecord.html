@@ -111,13 +111,43 @@
 			<button type="button" id="pullOffRackButton" class="btn btn-info" onclick="pullOffChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池下架
            </button>
-
+			<button type="button" id="pullOffRackPartButton" class="btn btn-info" onclick="showPullOffPartModal()">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>部分下架
+           </button>
 			<button type="button" class="btn btn-info" onclick="deleteChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
            </button>
 		</div>
 		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myPullOffPartModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 部分下架 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="pullOffPartForm">
+
+							<div class="form-inline row">
+								<label for="name">请输入下架数量:</label>
+								<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="pullOffPartNumber" name="pullOffPartNumber" placeholder="请输入下架数量">
+							</div>
+							<br />
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="myPullOffPartButton" class="btn btn-info" onclick="pullOffChargingRackPartRecord()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeChargingRackRecordModel('myPullOffPartModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myAddModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -138,10 +168,10 @@
 							<input type="text" id="realnumber" name="realnumber" style="display:none" />
 
 							<!--<label> 产线： </label>-->
-							
+
 							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" readonly="readonly">
 							</select>
-							
+
 							<!--<label for="name">充电架:</label>
 							<br />-->
 							<select class="selectpicker" id="worklocation" name="worklocation" style="width:100px;">

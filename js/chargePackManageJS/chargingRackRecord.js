@@ -630,6 +630,92 @@ function pullOffChargingRackRecord() {
 	});
 }
 
+function showPullOffPartModal() {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	if(row[0].pulloffdate) {
+		alert("该记录已下架,不要重复操作!");
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
+		return;
+	}
+	$('#pullOffPartNumber').val(row[0].realnumber);
+	$("#myPullOffPartModal").modal('show');
+}
+
+function pullOffChargingRackPartRecord() {
+	disableChangeButton("myPullOffPartButton", true);
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		disableChangeButton("myPullOffPartButton", false);
+		return;
+	}
+	if(row[0].pulloffdate) {
+		alert("该记录已下架,不要重复操作!");
+		disableChangeButton("myPullOffPartButton", false);
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
+		disableChangeButton("myPullOffPartButton", false);
+		return;
+	}
+
+	var realLast = parseInt(row[0].realnumber);
+	var pullOffNumber = parseInt($('#pullOffPartNumber').val().trim());
+	if((realLast - pullOffNumber) < 0) {
+		alert("下架数量不能大于在家数量!" + row[0].realnumber);
+		disableChangeButton("myPullOffPartButton", false);
+		return;
+	}
+
+	var formMap = {};
+	formMap['id'] = row[0].id;
+	formMap['putondate'] = row[0].putondate;
+	formMap['realnumber'] = pullOffNumber;
+	formMap['materialtype'] = row[0].materialtype;
+	formMap['materialid'] = row[0].materialid;
+	formMap['materialname'] = row[0].materialname;
+	formMap['plantid'] = row[0].plantid;
+	formMap['lineid'] = row[0].lineid;
+	formMap['pulloffstaffid'] = localStorage.userID;
+	formMap['pulloffstaffname'] = localStorage.username;
+	formMap['pulloffdate'] = new Date();
+
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				alert('下架成功!');
+				$("#myPullOffPartModal").modal('hide');
+			} else {
+				alert("下架失败！" + data.message);
+			}
+			disableChangeButton("myPullOffPartButton", false);
+		}
+	});
+}
+
 function deleteChargingRackRecord() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;

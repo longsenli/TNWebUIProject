@@ -184,7 +184,7 @@ function getStaffWeighShow(showType) {
 					if(minNum > models[i].weight)
 						minNum = models[i].weight;
 				}
-				document.getElementById("showDetail1").innerHTML = "最近两小时共称重:" + total + ",±" + maxWeighQualifyRange + "g,低于标准:" + overMin +
+				document.getElementById("showDetail1").innerHTML = "最近半小时共称重:" + total + ",±" + maxWeighQualifyRange + "g,低于标准:" + overMin +
 					",高于标准:" + overMax + ",合格:" + (total - overMax - overMin) +
 					",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
 				//var percent = Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%";
@@ -350,7 +350,7 @@ function getStaffWeighShow(showType) {
 					if(minNum > models[i].weight)
 						minNum = models[i].weight;
 				}
-				document.getElementById("showDetail2").innerHTML = "最近两小时共称重:" + total + ",±" + maxWeighQualifyRange + "g,低于标准:" + overMin +
+				document.getElementById("showDetail2").innerHTML = "最近半小时共称重:" + total + ",±" + maxWeighQualifyRange + "g,低于标准:" + overMin +
 					",高于标准:" + overMax + ",合格:" + (total - overMax - overMin) +
 					",合格率为" + Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%.";
 				//var percent = Math.round(((total - overMax - overMin) * 1.0 / total) * 10000) / 100 + "%";
