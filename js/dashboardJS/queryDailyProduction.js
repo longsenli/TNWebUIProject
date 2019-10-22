@@ -447,6 +447,87 @@ function getDailyProduction() {
 		});
 	}
 
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byGrantMaterial') {
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "数量",
+			"field": "number"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "grantDayTime"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "接收部门",
+			"field": "acceptPlant"
+		});
+		
+	}
+	
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byGainMaterial') {
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "数量",
+			"field": "number"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "日期",
+			"field": "grantDayTime"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "发放部门",
+			"field": "grantPlant"
+		});
+		
+	}
+	
+	if(document.PlantToLineSelectForm.queryType.value.toString() == 'byScrapMaterial') {
+		columnsArray.push({
+			width: 300,
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "报废数量",
+			"field": "scrapNumber"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "classType"
+		});
+
+		columnsArray.push({
+			width: 300,
+			"title": "报废日期",
+			"field": "productDayStr"
+		});
+		
+	}
+	
 	//console.log(document.PlantToLineSelectForm.queryType.value.toString().indexOf('And') );
 
 	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
