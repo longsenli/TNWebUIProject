@@ -53,7 +53,7 @@ function getWebAPI() {
 		type: "GET",
 		dataType: "json",
 		success: function(dataRes) {
-			console.log($("#startTime").val() + $("#endTime").val() +
+			//console.log($("#startTime").val() + $("#endTime").val() +
 				$('#productLine option:selected').text() + $('#productType option:selected').text());
 			//              $("#detail").html('<h2> '+ dataRes+' </h2>');
 			var models = eval("(" + dataRes + ")");

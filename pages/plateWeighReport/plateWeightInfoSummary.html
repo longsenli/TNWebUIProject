@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>天能集团（濮阳）报表系统</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<!-- 引入 echarts.js -->
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../js/plateweigh/plateWeightInfoSummary.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			$(function() {
+				//				var today = new Date();
+				//				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				//				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				industrialPlantSlctFun();
+				var today = new Date();
+				if(today.getHours() < 7) {
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					today.setDate(today.getDate() - 1)
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				} else if(today.getHours() > 18) {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T19:00");
+					today.setDate(today.getDate() + 1)
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T07:00");
+				} else {
+					document.getElementById("startTime").value = today.format("yyyy-MM-dd" + "T07:00");
+					document.getElementById("endTime").value = today.format("yyyy-MM-dd" + "T19:00");
+				}
+$('#pictureShow').hide();
+			})
+
+			$(function() {
+				$("body").delegate('#table tr', 'click', function() {
+					recordRowClick(this);
+				});
+			});
+		</script>
+		<br />
+		<form>
+			<div class="form-inline row">
+				<!--<input type="date" id="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" />-->
+				<label> 厂区： </label>
+				<select class="selectpicker" id="plantSelect" style="width:100px;" name="plantSelect" onchange="initBasicData()">
+				</select>
+				<label> 电子秤： </label>
+				<select class="selectpicker" id="weighBalanceID" style="width:100px;" name="weighBalanceID">
+				</select>
+				<label> 机长： </label>
+				<select class="selectpicker" id="weighQualifyStaff" style="width:100px;" name="weighQualifyStaff">
+				</select>
+				<label> 型号： </label>
+				<select class="selectpicker" id="weighQualifyMaterialType" style="width:100px;" name="weighQualifyMaterialType">
+				</select>
+				<select class="selectpicker" id="weighQualifyRange" data-width="auto" name="weighQualifyRange">
+					<option value=1>±1克合格率</option>
+					<option value=2>±2克合格率</option>
+					<option value=3>±3克合格率</option>
+					<option value=5>±5克合格率</option>
+				</select>
+				<!--<select class="selectpicker" id="weighRateTypeSlct" data-width="auto" name="weighQualifyRange">
+					<option value=1>机长</option>
+					<option value=2>产线</option>
+					<option value=3>型号</option>
+				</select>-->
+				<input type="datetime-local" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="datetime-local" id="endTime" name="endTime" />
+				<button type="button" class="btn btn-default" onclick="getQualifiedRateInfo()">合格率查询     </button>
+				<button type="button" class="btn btn-default" onclick="getPlateWeighRecord()">称重详情     </button>
+				<button type="button" class="btn btn-default" onclick="getPlateWeighRecordPicture()">称重趋势图     </button>
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+		<div id='tableInfoShow'>
+			<table id="table" style="word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+			</table>
+		</div>
+		<div id='pictureShow'>
+			<div class="container" style="width: 95%;background-color:#F2F0C2;" id="productionDashboardShow">
+				<br />
+
+				<div class="col-md-12" id="leftContainer1" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+					<label id="showDetail1" style="font-size:25px;"></label>
+					<br />
+					<div id="report1"></div>
+				</div>
+	
+			</div>
+		</div>
+
+	</body>
+
+</html>
