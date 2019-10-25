@@ -313,7 +313,7 @@ function getOnRackRecord(selectType) {
 		visible: false
 	});
 	columnsArray.push({
-		"title": "位置",
+		"title": "充电架位置",
 		"field": "worklocation",
 		formatter: function(value, row, index) {
 			if(value != '总计')
@@ -352,7 +352,7 @@ function getOnRackRecord(selectType) {
 		"field": "staffname"
 	});
 	columnsArray.push({
-		"title": "上架日期",
+		"title": "上 架 日 期",
 		"field": "putondate",
 		formatter: function(value, row, index) {
 			if(value) {
@@ -376,7 +376,7 @@ function getOnRackRecord(selectType) {
 		"field": "pulloffstaffname"
 	});
 	columnsArray.push({
-		"title": "下架日期",
+		"title": "下 架  日 期",
 		"field": "pulloffdate",
 		formatter: function(value, row, index) {
 			if(value) {
