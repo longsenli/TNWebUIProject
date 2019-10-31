@@ -103,6 +103,13 @@ function onlineMaterialProductionLineSlctFun() {
 	//	}
 	//alert(document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
 	onlineMaterialMaterialSlct();
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == windowProcessEnum.ZH) {
+		$("#onlineMaterial_merge").html("合并入库");
+	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == windowProcessEnum.JS) {
+		$("#onlineMaterial_merge").html("统一送维");
+	} else {
+		$("#onlineMaterial_merge").html("合并记录");
+	}
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -372,21 +379,24 @@ function selectedOnlineMaterialRow(param) {
 			alert("请选择行数据!");
 			return;
 		}
-		var mergeID = '';
-		var sumMerge = 0;
+		mergeRecordIDList = '';
+		sumMergeNumber = 0;
 		for(var i = 0; i < row.length; i++) {
 			if(row[i].status != '1') {
 				alert('有记录已经入库,请确认,' + row[i].updatetime);
 				return;
 			}
-			sumMerge += row[i].materialnum;
-			mergeID += row[i].id + ',';
+			sumMergeNumber += row[i].materialnum;
+			mergeRecordIDList += row[i].id + ',';
 		}
-		if(!window.changeConfirmDlg("是否合并" + row.length + "条记录,总产量为:" + sumMerge)) {
-			return;
-		}
-		mergeID = mergeID.substr(0, mergeID.length - 1);
-		mergeOnlineMaterialReocrd(mergeID);
+		//		if(!window.changeConfirmDlg("是否合并" + row.length + "条记录,总产量为:" + sumMergeNumber)) {
+		//			return;
+		//		}
+		$("#mergeMaterialName").val($("#materialid option[value='" + row[0].materialid + "']").text());
+		$("#inputNumber").val(sumMergeNumber);
+		mergeRecordIDList = mergeRecordIDList.substr(0, mergeRecordIDList.length - 1);
+		$('#mergeNumberInput').modal('show');
+		//mergeOnlineMaterialReocrd(mergeRecordIDList);
 	} else if(optionType == "onlineMaterial_delete") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
@@ -430,6 +440,9 @@ function deleteonlineMaterial(id) {
 	});
 }
 
+var mergeRecordIDList = "";
+var sumMergeNumber = 0;
+
 function mergeOnlineMaterialReocrd(mergeID) {
 
 	//	if(isNaN(parseInt($("#materialnum").val())) || parseInt($("#materialnum").val()) < 1) {
@@ -438,10 +451,29 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//	}
 	//	var formMap = window.formToObject($("#onlineMaterialModalForm"));
 	//	formMap["operator"] = localStorage.getItem('username');
+	if(!mergeID && mergeRecordIDList.length > 2) {
+		mergeID = mergeRecordIDList;
+
+	} else {
+		alert("请先选择处理的记录!");
+		return;
+	}
+
+	if(isNaN(parseInt($("#inputNumber").val()))) {
+		alert("请正确输入入库数量,当前输入不是数值!");
+		return;
+	}
+	var inputNumber = parseInt($("#inputNumber").val());
+	if(inputNumber > sumMergeNumber) {
+		alert("请正确输入入库数量,不能大于当前线边仓数量!");
+		return;
+	}
+	
+	
 	$("#onlineMaterial_merge").attr("disabled", false);
 	$.ajax({
 		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + localStorage.getItem('username') +
-			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() + "&inputNumber=" +inputNumber ,
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
@@ -454,6 +486,8 @@ function mergeOnlineMaterialReocrd(mergeID) {
 		success: function(data) {
 			if(data.status == 1) {
 				alert('保存成功!');
+				closeInputNumber();
+	
 				getOnlineMaterial();
 
 			} else {
@@ -549,4 +583,10 @@ function onlineMaterialRowClick(row) {
 
 function closeOnlineMaterialModal() {
 	$("#onlineMaterialModal").modal('hide');
+}
+
+function closeInputNumber() {
+	$("#mergeNumberInput").modal('hide');
+	mergeRecordIDList = "";
+	sumMergeNumber = 0;
 }

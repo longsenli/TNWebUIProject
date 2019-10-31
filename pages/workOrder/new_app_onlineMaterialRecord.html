@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script type="text/javascript" src="../../js/workOrderJS/app_onlineMaterialRecord.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/onlineMaterialRecord.js"></script>
 		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
@@ -156,14 +156,47 @@
 														</form>
 													</div>
 													<div class="modal-footer">
-														<button type="button" class="btn btn-default" onclick="closeOnlineMaterialModal()">关闭 </button>
-														<button type="button" id="saveOnlineMaterialRecordBT" class="btn btn-default" onclick="saveOnlineMaterialReocrd()">保存 </button>
+														<button type="button" class="btn btn-info" onclick="closeOnlineMaterialModal()">关闭 </button>
+														<button type="button" id="saveOnlineMaterialRecordBT" class="btn btn-info" onclick="saveOnlineMaterialReocrd()">保存 </button>
 													</div>
 												</div>
 												<!-- /.modal-content -->
 											</div>
 											<!-- /.modal -->
 										</div>
+										
+										
+										<div class="modal fade" id="mergeNumberInput" role="dialog" aria-hidden="true" data-backdrop='static'>
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">x</button>
+														<h4 class="modal-title" id="myModalLabel">线边仓管理 </h4>
+													</div>
+													<div class="modal-body" id="modal-body">
+														<form id="mergeNumberInputForm">
+															<div class="form-inline row">
+															&nbsp&nbsp&nbsp&nbsp<label> 物料： </label>
+															<input type="text" class="form-control" id= "mergeMaterialName" readonly="readonly">
+															</div>
+												
+															<br />
+															<div class="form-inline row">
+																&nbsp&nbsp&nbsp&nbsp<label for="name">入库数量:</label> &nbsp&nbsp
+																<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="inputNumber" name="inputNumber" placeholder="入库数量">
+															</div>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-info" onclick="closeInputNumber()">关闭 </button>
+														<button type="button" id="saveOnlineMaterialRecordBT" class="btn btn-info" onclick="mergeOnlineMaterialReocrd()">保存 </button>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal -->
+										</div>
+										
 									</div>
 								</div>
 							</div>
