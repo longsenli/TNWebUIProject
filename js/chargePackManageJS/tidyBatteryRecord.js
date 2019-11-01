@@ -442,10 +442,16 @@ function getPileRecord(selectType) {
 		"field": "status",
 		formatter: function(value, row, index) {
 			if(value == '1') {
-				return '在库中';
+				return '已下打堆单';
 			}
 			if(value == '2') {
-				return '已使用';
+				return '包装已使用';
+			}
+			if(value == '3') {
+				return '整托打堆扫码入库';
+			}
+			if(value == '4') {
+				return '部分打堆扫码入库';
 			}
 			return '状态不明';
 		}
@@ -593,10 +599,12 @@ function printPileQR() {
 }
 
 function addTidyBatteryRepairRecord() {
+	//加载整理台实时数据
+	getTidyRecord('onWorkbench');
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(row.length != 1) {
+	if(row.length != 1 || row[0].childElementCount=='0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -629,11 +637,20 @@ function addTidyBatteryRepairRecord() {
 }
 
 function changeTidyBatteryRecord() {
-
+	//加载整理台实时数据
+	getTidyRecord('onWorkbench');
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(row.length != 1) {
+//	if(row[0]=='undefined'){
+//		alert("请选择要修改的数据,一次只能选择一行!");
+//		return;
+//	}
+//	if(row[0].childElementCount=='0'){
+//		alert("请点击整理台实时数据, 并选择一条记录");
+//		return;
+//	}
+	if(row.length != 1 || row[0].childElementCount=='0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -674,10 +691,12 @@ function pileBatterySetCount() {
 }
 
 function addPileRecord() {
+	//加载整理台实时数据
+	getTidyRecord('onWorkbench');
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(row.length != 1) {
+	if(row.length != 1 || row[0].childElementCount=='0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -964,10 +983,174 @@ function openBarcodeCustom() {
 }
 
 function recognitionQR(webName, qrCode) {
-	if(webName == 'package')
+	if(webName == 'package'){
 		showPackageInput(qrCode);
+	}
+	if(webName == 'finishpiletidy'){
+		finishPiletidyInput(qrCode);
+	}
+	if(webName == 'showpartpileInput'){
+		showpartpileInput(qrCode);
+	}
+}
+//显示部分打堆扫码窗口
+function showpartpileInput(pileID) {
+	var piletotalNum=0;
+	var remainpileNum=0;
+	var partpileNum="partpilequery";
+	var plantID="";
+	var processID="";
+	var lineID="";
+	var lineID="";
+	var username = "";
+	var userID = "";
+	$.ajax({
+		// url: window.serviceIP + "/api/chargepack/getpilerecordbypileid?id=" + pileID,http://192.168.1.109:8080/api/chargepack/finishPileTidyBatteryRecord?id=
+		url: window.serviceIP+ "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+		"&userID="+userID+"&username="+username,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				var models = eval("(" + data.data + ")");
+				if(models[0].status == '2') {
+					alert("该二维码已经包装,请确认!");
+					return;
+				}
+				$("#partPileForm" + " #partpileModalid").val(pileID);
+				$("#partPileForm" + " #piletotalNum").val(models[0].productionnumber);
+				$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber);
+				$("#partpileModalSaveButton").attr('disabled', false);
+				$("#partpileModal").modal('show');
+
+			} else {
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+			}
+		}
+	});
+}
+//部分打堆扫码保存方法
+function savepartPileModel() {
+	var pileID = $("#partPileForm" + " #partpileModalid").val();
+	var piletotalNum = $('#piletotalNum').val();
+	var remainpileNum= $('#remainpileNum').val();
+	var partpileNum=$('#partpileNum').val();
+	var plantID=localStorage.getItem('plantID');
+	var processID=localStorage.getItem('processID');
+	var lineID=localStorage.getItem('lineID');
+	var lineID=localStorage.getItem('lineID');
+	var username = localStorage.getItem('username');
+	var userID = localStorage.getItem('userID');
+	$("#partpileModalSaveButton").attr('disabled', true);
+	var formData = new FormData($("#partPileForm")[0]);
+	if(parseInt(remainpileNum) - parseInt(partpileNum) < 0) {
+		$("#partpileModalSaveButton").attr('disabled', false);
+		alert("打堆数量应小于等于剩余打堆数量!");
+		return;
+	}
+	$.ajax({
+	// 	url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+	// "&userID="+userID+"&username="+username,
+		url: window.serviceIP+"/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+	"&userID="+userID+"&username="+username,
+		type: "POST",
+		// data: formData,
+		processData: false,
+		contentType: "application/json",
+		dataType: "json",
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				$("#partPileForm" + " #partpileModalid").val("");
+				$("#partPileForm" + " #piletotalNum").val("");
+				$("#partPileForm" + " #remainpileNum").val("");
+				$("#partpileModalSaveButton").attr('disabled', false);
+				$("#partpileModal").modal('hide');
+				alert("部分打堆扫码成功!");
+				
+			} else {
+				$("#partPileForm" + " #partpileModalid").val("");
+				$("#partPileForm" + " #piletotalNum").val("");
+				$("#partPileForm" + " #remainpileNum").val("");
+				$("#partPileForm" + " #partpileNum").val("");
+				$("#partpileModalSaveButton").attr('disabled', false);
+				$("#partpileModal").modal('hide');
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+			}
+			//disableChangeButton(modelID + "SaveButton", false);
+		}
+	});
 }
 
+
+
+
+//整托打堆调用方法
+function finishPiletidyInput(pileID) {
+	var remainpileNum = '0';
+	var piletotalNum ='0';
+	var partpileNum='0';
+	var plantID=localStorage.getItem('plantID');
+	var processID=localStorage.getItem('processID');
+	var lineID=localStorage.getItem('lineID');
+	var lineID=localStorage.getItem('lineID');
+	var username = localStorage.getItem('username');
+	var userID = localStorage.getItem('userID');
+	$.ajax({
+		// url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&packageNum="+packageNum+"&totalNum="+totalNum,
+		url: window.serviceIP+"/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+		"&userID="+userID+"&username="+username,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				alert('打堆扫码成功!');
+				var models = eval("(" + data.data + ")");
+				if(models[0].status == '2') {
+					alert("该二维码已经打堆扫码,请确认!");
+					return;
+				}
+//				getTidyRecord('onWorkbench');
+				// $("#tidyBatteryPilePackageForm" + " #id").val(pileID);
+				// $("#tidyBatteryPilePackageForm" + " #totalNum").val(models[0].productionnumber);
+				// $("#tidyBatteryPilePackageForm" + " #packageNum").val(models[0].productionnumber);
+				// $("#myPackageModalSaveButton").attr('disabled', false);
+				// $("#myPackageModal").modal('show');
+
+			} else {
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+			}
+			disableChangeButton("partpileModalSaveButton", false);
+		}
+	});
+}
+
+
+
+
+
+
+
+
+//显示包装扫码窗口
 function showPackageInput(pileID) {
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/getpilerecordbypileid?id=" + pileID,
@@ -1092,10 +1275,16 @@ function getPackageRecord()
 		"field": "status",
 		formatter: function(value, row, index) {
 			if(value == '1') {
-				return '在库中';
+				return '已下打堆单';
 			}
 			if(value == '2') {
-				return '已使用';
+				return '包装已使用';
+			}
+			if(value == '3') {
+				return '整托打堆扫码入库';
+			}
+			if(value == '4') {
+				return '部分打堆扫码入库';
 			}
 			return '状态不明';
 		}

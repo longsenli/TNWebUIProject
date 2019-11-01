@@ -2587,7 +2587,8 @@
 					"pages/safetyAndEPManage/app_hiddenDangerManage.html",
 					"pages/safetyAndEPManage/app_hiddenDangerDeal.html",
 					"pages/safetyAndEPManage/app_regularPerambulation.html",
-					"pages/contentManage/app_publishIdea.html"
+					"pages/contentManage/app_publishIdea.html",
+					"pages/chargePackManage/app_tidyBatteryRecord.html"
 				],
 				"priority": 0
 			},
@@ -2609,6 +2610,13 @@
 				"resources": [],
 				"refer": [
 					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/chargePackManage/app_tidyBatteryRecord.html": {
+				"resources": [],
+				"refer": [
+					"pages/chargePackManage/barcode_scan.html"
 				],
 				"priority": 0
 			}
