@@ -287,7 +287,7 @@ function chargingRackRecordMaterialSlct() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
+					$('#materialname').append(("<option style='margin-top: 5px;font-size: 25px;' value=" + models[i].id + ">" + models[i].name.toString()  +
 						"</option>").toString());
 				}
 				$('#materialname').selectpicker('refresh');
