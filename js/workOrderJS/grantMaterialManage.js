@@ -306,6 +306,7 @@ function grantMaterialDetail() {
 		"title": "数量",
 		"field": "number"
 	});
+
 	columnsArray.push({
 		"title": "发料人",
 		"field": "operator"
@@ -314,7 +315,10 @@ function grantMaterialDetail() {
 		"title": "发料时间",
 		"field": "grantTime"
 	});
-
+	columnsArray.push({
+		"title": "使用状态",
+		"field": "usedstatus"
+	});
 	var urlStr = window.serviceIP + "/api/material/getgrantmaterialrecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
