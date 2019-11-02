@@ -313,10 +313,12 @@ function getOnlineMaterial() {
 function onlineMaterialMaterialSlct() {
 
 	var urlStr = window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-		document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+		document.PlantToLineSelectForm.productionProcessSlct.value.toString() + 
+		"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
 	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JS) {
-		urlStr = window.serviceIP + "/api/basicdata/getinputmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString();
+		urlStr = window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+		window.windowProcessEnum.ZH + 
+		"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
 	}
 	$.ajax({
 		url: urlStr,
@@ -339,7 +341,7 @@ function onlineMaterialMaterialSlct() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#materialid').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   

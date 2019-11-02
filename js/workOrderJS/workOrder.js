@@ -176,6 +176,18 @@ function getWorkOrder() {
 		"field": "lineName"
 	});
 	columnsArray.push({
+		width: 100,
+		"title": "班次",
+		"field": "scheduledstarttime",
+		formatter: function(value, row, index) {
+			if(value.toString().indexOf("07:00") > 1)
+				return '白班';
+			else
+				return '夜班';
+			//return value;
+		}
+	});
+	columnsArray.push({
 		width: 300,
 		"title": "状态",
 		"field": "status",
@@ -226,7 +238,8 @@ function getWorkOrder() {
 	columnsArray.push({
 		width: 300,
 		"title": "计划结束时间",
-		"field": "scheduledendtime"
+		"field": "scheduledendtime",
+		visible: false
 	});
 
 	columnsArray.push({
