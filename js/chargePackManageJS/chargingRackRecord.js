@@ -96,7 +96,7 @@ function chargingRackRecordProductionProcessSlctFun() {
 
 				setTimeout(function() {
 					chargingRackRecordProductionLineSlctFun();
-					
+
 				}, 100);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -159,7 +159,7 @@ function chargingRackRecordProductionLineSlctFun() {
 				}
 
 				setTimeout(function() {
-					
+
 					chargingRackRecordWorkingLocationSlctFun();
 					chargingRackRecordMaterialSlct();
 				}, 100);
@@ -231,8 +231,8 @@ function chargingRackRecordMaterialSlct() {
 	$.ajax({
 
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString()
-			+ "&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
 		type: "GET",
 
 		//contentType: "application/json",
@@ -441,6 +441,7 @@ function chargingRackRecordRowClick(row) {
 function closeChargingRackRecordModel(modelName) {
 	$("#" + modelName).modal('hide');
 }
+var lastSelectedMaterial = '';
 
 function setPutOnNum() {
 	var num = parseInt($("#chargingRackRecordAddForm" + " #worklocation").find("option:selected").text().split("###")[1].trim());
@@ -455,8 +456,15 @@ function addChargingRackRecord() {
 	$('#chargingRackRecordAddForm #worklocation').selectpicker('refresh');
 	$('#chargingRackRecordAddForm #worklocation').selectpicker('render'); 
 
+	if(lastSelectedMaterial.length > 2) {
+		$('#chargingRackRecordAddForm #materialname').selectpicker('val', lastSelectedMaterial);
+	}
+
 	$('#chargingRackRecordAddForm #materialname').selectpicker('refresh');
 	$('#chargingRackRecordAddForm #materialname').selectpicker('render'); 
+
+	//$('#chargingRackRecordAddForm #materialname').selectpicker('refresh');
+	//$('#chargingRackRecordAddForm #materialname').selectpicker('render'); 
 
 	$('#chargingRackRecordAddForm #materialtype').selectpicker('refresh');
 	$('#chargingRackRecordAddForm #materialtype').selectpicker('render'); 
@@ -734,6 +742,8 @@ function saveChargingRackRecordModel(modelID, formID) {
 		}
 		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val();
 		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[0].trim()
+		lastSelectedMaterial = $("#chargingRackRecordAddForm" + " #materialname").val();
+
 	}
 
 	if(formID == 'chargingRackRecordRepairForm') {
