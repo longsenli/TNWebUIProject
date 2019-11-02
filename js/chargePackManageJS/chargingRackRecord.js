@@ -96,7 +96,7 @@ function chargingRackRecordProductionProcessSlctFun() {
 
 				setTimeout(function() {
 					chargingRackRecordProductionLineSlctFun();
-					chargingRackRecordMaterialSlct();
+					
 				}, 100);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -104,44 +104,6 @@ function chargingRackRecordProductionProcessSlctFun() {
 		}
 	});
 };
-
-function chargingRackRecordMaterialSlct() {
-	$.ajax({
-
-		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
-		type: "GET",
-
-		//contentType: "application/json",
-		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
-		processData: false,
-		contentType: false,
-		async: false,
-		success: function(dataRes) {
-
-			$("#materialname").find('option').remove();
-
-			if(dataRes.status == 1) { 
-
-				var models = eval("(" + dataRes.data + ")");
-				for (var  i  in  models)  {  
-					$('#materialname').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  +
-						"###" + models[i].eachbatchnumber + "</option>").toString());
-				}
-				$('#materialname').selectpicker('refresh');
-				$('#materialname').selectpicker('render');   
-				// $('#materialid').selectpicker('mobile');
-
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	}); 
-}
 
 function chargingRackRecordProductionLineSlctFun() {
 
@@ -197,7 +159,9 @@ function chargingRackRecordProductionLineSlctFun() {
 				}
 
 				setTimeout(function() {
+					
 					chargingRackRecordWorkingLocationSlctFun();
+					chargingRackRecordMaterialSlct();
 				}, 100);
 
 			} else {
@@ -267,7 +231,8 @@ function chargingRackRecordMaterialSlct() {
 	$.ajax({
 
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
+			document.PlantToLineSelectForm.productionProcessSlct.value.toString()
+			+ "&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
 		type: "GET",
 
 		//contentType: "application/json",

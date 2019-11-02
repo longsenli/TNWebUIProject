@@ -351,7 +351,7 @@ function setLineModal() {
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
-					$('#materialid').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].eachbatchnumber + "</option>").toString());
+					$('#materialid').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].eachbatchnumber + "</option>").toString());
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
