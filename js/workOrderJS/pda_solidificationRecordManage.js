@@ -47,7 +47,7 @@ function solidificationRoomInfoSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", "1004");
-	$('#solidifyStepID').selectpicker('hide');
+	//$('#solidifyStepID').selectpicker('hide');
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionline",
@@ -130,11 +130,10 @@ function changeSolidificationRoomStatus() {
 		contentType: false,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				alert("转段成功!");
+				$("#showMessage").html("转段成功！");
 			}
 		}
 	});
-
 }
 
 function solidificationRecordManageDetail() {

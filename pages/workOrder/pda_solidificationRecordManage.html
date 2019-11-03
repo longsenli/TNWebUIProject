@@ -111,16 +111,25 @@
 						//addOrderIDToBatchTable(Number,"PDA");
 						if(Number.indexOf("TB") < 0) {
 						
-							var numbers = $('#solidificationRoomInfoSlct').find("option"); //获取select下拉框的所有值
-							for(var j = 0; j < numbers.length; j++) {
-								if($(numbers[j]).val().toString() == Number) {
-									$(numbers[j]).attr("selected", "selected");
-									
-								}
+						var roomArray = Number.split("___");
+//							var numbers = $('#solidificationRoomInfoSlct').find("option"); //获取select下拉框的所有值
+//							for(var j = 0; j < numbers.length; j++) {
+//								if($(numbers[j]).val().toString() == roomArray[0]) {
+//									$(numbers[j]).attr("selected", "selected");
+//									
+//								}
+//							}
+							
+							$('#solidificationRoomInfoSlct').selectpicker('val', roomArray[0]);
+	$('#solidificationRoomInfoSlct').selectpicker('refresh');
+	$('#solidificationRoomInfoSlct').selectpicker('render'); 
+	
+							if(roomArray.length > 1)
+							{
+								$('#solidifyStepID').selectpicker('val', roomArray[1]);
+	$('#solidifyStepID').selectpicker('refresh');
+	$('#solidifyStepID').selectpicker('render'); 
 							}
-							$('#solidificationRoomInfoSlct').selectpicker('refresh');
-							$('#solidificationRoomInfoSlct').selectpicker('render'); 
-
 //							if(roomID) {
 //								$("#orderIDByBatch").val("");
 //								document.getElementById('orderIDByBatch').focus();
@@ -185,11 +194,10 @@
 												<div class="form-group">
 													<!--<label> 阶段： </label>-->
 													<select class="selectpicker" id="solidifyStepID" style="width:100px;" name="solidifyStepID">
-														<option value="-1">全部</option>
 														<option value="1">一段</option>
 														<option value="2">二段</option>
 														<option value="3">三段</option>
-														<option value="9">出库</option>
+													
 													</select>
 												</div>
 												<div class="form-group">
@@ -215,7 +223,7 @@
 												<br />
 												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="addSolidificationRecordManageByBatch()">批量入固化室</button>
 												<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="changeAllSolidificationRoomStatusAuto()">一键转段</button>
-												<!--<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="changeSolidificationRoomStatus()">转段</button>-->
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="changeSolidificationRoomStatus()">转段</button>
 
 											</div>
 											<br />
