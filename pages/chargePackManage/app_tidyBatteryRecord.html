@@ -125,7 +125,7 @@
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>整理台历史查询
            </button>
 											<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getPileRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>打堆查询
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>打堆工单查询
            </button>
 											<button type="button" class="btn btn-success" style="margin-top: 10px;display:none" onclick="printPileQR()">
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>打印打堆二维码
@@ -353,13 +353,13 @@
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="myPackageModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-											<div class="modal-dialog" style="width:400px">
+											<div class="modal-dialog" >
 												<div class="modal-content">
 													<div class="modal-header">
 														<button type="button" class="close" data-dismiss="modal">x</button>
-														<h4 class="modal-title" id="myModalLabel"> 包装确认 </h4>
+														<h4 class="modal-title" id="myModalLabel"> 确认包装领料数量 </h4>
 													</div>
-													<div class="modal-body" id="modal-body" style="padding-left:20px;">
+													<div class="modal-body" id="modal-body" >
 														<form id="tidyBatteryPilePackageForm">
 															<input type="text" id="id" name="id" style="display:none" />
 

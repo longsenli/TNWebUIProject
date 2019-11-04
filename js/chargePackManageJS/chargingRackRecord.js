@@ -579,7 +579,32 @@ function pullOffChargingRackRecord() {
 	formMap['pulloffstaffid'] = localStorage.userID;
 	formMap['pulloffstaffname'] = localStorage.username;
 	formMap['pulloffdate'] = new Date();
-
+	//如果下架的电池是一次反充二次反充电池, 则弹出提示框提示下架到哪个区域
+	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
+		$('#confirmLineModalselect').html($('#productionLineSlct').html());
+		var numbers = $('#confirmLineModalselect').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbers.length; j++) {
+			if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
+				$(numbers[j]).attr("selected", "selected");
+			}
+		}
+		$('#confirmLineModalselect').selectpicker('refresh');
+		$('#confirmLineModalselect').selectpicker('render');   
+		$('#confirmid').val(row[0].id);
+		$('#confirmputondate').val(row[0].putondate);
+		$('#confirmrealnumber').val(row[0].realnumber);
+		$('#confirmmaterialtype').val(row[0].materialtype);
+		$('#confirmmaterialid').val(row[0].materialid);
+		$('#confirmmaterialname').val(row[0].materialname);
+		$('#confirmplantid').val(row[0].plantid);
+		$('#confirmlineid').val(row[0].lineid);
+		$('#confirmpulloffstaffid').val(localStorage.userID);
+		$('#confirmpulloffstaffname').val(localStorage.username);
+		$('#confirmpulloffdate').val(new Date());
+		$("#confirmLineModal").modal('show');
+		return;
+	}
+	
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
 		type: "POST",
@@ -603,6 +628,72 @@ function pullOffChargingRackRecord() {
 	});
 }
 
+
+//如果下架的电池是一次反充二次反充电池, 则弹出提示框提示下架到哪个区域
+function confirmpullOffChargingRackRecord() {
+	disableChangeButton("pullOffRackButton", true);
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		disableChangeButton("pullOffRackButton", false);
+		return;
+	}
+	if(row[0].pulloffdate) {
+		alert("该记录已下架,不要重复操作!");
+		disableChangeButton("pullOffRackButton", false);
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
+		disableChangeButton("pullOffRackButton", false);
+		return;
+	}
+	var formMap = {};
+	formMap['id'] = $('#confirmid').val();
+	formMap['putondate'] = $('#confirmputondate').val();
+	formMap['realnumber'] = $('#confirmrealnumber').val();
+	formMap['materialtype'] = $('#confirmmaterialtype').val();
+	formMap['materialid'] = $('#confirmmaterialid').val();
+	formMap['materialname'] = $('#confirmmaterialname').val();
+	formMap['plantid'] = $('#confirmplantid').val();
+//	formMap['lineid'] = $('#confirmlineid').val();
+	formMap["lineid"] = $("#confirmLineModalForm" + " #confirmLineModalselect").find("option:selected").val();
+	formMap['pulloffstaffid'] = $('#confirmpulloffstaffid').val();
+	formMap['pulloffstaffname'] = $('#confirmpulloffstaffname').val();
+	formMap['pulloffdate'] = new Date();
+	
+	lastSelectedMaterial = $("#chargingRackRecordAddForm" + " #materialname").val();
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		data: JSON.stringify(formMap).toString(),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				$("#confirmLineModal").modal('hide');
+				alert('下架成功!');
+			} else {
+				$("#confirmLineModal").modal('hide');
+				alert("下架失败！" + data.message);
+			}
+			disableChangeButton("pullOffRackButton", false);
+		}
+	});
+}
+
+
+
+
+
 function showPullOffPartModal() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
@@ -619,6 +710,19 @@ function showPullOffPartModal() {
 		alert("请正确选择充电架!");
 		return;
 	}
+	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
+		$('#myPullOffPartModalselect').html($('#productionLineSlct').html());
+		var numbers = $('#myPullOffPartModalselect').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbers.length; j++) {
+			if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
+				$(numbers[j]).attr("selected", "selected");
+			}
+		}
+		$('#myPullOffPartModalselect').selectpicker('refresh');
+		$('#myPullOffPartModalselect').selectpicker('render');
+		$('#myPullOffPartModalselect').show();
+	}
+	
 	$('#pullOffPartNumber').val(row[0].realnumber);
 	$("#myPullOffPartModal").modal('show');
 }
@@ -661,6 +765,7 @@ function pullOffChargingRackPartRecord() {
 	formMap['materialname'] = row[0].materialname;
 	formMap['plantid'] = row[0].plantid;
 	formMap['lineid'] = row[0].lineid;
+	formMap["lineid"] = $("#confirmLineModalForm" + " #confirmLineModalselect").find("option:selected").val();
 	formMap['pulloffstaffid'] = localStorage.userID;
 	formMap['pulloffstaffname'] = localStorage.username;
 	formMap['pulloffdate'] = new Date();

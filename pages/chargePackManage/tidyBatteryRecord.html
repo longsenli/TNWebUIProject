@@ -100,7 +100,7 @@
                 <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>整理台历史查询
            </button>
 			<button type="button" class="btn btn-success" onclick="getPileRecord()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>打堆查询
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>打堆工单查询
            </button>
 			<button type="button" class="btn btn-success" onclick="printPileQR()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印打堆二维码
@@ -113,20 +113,20 @@
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池流动登记
            </button>
 			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="addPileRecord()">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>电池打堆
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>电池打堆下单
            </button>
 			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="scanQR('finishpiletidy')">
-			     <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>打堆扫码
+			     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>整托打堆扫码
 			</button>
 			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="scanQR('showpartpileInput')">
-			     <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>部分打堆扫码
+			     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>部分打堆扫码
 			</button>
 			<button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="scanQR('package')">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>包装扫码
+                <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>包装扫码领料
            </button>
            
            <button id="tidyBatteryRecordFinishScanQRBT" type="button" class="btn btn-info" onclick="getPackageRecord()">
-                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>包装查询
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>包装打堆查询
            </button>
 
 		</div>
@@ -331,13 +331,13 @@
 
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myPackageModal" role="dialog" aria-hidden="true" data-backdrop='static'>
-			<div class="modal-dialog" style="width:400px">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">x</button>
 						<h4 class="modal-title" id="myModalLabel"> 包装确认 </h4>
 					</div>
-					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+					<div class="modal-body" id="modal-body" >
 						<form id="tidyBatteryPilePackageForm">
 							<input type="text" id="id" name="id" style="display:none" />
 

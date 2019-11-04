@@ -1,3 +1,4 @@
+
 function tidyBatteryRecordIndustrialPlantSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
@@ -274,7 +275,18 @@ function getTidyRecord(selectType) {
 			}
 		}
 	});
+//industrialPlantSlct  productionProcessSlct   productionLineSlct
 
+//	columnsArray.push({
+//		"title": "备注信息",
+//		"field": "remark",
+//		formatter: function(value, row, index) {
+//			if(row.materialtype=="3"||row.materialtype=="4"){
+//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
+//			}
+//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
+//		}
+//	});
 	columnsArray.push({
 		"title": "维修送返",
 		"field": "repairbacknum"
@@ -428,7 +440,6 @@ function getPileRecord(selectType) {
 			}
 		}
 	});
-
 	columnsArray.push({
 		"title": "打堆时间",
 		"field": "piletime"
@@ -723,9 +734,11 @@ function addPileRecord() {
 	$("#tidyBatteryPileForm" + " #operatorname").val(localStorage.username);
 	var today = new Date();
 	$("#tidyBatteryPileForm" + " #operatortime").val(today.format("yyyy-MM-dd hh:mm"));
+    $("#tidyBatteryPileForm" + " #operatortime").val();
 
 	$("#myPileModal").modal('show');
 }
+
 
 function closeTidyBatteryRecordModel(modelID) {
 	$("#" + modelID).modal('hide');
@@ -1261,7 +1274,16 @@ function getPackageRecord()
 			}
 		}
 	});
-
+//	columnsArray.push({
+//		"title": "备注信息",
+//		"field": "remark",
+//		formatter: function(value, row, index) {
+//			if(row.materialtype=="3"||row.materialtype=="4"){
+//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
+//			}
+//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
+//		}
+//	});
 	columnsArray.push({
 		"title": "打堆时间",
 		"field": "piletime"
