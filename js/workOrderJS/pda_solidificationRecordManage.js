@@ -625,10 +625,12 @@ function addSolidificationRecordManageByBatch() {
 
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("正") > 0 && orderIDList.indexOf("TBF") > 0) {
 		//alert("固化室为正,工单含有负极板或边负极板,请确认后更换固化室!")
+		$("#showMessage").html("固化室为正,工单含有负极板或边负极板,请确认后更换固化室!" );
 		return;
 	}
 	if($("#solidificationRoomInfoSlct").find("option:selected").text().indexOf("负") > 0 && orderIDList.indexOf("TBZ") > 0) {
-		//alert("固化室为负,工单含有正极板,请确认后更换固化室!")
+		//alert("固化室为负,工单含有正极板,请确认后更换固化室!") 
+		$("#showMessage").html("固化室为负,工单含有正极板,请确认后更换固化室!" );
 		return;
 	}
 

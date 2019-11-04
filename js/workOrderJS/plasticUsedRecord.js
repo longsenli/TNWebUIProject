@@ -441,7 +441,7 @@ function addOrderIDToBatchTable(orderID, type) {
 	}
 	if($("#table").bootstrapTable('getData').length >= 20) {
 		alert("一次性最多使用20个!");
-		return;
+		return;  
 	}
 	var _data = {
 		"orderID": orderID,
