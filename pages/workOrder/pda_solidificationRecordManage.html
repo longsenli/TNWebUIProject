@@ -109,34 +109,22 @@
 						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
 						var Number = intent.getStringExtra("value");
 						//addOrderIDToBatchTable(Number,"PDA");
-						if(Number.indexOf("TB") < 0) {
-						
-						var roomArray = Number.split("___");
-//							var numbers = $('#solidificationRoomInfoSlct').find("option"); //获取select下拉框的所有值
-//							for(var j = 0; j < numbers.length; j++) {
-//								if($(numbers[j]).val().toString() == roomArray[0]) {
-//									$(numbers[j]).attr("selected", "selected");
-//									
-//								}
-//							}
-							
+						if(Number.indexOf("TB") < 0 && Number.indexOf("FB") < 0) {
+
+							var roomArray = Number.split("___");
+
 							$('#solidificationRoomInfoSlct').selectpicker('val', roomArray[0]);
-	$('#solidificationRoomInfoSlct').selectpicker('refresh');
-	$('#solidificationRoomInfoSlct').selectpicker('render'); 
-	
-							if(roomArray.length > 1)
-							{
+							$('#solidificationRoomInfoSlct').selectpicker('refresh');
+							$('#solidificationRoomInfoSlct').selectpicker('render'); 
+
+							if(roomArray.length > 1) {
 								$('#solidifyStepID').selectpicker('val', roomArray[1]);
-	$('#solidifyStepID').selectpicker('refresh');
-	$('#solidifyStepID').selectpicker('render'); 
+								$('#solidifyStepID').selectpicker('refresh');
+								$('#solidifyStepID').selectpicker('render'); 
 							}
-//							if(roomID) {
-//								$("#orderIDByBatch").val("");
-//								document.getElementById('orderIDByBatch').focus();
-//								return;
-//							}
+
 						} else
-							addOrderIDToBatchTable(Number, "PDA"); 
+							addOrderIDToBatchTable(Number, "PDA");
 						//console.log(Number);
 
 						//           main.unregisterReceiver(receiver);//取消监听  
@@ -197,7 +185,7 @@
 														<option value="1">一段</option>
 														<option value="2">二段</option>
 														<option value="3">三段</option>
-													
+
 													</select>
 												</div>
 												<div class="form-group">
@@ -217,7 +205,7 @@
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="solidificationRecordManageDetail()">历史入窑数据查询</button>
 												<button type="button" class="btn btn-success" style="margin-top: 10px;display: none;" onclick="scanQR('1')">固化室扫码</button>
 
-												<input type="text" class="form-control" style="margin-top: 10px;display: none;"  onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
+												<input type="text" class="form-control" style="margin-top: 10px;display: none;" onkeydown="onTextareaKeyDown()" id="orderIDByBatch" name="orderIDByBatch" placeholder="请输入工单号">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="addOrderIDToBatchTable()">添加工单</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;display: none;" onclick="scanQR('5')">扫码添加</button>
 												<br />
