@@ -49,7 +49,7 @@ function plasticUsedRecordLineSlctFun() {
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", '1007');
+	formData.append("processID", window.windowProcessEnum.ZHQD);
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionline",
 		type: "POST",
@@ -106,7 +106,7 @@ function plasticUsedRecordLineSlctFun() {
 function plasticUsedRecordWorkingLocationSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", "1015");
+	formData.append("processID", window.windowProcessEnum.ZHQD);
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getworklocation",
@@ -425,6 +425,10 @@ function addOrderIDToBatchTable(orderID, type) {
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
 	}
+	if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
+		selectMaterial(orderID);
+		return;
+	}
 	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
 
 	if(rows) {
@@ -446,9 +450,7 @@ function addOrderIDToBatchTable(orderID, type) {
 	}
 	$('#table').bootstrapTable('prepend', _data);
 	//$("#table").bootstrapTable('append', _data); //_data----->新增的数据
-	if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
-		selectMaterial(orderID);
-	} else if("SJ" == type) {
+	if("SJ" == type) {
 		setTimeout(function() {
 			scanQR('5');
 		}, 2000);
@@ -457,6 +459,10 @@ function addOrderIDToBatchTable(orderID, type) {
 }
 
 function plasticUsedRecordByBatch(grantType) {
+	if(!materialName || materialName.length < 2) {
+		alert("请先扫码投料!")
+		return;
+	}
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 		alert("请先添加ID号再投入!")
 		return;
@@ -466,12 +472,12 @@ function plasticUsedRecordByBatch(grantType) {
 		alert("请先添加ID号再操作!")
 		return;
 	}
-	if(tableData.length > 30) {
-		alert("一次最多选择30个,请确认!,当前选择个数为:" + tableData.length)
+	if(tableData.length > 40) {
+		alert("一次最多选择40个,请确认!,当前选择个数为:" + tableData.length)
 		return;
 	}
 
-	if(tableData.length * 6 > materialNumber) {
+	if(tableData.length > materialNumber) {
 		alert("剩余物料不能够完成所投底壳!")
 		return;
 	}
@@ -507,7 +513,7 @@ function plasticUsedRecordByBatch(grantType) {
 
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
-				materialNumber = materialNumber - tableData.length * 6;
+				materialNumber = materialNumber - tableData.length;
 				document.getElementById("inputMaterial").innerHTML = " " + materialName + "  " + materialNumber;
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -555,22 +561,26 @@ function TextInput(orderID) {
 	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
 
 	if(rows) {
-		console.log("该工单已添加!" + orderID);
+		//console.log("该工单已添加!" + orderID);
+		$('<div>').appendTo('body').addClass('alert alert-success').html('该底壳已添加!').show().delay(1500).fadeOut();
 		//	event.preventDefault(); //禁止默认事件（默认是换行） 
 		$("#orderIDByBatch").val("");
 		//	document.getElementById('orderIDByBatch').focus();
 		return;
 	}
 	if(orderID.length < 5) {
-		console.log("工单错误,请确认!" + orderID);
+		//console.log("工单错误,请确认!" + orderID);
+		$('<div>').appendTo('body').addClass('alert alert-success').html('错误的底壳二维码!').show().delay(1500).fadeOut();
 
 		$("#orderIDByBatch").val("");
 		//document.getElementById('orderIDByBatch').focus();
 		return;
 	}
 
-	if($("#table").bootstrapTable('getData').length >= 20) {
-		console.log("一次性最多发料20个!");
+	if($("#table").bootstrapTable('getData').length >= 40) {
+		//console.log("一次性最多投料40个!");
+		$('<div>').appendTo('body').addClass('alert alert-success').html('一次性最多40个').show().delay(1500).fadeOut();
+
 		//	event.preventDefault(); //禁止默认事件（默认是换行） 
 		$("#orderIDByBatch").val("");
 		//	document.getElementById('orderIDByBatch').focus();
@@ -583,10 +593,15 @@ function TextInput(orderID) {
 		"returnMessage": ""
 	}
 	$('#table').bootstrapTable('prepend', _data);
+
+	//	if($('#autoFinishOrderCheck').is(':checked'))
+	//	{
+	//		plasticUsedRecordByBatch();
+	//	} 
 }
 
 function onTextareaKeyDown() {
-return;
+	return;
 	if(event.keyCode == 13) { //如果按的是enter键 13是enter 
 
 		event.preventDefault(); //禁止默认事件（默认是换行）
@@ -625,8 +640,8 @@ return;
 			return;
 		}
 
-		if($("#table").bootstrapTable('getData').length >= 20) {
-			console.log("一次性最多发料20个!");
+		if($("#table").bootstrapTable('getData').length >= 40) {
+			console.log("一次性最多投料40个!");
 			event.preventDefault(); //禁止默认事件（默认是换行） 
 			$("#orderIDByBatch").val("");
 			document.getElementById('orderIDByBatch').focus();
@@ -654,7 +669,7 @@ return;
 }
 
 var materialName;
-var materialNumber;
+var materialNumber = 0;
 var materialID;
 
 function selectMaterial(orderID) {
@@ -690,7 +705,7 @@ function selectMaterial(orderID) {
 				var models = eval("(" + dataRes.data + ")");
 				//console.log(models);
 				if(models.length > 0) {
-					materialNumber = models[0].number;
+					materialNumber = parseInt(models[0].inputWorkLocationID);
 					materialName = models[0].materialNameInfo;
 					materialID = models[0].subOrderID;
 					document.getElementById("inputMaterial").innerHTML = " " + materialName + "  " + materialNumber;
