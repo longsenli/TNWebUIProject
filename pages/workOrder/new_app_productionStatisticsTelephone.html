@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<!--本页面onclick等事件自定义JS ，打包成APP后，app内可正常调用-->
-		<script type="text/javascript" src="../../js/workOrderJS/app_productionStatistics.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/productionStatistics.js"></script>
 		<!--H5+ js引入-->
 		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
@@ -34,9 +34,9 @@
 			//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
 			// var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
 			// 							alert($Global_UserLogin_Info)
-			if($Global_UserLogin_Info.token == null) {
-				window.location.href = "../app_login.html";
-			}
+//			if($Global_UserLogin_Info.token == null) {
+//				window.location.href = "../app_login.html";
+//			}
 			//			if($.cookie('token') == null) {
 			//				window.location.href = "../login.html";
 			//			}
@@ -157,9 +157,11 @@
 												</div>-->
 												<div class="form-group">
 													<div class="col-sm-9">
-														<button type="button" class="btn btn-success " onclick="getMaterialInventoryStatistics()">一级库存盘点</button>
-														<button type="button" class="btn btn-success " onclick="getSecondaryMaterialInventoryStatistics()">二级库存盘点</button>
-														<button type="button" class="btn btn-success " onclick="batteryStatisInventory()">电池盘点</button>
+														<button type="button" class="btn btn-success " style="margin-top: 10px;" onclick="getMaterialInventoryStatistics()">一级库存盘点</button>
+														<button type="button" class="btn btn-success " style="margin-top: 10px;" onclick="getSecondaryMaterialInventoryStatistics()">二级库存盘点</button>
+														<button type="button" class="btn btn-success " style="margin-top: 10px;" onclick="batteryStatisInventory()">电池盘点</button>
+														<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="getSolidifyRoomDetail()">固化室详情</button>
+				
 													</div>
 												</div>
 											</div>

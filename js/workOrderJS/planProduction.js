@@ -387,7 +387,8 @@ function planProductionMaterialSlct() {
 	$.ajax({
 
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
-			$("#planProductionManageForm" + " #processid").val(),
+			$("#planProductionManageForm" + " #processid").val() +
+			"&plantID=" + $("#planProductionManageForm" + " #plantid").val(),
 		type: "GET",
 
 		//contentType: "application/json",

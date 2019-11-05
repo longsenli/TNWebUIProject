@@ -534,6 +534,14 @@ function getMaterialInventoryStatistics() {
 		"field": "outNum"
 	});
 	columnsArray.push({
+		"title": "计划需求",
+		"field": "extend1"
+	});
+	columnsArray.push({
+		"title": "周期",
+		"field": "extend2"
+	});
+	columnsArray.push({
 		"title": "盘点时间",
 		"field": "updateTime"
 	});
@@ -623,6 +631,14 @@ function getSecondaryMaterialInventoryStatistics() {
 	columnsArray.push({
 		"title": "线边仓数量",
 		"field": "onlineNum"
+	});
+	columnsArray.push({
+		"title": "计划需求",
+		"field": "extend1"
+	});
+	columnsArray.push({
+		"title": "周期",
+		"field": "extend2"
 	});
 	//	columnsArray.push({
 	//		"title": "当日报修数量",
@@ -1091,4 +1107,71 @@ function saveMaterialInventory() {
 
 function closeMaterialInventoryModel() {
 	$("#myChangeModal").modal('hide');
+}
+
+function getSolidifyRoomDetail()
+{
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "固化室",
+		"field": "solidifyRoomID"
+	});
+	columnsArray.push({
+		"title": "一段",
+		"field": "total1D"
+	});
+	columnsArray.push({
+		"title": "二段",
+		"field": "total2D"
+	});
+	columnsArray.push({
+		"title": "三段",
+		"field": "total3D"
+	});
+
+	var urlStr = window.serviceIP + "/api/solidifyrecord/getSolidifyRoomDetail?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
 }
