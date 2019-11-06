@@ -363,8 +363,21 @@ function setLineModal() {
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
+				var blTB = false;
+				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0] == window.windowProcessEnum.TB)
+				{
+					
+					blTB = true;
+				}
 				for (var  i  in  models)  {  
-					$('#materialid').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "###" + models[i].eachbatchnumber + "</option>").toString());
+					if(blTB)
+					{
+						if(models[i].name.toString().indexOf("连涂") < 0 && models[i].name.toString().indexOf("小片") > 0)
+						{
+							continue;
+						}							
+					}
+					$('#materialid').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "___" + models[i].eachbatchnumber + "</option>").toString());
 				}
 				$('#materialid').selectpicker('refresh');
 				$('#materialid').selectpicker('render');   
@@ -652,11 +665,11 @@ function workOrderRowClick(row) {
 }
 
 function workOrderSetCount() {
-	if($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("###").length < 2) {
+	if($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("___").length < 2) {
 		return;
 	}
 
-	var result1 = parseInt($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("###")[1].trim());
+	var result1 = parseInt($("#workOrderManageForm" + " #materialid").find("option:selected").text().split("___")[1].trim());
 	var result2 = parseInt($("#workOrderManageForm" + " #batchnum").val().trim());
 	$("#workOrderManageForm" + " #totalproduction").val(result1 * result2);
 }
