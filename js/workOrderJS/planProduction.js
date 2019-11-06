@@ -374,7 +374,7 @@ function planProductionRowClick(row) {
 
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	$(row).addClass('changeTableRowColor');
-	$($(row).find("td")[0]).addClass('changeTableRowColor');
+	$($(row).find("td")).addClass('changeTableRowColor');
 }
 
 function closePlanProductionModal() {
