@@ -1039,7 +1039,13 @@ function showpartpileInput(pileID) {
 				}
 				$("#partPileForm" + " #partpileModalid").val(pileID);
 				$("#partPileForm" + " #piletotalNum").val(models[0].productionnumber);
-				$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber);
+				if(!models[0].finishpileNum=='undefinded' || !models[0].finishpileNum=='0'){
+					$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber - models[0].finishpileNum);
+				}else{
+					$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber);
+				}
+				
+				
 				$("#partpileModalSaveButton").attr('disabled', false);
 				$("#partpileModal").modal('show');
 
@@ -1057,7 +1063,6 @@ function savepartPileModel() {
 	var partpileNum=$('#partpileNum').val();
 	var plantID=localStorage.getItem('plantID');
 	var processID=localStorage.getItem('processID');
-	var lineID=localStorage.getItem('lineID');
 	var lineID=localStorage.getItem('lineID');
 	var username = localStorage.getItem('username');
 	var userID = localStorage.getItem('userID');
@@ -1135,7 +1140,7 @@ function finishPiletidyInput(pileID) {
 
 		success: function(data) {
 			if(data.status == 1) {
-				alert('打堆扫码成功!');
+				alert('整托打堆扫码成功!');
 				var models = eval("(" + data.data + ")");
 				if(models[0].status == '2') {
 					alert("该二维码已经打堆扫码,请确认!");
@@ -1183,9 +1188,23 @@ function showPackageInput(pileID) {
 					alert("该二维码已经包装,请确认!");
 					return;
 				}
-				$("#tidyBatteryPilePackageForm" + " #id").val(pileID);
-				$("#tidyBatteryPilePackageForm" + " #totalNum").val(models[0].productionnumber);
-				$("#tidyBatteryPilePackageForm" + " #packageNum").val(models[0].productionnumber);
+				$("#tidyBatteryPilePackageForm" + " #packagepileid").val(pileID);
+				if(models[0].fnishpackagenum==null||models[0].fnishpackagenum=='null'){
+					models[0].fnishpackagenum=0;
+				}
+				if(models[0].finishpilenum==null||models[0].finishpilenum=='null'){
+					models[0].finishpilenum=0;
+				}
+				//部分包装扫码
+				var flag= models[0].productionnumber - models[0].finishpilenum ;
+				//说明是扫的部分打堆的码
+				if(flag>0){
+					$("#tidyBatteryPilePackageForm" + " #packagetotalNum").val(models[0].finishpilenum);
+					$("#tidyBatteryPilePackageForm" + " #remainpackageNum").val(models[0].finishpilenum - models[0].fnishpackagenum);
+				}else{//整托包装
+					$("#tidyBatteryPilePackageForm" + " #packagetotalNum").val(models[0].productionnumber);
+					$("#tidyBatteryPilePackageForm" + " #remainpackageNum").val(models[0].productionnumber - models[0].fnishpackagenum);
+				}
 				$("#myPackageModalSaveButton").attr('disabled', false);
 				$("#myPackageModal").modal('show');
 
@@ -1198,20 +1217,41 @@ function showPackageInput(pileID) {
 }
 
 function savePackageInput() {
+	var packagepileid=$('#packagepileid').val();
+	var packagetotalNum = $('#packagetotalNum').val();
+	var remainpackageNum =$('#remainpackageNum').val();
+	var packageNum=$('#packageNum').val();
+	var plantID=localStorage.getItem('plantID');
+	var processID=localStorage.getItem('processID');
+	var lineID=localStorage.getItem('lineID');
+	var lineID=localStorage.getItem('lineID');
+	var username = localStorage.getItem('username');
+	var userID = localStorage.getItem('userID');
 	$("#myPackageModalSaveButton").attr('disabled', true);
-	var formData = new FormData($("#tidyBatteryPilePackageForm")[0]);
-	if(parseInt(formData['totalNum']) - parseInt(formData['packageNum']) < 0) {
+	if(parseInt($('#remainpackageNum').val()) - parseInt($('#packageNum').val()) < 0) {
 		$("#myPackageModalSaveButton").attr('disabled', false);
-		alert("包装数量应小于等于总数量!");
+		alert("包装数量应小于等于剩余可包装数量!");
+		return;
+	}
+	if(parseInt($('#packageNum').val()) == 0) {
+		$("#myPackageModalSaveButton").attr('disabled', false);
+		alert("包装数量应为大于0的整数!");
+		return;
+	}
+	if(parseInt($('#packageNum').val()) < 0) {
+		$("#myPackageModalSaveButton").attr('disabled', false);
+		alert("包装数量应为大于0的整数!");
 		return;
 	}
 
 	$.ajax({
-		url: window.serviceIP + "/api/chargepack/expendpilebatterybypackage",
+		url: window.serviceIP+"/api/chargepack/expendpilebatterybypackage?packagepileid=" + packagepileid +"&remainpackageNum="+remainpackageNum+"&packagetotalNum="+packagetotalNum+"&packageNum="+packageNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+		"&userID="+userID+"&username="+username,
 		type: "POST",
-		data: formData,
+//		data: formData,
 		processData: false,
 		contentType: false,
+		dataType: "json",
 		//data: JSON.stringify(formMap).toString(),
 		//		headers: {
 		//			Token: localStorage.getItem('token')
@@ -1221,9 +1261,9 @@ function savePackageInput() {
 			if(data.status == 1) {
 				$("#myPackageModalSaveButton").attr('disabled', false);
 				$("#myPackageModal").modal('hide');
-				alert("扫码成功!");
+				alert("包装领料成功!");
 			} else {
-				alert("获取二维码信息错误！" + data.message + " 二维码: " + pileID);
+				alert("获取二维码信息错误！" + data.message + " 二维码: " + packagepileid);
 			}
 			//disableChangeButton(modelID + "SaveButton", false);
 		}
@@ -1395,3 +1435,31 @@ columnsArray.push({
 		}
 	});
 }
+
+
+
+//设置时间格式
+Date.prototype.format = function(format) { 
+	var o = {
+		"M+": this.getMonth() + 1, //month 
+		"d+": this.getDate(), //day 
+		"h+": this.getHours(), //hour 
+		"m+": this.getMinutes(), //minute 
+		"s+": this.getSeconds(), //second 
+		"q+": Math.floor((this.getMonth() + 3) / 3), //quarter 
+		"S": this.getMilliseconds() //millisecond 
+	}
+
+	if(/(y+)/i.test(format)) {
+		format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	}
+
+	for(var k in o) {
+		if(new RegExp("(" + k + ")").test(format)) {
+			format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+		}
+	}
+	return format;
+}
+
+window.serviceIP = "http://192.168.1.109:8080";

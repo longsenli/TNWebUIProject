@@ -361,16 +361,22 @@
 													</div>
 													<div class="modal-body" id="modal-body" >
 														<form id="tidyBatteryPilePackageForm">
-															<input type="text" id="id" name="id" style="display:none" />
+															<input type="text" id="packagepileid" name="packagepileid" style="display:none" />
 
 															<div class="form-inline row">
-																<label for="name">电池数量:</label>
-																<input type="text" readonly="readonly" class="form-control" id="totalNum" name="totalNum">
+																<label for="name">二维码电池总数:</label>
+																<input type="text" readonly="readonly" class="form-control" id="packagetotalNum" name="packagetotalNum">
+															</div>
+															<br />
+															<div class="form-inline row">
+																<label for="name">剩余可包装数量:</label>
+																<input type="text" class="form-control" readonly="true" onkeyup="value=value.replace(/[^0-9]/g,'')" id="remainpackageNum" name="remainpackageNum">
 															</div>
 															<br />
 															<div class="form-inline row">
 																<label for="name">包装数量:</label>
-																<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="packageNum" name="packageNum" placeholder="请输入包装数量">
+																<!--<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="packageNum" name="packageNum" placeholder="请输入包装数量">-->
+																	<input type="text" class="form-control" onkeyup="clearNoNum(this)" id="packageNum" name="packageNum" placeholder="请输入包装数量">
 															</div>
 															<br />
 
