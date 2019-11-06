@@ -387,7 +387,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 					if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
 						FinishSubOrder();
 					} else {
-						$('<div>').appendTo('body').addClass('alert alert-success').html('改工单不是本班次工单,请补充入库!').show().delay(3000).fadeOut();
+						$('<div>').appendTo('body').addClass('alert alert-success').html('该工单不是本班次工单,请补充入库!').show().delay(3000).fadeOut();
 					}
 				}
 			} else {

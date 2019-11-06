@@ -500,55 +500,129 @@ function grantAndExpendStatistics() {
 	});
 }
 
+function productionStatisticsRowClick(row) {
+
+	$('.changeTableRowColor').removeClass('changeTableRowColor');
+	$(row).addClass('changeTableRowColor');
+	$($(row).find("td")).addClass('changeTableRowColor');
+}
+
 function getMaterialInventoryStatistics() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
-	columnsArray.push({
-		"title": "物料名称",
-		"field": "name"
-	});
-	columnsArray.push({
-		"title": "当前数量",
-		"field": "currentNum"
-	});
-	columnsArray.push({
-		"title": "上次结余",
-		"field": "lastStorage"
-	});
-	columnsArray.push({
-		"title": "生产入库",
-		"field": "productionNum"
-	});
-	columnsArray.push({
-		"title": "退返",
-		"field": "inNum"
-	});
-	columnsArray.push({
-		"title": "发料数量",
-		"field": "expendNum"
-	});
-	columnsArray.push({
-		"title": "其他出库",
-		"field": "outNum"
-	});
-	columnsArray.push({
-		"title": "计划需求",
-		"field": "extend1"
-	});
-	columnsArray.push({
-		"title": "周期",
-		"field": "extend2"
-	});
-	columnsArray.push({
-		"title": "盘点时间",
-		"field": "updateTime"
-	});
-	columnsArray.push({
-		"title": "备注",
-		"field": "remark"
-	});
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.TB) {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+
+		columnsArray.push({
+			"title": "生产入库",
+			"field": "productionNum"
+		});
+
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+
+	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.GH) {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "固化室数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "拖数",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "入固化室数量",
+			"field": "productionNum"
+		});
+		columnsArray.push({
+			"title": "拖数",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "出固化室数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "拖数",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "计划需求",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "周期",
+			"field": "extend2"
+		});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	} else {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "当前数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "生产入库",
+			"field": "productionNum"
+		});
+		columnsArray.push({
+			"title": "退返",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "发料数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "其他出库",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "计划需求",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "周期",
+			"field": "extend2"
+		});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	}
 
 	var endTime = new Date(document.getElementById("endTime").value);
 	endTime.setDate(endTime.getDate() + 1)
@@ -585,6 +659,20 @@ function getMaterialInventoryStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					columns: columnsArray
 				});
 
@@ -686,6 +774,20 @@ function getSecondaryMaterialInventoryStatistics() {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					columns: columnsArray
 				});
 
@@ -694,275 +796,6 @@ function getSecondaryMaterialInventoryStatistics() {
 			}
 		}
 	});
-}
-
-function closeQRScanProductionStatistics() {
-	$("#myModal").modal('hide');
-}
-var canvasProductionStatistics = null,
-	contextProductionStatistics = null,
-	videoProductionStatistics = null;  
-var mediaStreamTrackProductionStatistics = null;   
-function findProductionStatisticsByQR(recordID) {
-
-	$("#myModal").modal('hide');
-
-	if(recordID.length < 2) {
-		alert("请确认已选择物料!")
-		return;
-	}
-	var warningInfo = "";
-	$.ajax({
-		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + recordID + "&type=1",
-		type: "GET",
-		processData: false,
-		contentType: false,
-		//data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
-		async: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				warningInfo = dataRes.message + ",";
-			}
-		}
-	});
-
-	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH) {
-	//		alert("当前只有铸焊工段有发料功能!");
-	//		return;
-	//	}
-
-	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		warningInfo += "当日发料确认?";
-	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		warningInfo += "预发料确认?";
-	}
-	if(!window.changeConfirmDlg(warningInfo)) {
-		return;
-	}
-
-	var formData = new FormData();
-	formData.append("operator", localStorage.getItem('username')) //localStorage.getItem('username');
-	formData.append("orderSplitID", recordID);
-	// 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
-	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		formData.append("orderType", '1');
-	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		formData.append("orderType", '2');
-	} else {
-		alert("发料类型获取失败,请刷新页面重试!");
-		return;
-	}
-	$.ajax({
-		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
-		type: "POST",
-		processData: false,
-		contentType: false,
-		data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				grantMaterialDetail();
-				alert("发料成功！");
-			} else {
-				alert("发料失败！" + dataRes.message);
-			}
-		}
-	});
-}
-
-function grantMaterialByInputID() {
-
-	$("#myModal").modal('hide');
-
-	if($('#grantMaterialOrderInputID').val().trim().length < 2) {
-		alert("请确认已输入ID!")
-		return;
-	}
-	//	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() != windowProcessEnum.ZH  ) {
-	//		alert("当前只有浇铸、铸焊工段有发料功能!");
-	//		return;
-	//	}
-	var warningInfo = "";
-	$.ajax({
-		url: window.serviceIP + "/api/order/getsuborderbyid?id=" + $('#grantMaterialOrderInputID').val().trim() + "&type=1",
-		type: "GET",
-		processData: false,
-		contentType: false,
-		//data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
-		async: false,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				warningInfo = dataRes.message + ",";
-			}
-		}
-	});
-
-	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		warningInfo += "当日发料确认?";
-	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		warningInfo += "预发料确认?";
-	}
-	if(!window.changeConfirmDlg(warningInfo)) {
-		return;
-	}
-	var formData = new FormData(); // 1 是扫码发料 按照ID号  2是扫码预发料按照ID号, 3是扫码发料 按照工单名称 4 是扫码预发料 按照工单名称
-	formData.append("operator", localStorage.getItem('username')) //localStorage.getItem('username');
-	formData.append("orderSplitID", $('#grantMaterialOrderInputID').val().trim());
-	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
-		formData.append("orderType", '3');
-	} else if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '2') {
-		formData.append("orderType", '4');
-	} else {
-		alert("发料类型获取失败,请刷新页面重试!");
-		return;
-	}
-	$.ajax({
-		url: window.serviceIP + "/api/material/addgrantmaterialrecord",
-		type: "POST",
-		processData: false,
-		contentType: false,
-		data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
-		success: function(dataRes) {
-			if(dataRes.status == 1) { 
-				grantMaterialDetail();
-				alert("发料成功！");
-			} else {
-				alert("发料失败！" + dataRes.message);
-			}
-		}
-	});
-}
-
-function startScanQRProductionStatistics() {
-	if(contextProductionStatistics) {         
-		contextProductionStatistics.drawImage(videoProductionStatistics, 0, 0, 320, 320);               
-		if(canvasProductionStatistics != null) {            //以下开始编 数据  
-			var imgData = canvasProductionStatistics.toDataURL("image/jpeg");            //将图像转换为base64数据
-			qrcode.decode(imgData);             
-			qrcode.callback = function(imgMsg) {
-				if(imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
-					findProductionStatisticsByQR(imgMsg);
-				} else {
-					setTimeout(startScanQRProductionStatistics(), 500);
-				}
-			}       
-		}          
-	}  
-}
-
-function ProductionStatisticsScanQR(paramQR) {
-	$('#myModal').modal('show');
-
-	$('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html(paramQR);
-	//alert(paramQR + "   " + $('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html());
-	if(contextProductionStatistics == null) { 
-		//window.addEventListener("DOMContentLoaded", function() {       
-		try {    
-
-			canvasProductionStatistics = document.getElementById("canvasProductionStatisticsScanQR");           
-			contextProductionStatistics = canvasProductionStatistics.getContext("2d");           
-			videoProductionStatistics = document.getElementById("videoProductionStatisticsScanQR");           
-			var videoObj = {
-				audio: false,
-				"video": true
-			};              
-			//			var videoObj = {
-			//				"video": true
-			//			};    
-			var  flag = true;             
-			var   MediaErr = function(error) {                   
-				flag = false;                   
-				if(error.PERMISSION_DENIED) {                       
-					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
-				} else if(error.NOT_SUPPORTED_ERROR) {                       
-					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
-					alert('指定的媒体类型未接收到媒体流', '提示');                   
-				} else {                       
-					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
-				}               
-			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
-			      
-
-			  
-			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
-				 
-				try {  
-					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
-						//mediaStreamTrack = stream;                  
-						//video.src = window.URL.createObjectURL(stream);;                   
-						//video.play();
-						//mediaStreamTrackProductionStatistics = stream;  
-						videoProductionStatistics.srcObject = stream;
-						videoProductionStatistics.onloadedmetadata = function(e) {
-							videoProductionStatistics.play();
-						};
-					}, MediaErr);   
-				} catch(err) {
-					alert(err);
-				}        
-			}    
-			else if(navigator.getUserMedia) { // Standard   
-				navigator.getUserMedia(videoObj, function(stream) {   
-					//mediaStreamTrackProductionStatistics = stream;       
-					videoProductionStatistics.src = stream;
-					videoProductionStatistics.play();
-				}, MediaErr);
-			}           
-			else if(navigator.webkitGetUserMedia) {              
-				navigator.webkitGetUserMedia(videoObj, function(stream) {  
-					mediaStreamTrackProductionStatistics = stream;                  
-					videoProductionStatistics.src = window.webkitURL.createObjectURL(stream);                   
-					videoProductionStatistics.play();      
-				}, MediaErr);           
-			}       
-			else if(navigator.mozGetUserMedia) {              
-				navigator.mozGetUserMedia(videoObj, function(stream) { 
-					mediaStreamTrackProductionStatistics = stream;                   
-					videoProductionStatistics.src = window.URL.createObjectURL(stream);                   
-					videoProductionStatistics.play();               
-				}, MediaErr);           
-			}           
-			else if(navigator.msGetUserMedia) {           
-				navigator.msGetUserMedia(videoObj, function(stream) { 
-					mediaStreamTrackProductionStatistics = stream;                   
-					$(document).scrollTop($(window).height());                   
-					videoProductionStatistics.src = window.URL.createObjectURL(stream);                   
-					videoProductionStatistics.play();               
-				}, MediaErr);           
-			} else {               
-				alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器');               
-				return false;           
-			}           
-			if(flag) {                // alert('为了获得更准确的测试结果，请尽量将二维码置于框中，然后进行拍摄、扫描。 请确保浏览器有权限使用摄像功能');
-				          }            //这个是拍照按钮的事件，
-			           
-
-			//				$("#snap").click(function() {
-			//					startPat();
-			//				}).show();       
-		} catch(e) {           
-			//printHtml("浏览器不支持HTML5 CANVAS");       
-		}   
-		//}, false);    //打印内容到页面
-	} 
-	//console.log("start");
-	setTimeout(startScanQRProductionStatistics(), 1000) ; 
 }
 
 function grantMaterialDetail() {
@@ -1053,7 +886,7 @@ function changeMaterialInventory() {
 	}
 	$("#changeMaterialInventoryModelForm" + " #id").val(row[0].id);
 	$("#changeMaterialInventoryModelForm" + " #currentNum").val(row[0].currentNum);
-	$("#changeMaterialInventoryModelForm" + " #remarkOld").val(row[0].remark +" ###### " + row[0].currentNum);
+	$("#changeMaterialInventoryModelForm" + " #remarkOld").val(row[0].remark + " ###### " + row[0].currentNum);
 	$("#changeMaterialInventoryModelForm" + " #remark").val('');
 	$("#myChangeModal").modal('show');
 }
@@ -1064,14 +897,13 @@ function saveMaterialInventory() {
 		alert("请先选择库存数据!");
 		return;
 	}
-	if($("#changeMaterialInventoryModelForm" + " #remark").val().length < 2)
-	{
+	if($("#changeMaterialInventoryModelForm" + " #remark").val().length < 2) {
 		alert("请在备注中输入修改原因!")
 		return;
 	}
-	var remarkDetail = (new Date()).format("yyyy-MM-dd hh:mm") + " " + localStorage.username + ","+ $("#changeMaterialInventoryModelForm" 
-	+ " #remarkOld").val().split("######")[1] +
-	"修改为" + $("#changeMaterialInventoryModelForm" + " #currentNum").val() +",原因: "+ $("#changeMaterialInventoryModelForm" + " #remark").val() +
+	var remarkDetail = (new Date()).format("yyyy-MM-dd hh:mm") + " " + localStorage.username + "," + $("#changeMaterialInventoryModelForm" +
+			" #remarkOld").val().split("######")[1] +
+		"修改为" + $("#changeMaterialInventoryModelForm" + " #currentNum").val() + ",原因: " + $("#changeMaterialInventoryModelForm" + " #remark").val() +
 		". \r\n  " + $("#changeMaterialInventoryModelForm" + " #remarkOld").val().split("######")[0]
 	var formData = new FormData();
 	formData.append("id", $("#changeMaterialInventoryModelForm" + " #id").val());
@@ -1109,8 +941,7 @@ function closeMaterialInventoryModel() {
 	$("#myChangeModal").modal('hide');
 }
 
-function getSolidifyRoomDetail()
-{
+function getSolidifyRoomDetail() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -1166,6 +997,20 @@ function getSolidifyRoomDetail()
 					//showColumns: true,
 					//search: true,
 					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					columns: columnsArray
 				});
 
