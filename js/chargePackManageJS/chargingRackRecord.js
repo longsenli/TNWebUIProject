@@ -441,6 +441,11 @@ function chargingRackRecordRowClick(row) {
 function closeChargingRackRecordModel(modelName) {
 	$("#" + modelName).modal('hide');
 }
+function closeconfirmLineModal(modelName) {
+	disableChangeButton("pullOffRackButton", false);
+	$("#" + modelName).modal('hide');
+}
+
 var lastSelectedMaterial = '';
 
 function setPutOnNum() {
