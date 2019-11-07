@@ -100,9 +100,15 @@ function solidificationRoomInfoSlctFun() {
 };
 
 function changeSolidificationRoomStatus() {
-
+	$("#showMessage").html('');
 	if(document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString() == '-1') {
 		alert("请选择确切的固化室,不能选择全部!")
+		return;
+	}
+	
+	if(!window.changeConfirmDlg("确认要将" + $("#solidificationRoomInfoSlct option:selected").text() 
+	+ $("#solidifyStepID option:selected").text()  + "转段?" ))
+	{
 		return;
 	}
 
@@ -128,9 +134,9 @@ function changeSolidificationRoomStatus() {
 		//processData: true,
 		processData: false,
 		contentType: false,
-		success: function(dataRes) {
+		success: function(dataRes) { 
 			if(dataRes.status == 1) { 
-				$("#showMessage").html("转段成功！");
+				$("#showMessage").html("转段成功！").show().delay(3000).fadeOut();
 			}
 		}
 	});

@@ -1462,4 +1462,3 @@ Date.prototype.format = function(format) {
 	return format;
 }
 
-window.serviceIP = "http://192.168.1.109:8080";

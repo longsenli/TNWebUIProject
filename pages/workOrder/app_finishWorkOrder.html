@@ -84,11 +84,11 @@
 			//判断角色不是普通员工时, 开放 取消完成 补充入库 权限
 			$(function() {
 				if(localStorage.roleID != window.windowRoleID.CZG) {
-					
-					$("#subOrderCancelFinishBT").show();					
+
+					$("#subOrderCancelFinishBT").show();
 					$("#subOrderOvertimeFinishBT").show();
 				} else {
-					
+
 					$("#subOrderOvertimeFinishBT").hide();
 					$("#subOrderCancelFinishBT").show();
 				}
@@ -160,7 +160,7 @@
 													</select>
 												</div>
 												<div class="form-group">
-													<label> 单号： </label>
+													<label id="orderSelectLabel"> 单号： </label>
 													<select class="selectpicker" id="workOrderSlct" data-width="76%" name="workOrderSlct" onchange="SelectWorkOrderFun()">
 													</select>
 
