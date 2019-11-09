@@ -688,58 +688,166 @@ function getSecondaryMaterialInventoryStatistics() {
 	columnsArray.push({
 		checkbox: true
 	});
-	columnsArray.push({
-		"title": "物料名称",
-		"field": "name"
-	});
-	columnsArray.push({
-		"title": "当前数量",
-		"field": "currentNum"
-	});
-	columnsArray.push({
-		"title": "上次结余",
-		"field": "lastStorage"
-	});
-	columnsArray.push({
-		"title": "领料入库",
-		"field": "gainNum"
-	});
-	columnsArray.push({
-		"title": "其他入库",
-		"field": "inNum"
-	});
-	columnsArray.push({
-		"title": "投料数量",
-		"field": "expendNum"
-	});
-	columnsArray.push({
-		"title": "送不良数量",
-		"field": "outNum"
-	});
-	columnsArray.push({
-		"title": "线边仓数量",
-		"field": "onlineNum"
-	});
-	columnsArray.push({
-		"title": "计划需求",
-		"field": "extend1"
-	});
-	columnsArray.push({
-		"title": "周期",
-		"field": "extend2"
-	});
-	//	columnsArray.push({
-	//		"title": "当日报修数量",
-	//		"field": "todayRepair"
-	//	});
-	columnsArray.push({
-		"title": "盘点时间",
-		"field": "updateTime"
-	});
-	columnsArray.push({
-		"title": "备注",
-		"field": "remark"
-	});
+
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.FB) {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "当前数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "固化室出库",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "借入数量",
+			"field": "gainNum"
+		});
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "借出数量",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "计划需求",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "周期",
+			"field": "extend2"
+		});
+		//	columnsArray.push({
+		//		"title": "当日报修数量",
+		//		"field": "todayRepair"
+		//	});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.BB) {
+	
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "当前数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "固化室出库",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "借入数量",
+			"field": "gainNum"
+		});
+		columnsArray.push({
+			"title": "消耗数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "借出数量",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "报废数量",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "计划需求",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "周期",
+			"field": "extend2"
+		});
+		//	columnsArray.push({
+		//		"title": "当日报修数量",
+		//		"field": "todayRepair"
+		//	});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	}
+	else {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "当前数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "领料入库",
+			"field": "gainNum"
+		});
+		columnsArray.push({
+			"title": "其他入库",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "送不良数量",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "线边仓数量",
+			"field": "onlineNum"
+		});
+		columnsArray.push({
+			"title": "计划需求",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "周期",
+			"field": "extend2"
+		});
+		//	columnsArray.push({
+		//		"title": "当日报修数量",
+		//		"field": "todayRepair"
+		//	});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	}
+
 	var endTime = new Date(document.getElementById("endTime").value);
 	endTime.setDate(endTime.getDate() + 1)
 	var urlStr = window.serviceIP + "/api/material/getsecondarymaterialinventorystatistics?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +

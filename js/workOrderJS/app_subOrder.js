@@ -361,11 +361,21 @@ function finishSubOrderByQR(qrCode, orderType) {
 
 				$("#changeOrderProductionNum").val('');
 			
+			var dataStr = "----";
+				var dateNow = new Date();
+				
 			if( document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.BZ)
 			{
-				if($('#autoFinishOrderCheck').is(':checked') ) {
-					
+				if(models[0].id.startWith(dateNow.format("yyyyMMdd")))
+				{
+					$("#subOrderFinishBT").attr('disabled', false);
+					if($('#autoFinishOrderCheck').is(':checked') ) {
 						FinishSubOrder();		
+					}
+				}
+				else 
+				{
+					$("#subOrderFinishBT").attr('disabled', true);
 				}
 				return;
 			}
@@ -551,7 +561,12 @@ function getSelfProductionRecord() {
 		"title": "完成时间",
 		"field": "inputTime"
 	});
-
+columnsArray.push({
+		width: 300,
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
 	var timeNow = new Date();
 	var startTime = "";
 	var endTime = "";
