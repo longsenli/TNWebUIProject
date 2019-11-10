@@ -53,7 +53,7 @@ function dataProvenanceByDCDK(inputString) {
 		"title": "固化三段",
 		"field": "GHTime3"
 	});
-
+ 
 	$.ajax({
 		url: window.serviceIP + "/api/dataprovenance/getProvenanceByDCDK?DKQRCode=" + recordID,
 		type: "GET",
