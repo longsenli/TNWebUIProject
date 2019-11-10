@@ -2588,7 +2588,8 @@
 					"pages/safetyAndEPManage/app_hiddenDangerDeal.html",
 					"pages/safetyAndEPManage/app_regularPerambulation.html",
 					"pages/contentManage/app_publishIdea.html",
-					"pages/chargePackManage/app_tidyBatteryRecord.html"
+					"pages/chargePackManage/app_tidyBatteryRecord.html",
+					"pages/wageManage/RZwagedetail.html"
 				],
 				"priority": 0
 			},

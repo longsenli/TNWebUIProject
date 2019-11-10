@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>人资工资条</title>
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../vendor/mui/css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../vendor/mui/css/mui.picker.min.css" />
+		<style>
+			html,
+			body,
+			.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div class="mui-input-row">
+					<label>身份证号：</label>
+					<input name="cardno" id="cardno" type="text" class="mui-input-clear" placeholder="请输入身份证号">
+				</div>
+				<button id='choicemonth' data-options='{"type":"month"}' value="" class="btn mui-btn mui-btn-block">
+					选择非当前月份 ...</button>
+				<div class="mui-button-row">
+					<button id='wagequerybt' type="button" class="mui-btn mui-btn-primary mui-btn-block" onclick="rzwagequery()">查&nbsp;&nbsp;询</button>&nbsp;&nbsp;
+				</div>
+				<ul class="mui-table-view" id="userwagelist">
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../vendor/mui/js/mui.min.js"></script>
+		<!--<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.dtpicker.js"></script>-->
+		<script src="../../vendor/mui/js/mui.picker.min.js"></script>
+		<script>
+			(function($) {
+				$.init({
+					swipeBack:true //启用右滑关闭功能
+				});
+//				var result = $('#result')[0];
+				var btns = $('.btn');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+//								result.innerText = '选择结果: ' + rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							/*
+							 * 首次显示时实例化组件
+							 * 示例为了简洁，将 options 放在了按钮的 dom 上
+							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+							 */
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								
+								/*
+								 * rs.value 拼合后的 value
+								 * rs.text 拼合后的 text
+								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+								 * rs.m 月，用法同年
+								 * rs.d 日，用法同年
+								 * rs.h 时，用法同年
+								 * rs.i 分（minutes 的第二个字母），用法同年
+								 */
+								mui('#choicemonth')[0].innerText = rs.text;
+								mui('#choicemonth')[0].value = rs.text;
+//								alert(mui('#demo6')[0].innerText);
+								/* 
+								 * 返回 false 可以阻止选择框的关闭
+								 * return false;
+								 */
+								/*
+								 * 释放组件资源，释放后将将不能再操作组件
+								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+								 */
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+			function rzwagequery(){
+				var cardno = mui('#cardno')[0].value;
+				var choicemonth = mui('#choicemonth')[0].value;
+				//校验身份证号
+				if(!isCardNo(cardno)){
+					return false;
+				}
+				//校验日期
+//				if(choicemonth=="" || choicemonth=="undefined"){
+//					alert('请选择月份!');
+//					return false;
+//				}
+				document.getElementById("wagequerybt").setAttribute("disabled", true);
+//				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
+				mui.ajax(window.serviceIP+'/userwagequery',{
+					data: JSON.stringify({username: 'username',password: 'password',cardno: cardno}),
+					dataType:'json',//服务器返回json格式数据
+					type:'POST',//HTTP请求类型
+					timeout:5000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},           
+					success:function(data){
+						document.getElementById("wagequerybt").removeAttribute("disabled");
+						var models = eval("(" + data.data + ")");
+						for (var  i  in  models[0])  {
+							if(i=='id')
+							continue;
+							var node=document.createElement("li");
+							node.className = 'mui-table-view-cell';  
+							var textnode=document.createTextNode( i+"：\u00A0\u00A0\u00A0\u00A0"+models[0][i]);
+							node.appendChild(textnode);
+							document.getElementById("userwagelist").appendChild(node);
+						}
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+					},
+					error:function(xhr,type,errorThrown){
+						document.getElementById("wagequerybt").removeAttribute("disabled");
+						//异常处理；
+						console.log(type);
+					},
+					complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
+						document.getElementById("wagequerybt").removeAttribute("disabled");
+						if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+							alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
+						}
+					}
+				});
+			}
+			
+			//是否合法身份证号校验
+			function isCardNo(card) 
+			{ 
+			  // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+			  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+			  if(reg.test(card) === false) 
+			  { 
+			    alert("身份证号输入不合法"); 
+			    return false; 
+			  }
+			  return true;
+			} 
+		
+		</script>
+	</body>
+
+</html>

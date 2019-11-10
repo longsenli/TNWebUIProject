@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>工资条上传页面</title>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+	</head>
+
+	<body>
+		<form method="post" enctype="multipart/form-data" id="form" >
+		    <input type="file" id="filename" name="filename"/>
+		    <input type="button" onclick="submitData()" value="提交上传"/>
+		</form>
+	</body>
+	<script>
+//		$('#form').attr("action","http://127.0.0.1:8080/rzwageupload");
+		function submitData() {
+		    var formData = new FormData($("#form")[0]);
+		    $.ajax({
+		        url: 'http://192.168.80.228:19001/ilpsService/rzwageupload',
+//		        url: 'http://127.0.0.1:8080/rzwageupload',
+		        type: 'POST',
+		        data: formData,
+		        async: false,
+		        cache: false,
+		        contentType: false,
+		        processData: false,
+		        timeout:60000,//超时时间设置为1分钟；
+		        success: function(returndata) {
+		            //成功返回的回调
+		            if(returndata.status == 1) { 
+		            	alert(returndata.message)
+		            	$("#filename").get(0).files[0]='';
+		            }else{
+		            	alert(returndata.message);
+		            	$("#filename").get(0).files[0]='';
+		            }
+		        },
+		        error: function(returndata) {
+		            //接口错误的回调
+		        },
+		        complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
+					if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+						alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
+					}
+				}
+		    });
+		};
+	</script>
+</html>
