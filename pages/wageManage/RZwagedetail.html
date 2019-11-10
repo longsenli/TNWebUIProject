@@ -57,11 +57,11 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="../../js/common.js"></script>
-		<script src="../../vendor/mui/js/mui.min.js"></script>
+		<script type="text/javascript" src="../../vendor/mui/js/mui.min.js"></script>
 		<!--<script src="../js/mui.picker.js"></script>
 		<script src="../js/mui.dtpicker.js"></script>-->
-		<script src="../../vendor/mui/js/mui.picker.min.js"></script>
-		<script>
+		<script type="text/javascript" src="../../vendor/mui/js/mui.picker.min.js"></script>
+		<script type="text/javascript">
 			(function($) {
 				$.init({
 					swipeBack:true //启用右滑关闭功能
@@ -132,26 +132,32 @@
 //					return false;
 //				}
 				document.getElementById("wagequerybt").setAttribute("disabled", true);
-//				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
-				mui.ajax(window.serviceIP+'/userwagequery',{
+				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
+//				mui.ajax(window.serviceIP+'/userwagequery',{
 					data: JSON.stringify({username: 'username',password: 'password',cardno: cardno}),
-					dataType:'json',//服务器返回json格式数据
+//					dataType:'json',//服务器返回json格式数据
 					type:'POST',//HTTP请求类型
 					timeout:5000,//超时时间设置为10秒；
 					headers:{'Content-Type':'application/json'},           
 					success:function(data){
+						if(data.status!='1'){
+							alert("没找到数据" );
+							return false;
+						}
 						document.getElementById("wagequerybt").removeAttribute("disabled");
 						var models = eval("(" + data.data + ")");
-						for (var  i  in  models[0])  {
-							if(i=='id')
-							continue;
-							var node=document.createElement("li");
-							node.className = 'mui-table-view-cell';  
-							var textnode=document.createTextNode( i+"：\u00A0\u00A0\u00A0\u00A0"+models[0][i]);
-							node.appendChild(textnode);
-							document.getElementById("userwagelist").appendChild(node);
+						if(data.status=='1'){
+							for (var  i  in  models[0])  {
+								if(i=='id'){
+									continue;
+								}
+								var node=document.createElement("li");
+								node.className = 'mui-table-view-cell';  
+								var textnode=document.createTextNode( i+"：\u00A0\u00A0\u00A0\u00A0"+models[0][i]);
+								node.appendChild(textnode);
+								document.getElementById("userwagelist").appendChild(node);
+							}
 						}
-						//服务器返回响应，根据响应结果，分析是否登录成功；
 					},
 					error:function(xhr,type,errorThrown){
 						document.getElementById("wagequerybt").removeAttribute("disabled");
