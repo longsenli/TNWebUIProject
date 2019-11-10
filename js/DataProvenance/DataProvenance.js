@@ -55,7 +55,7 @@ function dataProvenanceByDCDK(inputString) {
 	});
 
 	$.ajax({
-		url: window.serviceIP + "/api/dataprovenance/getprovenancebyorderid?orderID=" + recordID,
+		url: window.serviceIP + "/api/dataprovenance/getProvenanceByDCDK?DKQRCode=" + recordID,
 		type: "GET",
 		processData: false,
 		contentType: false,
