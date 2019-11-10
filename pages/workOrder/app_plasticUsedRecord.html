@@ -129,10 +129,20 @@
 													</select>
 												</div>
 												<div class="form-group">
+													<select class="selectpicker" id="materialSlct" data-width="76%" name="materialSlct" >
+													</select>
+													<label id="orderSelectLabel"> 单号： </label>
+													<select class="selectpicker" id="workOrderSlct" data-width="76%" name="workOrderSlct" onchange="changeWorkOrderSlctFun()">
+													</select>
+
+													<input type="text" class="form-control " style="margin-top: 10px;" readonly="true" id="materialNameOfOrder" name="materialNameOfOrder">
+												</div>
+												<div class="form-group">
 													<label> 工位： </label>
 													<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
 													</select>
 												</div>
+												
 												<div class="form-group">
 													<label> 时间： </label>
 													<input type="datetime-local" id="startTime" name="startTime" />

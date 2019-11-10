@@ -154,13 +154,110 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').selectpicker('refresh');
 					$('#workingkLocationSlct').selectpicker('render'); 
 				}
-
+plasticUsedRecordMaterialInfoSlct();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
 };
+
+
+function plasticUsedRecordMaterialInfoSlct()
+{
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
+			window.windowProcessEnum.ZHQD +
+			"&plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString(),
+		type: "GET",
+
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		async: false,
+		success: function(dataRes) {
+
+			$("#materialSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				for (var  i  in  models)  {  
+					
+					$('#materialSlct').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#materialSlct').selectpicker('refresh');
+				$('#materialSlct').selectpicker('render');   
+				$('#materialSlct').selectpicker('hide');   
+				// $('#materialid').selectpicker('mobile');
+plasticUsedRecordWorkOrderInfoSlct();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	}); 
+}
+
+function changeWorkOrderSlctFun()
+{
+	$("#materialNameOfOrder").val($("#materialSlct option[value='" + $("#materialSlct").val().split("___")[1] + "']").text());
+}
+function plasticUsedRecordWorkOrderInfoSlct()
+{
+	var dataStr = "2";
+	var dateNow = new Date();
+	if(dateNow.getHours() < 7) {
+		dateNow.setDate(dateNow.getDate() - 1);
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
+		dataStr = "BB" + dateNow.format("yyyyMMdd");
+	}
+	if(dateNow.getHours() > 18) {
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//async: false,
+		processData: true,
+		success: function(dataRes) {
+
+			$("#workOrderSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					if(models[i].orderid.toString().indexOf(dataStr) > 0) {
+						$('#workOrderSlct').append(("<option value=" + models[i].id+ "___" + models[i].materialid +  ">" +
+							models[i].orderid  + "</option>").toString());
+					}
+				}
+				$('#workOrderSlct').selectpicker('refresh');
+				$('#workOrderSlct').selectpicker('render');   
+				$("#materialNameOfOrder").val('');
+				changeWorkOrderSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
 
 function closeQRScanplasticUsedRecord() {
 	$("#myModal").modal('hide');
@@ -459,6 +556,11 @@ function addOrderIDToBatchTable(orderID, type) {
 }
 
 function plasticUsedRecordByBatch(grantType) {
+	if(!document.PlantToLineSelectForm.workOrderSlct.value)
+	{
+		alert("请确认工单!");
+		return;
+	}
 	if(!materialName || materialName.length < 2) {
 		alert("请先扫码投料!")
 		return;
@@ -496,6 +598,9 @@ function plasticUsedRecordByBatch(grantType) {
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
 	formData.append("orderID", materialID);
+	formData.append("orderIDZH", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[0]);
+	formData.append("materialIDZH", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[1]);
+	formData.append("materialNameZH", $("#materialNameOfOrder").val());
 	$.ajax({
 		url: window.serviceIP + "/api/plastic/addPlasticUsedRecord",
 		type: "POST",

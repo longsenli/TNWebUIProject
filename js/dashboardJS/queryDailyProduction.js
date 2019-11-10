@@ -2,7 +2,7 @@ function queryDailyProductionPlantSlctFun(flag) {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
 		type: "GET",
-
+		async: false,
 		contentType: "application/json",
 		dataType: "json",
 		//		headers: {
@@ -36,19 +36,19 @@ function queryDailyProductionPlantSlctFun(flag) {
 
 				}
 
-$('#materialType').selectpicker('refresh');
+				$('#materialType').selectpicker('refresh');
 				$('#materialType').selectpicker('render');   
-				
+
 				$('#materialType').selectpicker('hide');
-				
+				if(flag = "1") {
+					setTimeout(queryDailyProductionProcessSlctFun(), 200);
+				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
-	if(flag = "1") {
-		queryDailyProductionProcessSlctFun();
-	}
+
 };
 
 function productionStatisBatteryTypeSlctFun(flag) {
@@ -97,6 +97,7 @@ function queryDailyProductionProcessSlctFun() {
 		//			Token: localStorage.getItem('token')
 		//		},
 		processData: true,
+		async: false,
 		success: function(dataRes) {
 			$("#productionProcessSlct").find('option').remove();
 
@@ -122,14 +123,15 @@ function queryDailyProductionProcessSlctFun() {
 					}
 					$('#productionProcessSlct').selectpicker('refresh');
 					$('#productionProcessSlct').selectpicker('render'); 
-
 				}
-				queryDailyProductionLineSlctFun();
+
+				setTimeout(queryDailyProductionLineSlctFun(), 200);
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
+
 };
 
 function queryDailyProductionLineSlctFun() {
@@ -139,9 +141,11 @@ function queryDailyProductionLineSlctFun() {
 	//		return;
 	//	}
 	//alert("生产线选择");
+
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getproductionline",
 		type: "POST",
@@ -152,6 +156,7 @@ function queryDailyProductionLineSlctFun() {
 		//			Token: localStorage.getItem('token')
 		//		},
 		//processData: true,
+		async: false,
 		processData: false,
 		contentType: false,
 		success: function(dataRes) {
@@ -169,7 +174,8 @@ function queryDailyProductionLineSlctFun() {
 				$('#productionLineSlct').selectpicker('render');  
 				$('#productionLineSlct').selectpicker('hide');   
 				// $('#productionLineSlct').selectpicker('mobile');
-				queryDailyProductionWorkingLocationSlctFun();
+
+				setTimeout(queryDailyProductionWorkingLocationSlctFun(), 200);;
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -215,6 +221,8 @@ function queryDailyProductionWorkingLocationSlctFun() {
 };
 
 function getDailyProduction() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -622,6 +630,15 @@ function getDailyProduction() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					search: true,
 					pagination: true,
 					columns: columnsArray
@@ -635,6 +652,8 @@ function getDailyProduction() {
 };
 
 function getSelfProductionRecord() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -711,6 +730,8 @@ function getSelfProductionRecord() {
 }
 
 function getOrderInfoDetail(workOrder) {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
 
 	//console.log("gainMaterialByQR" + recordID);
 	var recordID = $('#subOrderName').val().trim();
@@ -834,6 +855,8 @@ function getOrderInfoDetail(workOrder) {
 
 //浇铸目前在窑中数据
 function nowInDryingKilnjz() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -1027,3 +1050,288 @@ function recognitionQR(webName, qrCode) {
 	$("#subOrderName").val(qrCode);
 	getOrderInfoDetail();
 }
+
+function productionInfoPictureShow() {
+
+	var heightAll = 500;
+	if($("#productionDashboardShow")) {
+		if(($(window).height() - $("#leftContainer1").offset().top) < 800) {
+			heightAll = 800 - 70;
+
+		} else {
+			//$("#productionDashboardShow").height($(window).height());
+			heightAll = ($(window).height() - $("#productionPictureShow").offset().top) - 100;
+		}
+	}
+	$("#leftContainer1").height(heightAll + 60);
+	$("#productionPictureShow").height(heightAll);
+	$('#tableInfoShow').hide();
+	$('#pictureInfoShow').show();
+	$('#table').bootstrapTable('destroy');
+	var urlStr = window.serviceIP + "/api/dashboard/getdailyproduction?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+		"&queryTypeID=" + document.PlantToLineSelectForm.queryType.value.toString() +
+		"&startTime=" + document.getElementById("startTime").value + " 02:00:00" + "&endTime=" + document.getElementById("endTime").value + " 23:00:00";
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var productionInfoData = eval("(" + dataRes.data + ")");
+
+				var lineNameProductionMap = {};
+				var lineBBProductionMap = {};
+				var lineYBProductionMap = {};
+
+				
+				var lineNameArray = [];
+				var lineBBProductionArray = [];
+				var lineYBProductionArray = [];
+				var lineProductionArray = [];
+				var totalProduction = 0;
+				var tmpNumber = 0;
+				
+				
+				//MAP数据
+				for(var i in productionInfoData) {
+					if(productionInfoData[i].orderHour == "总计") {
+						continue;
+					}
+ 
+					if(!lineNameProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+						lineNameProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].inputLineID;
+					}
+					if(productionInfoData[i].orderHour == "白班") {
+						if(lineBBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+							lineBBProductionMap[productionInfoData[i].inputLineID] = lineBBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
+						} else {
+							lineBBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
+						}
+						continue;
+					}
+					if(productionInfoData[i].orderHour == "夜班") {
+						if(lineYBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+							lineYBProductionMap[productionInfoData[i].inputLineID] = lineYBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
+						} else {
+							lineYBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
+						}
+						continue;
+					}
+
+				}
+				
+				//MAP数据转为数组
+				$.each(lineNameProductionMap, function(key, values) {
+					tmpNumber = 0;
+					lineNameArray.push($("#productionLineSlct option[value='" + key + "']").text());
+					if(lineBBProductionMap.hasOwnProperty(key)) {
+						tmpNumber += lineBBProductionMap[key];
+						totalProduction += lineBBProductionMap[key];
+						lineBBProductionArray.push(lineBBProductionMap[key]);
+					} else {
+						lineBBProductionArray.push(0);
+					}
+
+					if(lineYBProductionMap.hasOwnProperty(key)) {
+						tmpNumber += lineYBProductionMap[key];
+						totalProduction += lineYBProductionMap[key];
+						lineYBProductionArray.push(lineYBProductionMap[key]);
+					} else {
+						lineYBProductionArray.push(0);
+					}
+					lineProductionArray.push(tmpNumber);
+
+				});
+				
+				
+				var realWidth = ($("#productionPictureShow").width() * 0.65) / (lineNameArray.length * 2);
+
+				//产量进度条形图
+				var pictureShowECharts = echarts.init(document.getElementById("productionPictureShow"));
+				// 指定图表的配置项和数据
+				var optionProductionPicture = {
+					title: {
+						text: "产量汇总图(" + totalProduction + ")",
+						textStyle: {
+							fontWeight: 'bold', //标题颜色
+							fontSize: '28',
+							color: '#FFFFFF'
+						},
+						left: 'center'
+
+						//			text: ‘十大高耗水行业用水量八减两增 ‘,    //标题
+						//              backgroundColor: ‘#ff0000‘,            //背景
+						//                      subtext: ‘同比百分比(%)‘,               //子标题
+						//
+						//              textStyle: {
+						//                      fontWeight: ‘normal‘,              //标题颜色
+						//                      color: ‘#408829‘
+						//              },
+						//
+						//              x:"center"    
+					},
+					//鼠标触发提示数量
+					tooltip: {
+						trigger: "axis",
+					},
+					legend: {
+						show: true,
+						orient: 'vertical', // 'vertical'
+						x: 'right', // 'center' | 'left' | {number},
+						y: 'top', // 'center' | 'bottom' | {number}
+						//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+						data: ["白班产量", "夜班产量", "总产量"],
+						textStyle: {
+							fontSize: 18,
+							color: "#FFFFFF"
+						}
+					},
+					//x轴显示
+					xAxis: {
+						data: lineNameArray,
+						splitLine: {　　　　
+							show: false　　
+						},
+						axisLine: {
+							lineStyle: {
+								color: '#FFFFFF',
+								width: 2
+							}
+						},
+						axisLabel: { //设置坐标轴刻度样式
+							textStyle: {
+								fontSize: 14,
+								fontWeight: 'normal',
+							},
+							interval: 0,
+							formatter: function(value) {
+								//debugger
+								var ret = ""; //拼接加\n返回的类目项  
+								var maxLength = 4; //每项显示文字个数  
+								var valLength = value.length; //X轴类目项的文字个数  
+								var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
+								if(rowN > 1) //如果类目项的文字大于3,  
+								{
+									for(var i = 0; i < rowN; i++) {
+										var temp = ""; //每次截取的字符串  
+										var start = i * maxLength; //开始截取的位置  
+										var end = start + maxLength; //结束截取的位置  
+										//这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧  
+										temp = value.substring(start, end) + "\n";
+										ret += temp; //凭借最终的字符串  
+									}
+									return ret;
+								} else {
+									return value;
+								}
+							}
+						}
+					},
+					//y轴显示
+					yAxis: {
+						splitLine: {　　　　
+							show: false　　
+						},
+						axisLine: {
+							lineStyle: {
+								color: '#FFFFFF',
+								width: 2
+							}
+						},
+						axisLabel: { //设置坐标轴刻度样式
+							textStyle: {
+								fontSize: 18,
+								fontWeight: 'normal',
+							},
+						}
+					},
+					series: [{
+							name: "白班产量",
+							type: "bar",
+							stack: "业务", //折叠显示
+							data: lineBBProductionArray, //（此处的<%=zcfgData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
+							barWidth: realWidth,
+							//显示颜色
+							itemStyle: {
+								normal: {
+									color: "#FFA500",
+									label: {
+										show: true,
+										textStyle: {
+
+											fontSize: 16
+										}
+									}
+								}
+							}
+						},
+						{
+							name: "夜班产量",
+							type: "bar",
+							stack: "业务",
+							data: lineYBProductionArray, //（此处的<%=jbgcData%>为后台传过来的数据，格式为[1,2,3,4,2,3,3],根据实际情况修改）
+							barWidth: realWidth,
+							itemStyle: {
+								normal: {
+									color: "#7EC0EE",
+									label: {
+										show: true,
+										textStyle: {
+
+											fontSize: 16
+										}
+									}
+								}
+							}
+						},
+
+						{
+							name: '总量',
+							type: 'bar',
+							stack: '12',
+							barWidth: 1,
+							//				showAllSymbol: true,
+
+							label: {
+								normal: {
+									show: true,
+									position: 'top',
+									//formatter: "     " +  '{value}',
+									formatter: function(a) {
+										return "     " + a.data;
+									},
+									textStyle: {
+										color: '#1AFD9C',
+										fontSize: 16
+									}
+								}
+							},
+							itemStyle: {
+								normal: {
+									color: 'rgba(128, 128, 128, 0.1)',
+									label: {
+										show: false
+									}
+								}
+							},
+							data: lineProductionArray
+						}
+
+					]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				pictureShowECharts.setOption(optionProductionPicture);
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
