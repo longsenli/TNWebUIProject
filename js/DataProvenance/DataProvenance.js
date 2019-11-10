@@ -1,147 +1,24 @@
-
-var canvasDataProvenance = null,
-	contextDataProvenance = null,
-	videoDataProvenance = null;  
-var mediaStreamTrackDataProvenance = null;   
-
-function startScanQRDataProvenance() {
-	if(contextDataProvenance) {         
-		contextDataProvenance.drawImage(videoDataProvenance, 0, 0, 320, 320);               
-		if(canvasDataProvenance != null) {            //以下开始编 数据  
-			var imgData = canvasDataProvenance.toDataURL("image/jpeg");            //将图像转换为base64数据
-			qrcode.decode(imgData);             
-			qrcode.callback = function(imgMsg) {
-				if(imgMsg != null && imgMsg.trim().length > 1 && imgMsg.toString().indexOf("error decoding") == -1) {
-					findDataProvenanceByQR(imgMsg);
-				} else {
-					setTimeout(startScanQRDataProvenance(), 500);
-				}
-			}       
-		}          
-	}  
-}
-
-function DataProvenanceScanQR() {
-	$('#myModal').modal('show');
-	if(contextDataProvenance == null) { 
-		//window.addEventListener("DOMContentLoaded", function() {       
-		try {    
-
-			canvasDataProvenance = document.getElementById("canvasDataProvenanceScanQR");           
-			contextDataProvenance = canvasDataProvenance.getContext("2d");           
-			videoDataProvenance = document.getElementById("videoDataProvenanceScanQR");           
-			var videoObj = {
-				audio: false,
-				"video": true
-			};              
-			//			var videoObj = {
-			//				"video": true
-			//			};    
-			var  flag = true;             
-			var   MediaErr = function(error) {                   
-				flag = false;                   
-				if(error.PERMISSION_DENIED) {                       
-					alert('用户拒绝了浏览器请求媒体的权限', '提示');                   
-				} else if(error.NOT_SUPPORTED_ERROR) {                       
-					alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器', '提示');                   
-				} else if(error.MANDATORY_UNSATISFIED_ERROR) {                       
-					alert('指定的媒体类型未接收到媒体流', '提示');                   
-				} else {                       
-					alert('系统未能获取到摄像头，请确保摄像头已正确安装。或尝试刷新页面，重试!' + error.name + ": " + error.message, '提示');                   
-				}               
-			};            //获取媒体的兼容代码，目前只支持（Firefox,Chrome,Opera）
-			      
-
-			  
-			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {                //qq浏览器不支持
-				 
-				try {  
-					navigator.mediaDevices.getUserMedia(videoObj).then(function(stream) { 
-						//mediaStreamTrack = stream;                  
-						//video.src = window.URL.createObjectURL(stream);;                   
-						//video.play();
-						//mediaStreamTrackDataProvenance = stream;  
-						videoDataProvenance.srcObject = stream;
-						videoDataProvenance.onloadedmetadata = function(e) {
-							videoDataProvenance.play();
-						};
-					}, MediaErr);   
-				} catch(err) {
-					alert(err);
-				}        
-			}    
-			else if(navigator.getUserMedia) { // Standard   
-				navigator.getUserMedia(videoObj, function(stream) {   
-					//mediaStreamTrackDataProvenance = stream;       
-					videoDataProvenance.src = stream;
-					videoDataProvenance.play();
-				}, MediaErr);
-			}           
-			else if(navigator.webkitGetUserMedia) {              
-				navigator.webkitGetUserMedia(videoObj, function(stream) {  
-					mediaStreamTrackDataProvenance = stream;                  
-					videoDataProvenance.src = window.webkitURL.createObjectURL(stream);                   
-					videoDataProvenance.play();      
-				}, MediaErr);           
-			}       
-			else if(navigator.mozGetUserMedia) {              
-				navigator.mozGetUserMedia(videoObj, function(stream) { 
-					mediaStreamTrackDataProvenance = stream;                   
-					videoDataProvenance.src = window.URL.createObjectURL(stream);                   
-					videoDataProvenance.play();               
-				}, MediaErr);           
-			}           
-			else if(navigator.msGetUserMedia) {           
-				navigator.msGetUserMedia(videoObj, function(stream) { 
-					mediaStreamTrackDataProvenance = stream;                   
-					$(document).scrollTop($(window).height());                   
-					videoDataProvenance.src = window.URL.createObjectURL(stream);                   
-					videoDataProvenance.play();               
-				}, MediaErr);           
-			} else {               
-				alert('对不起，您的浏览器不支持拍照功能，请使用其他浏览器');               
-				return false;           
-			}           
-			if(flag) {                // alert('为了获得更准确的测试结果，请尽量将二维码置于框中，然后进行拍摄、扫描。 请确保浏览器有权限使用摄像功能');
-				          }            //这个是拍照按钮的事件，
-			           
-
-			//				$("#snap").click(function() {
-			//					startPat();
-			//				}).show();       
-		} catch(e) {           
-			//printHtml("浏览器不支持HTML5 CANVAS");       
-		}   
-		//}, false);    //打印内容到页面
-	} 
-	//console.log("start");
-	setTimeout(startScanQRDataProvenance(), 1000) ; 
-}
-
-function closeQRScanDataProvenance() {
-	$("#myModal").modal('hide');
-}
-
-function findDataProvenanceByQR(recordID) {
-	if(recordID == '-1')
-	{
-		recordID = document.getElementById("stringData").value;
+function dataProvenanceFunction(inputString) {
+	if(inputString.toString().length > 15) {
+		findDataProvenanceByQR(inputString);
+	} else {
+		dataProvenanceByDCDK(inputString);
 	}
-	else
-	{
-		$("#myModal").modal('hide');
-	}
-	//console.log("gainMaterialByQR" + recordID);
-
-	if(recordID.length < 2 ) {
-		alert("请确认批次号正确!")
+}
+//电池底壳追溯
+function dataProvenanceByDCDK(inputString) {
+	if(recordID.length < 2) {
+		alert("请确认输入正确!")
 		return;
 	}
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
-
+	columnsArray.push({
+		"title": "工序",
+		"field": "processInfo"
+	});
 	columnsArray.push({
 		"title": "物料工单",
 		"field": "subOrderID"
@@ -160,9 +37,112 @@ function findDataProvenanceByQR(recordID) {
 		"field": "inputTime",
 		formatter: function(value, row, index) {
 			if(value) {
-				return window.stringToDatetimeLocalType(value,"yyyy-MM-dd hh:mm:ss");
+				return window.stringToDatetimeLocalType(value, "yyyy-MM-dd hh:mm:ss");
 			}
 		}
+	});
+	columnsArray.push({
+		"title": "固化一段",
+		"field": "GHTime1"
+	});
+	columnsArray.push({
+		"title": "固化二段",
+		"field": "GHTime2"
+	});
+	columnsArray.push({
+		"title": "固化三段",
+		"field": "GHTime3"
+	});
+ 
+	$.ajax({
+		url: window.serviceIP + "/api/dataprovenance/getProvenanceByDCDK?DKQRCode=" + recordID,
+		type: "GET",
+		processData: false,
+		contentType: false,
+		//data: formData,
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					//toolbar: '#materialidToolbar',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("数据查找失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function findDataProvenanceByQR(recordID) {
+	if(recordID == '-1') {
+		recordID = document.getElementById("stringData").value;
+	}
+
+	if(recordID.length < 2) {
+		alert("请确认输入正确!")
+		return;
+	}
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "工序",
+		"field": "processInfo"
+	});
+	columnsArray.push({
+		"title": "物料工单",
+		"field": "subOrderID"
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialNameInfo"
+	});
+
+	columnsArray.push({
+		"title": "入库人员",
+		"field": "inputer"
+	});
+	columnsArray.push({
+		"title": "入库时间",
+		"field": "inputTime",
+		formatter: function(value, row, index) {
+			if(value) {
+				return window.stringToDatetimeLocalType(value, "yyyy-MM-dd hh:mm:ss");
+			}
+		}
+	});
+	columnsArray.push({
+		"title": "固化一段",
+		"field": "GHTime1"
+	});
+	columnsArray.push({
+		"title": "固化二段",
+		"field": "GHTime2"
+	});
+	columnsArray.push({
+		"title": "固化三段",
+		"field": "GHTime3"
 	});
 
 	$.ajax({
@@ -202,4 +182,115 @@ function findDataProvenanceByQR(recordID) {
 			}
 		}
 	});
+}
+
+//重写scanQR方法
+function scanQR() {
+	//执行H5扫描二维码方法
+	openBarcode();
+}
+
+////////以下是H5+调用摄像头进行扫一扫
+// alert(openBarcode())
+var img = null;
+var blist = [];
+
+function scaned(t, r, f) {
+	// alert('t='+t+'r='+r+'f='+f);
+	//获取扫描二维码信息
+	dataProvenanceFunction(r);
+}
+
+function selected(id) {
+	var h = blist[id];
+	update(h.type, h.result, h.file);
+	if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+		plus.nativeUI.confirm(h.result, function(i) {
+			if(i.index == 0) {
+				plus.runtime.openURL(h.result);
+			}
+		}, '', ['打开', '取消']);
+	} else {
+		plus.nativeUI.alert(h.result);
+	}
+}
+
+function update(t, r, f) {
+	outSet('扫描成功：');
+	outLine(t);
+	outLine(r);
+	outLine('\n图片地址：' + f);
+	if(!f || f == 'null') {
+		img.src = '../../vendor/H5+/img/barcode.png';
+	} else {
+		plus.io.resolveLocalFileSystemURL(f, function(entry) {
+			img.src = entry.toLocalURL();
+		});
+		//img.src = 'http://localhost:13131/'+f;
+	}
+}
+
+function onempty() {
+	if(window.plus) {
+		plus.nativeUI.alert('无扫描记录');
+	} else {
+		alert('无扫描记录');
+	}
+}
+
+function cleanHistroy() {
+	if(blist.length > 0) {
+		var hl = document.getElementById('history');
+		hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+	}
+	plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+		entry.removeRecursively(function() {
+			// Success
+		}, function(e) {
+			//alert( "failed"+e.message );
+		});
+	});
+}
+// 打开二维码扫描界面 
+function openBarcode() {
+	createWithoutTitle('barcode_scan.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:scanPicture()'
+			}]
+		}
+	});
+}
+// 打开自定义扫描界面 
+function openBarcodeCustom() {
+	createWithoutTitle('barcode_custom.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				// fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:switchFlash()'
+			}]
+		}
+	});
+}
+
+function recognitionQR(webName, qrCode) {
+	if(webName == '1' || webName == '2')
+		findplasticUsedRecordByQR(qrCode, webName);
+	if(webName == '5')
+		addOrderIDToBatchTable(qrCode, "SJ");
 }

@@ -58,14 +58,6 @@
 
 			$(function() {
 				document.addEventListener('plusready', function() {
-
-					// Android平台导入Intent类  
-					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
-					//      alert(window.plus)
-
-					//      var main = plus.android.runtimeMainActivity();  
-					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
-					//      console.log(Context)
 					var main = plus.android.runtimeMainActivity(); //获取activity  
 					var context = plus.android.importClass('android.content.Context'); //上下文  
 					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
@@ -82,25 +74,7 @@
 						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
 						var Number = intent.getStringExtra("value");
 						TextInput(Number);
-						//console.log(Number);
-
-						//           main.unregisterReceiver(receiver);//取消监听  
 					}
-					//      var tm = main.getSystemService(Context.TELEPHONY_SERVICE);  
-					//      
-					////      // 方法一：  
-					//      plus.android.importClass(android.intent.action.SCANRESULT);  
-					//      var simSerialNumber = tm.getSimSerialNumber();  
-
-					//方法二：  
-					//      plus.android.invoke(tm,"getSimSerialNumber");  
-
-					//返回SIM卡的序列号(IMEI)  
-					//      console.log(simSerialNumber+'111111');   
-					//      alert(simSerialNumber)
-
-					//      console.log(sc);
-					//      alert(sc);
 				}, false);
 			});
 		</script>

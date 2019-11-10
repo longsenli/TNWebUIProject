@@ -2565,7 +2565,9 @@
 				"priority": 0
 			},
 			"pages/app_webview_main.html": {
-				"resources": [],
+				"resources": [
+					"vendor/iconfont/iconfontrzwage.js"
+				],
 				"refer": [
 					"pages/rights/new_app_changepassword.html",
 					"pages/workOrder/pushinDryingKiln.html",
@@ -2589,7 +2591,8 @@
 					"pages/safetyAndEPManage/app_regularPerambulation.html",
 					"pages/contentManage/app_publishIdea.html",
 					"pages/chargePackManage/app_tidyBatteryRecord.html",
-					"pages/wageManage/RZwagedetail.html"
+					"pages/wageManage/RZwagedetail.html",
+					"pages/dataProvenance/app_dataProvenanceTable.html"
 				],
 				"priority": 0
 			},

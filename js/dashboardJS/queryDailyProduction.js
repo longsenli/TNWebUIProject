@@ -528,7 +528,11 @@ function getDailyProduction() {
 			"title": "数量",
 			"field": "number"
 		});
-
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "classType"
+		});
 		columnsArray.push({
 			width: 300,
 			"title": "日期",
@@ -555,7 +559,11 @@ function getDailyProduction() {
 			"title": "数量",
 			"field": "number"
 		});
-
+		columnsArray.push({
+			width: 300,
+			"title": "班次",
+			"field": "classType"
+		});
 		columnsArray.push({
 			width: 300,
 			"title": "日期",
@@ -1053,6 +1061,9 @@ function recognitionQR(webName, qrCode) {
 
 function productionInfoPictureShow() {
 
+	if(document.PlantToLineSelectForm.queryType.value.toString() != "产线") {
+		return;
+	}
 	var heightAll = 500;
 	if($("#productionDashboardShow")) {
 		if(($(window).height() - $("#leftContainer1").offset().top) < 800) {
@@ -1091,21 +1102,19 @@ function productionInfoPictureShow() {
 				var lineBBProductionMap = {};
 				var lineYBProductionMap = {};
 
-				
 				var lineNameArray = [];
 				var lineBBProductionArray = [];
 				var lineYBProductionArray = [];
 				var lineProductionArray = [];
 				var totalProduction = 0;
 				var tmpNumber = 0;
-				
-				
+
 				//MAP数据
 				for(var i in productionInfoData) {
 					if(productionInfoData[i].orderHour == "总计") {
 						continue;
 					}
- 
+
 					if(!lineNameProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
 						lineNameProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].inputLineID;
 					}
@@ -1127,7 +1136,7 @@ function productionInfoPictureShow() {
 					}
 
 				}
-				
+
 				//MAP数据转为数组
 				$.each(lineNameProductionMap, function(key, values) {
 					tmpNumber = 0;
@@ -1150,8 +1159,7 @@ function productionInfoPictureShow() {
 					lineProductionArray.push(tmpNumber);
 
 				});
-				
-				
+
 				var realWidth = ($("#productionPictureShow").width() * 0.65) / (lineNameArray.length * 2);
 
 				//产量进度条形图
