@@ -151,18 +151,31 @@ function getInventoryInfo() {
 			maxCycleTime = parseInt(inventoryData[i].cycleTime);
 		}
 	}
-	
+	maxCycleTime = 0.1;
+var maxPlanPolar =maxPlan;
+for(var i =0;i< 100;i++)
+{
+	maxPlan = maxPlan / 10 ;
+	if(maxPlan < 1)
+	{
+		break;
+	}
+	maxCycleTime = maxCycleTime *10;
+}
 
 	for(var i in inventoryData) {
-materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
-		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
+//   materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
+//		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
+
+    materialPlanExpend.push(materialPlanExpendRealNum[i] );
+		materialCycleTime.push(materialCycleTimeRealNum[i] * maxCycleTime);
 		materialNameInventoryPolar.push({
 			"text": inventoryData[i].name,
 			"max": maxInventory
 		});
 		materialCycleTimePolar.push({
 			"text": inventoryData[i].name,
-			"max": 1
+			"max": maxPlanPolar
 		})
 	}
 
@@ -275,20 +288,6 @@ materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
 			type: "radar",
 			data: [{
 				value: materialPlanExpend,
-				label: {
-					normal: {
-						show: true,
-						position: 'top',
-						//formatter: "     " +  '{value}',
-						formatter: function(a) {
-							return JSON.stringify(a) ;
-						},
-						textStyle: {
-							color: '#1AFD9C',
-							fontSize: 16
-						}
-					}
-				},
 				name: '计划消耗'
 			}, {
 				value: materialCycleTime,

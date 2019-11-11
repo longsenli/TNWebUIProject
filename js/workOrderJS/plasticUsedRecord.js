@@ -154,7 +154,7 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').selectpicker('refresh');
 					$('#workingkLocationSlct').selectpicker('render'); 
 				}
-plasticUsedRecordMaterialInfoSlct();
+				plasticUsedRecordMaterialInfoSlct();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -162,9 +162,7 @@ plasticUsedRecordMaterialInfoSlct();
 	});
 };
 
-
-function plasticUsedRecordMaterialInfoSlct()
-{
+function plasticUsedRecordMaterialInfoSlct() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
 			window.windowProcessEnum.ZHQD +
@@ -189,14 +187,14 @@ function plasticUsedRecordMaterialInfoSlct()
 				var models = eval("(" + dataRes.data + ")");
 
 				for (var  i  in  models)  {  
-					
+
 					$('#materialSlct').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#materialSlct').selectpicker('refresh');
 				$('#materialSlct').selectpicker('render');   
 				$('#materialSlct').selectpicker('hide');   
 				// $('#materialid').selectpicker('mobile');
-plasticUsedRecordWorkOrderInfoSlct();
+				plasticUsedRecordWorkOrderInfoSlct();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -204,12 +202,11 @@ plasticUsedRecordWorkOrderInfoSlct();
 	}); 
 }
 
-function changeWorkOrderSlctFun()
-{
-	$("#materialNameOfOrder").val($("#materialSlct option[value='" + $("#materialSlct").val().split("___")[1] + "']").text());
+function changeWorkOrderSlctFun() {
+	$("#materialNameOfOrder").val($("#materialSlct option[value='" + $("#workOrderSlct").val().split("___")[1] + "']").text());
 }
-function plasticUsedRecordWorkOrderInfoSlct()
-{
+
+function plasticUsedRecordWorkOrderInfoSlct() {
 	var dataStr = "2";
 	var dateNow = new Date();
 	if(dateNow.getHours() < 7) {
@@ -244,7 +241,7 @@ function plasticUsedRecordWorkOrderInfoSlct()
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					if(models[i].orderid.toString().indexOf(dataStr) > 0) {
-						$('#workOrderSlct').append(("<option value=" + models[i].id+ "___" + models[i].materialid +  ">" +
+						$('#workOrderSlct').append(("<option value=" + models[i].id + "___" + models[i].materialid + ">" +
 							models[i].orderid  + "</option>").toString());
 					}
 				}
@@ -519,6 +516,15 @@ function addOrderIDToBatchTable(orderID, type) {
 		innitOrderIDTable();
 	}
 
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(tableData.length > 0) {
+		if(tableData[0].status) {
+			if(tableData[0].status.length > 0) {
+				innitOrderIDTable();
+			}
+		}
+	}
+	
 	if(!orderID) {
 		orderID = $("#orderIDByBatch").val();
 	}
@@ -538,7 +544,7 @@ function addOrderIDToBatchTable(orderID, type) {
 	}
 	if($("#table").bootstrapTable('getData').length >= 20) {
 		alert("一次性最多使用20个!");
-		return;  
+		return;
 	}
 	var _data = {
 		"orderID": orderID,
@@ -556,8 +562,7 @@ function addOrderIDToBatchTable(orderID, type) {
 }
 
 function plasticUsedRecordByBatch(grantType) {
-	if(!document.PlantToLineSelectForm.workOrderSlct.value)
-	{
+	if(!document.PlantToLineSelectForm.workOrderSlct.value) {
 		alert("请确认工单!");
 		return;
 	}
@@ -618,8 +623,11 @@ function plasticUsedRecordByBatch(grantType) {
 
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
-				materialNumber = materialNumber - tableData.length;
+				materialNumber = parseInt(dataRes.message.split("___")[0]);
+
 				document.getElementById("inputMaterial").innerHTML = " " + materialName + "  " + materialNumber;
+				document.getElementById("inputPasticNumber").innerHTML ="工位产量:" + dataRes.message.split("___")[1];
+				
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -664,7 +672,7 @@ function TextInput(orderID) {
 	}
 
 	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
-
+ 
 	if(rows) {
 		//console.log("该工单已添加!" + orderID);
 		$('<div>').appendTo('body').addClass('alert alert-success').html('该底壳已添加!').show().delay(1500).fadeOut();
@@ -672,6 +680,14 @@ function TextInput(orderID) {
 		$("#orderIDByBatch").val("");
 		//	document.getElementById('orderIDByBatch').focus();
 		return;
+	}
+		var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(tableData.length > 0) {
+		if(tableData[0].status) {
+			if(tableData[0].status.length > 0) {
+				innitOrderIDTable();
+			}
+		}
 	}
 	if(orderID.length < 5) {
 		//console.log("工单错误,请确认!" + orderID);
