@@ -305,7 +305,6 @@ function updateAppRun(url) {
 }
 
 function login() {
-	alert($('#RemoteServiceIP').val());
 	if($('#RemoteServiceIP').val() && $('#RemoteServiceIP').val().toString().length > 6)
 	{
 		if(!isValidIP($('#RemoteServiceIP').val()))

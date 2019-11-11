@@ -97,6 +97,217 @@ function getInventoryInfo() {
 	$.ajax({
 		url: window.serviceIP + "/api/dashboard/getinventoryinfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
+			"&dayTime=" + document.getElementById("startTime").value,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		async: false,
+		success: function(dataRes) {
+
+			if(dataRes.status == 1) { 
+				inventoryData = eval("(" + dataRes.data + ")");
+
+			} else {
+				alert("查询库存失败！" + dataRes.message);
+				return;
+			}
+		}
+	});
+
+	var materialNameInventory = [];
+	var inventoryNum = [];
+	var materialNameInventoryPolar = [];
+	var maxInventory = 0;
+	var intNumber = 0;
+
+	var materialPlanExpend = [];
+	var materialPlanExpendRealNum = [];
+	var materialCycleTimeRealNum = [];
+	
+	var materialCycleTime = [];
+	var materialCycleTimePolar = [];
+	var maxPlan = 1;
+	var maxCycleTime = 1;
+	for(var i in inventoryData) {
+		intNumber = parseInt(inventoryData[i].currentNum);
+		materialNameInventory.push(inventoryData[i].name);
+		inventoryNum.push(intNumber);
+
+		materialPlanExpendRealNum.push(parseInt(inventoryData[i].planExpend));
+		materialCycleTimeRealNum.push(parseInt(inventoryData[i].cycleTime));
+		if(intNumber > maxInventory) {
+			maxInventory = intNumber;
+		}
+
+		if(parseInt(inventoryData[i].planExpend) > maxPlan) {
+			maxPlan = parseInt(inventoryData[i].planExpend);
+		}
+		if(parseInt(inventoryData[i].cycleTime) > maxCycleTime) {
+			maxCycleTime = parseInt(inventoryData[i].cycleTime);
+		}
+	}
+	
+
+	for(var i in inventoryData) {
+materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
+		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
+		materialNameInventoryPolar.push({
+			"text": inventoryData[i].name,
+			"max": maxInventory
+		});
+		materialCycleTimePolar.push({
+			"text": inventoryData[i].name,
+			"max": 1
+		})
+	}
+
+	if(($(window).height() - $("#inventoryInfoChart").offset().top) < 800) {
+		$("#inventoryInfoChart").height(800);
+		$("#productionAndGrantInfoChart").height($("#inventoryInfoChart").height());
+	} else {
+		$("#inventoryInfoChart").height($(window).height() - $("#inventoryInfoChart").offset().top);
+		$("#productionAndGrantInfoChart").height($("#inventoryInfoChart").height());
+	}
+
+	//产量进度条形图
+	var inventoryInfoChart = echarts.init(document.getElementById("inventoryInfoChart"));
+	// 指定图表的配置项和数据
+	var optionInventoryInfoChart = {
+		title: {
+			text: "库存配比雷达图",
+			textStyle: {
+				fontWeight: 'bold', //标题颜色
+				fontSize: '28',
+				color: '#FFFFFF'
+			},
+		},
+		//鼠标触发提示数量
+		tooltip: {
+
+		},
+		radar: {
+			// shape: 'circle',
+			name: {
+				textStyle: {
+					fontSize: '14',
+					color: '#fff',
+					//backgroundColor: '#999',
+					borderRadius: 3,
+					padding: [3, 5]
+				}
+			},
+			indicator: materialNameInventoryPolar
+		},
+		calculable: true,
+		legend: {
+			//show: true,
+			orient: 'vertical', // 'vertical'
+			x: 'right', // 'center' | 'left' | {number},
+			y: 'top', // 'center' | 'bottom' | {number}
+			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+			data: ['剩余库存'],
+			textStyle: {
+				fontSize: 18,
+				color: "#FFFFFF"
+			}
+		},
+		series: [{
+			name: "库存配比雷达图",
+			type: "radar",
+			data: [{
+				value: inventoryNum,
+				name: '剩余库存'
+			}]
+		}]
+	};
+
+	// 使用刚指定的配置项和数据显示图表。
+	inventoryInfoChart.setOption(optionInventoryInfoChart);
+
+	var cycleTimeChart = echarts.init(document.getElementById("productionAndGrantInfoChart"));
+	// 指定图表的配置项和数据
+	var optionCycleTimeChart = {
+		title: {
+			text: "库存配比雷达图",
+			textStyle: {
+				fontWeight: 'bold', //标题颜色
+				fontSize: '28',
+				color: '#FFFFFF'
+			},
+		},
+		//鼠标触发提示数量
+		tooltip: {
+
+		},
+		radar: {
+			// shape: 'circle',
+			name: {
+				textStyle: {
+					fontSize: '14',
+					color: '#fff',
+					//backgroundColor: '#999',
+					borderRadius: 3,
+					padding: [3, 5]
+				}
+			},
+			indicator: materialCycleTimePolar
+		},
+		calculable: true,
+		legend: {
+			//show: true,
+			orient: 'vertical', // 'vertical'
+			x: 'right', // 'center' | 'left' | {number},
+			y: 'top', // 'center' | 'bottom' | {number}
+			//          data: ['正板1','正板2','正板3','负板1','负板2','负板3']
+			data: ['计划消耗', '生产周期'],
+			textStyle: {
+				fontSize: 18,
+				color: "#FFFFFF"
+			}
+		},
+		series: [{
+			name: "物料周期",
+			type: "radar",
+			data: [{
+				value: materialPlanExpend,
+				label: {
+					normal: {
+						show: true,
+						position: 'top',
+						//formatter: "     " +  '{value}',
+						formatter: function(a) {
+							return JSON.stringify(a) ;
+						},
+						textStyle: {
+							color: '#1AFD9C',
+							fontSize: 16
+						}
+					}
+				},
+				name: '计划消耗'
+			}, {
+				value: materialCycleTime,
+				name: '生产周期'
+			}]
+		}]
+	};
+
+	// 使用刚指定的配置项和数据显示图表。
+	cycleTimeChart.setOption(optionCycleTimeChart);
+
+}
+
+function getInventoryInfo_BAK() {
+	var inventoryData;
+	var productionGrantData;
+	$.ajax({
+		url: window.serviceIP + "/api/dashboard/getinventoryinfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 			"&dayTime=test",
 		type: "GET",
 
@@ -122,7 +333,7 @@ function getInventoryInfo() {
 	$.ajax({
 		url: window.serviceIP + "/api/dashboard/getproductionandgrantinfo?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
-			"&dayTime=test",
+			"&dayTime=" + document.getElementById("startTime").value,
 		type: "GET",
 
 		contentType: "application/json",

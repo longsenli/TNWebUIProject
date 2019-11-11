@@ -31,6 +31,7 @@
 			//			}
 			$(function() {
 				var today = new Date();
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 				queryInventoryDashboardPlantSlctFun("1");
 			});
 		</script>
@@ -60,7 +61,8 @@
 				<input type="date" id="endTime" name="endTime" />
 				<br/>
 				<br/>-->
-				<button type="button" class="btn btn-primary alert-info" onclick="getInventoryInfo()">按条件查询</button>
+				<input type="date" id="startTime" name="startTime" />
+				<button type="button" class="btn btn-primary alert-info" onclick="getInventoryInfo()">库存查询</button>
 				<!--<input type="text"   class="form-control" id="subOrderName" name="subOrderName" placeholder="请输入订单批次">
 				<button type="button" class="btn btn-primary alert-info" onclick="getOrderInfoDetail()">工单批次查询</button>
 				<button type="button" class="btn btn-primary alert-info" onclick="nowInDryingKilnjz()">浇铸当前在窑数据查询</button>-->
@@ -76,12 +78,12 @@
 
 			<div class="row">
 
-				<div class="col-md-7" id="leftContainer" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<div class="col-md-6" id="leftContainer" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 
 					<div id="inventoryInfoChart" style="width: 95%;"></div>
 				</div>
 
-				<div class="col-md-5" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<div class="col-md-6" style="box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
 					<div class="row">
 						<div id="productionAndGrantInfoChart" style="width: 95%;"></div>
 					</div>
