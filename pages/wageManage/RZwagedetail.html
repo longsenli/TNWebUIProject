@@ -132,6 +132,11 @@
 //					return false;
 //				}
 				document.getElementById("wagequerybt").setAttribute("disabled", true);
+				var el = document.getElementById('userwagelist');
+				var childs = el.childNodes;
+				for(var i = childs .length - 1; i >= 0; i--) {
+				  el.removeChild(childs[i]);
+				}
 //				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
 				mui.ajax(window.serviceIP+'/userwagequery',{
 					data: JSON.stringify({username: 'username',password: 'password',cardno: cardno}),
@@ -147,6 +152,13 @@
 						document.getElementById("wagequerybt").removeAttribute("disabled");
 						var models = eval("(" + data.data + ")");
 						if(data.status=='1'){
+//							if(document.getElementById("existsid").value=="" || document.getElementById("existsid").value==undefined || document.getElementById("existsid").value=='undefined'){
+//								document.getElementById("existsid").value = models[0].id;
+//							}else{
+//								if(document.getElementById("existsid").value==models[0].id){
+//									return false;
+//								}
+//							}
 							for (var  i  in  models[0])  {
 								if(i=='id'){
 									continue;
