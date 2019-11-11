@@ -177,22 +177,12 @@ function isValidIP(ip) {
 //自定义服务器ip地址登录方法
 function defLogin() {
 	//				var defaultIP = "10.0.0.151:19001";
-	var defaultIP = $('#RemoteServiceIP').val() + ':19001';
-	//				alert('defaultIP:  '+defaultIP)
-	if(localStorage.getItem('myDefaultIP')) {
-		defaultIP = localStorage.getItem('myDefaultIP');
-	}
-
+	
+	var defaultIP = $('#RemoteServiceIP').val().trim() + ':19001';
 	var unselectedMenu = localStorage.getItem('unselectedMenu');
 	var username = document.getElementById("form-username").value;
 	var password = document.getElementById("form-password").value;
-	// var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
 
-	// 				if(RemoteServiceIP1 != null && RemoteServiceIP1 != 'undefined' && RemoteServiceIP1 != "") {
-	// 					window.serviceIP = 'http://' + RemoteServiceIP1 + '/ilpsService';
-	// 				}
-	// 				alert('RemoteServiceIP1' + RemoteServiceIP1)
-	// 				alert('window.serviceIP' + window.serviceIP)
 	$.ajax({
 		type: 'POST',
 		// url:'http://192.168.1.100:8080/api/login',
@@ -204,7 +194,7 @@ function defLogin() {
 			"password": password
 		},
 		async: true, //设置为false时,timeout不生效
-		timeout: 5000,
+		timeout: 3000,
 		success: function(result) {
 			if(result.status == "1") {
 				loginSuccess(result, defaultIP.trim(), unselectedMenu, username, password);
@@ -220,12 +210,14 @@ function defLogin() {
 			//if(status != 'timeout')
 		},
 		complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
-			// alert(XMLHttpRequest.status + status);
+			// alert(XMLHttpRequest.status + status); 
 			if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+				console.log(JSON.stringify(XMLHttpRequest) + "=123=" + status)
+				
 				alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 				//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
 				//							mes_login();
-			}
+		} 
 		}
 
 	});
@@ -313,6 +305,17 @@ function updateAppRun(url) {
 }
 
 function login() {
+	alert($('#RemoteServiceIP').val());
+	if($('#RemoteServiceIP').val() && $('#RemoteServiceIP').val().toString().length > 6)
+	{
+		if(!isValidIP($('#RemoteServiceIP').val()))
+		{
+			alert("请正确输入IP，如：1.1.1.1");
+		}
+		defLogin();
+		return; 
+	}
+	
 	var defaultIP = "10.0.0.151:19001";
 	if(localStorage.getItem('myDefaultIP')) {
 		defaultIP = localStorage.getItem('myDefaultIP');
@@ -339,7 +342,7 @@ function login() {
 			"password": password
 		},
 		async: true, //设置为false时,timeout不生效
-		timeout: 5000,
+		timeout: 3000,
 		success: function(result) {
 			if(result.status == "1") {
 				$("#loginButton").attr("disabled", false);
@@ -359,7 +362,7 @@ function login() {
 			// alert(XMLHttpRequest.status + status);
 			if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
 				// alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
-				//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
+				//	alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
 				mes_login();
 			}
 		}
@@ -383,8 +386,6 @@ function mes_login() {
 	// 				alert('window.serviceIP' + window.serviceIP)
 	$.ajax({
 		type: 'POST',
-		// url:'http://192.168.1.100:8080/api/login',
-		//url: 'http://10.0.0.151:19001/ilpsService/api/login',
 		url: 'http://10.0.0.151:19001/ilpsService/api/login',
 		dataType: "json",
 		data: {
@@ -392,7 +393,7 @@ function mes_login() {
 			"password": password
 		},
 		async: true, //设置为false时,timeout不生效
-		timeout: 5000,
+		timeout: 3000,
 		success: function(result) {
 			if(result.status == "1") {
 				$("#loginButton").attr("disabled", false);
@@ -444,7 +445,7 @@ function second_login() {
 			"password": password
 		},
 		async: true, //设置为false时,timeout不生效
-		timeout: 5000,
+		timeout: 3000,
 		success: function(result) {
 			if(result.status == "1") {
 				$("#loginButton").attr("disabled", false);
@@ -502,11 +503,60 @@ function ww_login() {
 			"password": password
 		},
 		async: true, //设置为false时,timeout不生效
-		timeout: 5000,
+		timeout: 3000,
 		success: function(result) {
 			if(result.status == "1") {
 				$("#loginButton").attr("disabled", false);
 				loginSuccess(result, '117.158.49.108:19001', unselectedMenu, username, password);
+			} else {
+				var hintinfo = document.getElementById("hintinfo");
+				hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';
+				//							hintinfo.innerText = "用户名或密码错误，请重新填写。";
+			}
+		},
+
+		error: function(xhr, status, err) {
+			//					 	alert('出现错误,请联系管理员!')
+		},
+		complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
+			$("#loginButton").attr("disabled", false);
+			if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
+				ww2_login();
+				//alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
+			}
+		}
+
+	});
+	return false;
+}
+
+
+//mes段网络登录调用方法
+function ww2_login() {
+
+	var unselectedMenu = localStorage.getItem('unselectedMenu');
+	var username = document.getElementById("form-username").value;
+	var password = document.getElementById("form-password").value;
+	// var RemoteServiceIP1 = localStorage.getItem('RemoteServiceIP');
+	// 				if(RemoteServiceIP1 != null && RemoteServiceIP1 != 'undefined' && RemoteServiceIP1 != "") {
+	// 					window.serviceIP = 'http://' + RemoteServiceIP1 + '/ilpsService';
+	// 				}
+	// 					alert('RemoteServiceIP1' + RemoteServiceIP1)
+	// 				alert('window.serviceIP' + window.serviceIP)
+	$.ajax({
+		type: 'POST',
+		url: 'http://120.194.241.54:19001/ilpsService/api/login',
+		dataType: "json",
+		data: {
+			'username': username,
+			"password": password
+		},
+		async: true, //设置为false时,timeout不生效
+		timeout: 3000,
+		success: function(result) {
+			if(result.status == "1") {
+				$("#loginButton").attr("disabled", false);
+				loginSuccess(result, '120.194.241.54:19001', unselectedMenu, username, password);
 			} else {
 				var hintinfo = document.getElementById("hintinfo");
 				hintinfo.innerHTML = '<font color="red">' + result.message + '</font>';

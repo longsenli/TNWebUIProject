@@ -1061,7 +1061,7 @@ function recognitionQR(webName, qrCode) {
 
 function productionInfoPictureShow() {
 
-	if(document.PlantToLineSelectForm.queryType.value.toString() != "产线") {
+	if(document.PlantToLineSelectForm.queryType.value.toString() != "byLine") {
 		return;
 	}
 	var heightAll = 500;

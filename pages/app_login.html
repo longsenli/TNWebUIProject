@@ -71,7 +71,7 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form id="login_form" action="" method="post" class="login-form" onsubmit="return login()">
+							<form id="login_form" action="" method="post" class="login-form" >
 								<div class="form-group">
 
 									<input name="form-username" placeholder="用户名" style="font-size:20px;width:90%;height: 45px;display: inline;" class="form-username form-control" id="form-username" required/>
@@ -85,8 +85,8 @@
 									<input type="password" name="form-password" placeholder="密码" class="form-password form-control" id="form-password" required>
 								</div>
 								<!--    <a href="index.html" class="btn btn-lg btn-success btn-block">登录</a>-->
-								<button type="submit" id="loginButton" class="btn">登录</button>
-							</form>
+								<button type="button" id="loginButton" onclick="login()" class="btn">登录</button>
+							</form> 
 							<div align="right" style="padding-top: 10px;">
 								<label style="font-size: x-large;color: #3C763D"><input id="savePSWCheck" checked type="checkbox">保存密码</label>
 
@@ -107,7 +107,7 @@
 										<span>说明: 登录前请连接公司内部WIFI, 默认为连接的MES网络, 其他网络请选择非MES网</span>
 								    </div>
 								</div> -->
-								<input type="text" onblur="setRemoteServiceIP()" name="RemoteServiceIP" placeholder="设置服务器ip,例: 1.1.1.1" class="form-username form-control" id="RemoteServiceIP" required>
+								<input type="text"  name="RemoteServiceIP" placeholder="设置服务器ip,例: 1.1.1.1" class="form-username form-control" id="RemoteServiceIP" required>
 								<!--<label name='tip' >例子: 120.194.241.54</label></br>-->
 								<label id="loginPage_show_RemoteServiceIP"></label>
 								<label id="versionInfo">当前版本号:&nbsp;&nbsp;</label>
