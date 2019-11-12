@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>工单批次管理</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
 
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
@@ -61,15 +61,24 @@
 								<div class="panel">
 									<div class="panel-body">
 
+										<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="subOrderProductionLineSlctFun()">
+										</select>
+
+										<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="subOrderProductionLineSlctFun()">
+										</select>
+
+										<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="lineWorkOrderSlct()">
+										</select>
+
 										<form ID="DataProvenanceForm" name="DataProvenanceForm">
 											<div class="form-inline row">
-								
+
 												<input type="text" class="form-control" id="stringData" name="stringData" placeholder="请输入条码信息">
-												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;"  type="button" class="btn btn-info" onclick="findDataProvenanceByQR('-1')">
+												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;" type="button" class="btn btn-info" onclick="findDataProvenanceByQR('-1')">
               工单追溯  </button>
-												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;"  type="button" class="btn btn-info" onclick="dataProvenanceByDCDK('-1')">
+												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;" type="button" class="btn btn-info" onclick="dataProvenanceByDCDK('-1')">
                电池追溯  </button>
-												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;"  type="button" class="btn btn-danger" onclick="scanQR()">
+												<button id="DataProvenanceScanQRBT" style="margin-top: 10px;" type="button" class="btn btn-danger" onclick="scanQR()">
                 扫码查询  </button>
 											</div>
 											<br />
