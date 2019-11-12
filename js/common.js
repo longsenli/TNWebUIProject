@@ -2,7 +2,7 @@ var RemoteServiceIP = localStorage.getItem('RemoteServiceIP');
 
 window.IPOnly = "192.168.80.228";
 window.PicturePort = "19005";
-window.serviceIP = "http://192.168.1.103:8080";
+window.serviceIP = "http://192.168.1.104:8080";
 window.webSocketIP = "ws://192.168.80.228:19001/ilpsService/websocket"; 
 //window.webSocketIP = "ws://192.168.1.103:8080/websocket"; 
 //window.serviceIP = "http://192.168.1.108:19001/tnpy-0.0.1-SNAPSHOT";

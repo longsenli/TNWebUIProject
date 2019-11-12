@@ -160,7 +160,7 @@ function getInventoryInfo() {
 		}
 		maxCycleTime = maxCycleTime * 10;
 	}
- 
+
 	for(var i in inventoryData) {
 		//   materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
 		//		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
@@ -243,19 +243,19 @@ function getInventoryInfo() {
 					}
 				},
 				//在拐点处显示数值
-					label: {
-						normal: {
-							show: true,
-							textStyle: {
-								fontSize: 19,
-								fontWeight: 'normal',
-								color: "#00FF00"
-							},
-							formatter: function(param) {
-								return param.value ;
-							} //
+				label: {
+					normal: {
+						show: true,
+						textStyle: {
+							fontSize: 19,
+							fontWeight: 'normal',
+							color: "#00FF00"
 						},
+						formatter: function(param) {
+							return param.value;
+						} //
 					},
+				},
 				name: '剩余库存'
 			}]
 		}]
