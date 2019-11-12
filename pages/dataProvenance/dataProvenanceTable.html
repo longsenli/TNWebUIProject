@@ -16,7 +16,7 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
-		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+	
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
@@ -25,6 +25,7 @@
 	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
 			$(function() {
+				DataProvenancePlantSlctFun();
 				document.addEventListener('plusready', function() {
 					var main = plus.android.runtimeMainActivity(); //获取activity  
 					var context = plus.android.importClass('android.content.Context'); //上下文  
@@ -46,6 +47,17 @@
 				}, false);
 			});
 		</script>
+		
+
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="subOrderProductionLineSlctFun()">
+				</select>
+	
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="subOrderProductionLineSlctFun()">
+				</select>
+		
+				<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="lineWorkOrderSlct()">
+				</select>
+				
 
 		<form ID="DataProvenanceForm" name="DataProvenanceForm">
 			<div class="form-inline row">

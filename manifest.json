@@ -2623,6 +2623,13 @@
 					"pages/chargePackManage/barcode_scan.html"
 				],
 				"priority": 0
+			},
+			"pages/dataProvenance/app_dataProvenanceTable.html": {
+				"resources": [],
+				"refer": [
+					"pages/dataProvenance/barcode_scan.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

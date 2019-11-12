@@ -729,12 +729,12 @@ for(var j in lineRemainProductionArray)
 		//setTimeout("initProductionDashboardPicture('refresh')", 60000 * 10);
 		//setTimeout("initProductionDashboardPicture('refresh')", 600 * 10);
 		if("initProductionDashboardByMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
-			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+			setTimeout("initProductionDashboardByMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);
 		} else if("initProductionDashboardByLineMaterialPicture" == document.getElementById("productionScanType").innerHTML) {
 
-			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);
 		} else {
-			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 10);
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);
 		}
 	}
 }

@@ -1,3 +1,98 @@
+
+
+function DataProvenancePlantSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplant",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#industrialPlantSlct").find('option').remove();
+			//console.log(dataRes);
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" + models[i].name.toString()  + "</option>").toString())
+				}
+				$('#industrialPlantSlct').selectpicker('refresh');
+				$('#industrialPlantSlct').selectpicker('render');   
+				$('#industrialPlantSlct').selectpicker('hide');
+				DataProvenanceProcessSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function DataProvenanceProcessSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getproductionprocess",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#productionProcessSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionProcessSlct').append(("<option value=" + models[i].id + ">" + models[i].name  + "</option>").toString())
+				}
+				
+				$('#productionProcessSlct').selectpicker('refresh');
+				$('#productionProcessSlct').selectpicker('render');   
+				$('#productionProcessSlct').selectpicker('hide');
+				DataProvenanceLineSlctFun();
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+
+function DataProvenanceLineSlctFun() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getAllProductionLine",
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			$("#productionLineSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#productionLineSlct').append(("<option value=" + models[i].id + ">" + models[i].name  + "</option>").toString())
+				}
+				
+				$('#productionLineSlct').selectpicker('refresh');
+				$('#productionLineSlct').selectpicker('render');   
+				$('#productionLineSlct').selectpicker('hide'); 
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
 function dataProvenanceFunction(inputString) {
 	if(inputString.toString().length > 15) {
 		findDataProvenanceByQR(inputString);
@@ -7,7 +102,10 @@ function dataProvenanceFunction(inputString) {
 }
 //电池底壳追溯
 function dataProvenanceByDCDK(inputString) {
-	if(recordID.length < 2) {
+	if(inputString == '-1') {
+		inputString = document.getElementById("stringData").value;
+	}
+	if(inputString.length < 2) {
 		alert("请确认输入正确!")
 		return;
 	}
@@ -16,8 +114,35 @@ function dataProvenanceByDCDK(inputString) {
 		checkbox: true
 	});
 	columnsArray.push({
+		"title": "厂区",
+		"field": "inputPlantID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#industrialPlantSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
+	});
+	
+	columnsArray.push({
 		"title": "工序",
-		"field": "processInfo"
+		"field": "inputProcessID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#productionProcessSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "inputLineID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
 	});
 	columnsArray.push({
 		"title": "物料工单",
@@ -34,28 +159,23 @@ function dataProvenanceByDCDK(inputString) {
 	});
 	columnsArray.push({
 		"title": "入库时间",
-		"field": "inputTime",
-		formatter: function(value, row, index) {
-			if(value) {
-				return window.stringToDatetimeLocalType(value, "yyyy-MM-dd hh:mm:ss");
-			}
-		}
+		"field": "inputTime"
 	});
-	columnsArray.push({
-		"title": "固化一段",
-		"field": "GHTime1"
-	});
-	columnsArray.push({
-		"title": "固化二段",
-		"field": "GHTime2"
-	});
-	columnsArray.push({
-		"title": "固化三段",
-		"field": "GHTime3"
-	});
- 
+//	columnsArray.push({
+//		"title": "固化一段",
+//		"field": "GHTime1"
+//	});
+//	columnsArray.push({
+//		"title": "固化二段",
+//		"field": "GHTime2"
+//	});
+//	columnsArray.push({
+//		"title": "固化三段",
+//		"field": "GHTime3"
+//	});
+// 
 	$.ajax({
-		url: window.serviceIP + "/api/dataprovenance/getProvenanceByDCDK?DKQRCode=" + recordID,
+		url: window.serviceIP + "/api/dataprovenance/getProvenanceByDCDK?DKQRCode=" + inputString,
 		type: "GET",
 		processData: false,
 		contentType: false,
@@ -102,13 +222,40 @@ function findDataProvenanceByQR(recordID) {
 		alert("请确认输入正确!")
 		return;
 	}
-	var columnsArray = [];
+		var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
 	columnsArray.push({
+		"title": "厂区",
+		"field": "inputPlantID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#industrialPlantSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
+	});
+	
+	columnsArray.push({
 		"title": "工序",
-		"field": "processInfo"
+		"field": "inputProcessID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#productionProcessSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "inputLineID",
+		formatter: function(value, row, index) {
+			if(value)
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			else
+				return '-';
+		}
 	});
 	columnsArray.push({
 		"title": "物料工单",
@@ -125,26 +272,21 @@ function findDataProvenanceByQR(recordID) {
 	});
 	columnsArray.push({
 		"title": "入库时间",
-		"field": "inputTime",
-		formatter: function(value, row, index) {
-			if(value) {
-				return window.stringToDatetimeLocalType(value, "yyyy-MM-dd hh:mm:ss");
-			}
-		}
+		"field": "inputTime"
 	});
-	columnsArray.push({
-		"title": "固化一段",
-		"field": "GHTime1"
-	});
-	columnsArray.push({
-		"title": "固化二段",
-		"field": "GHTime2"
-	});
-	columnsArray.push({
-		"title": "固化三段",
-		"field": "GHTime3"
-	});
-
+//	columnsArray.push({
+//		"title": "固化一段",
+//		"field": "GHTime1"
+//	});
+//	columnsArray.push({
+//		"title": "固化二段",
+//		"field": "GHTime2"
+//	});
+//	columnsArray.push({
+//		"title": "固化三段",
+//		"field": "GHTime3"
+//	});
+// 
 	$.ajax({
 		url: window.serviceIP + "/api/dataprovenance/getprovenancebyorderid?orderID=" + recordID,
 		type: "GET",

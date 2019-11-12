@@ -128,7 +128,7 @@ function getInventoryInfo() {
 	var materialPlanExpend = [];
 	var materialPlanExpendRealNum = [];
 	var materialCycleTimeRealNum = [];
-	
+
 	var materialCycleTime = [];
 	var materialCycleTimePolar = [];
 	var maxPlan = 1;
@@ -152,22 +152,20 @@ function getInventoryInfo() {
 		}
 	}
 	maxCycleTime = 0.1;
-var maxPlanPolar =maxPlan;
-for(var i =0;i< 100;i++)
-{
-	maxPlan = maxPlan / 10 ;
-	if(maxPlan < 1)
-	{
-		break;
+	var maxPlanPolar = maxPlan;
+	for(var i = 0; i < 100; i++) {
+		maxPlan = maxPlan / 10;
+		if(maxPlan < 1) {
+			break;
+		}
+		maxCycleTime = maxCycleTime * 10;
 	}
-	maxCycleTime = maxCycleTime *10;
-}
-
+ 
 	for(var i in inventoryData) {
-//   materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
-//		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
+		//   materialPlanExpend.push(materialPlanExpendRealNum[i] / maxPlan);
+		//		materialCycleTime.push(materialCycleTimeRealNum[i] / maxCycleTime);
 
-    materialPlanExpend.push(materialPlanExpendRealNum[i] );
+		materialPlanExpend.push(materialPlanExpendRealNum[i]);
 		materialCycleTime.push(materialCycleTimeRealNum[i] * maxCycleTime);
 		materialNameInventoryPolar.push({
 			"text": inventoryData[i].name,
@@ -192,7 +190,7 @@ for(var i =0;i< 100;i++)
 	// 指定图表的配置项和数据
 	var optionInventoryInfoChart = {
 		title: {
-			text: "库存配比雷达图",
+			text: "库存雷达图",
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
@@ -230,10 +228,34 @@ for(var i =0;i< 100;i++)
 			}
 		},
 		series: [{
-			name: "库存配比雷达图",
+			name: "库存雷达图",
 			type: "radar",
 			data: [{
 				value: inventoryNum,
+				itemStyle: {
+					normal: {
+						areaStyle: {
+							type: 'default',
+							// opacity: 0.8, // 图表中各个图区域的透明度
+							color: "#1686c2" // 图表中各个图区域的颜色
+						}
+
+					}
+				},
+				//在拐点处显示数值
+					label: {
+						normal: {
+							show: true,
+							textStyle: {
+								fontSize: 19,
+								fontWeight: 'normal',
+								color: "#00FF00"
+							},
+							formatter: function(param) {
+								return param.value ;
+							} //
+						},
+					},
 				name: '剩余库存'
 			}]
 		}]
@@ -246,7 +268,7 @@ for(var i =0;i< 100;i++)
 	// 指定图表的配置项和数据
 	var optionCycleTimeChart = {
 		title: {
-			text: "库存配比雷达图",
+			text: "周期雷达图",
 			textStyle: {
 				fontWeight: 'bold', //标题颜色
 				fontSize: '28',
@@ -287,12 +309,54 @@ for(var i =0;i< 100;i++)
 			name: "物料周期",
 			type: "radar",
 			data: [{
-				value: materialPlanExpend,
-				name: '计划消耗'
-			}, {
-				value: materialCycleTime,
-				name: '生产周期'
-			}]
+					value: materialPlanExpend,
+					name: '计划消耗',
+					// 设置区域边框和区域的颜色
+					itemStyle: {
+						normal: {
+							color: '#02FFFF'
+						},
+					},
+					//在拐点处显示数值
+					label: {
+						normal: {
+							show: true,
+							textStyle: {
+								fontSize: 19,
+								fontWeight: 'normal',
+							},
+							formatter: function(param) {
+								return param.value;
+							} //
+						},
+					},
+
+				},
+				{
+					value: materialCycleTime,
+					// 设置区域边框和区域的颜色
+					itemStyle: {
+						normal: {
+							color: '#FF0000'
+						},
+					},
+					//在拐点处显示数值
+					label: {
+						normal: {
+							show: true,
+							textStyle: {
+								fontSize: 19,
+								fontWeight: 'normal',
+							},
+							formatter: function(param) {
+								return param.value / maxCycleTime;
+							} //
+						},
+					},
+
+					name: '生产周期'
+				}
+			]
 		}]
 	};
 
