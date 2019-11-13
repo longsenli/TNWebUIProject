@@ -205,9 +205,6 @@ function plasticUsedRecordMaterialInfoSlct() {
 	}); 
 }
 
-function changeWorkOrderSlctFun() {
-	$("#materialNameOfOrder").val( $("#workOrderSlct").find("option:selected").text() );
-}
 
 function plasticUsedRecordWorkOrderInfoSlct() {
 	var dataStr = "2";
@@ -222,7 +219,6 @@ function plasticUsedRecordWorkOrderInfoSlct() {
 	if(dateNow.getHours() > 18) {
 		dataStr = "YB" + dateNow.format("yyyyMMdd");
 	}
-
 	$.ajax({
 		url: window.serviceIP + "/api/order/getworkorderbylineid?lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString(),
 		type: "GET",
@@ -244,14 +240,13 @@ function plasticUsedRecordWorkOrderInfoSlct() {
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					if(models[i].orderid.toString().indexOf(dataStr) > 0) {
-						$('#workOrderSlct').append(("<option value=" + models[i].id + "___" + models[i].materialid + ">" +
+						$('#workOrderSlct').append(("<option style='margin-top: 5px;font-size: 16px;' value=" + models[i].id + "___" + models[i].materialid + ">" +
 							models[i].closestaff  + "</option>").toString());
 					}
 				}
 				$('#workOrderSlct').selectpicker('refresh');
 				$('#workOrderSlct').selectpicker('render');   
-				$("#materialNameOfOrder").val('');
-				changeWorkOrderSlctFun();
+				
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -633,7 +628,7 @@ function plasticUsedRecordByBatch(grantType) {
 	formData.append("orderID", materialID);
 	formData.append("orderIDZH", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[0]);
 	formData.append("materialIDZH", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[1]);
-	formData.append("materialNameZH", $("#materialNameOfOrder").val());
+	formData.append("materialNameZH", $("#workOrderSlct").find("option:selected").text() );
 	$.ajax({
 		url: window.serviceIP + "/api/plastic/addPlasticUsedRecord",
 		type: "POST",
@@ -735,51 +730,42 @@ function TextInput(orderID) {
 
 	if(orderID.indexOf("BB") > 0 && orderID.length > 15) {
 		selectMaterial(orderID);
-		//	event.preventDefault(); //禁止默认事件（默认是换行） 
 		$("#orderIDByBatch").val("");
-		//	document.getElementById('orderIDByBatch').focus();
 		return;
 	}
-
+	if(orderID.length < 5) {
+		$('<div>').appendTo('body').addClass('alert alert-success').html('错误的底壳二维码!').show().delay(1500).fadeOut();
+		$("#orderIDByBatch").val("");
+		return;
+	}
 	var rows = $('#table').bootstrapTable('getRowByUniqueId', orderID); //行的数据
  
 	if(rows) {
-		//console.log("该工单已添加!" + orderID);
 		$('<div>').appendTo('body').addClass('alert alert-success').html('该底壳已添加!').show().delay(1500).fadeOut();
-		//	event.preventDefault(); //禁止默认事件（默认是换行） 
 		$("#orderIDByBatch").val("");
-		//	document.getElementById('orderIDByBatch').focus();
 		return;
 	}
-		var tableData = $("#table").bootstrapTable('getAllSelections');
+	var tableData = $("#table").bootstrapTable('getAllSelections');
 	if(tableData.length > 0) {
 		if(tableData[0].status) {
 			if(tableData[0].status.length > 0) {
 				innitOrderIDTable();
+				tableData = $("#table").bootstrapTable('getAllSelections');
 			}
 		}
-	}
-	if(tableData.length > materialNumber)
+	} 
+
+	if(tableData.length + 1 > materialNumber)
 	{
 		alert("剩余物料为:" + materialNumber + ",请投料后继续使用!");
 		return;
 	}
-	if(orderID.length < 5) {
-		//console.log("工单错误,请确认!" + orderID);
-		$('<div>').appendTo('body').addClass('alert alert-success').html('错误的底壳二维码!').show().delay(1500).fadeOut();
-
-		$("#orderIDByBatch").val("");
-		//document.getElementById('orderIDByBatch').focus();
-		return;
-	}
+	
+document.getElementById("inputPasticNumber").innerHTML = "当前扫码:" + (tableData.length + 1);
 
 	if($("#table").bootstrapTable('getData').length >= 40) {
-		//console.log("一次性最多投料40个!");
 		$('<div>').appendTo('body').addClass('alert alert-success').html('一次性最多40个').show().delay(1500).fadeOut();
-
-		//	event.preventDefault(); //禁止默认事件（默认是换行） 
 		$("#orderIDByBatch").val("");
-		//	document.getElementById('orderIDByBatch').focus();
 		return;
 	}
 
