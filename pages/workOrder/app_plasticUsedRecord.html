@@ -98,25 +98,21 @@
 													</select>
 												</div>
 												<div class="form-group">
-													<label> 产线： </label>
+													<label id="productionLineLabel"> 产线： </label>
 													<select class="selectpicker" id="productionLineSlct" style="width:100px;" name="productionLineSlct" onchange="plasticUsedRecordWorkingLocationSlctFun()">
 													</select>
 												</div>
-												<div class="form-group">
-													<select class="selectpicker" id="materialSlct" data-width="76%" name="materialSlct" >
-													</select>
+												<div class="form-group">							
 													<label id="orderSelectLabel"> 单号： </label>
 													<select class="selectpicker" id="workOrderSlct" data-width="76%" name="workOrderSlct" onchange="changeWorkOrderSlctFun()">
-													</select>
-
-													<input type="text" class="form-control " style="margin-top: 10px;" readonly="true" id="materialNameOfOrder" name="materialNameOfOrder">
+													</select>													
 												</div>
+												<input type="text" class="form-control " style="margin-top: 10px;display: none;" readonly="true" id="materialNameOfOrder" name="materialNameOfOrder">
 												<div class="form-group">
 													<label> 工位： </label>
-													<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct">
+													<select class="selectpicker" id="workingkLocationSlct" style="width:100px;" name="workingkLocationSlct" onchange="getInputTotalNumber()">
 													</select>
-												</div>
-												
+												</div>											 	
 												<div class="form-group">
 													<label> 时间： </label>
 													<input type="datetime-local" id="startTime" name="startTime" />
@@ -125,19 +121,18 @@
 												</div>
 
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="plasticUsedRecordSelect()">-->
-												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="plasticUsedRecordDetail()">投料详情</button>
-												<h4 id="inputMaterial"></h4>
-												<input type="text" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">
-												<!--<input type="text"  onkeydown="onTextareaKeyDown()" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">-->
+												<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="plasticUsedRecordDetail()">生产详情</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="plasticUsedRecordByBatch('1')">批量投料</button>
+												<h5 id="inputMaterial"></h5>
+												<!--<input type="text" class="form-control" style="margin-top: 10px;" id="orderIDByBatch" name="orderIDByBatch">
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="addOrderIDToBatchTable()">添加ID</button>
 												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQR('5')">扫码添加</button>
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="selectMaterial()">查询工单</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="selectMaterial()">查询工单</button>-->
 
-												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="plasticUsedRecordByBatch('1')">批量投料</button>
-												<h4 id="inputPasticNumber"></h4>
+												<!--<h4 id="inputPasticNumber"></h4>-->
 												<!--<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="autoFinishOrderCheck"   checked type="checkbox">自动投料</label>-->
 											</div>
-											<br />
+									
 										</form>
 
 										<div id="class=table-responsive">
