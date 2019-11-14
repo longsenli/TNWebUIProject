@@ -37,6 +37,13 @@
 			workOrderIndustrialPlantSlctFun("1");
 
 			$(function() {
+				
+				var today = new Date();
+				today.setDate(today.getDate() + 3);
+				document.getElementById("scheduledstarttime").max = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 10);
+				document.getElementById("scheduledstarttime").min = today.format("yyyy-MM-dd");;
+				
 				$('#myModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("workOrderManageForm").reset();

@@ -364,18 +364,15 @@ function setLineModal() {
 
 				var models = eval("(" + dataRes.data + ")");
 				var blTB = false;
-				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0] == window.windowProcessEnum.TB)
-				{
-					
+				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0] == window.windowProcessEnum.TB) {
+
 					blTB = true;
 				}
 				for (var  i  in  models)  {  
-					if(blTB)
-					{
-						if(models[i].name.toString().indexOf("连涂") < 0 && models[i].name.toString().indexOf("小片") > 0)
-						{
+					if(blTB) {
+						if(models[i].name.toString().indexOf("连涂") < 0 && models[i].name.toString().indexOf("小片") > 0) {
 							continue;
-						}							
+						}
 					}
 					$('#materialid').append(("<option style='margin-top: 5px;font-size: 18px;' value=" + models[i].id + ">" + models[i].name.toString()  + "___" + models[i].eachbatchnumber + "</option>").toString());
 				}
@@ -518,7 +515,7 @@ function selectedWorkOrderRow(param) {
 		}
 
 		deleteWorkOrderReally(row["id"]);
-	}else if(optionType == "workorder_finish") {
+	} else if(optionType == "workorder_finish") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
 			return;
@@ -527,9 +524,8 @@ function selectedWorkOrderRow(param) {
 	}
 };
 
-function finishWorkOrder(orderid)
-{
-		$.ajax({
+function finishWorkOrder(orderid) {
+	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorderstatus?ID=" + orderid + "&status=" + window.windowOrderStatusEnum.finished,
 		type: "GET",
 		contentType: "application/json",
@@ -551,6 +547,7 @@ function finishWorkOrder(orderid)
 		}
 	});
 }
+
 function deleteWorkOrderReally(orderid) {
 
 	$.ajax({
