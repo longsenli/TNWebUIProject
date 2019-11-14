@@ -686,7 +686,7 @@ function plasticUsedRecordByBatch(grantType) {
 				//document.getElementById("inputPasticNumber").innerHTML ="工位产量:" + dataRes.message.split("___")[1];
 
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert("投料失败！" + dataRes.message);
 			}
 		},
 		error: function(jqXHR, exception) {

@@ -233,6 +233,17 @@ function initProductionDashboardPicture(showType) {
 	var lineRemainProductionMap = {};
 	var materialTypeProductionMap = {};
 
+	if(plantProductionDashboardData.length < 1 && realProductionDashboardData.length > 0) {
+		for(var i in realProductionDashboardData) {
+
+			plantProductionDashboardData.push({
+				totalProduction: realProductionDashboardData[i].realProduction,
+				materialName: realProductionDashboardData[i].materialName,
+				lineName: realProductionDashboardData[i].lineName
+			})
+		}
+	}
+
 	for(var i in plantProductionDashboardData) {
 		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName)) {
 			lineTotalProductionMap[plantProductionDashboardData[i].lineName] = lineTotalProductionMap[plantProductionDashboardData[i].lineName] + plantProductionDashboardData[i].totalProduction;
@@ -296,11 +307,10 @@ function initProductionDashboardPicture(showType) {
 		materialTypeProductionArray.push(mapMaterial);
 	});
 
-for(var j in lineRemainProductionArray)
-{
-	if(lineRemainProductionArray[j] < 0)
-		lineRemainProductionArray[j] =0 - lineRemainProductionArray[j];
-}
+	for(var j in lineRemainProductionArray) {
+		if(lineRemainProductionArray[j] < 0)
+			lineRemainProductionArray[j] = 0 - lineRemainProductionArray[j];
+	}
 	if(planDailyProductionNumber > 500) {
 		totalPlanProduction = planDailyProductionNumber;
 	}
@@ -928,6 +938,17 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 	var lineQualifiedRateMap = {};
 	var lineRemainProductionMap = {};
 	var materialTypeProductionMap = {};
+
+	if(plantProductionDashboardData.length < 1 && realProductionDashboardData.length > 0) {
+		for(var i in realProductionDashboardData) {
+
+			plantProductionDashboardData.push({
+				totalProduction: realProductionDashboardData[i].realProduction,
+				materialName: realProductionDashboardData[i].materialName,
+				lineName: realProductionDashboardData[i].lineName
+			})
+		}
+	}
 
 	for(var i in plantProductionDashboardData) {
 		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].lineName + "—" + plantProductionDashboardData[i].materialName)) {
@@ -1558,6 +1579,17 @@ function initProductionDashboardByMaterialPicture(showType) {
 	var lineQualifiedRateMap = {};
 	var lineRemainProductionMap = {};
 	var materialTypeProductionMap = {};
+
+	if(plantProductionDashboardData.length < 1 && realProductionDashboardData.length > 0) {
+		for(var i in realProductionDashboardData) {
+
+			plantProductionDashboardData.push({
+				totalProduction: realProductionDashboardData[i].realProduction,
+				materialName: realProductionDashboardData[i].materialName,
+				lineName: realProductionDashboardData[i].lineName
+			})
+		}
+	}
 
 	for(var i in plantProductionDashboardData) {
 		if(lineTotalProductionMap.hasOwnProperty(plantProductionDashboardData[i].materialName)) {
