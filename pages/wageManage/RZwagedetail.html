@@ -63,6 +63,14 @@
 		<script type="text/javascript" src="../../vendor/mui/js/mui.picker.min.js"></script>
 		<script type="text/javascript">
 			(function($) {
+			
+				var today = new Date();
+				if(today.getDate() < 26) {
+					today.setMonth(today.getMonth() - 1)
+				} 
+				mui('#choicemonth')[0].innerText = today.format("yyyy-MM");
+				mui('#choicemonth')[0].value = today.format("yyyy-MM");
+				
 				$.init({
 					swipeBack:true //启用右滑关闭功能
 				});
