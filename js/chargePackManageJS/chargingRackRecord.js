@@ -719,7 +719,6 @@ function showPullOffPartModal() {
 		return;
 	}
 	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
-		alert(row[0].materialtype)
 		$('#myPullOffPartModalselect').html($('#productionLineSlct').html());
 		var numbers = $('#myPullOffPartModalselect').find("option"); //获取select下拉框的所有值
 		for(var j = 0; j < numbers.length; j++) {
