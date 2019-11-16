@@ -663,8 +663,11 @@ function confirmpullOffChargingRackRecord() {
 	formMap['materialid'] = $('#confirmmaterialid').val();
 	formMap['materialname'] = $('#confirmmaterialname').val();
 	formMap['plantid'] = $('#confirmplantid').val();
-//	formMap['lineid'] = $('#confirmlineid').val();
-	formMap["lineid"] = $("#confirmLineModalForm" + " #confirmLineModalselect").find("option:selected").val();
+	if(row[0].materialtype=='3'||row[0].materialtype=='4'){
+		formMap["lineid"] = $("#confirmLineModalForm" + " #confirmLineModalselect").find("option:selected").val();
+	}else{
+		formMap['lineid'] = $('#confirmlineid').val();
+	}
 	formMap['pulloffstaffid'] = $('#confirmpulloffstaffid').val();
 	formMap['pulloffstaffname'] = $('#confirmpulloffstaffname').val();
 	formMap['pulloffdate'] = new Date();
@@ -716,6 +719,7 @@ function showPullOffPartModal() {
 		return;
 	}
 	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
+		alert(row[0].materialtype)
 		$('#myPullOffPartModalselect').html($('#productionLineSlct').html());
 		var numbers = $('#myPullOffPartModalselect').find("option"); //获取select下拉框的所有值
 		for(var j = 0; j < numbers.length; j++) {
@@ -725,7 +729,11 @@ function showPullOffPartModal() {
 		}
 		$('#myPullOffPartModalselect').selectpicker('refresh');
 		$('#myPullOffPartModalselect').selectpicker('render');
+		$('#myPullOffPartModalselectDiv').show();
 		$('#myPullOffPartModalselect').show();
+	}else{
+		$('#myPullOffPartModalselectDiv').hide();
+		$('#myPullOffPartModalselect').hide();
 	}
 	
 	$('#pullOffPartNumber').val(row[0].realnumber);
