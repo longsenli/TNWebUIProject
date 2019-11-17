@@ -187,7 +187,7 @@ function queryDailyProductionWorkingLocationSlctFun() {
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
-	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("lineID", "-1");
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getworklocation",
 		type: "POST",
@@ -1378,6 +1378,300 @@ function getSolidifyRoomDetail() {
 	});
 
 	var urlStr = window.serviceIP + "/api/solidifyrecord/getSolidifyRoomDetail?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString();
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function selectDailyProductionSummaryWorklocation() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	//	columnsArray.push({
+	//		"title": "厂区",
+	//		"field": "plantID"
+	//	});
+	//	columnsArray.push({
+	//		"title": "流程",
+	//		"field": "processID"
+	//	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "lineID",
+		formatter: function(value, row, index) {
+			return $("#productionLineSlct option[value='" + value + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "工位",
+		"field": "workLocation",
+		formatter: function(value, row, index) {
+			return $("#workingkLocationSlct option[value='" + value + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "日期",
+		"field": "dayTime"
+	});
+	columnsArray.push({
+		"title": "班次",
+		"field": "classType1"
+	});
+	columnsArray.push({
+		"title": "物料型号",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产量",
+		"field": "production"
+	});
+
+	var urlStr = window.serviceIP + "/api/dashboard/getProductionSummaryWorkLocation?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() + "&lineID=-1&startTime=" + document.getElementById("startTime").value +
+		"&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function selectDailyProductionSummaryLine() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	//	columnsArray.push({
+	//		"title": "厂区",
+	//		"field": "plantID"
+	//	});
+	//	columnsArray.push({
+	//		"title": "流程",
+	//		"field": "processID"
+	//	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "lineID",
+		formatter: function(value, row, index) {
+			return $("#productionLineSlct option[value='" + value + "']").text();
+		}
+	});
+
+	columnsArray.push({
+		"title": "日期",
+		"field": "dayTime"
+	});
+	columnsArray.push({
+		"title": "班次",
+		"field": "classType1"
+	});
+	columnsArray.push({
+		"title": "物料型号",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产量",
+		"field": "production"
+	});
+
+	var urlStr = window.serviceIP + "/api/dashboard/getProductionSummaryLine?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() + "&lineID=-1&startTime=" + document.getElementById("startTime").value +
+		"&endTime=" + document.getElementById("endTime").value;
+
+	$.ajax({
+		url: urlStr,
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					//search: true,
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+function selectDailyProductionSummaryProcess() {
+	$('#tableInfoShow').show();
+	$('#pictureInfoShow').hide();
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	//	columnsArray.push({
+	//		"title": "厂区",
+	//		"field": "plantID"
+	//	});
+	//	columnsArray.push({
+	//		"title": "流程",
+	//		"field": "processID"
+	//	});
+	//	columnsArray.push({
+	//		"title": "产线",
+	//		"field": "lineID",
+	//				formatter: function(value, row, index) {
+	//					return $("#productionLineSlct option[value='" + value + "']").text();
+	//				}
+	//	});
+
+	columnsArray.push({
+		"title": "日期",
+		"field": "dayTime"
+	});
+	columnsArray.push({
+		"title": "班次",
+		"field": "classType1"
+	});
+	columnsArray.push({
+		"title": "物料型号",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "产量",
+		"field": "production"
+	});
+
+	var urlStr = window.serviceIP + "/api/dashboard/getProductionSummaryProcess?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
+		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() + "&startTime=" + document.getElementById("startTime").value +
+		"&endTime=" + document.getElementById("endTime").value;
 
 	$.ajax({
 		url: urlStr,
