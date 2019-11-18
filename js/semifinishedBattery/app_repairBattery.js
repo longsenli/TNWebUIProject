@@ -1,6 +1,3 @@
-//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
-
 
 function repairBatteryIndustrialPlantSlctFun(flag) {
 	$.ajax({
@@ -24,10 +21,10 @@ function repairBatteryIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
-				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
+				if(localStorage.plantID != null && localStorage.plantID != 'undefined' && localStorage.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.plantID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.plantID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 

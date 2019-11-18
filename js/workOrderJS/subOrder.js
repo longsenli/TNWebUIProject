@@ -1885,10 +1885,10 @@ function pushOutDryingKilnjzsuborder(qrCode) {
 	//浇铸干燥窑扫码后ID赋值
 	//alert(qrCode)
 	formMap['dryingkilnid'] = qrCode;
-	formMap['outputerid'] = $Global_UserLogin_Info.userid;
-	formMap['outputername'] = $Global_UserLogin_Info.username;
+	formMap['outputerid'] = localStorage.userID;
+	formMap['outputername'] = localStorage.username;
 	var formMap2 = {};
-	formMap2["name"] = $Global_UserLogin_Info.username;
+	formMap2["name"] = localStorage.username;
 	formMap2["jsonStr"] = JSON.stringify(formMap).toString();
 	$.ajax({
 		url: window.serviceIP + "/api/order/pushOutDryingKilnjzsuborder",

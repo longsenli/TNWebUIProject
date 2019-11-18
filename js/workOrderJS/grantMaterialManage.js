@@ -636,10 +636,8 @@ function grantMaterialByBatch(grantType) {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-
 				var models = eval("(" + dataRes.data + ")");
 				innitOrderIDTable(models);
-
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}

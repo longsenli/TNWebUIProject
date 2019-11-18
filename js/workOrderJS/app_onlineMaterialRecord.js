@@ -1,5 +1,4 @@
-//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
+
 
 function onlineMaterialIndustrialPlantSlctFun(flag) {
 	$.ajax({
@@ -24,10 +23,10 @@ function onlineMaterialIndustrialPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
+				if(localStorage.plantID != null && localStorage.plantID != 'undefined' && localStorage.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.plantID) {
+						if($(numbers[j]).val().toString() == localStorage.plantID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -74,10 +73,10 @@ function onlineMaterialProductionProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
+				if(localStorage.processID != null && localStorage.processID != 'undefined' && localStorage.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.processID) {
+						if($(numbers[j]).val().toString() == localStorage.processID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -141,10 +140,10 @@ function onlineMaterialProductionLineSlctFun() {
 				$('#lineid').selectpicker('render');   
 				// $('#lineid').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.lineID != null && $Global_UserLogin_Info.lineID != 'undefined' && $Global_UserLogin_Info.lineID.toString().length > 0) {
+				if(localStorage.lineID != null && localStorage.lineID != 'undefined' && localStorage.lineID.toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString() == $Global_UserLogin_Info.lineID) {
+						if($(numbers[j]).val().toString() == localStorage.lineID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionLineSlct').selectpicker('hide');
 
@@ -444,7 +443,7 @@ function mergeOnlineMaterialReocrd(mergeID) {
 	//	formMap["operator"] = localStorage.getItem('username');
 	$("#onlineMaterial_merge").attr("disabled", true);
 	$.ajax({
-		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + $Global_UserLogin_Info.username +
+		url: window.serviceIP + "/api/order/mergeonlinematerialrecord?mergeID=" + mergeID + "&operator=" + localStorage.username +
 			"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString(),
 		type: "POST",
 		contentType: "application/json",
@@ -516,7 +515,7 @@ function saveOnlineMaterialReocrd() {
 		return;
 	}
 	var formMap = window.formToObject($("#onlineMaterialModalForm"));
-	formMap["operator"] = $Global_UserLogin_Info.username;
+	formMap["operator"] = localStorage.username;
 	$("#saveOnlineMaterialRecordBT").attr("disabled", true);
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeonlinematerialrecord",

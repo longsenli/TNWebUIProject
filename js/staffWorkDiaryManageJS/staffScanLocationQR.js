@@ -33,8 +33,7 @@ function staffScanLocationQRIndustrialPlantSlctFun() {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render'); 
-				if(localStorage.roleID < windowRoleID.BZ)
-				{
+				if(localStorage.roleID < windowRoleID.BZ) {
 					$('#industrialPlantSlct').selectpicker('hide');
 				}
 				staffScanLocationQRProcessSlctFun();
@@ -73,7 +72,7 @@ function staffScanLocationQRProcessSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
-$('#productionProcessSlct').selectpicker('hide');
+							$('#productionProcessSlct').selectpicker('hide');
 						}
 					}
 
@@ -81,12 +80,11 @@ $('#productionProcessSlct').selectpicker('hide');
 
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render'); 
-				if(localStorage.roleID < windowRoleID.BZ)
-				{
+				if(localStorage.roleID < windowRoleID.BZ) {
 					$('#industrialPlantSlct').selectpicker('hide');
 				}
 
-			staffScanLocationQRLineSlctFun();
+				staffScanLocationQRLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -131,9 +129,12 @@ function staffScanLocationQRLineSlctFun() {
 					$('#productionLineSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
 				}
 				$('#productionLineSlct').selectpicker('refresh');
-				$('#productionLineSlct').selectpicker('render');  
-			//	$('#productionLineSlct').selectpicker('hide');   
-				
+				$('#productionLineSlct').selectpicker('render'); 
+				if(localStorage.roleID < windowRoleID.BZ) {
+					$('#productionLineSlct').selectpicker('hide'); 
+				} 
+				//	$('#productionLineSlct').selectpicker('hide');   
+
 				setTimeout(staffScanLocationQRWorkingLocationSlctFun(), 200);;
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -141,6 +142,45 @@ function staffScanLocationQRLineSlctFun() {
 		}
 	});
 };
+
+function confirmStaffAttendanceInfo() {
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(!tableData || tableData.length < 1) {
+		alert("请先选定工人信息再操作!")
+		return;
+	}
+
+	var recordIDList = "";
+	for(var i = 0; i < tableData.length; i++) {
+		if(tableData[i].verifierID && tableData[i].verifierID.length < 3) {
+			continue;
+		}
+		recordIDList += tableData[i].id + "___";
+	}
+	recordIDList = recordIDList.substring(0, recordIDList.length - 3);
+
+	var formData = new FormData();
+	formData.append("staffID", localStorage.userID);
+	formData.append("staffName", localStorage.username);
+	formData.append("recordID", recordIDList);
+
+	$.ajax({
+		url: window.serviceIP + "/api/staffWorkDiary/confirmStaffAttendanceInfo?",
+		type: "POST",
+		processData: false,
+		contentType: false,
+		data: formData,
+		success: function(data) {
+			if(data.status == 1) {
+				getStaffAttendanceInfo();
+				alert('确认成功!');
+			} else {
+				alert("确认失败！" + data.message);
+			}
+
+		}
+	});
+}
 
 function staffScanLocationQRWorkingLocationSlctFun() {
 	var formData = new FormData();
@@ -186,7 +226,7 @@ function scanQRRecordRowClick(row) {
 	}
 }
 
-function getScanLocationQRRecord() {
+function getSelfScanLocationQRRecord() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -210,20 +250,19 @@ function getScanLocationQRRecord() {
 		"title": "产线",
 		"field": "lineID",
 		formatter: function(value, row, index) {
-			return $("#productionLineSlct option[value='" +value + "']").text();
+			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD)
-	{
+	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
 		columnsArray.push({
-		"title": "工位",
-		"field": "worklocationID",
-		formatter: function(value, row, index) {
-			return $("#workingkLocationSlct option[value='" +value + "']").text();
-		}
-	});
+			"title": "工位",
+			"field": "worklocationID",
+			formatter: function(value, row, index) {
+				return $("#workingkLocationSlct option[value='" + value + "']").text();
+			}
+		});
 	}
-	
+
 	columnsArray.push({
 		"title": "姓名",
 		"field": "staffName"
@@ -261,6 +300,7 @@ function getScanLocationQRRecord() {
 	formData.append("plantID", "-1");
 	formData.append("processID", "-1");
 	formData.append("lineID", "-1");
+	formData.append("classType", "-1");
 	formData.append("staffID", localStorage.userID);
 	formData.append("startTime", document.getElementById("startTime").value.toString());
 	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59");
@@ -326,11 +366,16 @@ function getScanLocationQRRecord() {
 		}
 	});
 }
-function getStaffAttendanceInfo()
-{
+
+function getStaffAttendanceInfo() {
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
+		checkbox: true,
+		formatter: function(value, row, index) {
+				return {
+					checked: true //设置选中
+				};
+		}
 	});
 	columnsArray.push({
 		"title": "id",
@@ -351,20 +396,19 @@ function getStaffAttendanceInfo()
 		"title": "产线",
 		"field": "lineID",
 		formatter: function(value, row, index) {
-			return $("#productionLineSlct option[value='" +value + "']").text();
+			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD)
-	{
+	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
 		columnsArray.push({
-		"title": "工位",
-		"field": "worklocationID",
-		formatter: function(value, row, index) {
-			return $("#workingkLocationSlct option[value='" +value + "']").text();
-		}
-	});
+			"title": "工位",
+			"field": "worklocationID",
+			formatter: function(value, row, index) {
+				return $("#workingkLocationSlct option[value='" + value + "']").text();
+			}
+		});
 	}
-	
+
 	columnsArray.push({
 		"title": "姓名",
 		"field": "staffName"
@@ -397,11 +441,24 @@ function getStaffAttendanceInfo()
 		"title": "确认时间",
 		"field": "verifyTime"
 	});
+	columnsArray.push({
+		"title": "确认人ID",
+		"field": "verifierID",
+		visible: false,
+		formatter: function(value, row, index) {
+			if(value && value.length > 3) {
+				return value + "++";
+			} else {
+				return "-=";
+			}
+		}
+	});
 
 	var formData = new FormData();
-	formData.append("plantID",$("#industrialPlantSlct").val());
+	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
 	formData.append("lineID", $("#productionLineSlct").val());
+	formData.append("classType", $("#classTypeSlct").val());
 	formData.append("staffID", "-1");
 	formData.append("startTime", document.getElementById("startTime").value.toString());
 	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59");
@@ -422,7 +479,6 @@ function getStaffAttendanceInfo()
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
-
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
@@ -467,14 +523,15 @@ function getStaffAttendanceInfo()
 		}
 	});
 }
-function closeModal(modalName)
-{
+
+function closeModal(modalName) {
 	$("#" + modalName).modal('hide');
 }
+
 function beforeProductionScanLocationQR() {
 
 	var formData = new FormData();
-	formData.append("qrCode",  $("#locationID").val());
+	formData.append("qrCode", $("#locationID").val());
 	formData.append("staffID", localStorage.userID);
 	formData.append("staffName", localStorage.username);
 	formData.append("classType1", $("#classType1").val());
@@ -494,14 +551,14 @@ function beforeProductionScanLocationQR() {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-					$("#beforeProductionModal").modal('hide');
-				getScanLocationQRRecord();
+				$("#beforeProductionModal").modal('hide');
+				getSelfScanLocationQRRecord();
 				var locationInfo = dataRes.data.split("___");
-				localStorage.setItem('plantID',locationInfo[0].trim());
-				localStorage.setItem('processID',locationInfo[1].trim());
-				localStorage.setItem('lineID',locationInfo[2].trim());
-				localStorage.setItem('workingkLocation',locationInfo[3].trim());
-				
+				localStorage.setItem('plantID', locationInfo[0].trim());
+				localStorage.setItem('processID', locationInfo[1].trim());
+				localStorage.setItem('lineID', locationInfo[2].trim());
+				localStorage.setItem('workingkLocation', locationInfo[3].trim());
+
 				$('<div>').appendTo('body').addClass('alert alert-success').html('上机成功,祝您工作愉快!').show().delay(3000).fadeOut();
 
 			} else {
@@ -532,7 +589,7 @@ function beforeProductionScanLocationQR() {
 
 function afterProductionScanLocationQR(qrCode) {
 	var formData = new FormData();
-	formData.append("qrCode", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("qrCode", qrCode);
 	formData.append("staffID", localStorage.userID);
 
 	$.ajax({
@@ -549,7 +606,7 @@ function afterProductionScanLocationQR(qrCode) {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-				getScanLocationQRRecord();
+				getSelfScanLocationQRRecord();
 				$('<div>').appendTo('body').addClass('alert alert-success').html('下机成功!今日辛苦了!').show().delay(3000).fadeOut();
 
 			} else {
@@ -586,7 +643,7 @@ function deleteRecord(qrCode) {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
-	if(!row[0].verifierName) {
+	if(row[0].verifierName) {
 		alert("该记录已确认不能删除!");
 		return;
 	}
@@ -598,7 +655,7 @@ function deleteRecord(qrCode) {
 
 		success: function(data) {
 			if(data.status == 1) {
-				getScanLocationQRRecord();
+				getSelfScanLocationQRRecord();
 				alert('删除成功!');
 			} else {
 				alert("删除失败！" + data.message);

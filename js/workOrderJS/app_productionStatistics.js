@@ -1,5 +1,4 @@
-//获取全局token等信息，放入变量$Global_UserLogin_Info, app_login.html中login登陆方法初始赋值，用户首次登陆成功后设置放入localStorage
-var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
+
 
 function productionStatisticsPlantSlctFun(flag) {
 	$.ajax({
@@ -24,10 +23,10 @@ function productionStatisticsPlantSlctFun(flag) {
 				$('#industrialPlantSlct').selectpicker('render');   
 				// $('#industrialPlantSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.plantID != null && $Global_UserLogin_Info.plantID != 'undefined' && $Global_UserLogin_Info.plantID.toString().length > 0) {
+				if(localStorage.plantID != null && localStorage.plantID != 'undefined' && localStorage.plantID.toString().length > 0) {
 					var numbers = $('#industrialPlantSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.plantID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.plantID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#industrialPlantSlct').selectpicker('hide');
 
@@ -110,10 +109,10 @@ function productionStatisticsProcessSlctFun() {
 				$('#productionProcessSlct').selectpicker('render');   
 				// $('#productionProcessSlct').selectpicker('mobile');
 
-				if($Global_UserLogin_Info.processID != null && $Global_UserLogin_Info.processID != 'undefined' && $Global_UserLogin_Info.processID.toString().length > 0) {
+				if(localStorage.processID != null && localStorage.processID != 'undefined' && localStorage.processID.toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
-						if($(numbers[j]).val().toString().split("###")[0] == $Global_UserLogin_Info.processID) {
+						if($(numbers[j]).val().toString().split("###")[0] == localStorage.processID) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#productionProcessSlct').selectpicker('hide');
 
@@ -718,7 +717,7 @@ function findProductionStatisticsByQR(recordID) {
 	}
 
 	var formData = new FormData();
-	formData.append("operator", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
+	formData.append("operator", localStorage.username) //localStorage.username;
 	formData.append("orderSplitID", recordID);
 	if($('#ProductionStatisticsScanQRForm #ProductionStatisticsScanQRType').html() == '1') {
 		formData.append("orderType", '1');
@@ -795,7 +794,7 @@ function grantMaterialByInputID() {
 		return;
 	}
 	var formData = new FormData();
-	formData.append("operator", $Global_UserLogin_Info.username) //$Global_UserLogin_Info.username;
+	formData.append("operator", localStorage.username) //localStorage.username;
 	formData.append("orderSplitID", $('#grantMaterialOrderInputID').val().trim());
 	if(ScanQRType == '1') {
 		formData.append("orderType", '3');

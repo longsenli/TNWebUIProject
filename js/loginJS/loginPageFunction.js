@@ -10,6 +10,9 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 	localStorage.setItem('unselectedMenu', unselectedMenu);
 	localStorage.setItem('myDefaultIP', realIP);
 
+	//1 已扫过   2未扫过
+	localStorage.setItem('scanWorkLocationBL', result.data);
+
 	//登陆成功后获取token
 	var token = JSON.parse(result.token);
 	token.username = result.message.split("###")[0].trim() || '';

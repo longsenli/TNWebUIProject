@@ -2592,7 +2592,8 @@
 					"pages/contentManage/app_publishIdea.html",
 					"pages/chargePackManage/app_tidyBatteryRecord.html",
 					"pages/wageManage/RZwagedetail.html",
-					"pages/dataProvenance/app_dataProvenanceTable.html"
+					"pages/dataProvenance/app_dataProvenanceTable.html",
+					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html"
 				],
 				"priority": 0
 			},
@@ -2628,6 +2629,13 @@
 				"resources": [],
 				"refer": [
 					"pages/dataProvenance/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/staffWorkDiaryManage/app_staffScanLocationQR.html": {
+				"resources": [],
+				"refer": [
+					"pages/staffWorkDiaryManage/barcode_scan.html"
 				],
 				"priority": 0
 			}

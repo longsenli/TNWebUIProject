@@ -38,10 +38,10 @@
 						scanQRRecordRowClick(this);
 					});
 				});
-				if(localStorage.roleID < windowRoleID.BZ)
-				{
+				if(localStorage.roleID < windowRoleID.BZ) {
 					$('#processAttendanceSelect').hide();
 					$('#confirmAttendanceInfo').hide();
+					$('#classTypeSlct').selectpicker('hide');   
 				}
 				var today = new Date();
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
@@ -49,17 +49,22 @@
 					today.setDate(today.getDay() - 1);
 				}
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
-				
+
 				document.getElementById("dayTime").value = today.format("yyyy-MM-dd");
 			});
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">
-				<select class="selectpicker " id="industrialPlantSlct" name="industrialPlantSlct" onchange="subOrderProductionLineSlctFun()">
+				<select class="selectpicker " id="industrialPlantSlct" name="industrialPlantSlct" onchange="staffScanLocationQRLineSlctFun()">
 				</select>
-				<select class="selectpicker " id="productionProcessSlct" name="productionProcessSlct" onchange="subOrderProductionLineSlctFun()">
+				<select class="selectpicker " id="productionProcessSlct" name="productionProcessSlct" onchange="staffScanLocationQRLineSlctFun()">
 				</select>
-				<select class="selectpicker" id="productionLineSlct" name="productionLineSlct" onchange="lineWorkOrderSlct()">
+				<select class="selectpicker" id="productionLineSlct" name="productionLineSlct">
+				</select>
+				<select class="selectpicker" id="classTypeSlct" name="classTypeSlct">
+					<option value="白班">白班</option>
+					<option value="夜班">夜班</option>
+					<option value="-1">全部</option>
 				</select>
 				<select class="selectpicker" id="workingkLocationSlct" name="workingkLocationSlct">
 				</select>
@@ -68,13 +73,13 @@
 				<input type="date" id="endTime" name="endTime" />
 				<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getStaffAttendanceInfo()">员工出勤</button>
 				<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmStaffAttendanceInfo()">考勤确认</button>
-				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getScanLocationQRRecord()">个人记录</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getSelfScanLocationQRRecord()">个人记录</button>
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('1','1001-1006-1030')">上机扫码</button>
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('2','1001-1006-1030')">下机扫码</button>
-				
+
 				<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('1')">上机扫码</button>
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('2')">下机扫码</button>-->
-				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除打卡</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除记录</button>
 			</div>
 			<br />
 		</form>
@@ -94,17 +99,17 @@
 							<input type="text" id="locationID" name="locationID" style="display:none" />
 							<div class="form-inline row">
 								<label for="name">班次:</label>
-								<select class="selectpicker" id="classType1" name="classType1" >
+								<select class="selectpicker" id="classType1" name="classType1">
 									<option value="白班">白班</option>
-									<option value="夜班">夜班</option>									
+									<option value="夜班">夜班</option>
 								</select>
 							</div>
 							<div class="form-inline row">
 								<label for="name">时长:</label>
 								<select class="selectpicker" id="classType2" name="classType2">
-								<option value="全班">全班</option>
-								<option value="上半班">上半班</option>
-								<option value="下半班">下半班</option>
+									<option value="全班">全班</option>
+									<option value="上半班">上半班</option>
+									<option value="下半班">下半班</option>
 								</select>
 							</div>
 							<div class="form-inline row">
@@ -115,7 +120,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" id="myPullOffPartButton" class="btn btn-info" onclick="beforeProductionScanLocationQR()">保存 </button>
-						<button type="button" class="btn btn-info" onclick="closeModal()">关闭 </button>
+						<button type="button" class="btn btn-info" onclick="closeModal('beforeProductionModal')">关闭 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->

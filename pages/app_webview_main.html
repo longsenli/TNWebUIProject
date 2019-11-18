@@ -153,7 +153,7 @@
 						<!--<div class="mui-media-body">生产信息查询</div>-->
 					</a>生产信息查询</li>
 
-<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/dataProvenance/app_dataProvenanceTable.html" name="扫码追溯">
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/dataProvenance/app_dataProvenanceTable.html" name="扫码追溯">
 						<span class="mui-icon">
 		                    	<svg class="icon" aria-hidden="true">
 		                    	  <use xlink:href="#icon-ico_wupinguanli_kucunchaxun"></use>
@@ -198,6 +198,21 @@
 						<!--<div class="mui-media-body">心声社区</div>-->
 					</a>心声社区
 				</li> 
+				
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/staffWorkDiaryManage/app_staffScanLocationQR.html" name="扫码上机">
+						<span class="mui-icon"><svg class="icon" aria-hidden="true">
+						  <use xlink:href="#icon-saoyisao1"></use>
+						</svg></span>
+						<!--<div class="mui-media-body"><font size="1" >生产工单管理</font></div>-->
+					</a>扫码上机</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/wageManage/RZwagedetail.html" name="人资工资条">
+						<span class="mui-icon">
+					         	<svg class="icon" aria-hidden="true">
+					         	  <use xlink:href="#icon-gongzihefang"></use>
+					         	</svg>
+					         </span>
+						<!--<div class="mui-media-body">修改我的密码</div>-->
+					</a>人资薪资条</li>
  
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/app_selectedSelfFunction.html" name="设置自选功能">
 						<span class="mui-icon">
@@ -216,14 +231,7 @@
 					         </span>
 						<!--<div class="mui-media-body">修改我的密码</div>-->
 					</a>修改我的密码</li>
-				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/wageManage/RZwagedetail.html" name="人资工资条">
-						<span class="mui-icon">
-					         	<svg class="icon" aria-hidden="true">
-					         	  <use xlink:href="#icon-gongzihefang"></use>
-					         	</svg>
-					         </span>
-						<!--<div class="mui-media-body">修改我的密码</div>-->
-					</a>人资薪资条</li>
+				
 		                    
 		        </ul> 
 		</div>
@@ -315,13 +323,6 @@
 				}
 			}
 			
-			
-			var $Global_UserLogin_Info = JSON.parse(localStorage.getItem('$Global_UserLogin_Info'));
-										// alert($Global_UserLogin_Info.token)
-			if($Global_UserLogin_Info.token == null) {
-				window.location.href = "../pages/app_login.html";
-			}
-
 			var websocket = null;
 
 			//判断当前浏览器是否支持WebSocket
