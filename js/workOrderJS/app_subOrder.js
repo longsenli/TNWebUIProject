@@ -842,10 +842,6 @@ function SelectSubOrder() {
 
 				if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JZ && window.windowRoleID.CZG == localStorage.roleID) {
 					$('#table').bootstrapTable('destroy');
-					//if(document.PlantToLineSelectForm.industrialPlantSlct.value.toString() != "1003") {
-					$("#subOrderFinishBT").hide();
-					$("#subOrderOutDryingBTJZ").hide();
-					//}
 				} else {
 					$('#table').bootstrapTable('destroy').bootstrapTable({
 						data: models,
@@ -865,7 +861,7 @@ function SelectSubOrder() {
 						//pagination: true,
 						columns: columnsArray,
 						onClickRow: function(row) {
-
+ 
 							$("#changeOrderProductionNum").val(row["productionnum"]);
 							$("#changeOrderProductionNum").attr("readonly", true);
 						}
