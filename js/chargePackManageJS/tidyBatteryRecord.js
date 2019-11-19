@@ -787,7 +787,6 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
-
 		data: JSON.stringify(formMap).toString(),
 		//		headers: {
 		//			Token: localStorage.getItem('token')
