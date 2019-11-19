@@ -643,9 +643,13 @@ function deleteRecord(qrCode) {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
-	if(row[0].verifierName) {
-		alert("该记录已确认不能删除!");
+	if(row[0].verifierName && localStorage.roleID < window.windowRoleID.CJZG) {
+		alert("该记录已确认不能删除!若需删除请联系主管删除!");
 		return;
+	}
+	if(row[0].verifierName && localStorage.roleID >= window.windowRoleID.CJZG) {
+		if(!window.changeConfirmDlg("确定删除考勤记录?" + row[0].staffName)) ;
+			return;
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/deleteStaffAttendanceInfo?id=" + row[0].id,

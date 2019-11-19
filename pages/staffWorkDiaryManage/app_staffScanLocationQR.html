@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+
+		<title>工资详情管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/staffWorkDiaryManageJS/staffScanLocationQR.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+		<!--H5+ js引入-->
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			$(function() {
+				staffScanLocationQRIndustrialPlantSlctFun();
+				$(function() {
+					$("body").delegate('#table tr', 'click', function() {
+						scanQRRecordRowClick(this);
+					});
+				});
+				if(localStorage.roleID < windowRoleID.BZ) {
+					$('#processAttendanceSelect').hide();
+					$('#confirmAttendanceInfo').hide();
+					$('#classTypeSlct').selectpicker('hide');   
+				}
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				if(today.getHours() < 7) {
+					today.setDate(today.getDay() - 1);
+				}
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+
+				document.getElementById("dayTime").value = today.format("yyyy-MM-dd");
+			});
+		</script>
+
+		<div id="container" class="effect aside-float aside-bright mainnav-lg">
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="panel">
+									<div class="panel-body">
+
+										<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+											<div class="form-inline row">
+
+												<div class="form-group">
+													<select class="selectpicker " id="industrialPlantSlct" name="industrialPlantSlct" onchange="staffScanLocationQRLineSlctFun()">
+													</select>
+												</div>
+
+												<div class="form-group">
+													<select class="selectpicker " id="productionProcessSlct" name="productionProcessSlct" onchange="staffScanLocationQRLineSlctFun()">
+													</select>
+												</div>
+
+												<div class="form-group">
+													<select class="selectpicker" id="productionLineSlct" name="productionLineSlct">
+													</select>
+												</div>
+
+												<div class="form-group">
+													<select class="selectpicker" id="classTypeSlct" name="classTypeSlct">
+														<option value="白班">白班</option>
+														<option value="夜班">夜班</option>
+														<option value="-1">全部</option>
+													</select>
+												</div>
+
+												<div class="form-group">
+													<select class="selectpicker" id="workingkLocationSlct" name="workingkLocationSlct">
+													</select>
+												</div>
+
+												<div class="form-group">
+
+													<input type="date" id="startTime"  name="startTime" /><label>—</label>
+													<input type="date" id="endTime"  name="endTime" />
+												</div>
+												<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getStaffAttendanceInfo()">员工出勤</button>
+												<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmStaffAttendanceInfo()">考勤确认</button>
+												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getSelfScanLocationQRRecord()">个人记录</button>
+												<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('1','1001-1006-1030')">上机扫码</button>
+												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('2','1001-1006-1030')">下机扫码</button>-->
+
+												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('1')">上机扫码</button>
+												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('2')">下机扫码</button>
+												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除记录</button>
+											</div>
+											<br />
+										</form>
+										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+										</table>
+
+										<!-- 模态框（Modal） -->
+										<div class="modal fade" id="beforeProductionModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">x</button>
+														<h4 class="modal-title" id="myModalLabel"> 上机扫码 </h4>
+													</div>
+													<div class="modal-body" id="modal-body" style="padding-left:20px;">
+														<form id="scanWorklocationForm">
+															<input type="text" id="locationID" name="locationID" style="display:none" />
+
+															<div class="form-group">
+																<div class="form-inline row">
+																	<label for="name">班次:</label>
+																	<select class="selectpicker" id="classType1" name="classType1">
+																		<option value="白班">白班</option>
+																		<option value="夜班">夜班</option>
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<div class="form-inline row">
+																	<label for="name">时长:</label>
+																	<select class="selectpicker" id="classType2" name="classType2">
+																		<option value="全班">全班</option>
+																		<option value="上半班">上半班</option>
+																		<option value="下半班">下半班</option>
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-inline row">
+																<label> 时间： </label>
+																<input type="date" id="dayTime" name="dayTime" />
+															</div>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" id="myPullOffPartButton" class="btn btn-info" onclick="beforeProductionScanLocationQR()">保存 </button>
+														<button type="button" class="btn btn-info" onclick="closeModal('beforeProductionModal')">关闭 </button>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal -->
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

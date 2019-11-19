@@ -2614,7 +2614,8 @@
 			"pages/workOrder/app_finishWorkOrder.html": {
 				"resources": [],
 				"refer": [
-					"pages/workOrder/barcode_scan.html"
+					"pages/workOrder/barcode_scan.html",
+					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html"
 				],
 				"priority": 0
 			},

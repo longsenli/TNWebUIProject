@@ -75,9 +75,13 @@
 	<body>
 		<script type="text/javascript">
 			if(localStorage.token == null) {
-
 				window.location.href = "../app_login.html";
 			}
+
+//			if(localStorage.scanWorkLocationBL != "1") {
+//				alert("请先上机扫码！");
+//				window.location.href = "../staffWorkDiaryManage/app_staffScanLocationQR.html";
+//			}
 
 			subOrderIndustrialPlantSlctFun();
 
