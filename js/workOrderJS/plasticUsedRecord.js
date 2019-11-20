@@ -251,7 +251,7 @@ function plasticUsedRecordWorkOrderInfoSlct() {
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 
-					if(models[i].orderid.toString().indexOf(dataStr) > 0 ||models[i].orderid.toString().indexOf(dataStr2) > 0 ) {
+					if(models[i].orderid.toString().indexOf(dataStr) > 0 || models[i].orderid.toString().indexOf(dataStr2) > 0) {
 						if(dataStr.indexOf("B") > -1) {
 							$('#workOrderSlct').append(("<option style='margin-top: 5px;font-size: 16px;' value=" + models[i].id + "___" + models[i].materialid + ">" +
 								models[i].closestaff  + "</option>").toString());
@@ -279,11 +279,20 @@ function plasticUsedRecordWorkOrderInfoSlct() {
 }
 
 function initWorkOrderSlctFun() {
-	if(localStorage.selectedOrderPlasticUsedPage) {
-		$('#workOrderSlct').selectpicker('val', localStorage.selectedOrderPlasticUsedPage);
-		$('#workOrderSlct').selectpicker('refresh');
-		$('#workOrderSlct').selectpicker('render'); 
+	if(localStorage.selectedOrderPlasticUsedPage && localStorage.selectedOrderPlasticUsedPage.length > 10) {
+
+		var numbers = $('#workOrderSlct').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbers.length; j++) {
+			if($(numbers[j]).val().toString() == localStorage.selectedOrderPlasticUsedPage) {
+				$(numbers[j]).attr("selected", "selected");
+				$('#workOrderSlct').selectpicker('refresh');
+				$('#workOrderSlct').selectpicker('render'); 
+				break;
+			}
+		}
 	}
+	localStorage.selectedOrderPlasticUsedPage = $('#workOrderSlct').val();
+
 }
 
 function changeWorkOrderSlctFun() {
@@ -623,6 +632,35 @@ function plasticUsedRecordByBatch(grantType) {
 		alert("请确认工单!");
 		return;
 	}
+
+	var dataStr = "-----";
+	var dateNow = new Date();
+	if(dateNow.getHours() < 7) {
+		if(dateNow.getHours() == 6 && dateNow.getMinutes() > 20) {
+			dataStr = "BB" + dateNow.format("yyyyMMdd");
+		} else {
+			dateNow.setDate(dateNow.getDate() - 1);
+			dataStr = "YB" + dateNow.format("yyyyMMdd");
+		}
+
+	}
+	if(dateNow.getHours() > 6 && dateNow.getHours() < 19) {
+		if(dateNow.getHours() == 18 && dateNow.getMinutes() > 20) {
+			dataStr = "YB" + dateNow.format("yyyyMMdd");
+		} else {
+			dataStr = "BB" + dateNow.format("yyyyMMdd");
+		}
+
+	}
+	if(dateNow.getHours() > 18) {
+		dataStr = "YB" + dateNow.format("yyyyMMdd");
+	}
+
+	if(document.PlantToLineSelectForm.workOrderSlct.value.toString().indexOf(dataStr) < 0) {
+		alert("该工单无效,请切换工单!")
+		return;
+	}
+
 	if(!materialName || materialName.length < 2) {
 		alert("请先扫码投料!")
 		return;
@@ -716,10 +754,10 @@ function getInputTotalNumber() {
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
 	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
-	formData.append("startTime", document.getElementById("startTime").value);
-	formData.append("endTime", document.getElementById("endTime").value);
+	formData.append("workOrder", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[0]);
+
 	$.ajax({
-		url: window.serviceIP + "/api/plastic/getPlasticUsedRecord",
+		url: window.serviceIP + "/api/plastic/getInputTotalNumberByClass",
 		type: "POST",
 		data: formData,
 		//contentType: "application/json",
@@ -777,16 +815,16 @@ function TextInput(orderID) {
 		$("#orderIDByBatch").val("");
 		return;
 	}
-	var tableData = $("#table").bootstrapTable('getAllSelections');
-	if(tableData.length > 0) {
-		if(tableData[0].status) {
-			if(tableData[0].status.length > 0) {
+	var tableDataTMP = $("#table").bootstrapTable('getData');
+	if(tableDataTMP.length > 0) {
+		if(tableDataTMP[0].status) {
+			if(tableDataTMP[0].status.length > 0) {
 				innitOrderIDTable();
-				tableData = $("#table").bootstrapTable('getAllSelections');
+
 			}
 		}
 	}
-
+	var tableData = $("#table").bootstrapTable('getAllSelections');
 	if(tableData.length + 1 > materialNumber) {
 		alert("剩余物料为:" + materialNumber + ",请投料后继续使用!");
 		return;
