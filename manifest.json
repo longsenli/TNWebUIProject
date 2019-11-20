@@ -2593,7 +2593,8 @@
 					"pages/chargePackManage/app_tidyBatteryRecord.html",
 					"pages/wageManage/RZwagedetail.html",
 					"pages/dataProvenance/app_dataProvenanceTable.html",
-					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html"
+					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html",
+					"pages/staffWorkDiaryManage/app_dailyPrductionConfirm.html"
 				],
 				"priority": 0
 			},
