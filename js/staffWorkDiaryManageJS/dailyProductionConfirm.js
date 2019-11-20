@@ -186,6 +186,7 @@ function scanQRRecordRowClick(row) {
 		$(row).find("td").addClass('changeTableRowColor');
 	}
 }
+var timeNum = 1;
 
 function getTMPProductionWageRecord() {
 	var columnsArray = [];
@@ -197,6 +198,7 @@ function getTMPProductionWageRecord() {
 		"field": "id",
 		visible: false
 	});
+
 	columnsArray.push({
 		"title": "厂区",
 		"field": "plantID",
@@ -266,8 +268,8 @@ function getTMPProductionWageRecord() {
 		"field": "shelfProduction",
 		editable: {
 			type: 'text',
-			title: '工价',
-			validate: function(value) {
+			title: '个人产量',
+			validate: function(value, row, index) {
 				if(!Number(value)) {
 					return "请输入合法数字";
 				}
@@ -280,7 +282,7 @@ function getTMPProductionWageRecord() {
 		editable: {
 			type: 'text',
 			title: '工价',
-			validate: function(value) {
+			validate: function(value, row, index) {
 				if(!Number(value)) {
 					return "请输入合法数字";
 				}
@@ -292,8 +294,8 @@ function getTMPProductionWageRecord() {
 		"field": "wage",
 		editable: {
 			type: 'text',
-			title: '工价',
-			validate: function(value) {
+			title: '个人工资',
+			validate: function(value, row, index) {
 				if(!Number(value)) {
 					return "请输入合法数字";
 				}
@@ -342,7 +344,10 @@ function getTMPProductionWageRecord() {
 					search: true,
 					searchAlign: 'right',
 					pagination: true,
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+						setTimeout("updateRowCell('" + row["id"] + "')", 1000);
+					}
 				});
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -370,6 +375,18 @@ function getTMPProductionWageRecord() {
 	});
 }
 
+function updateRowCell(id) {
+	
+	var row = $('#table').bootstrapTable("getRowByUniqueId", id);
+	if(Math.abs(row["wage"] - row["shelfProduction"] * row["univalence"]) > 0.5) {
+		row["wage"] = row["shelfProduction"] * row["univalence"];
+		$('#table').bootstrapTable('updateByUniqueId', {
+			id: id,
+			row: row
+		});
+	}
+}
+
 function confirmProductionWageRecord() {
 	var tableData = $('#table').bootstrapTable('getData');
 	if(!tableData || tableData.length < 1) {
@@ -380,14 +397,14 @@ function confirmProductionWageRecord() {
 		alert("记录已确认!");
 		return;
 	}
-//	for( var i in tableData)
-//	{
-//		if(!tableData[i].staffName || tableData[i].staffName.length < 2)
-//		{
-//			alert("有产量未有工人认领,请确认后重试!");
-//			return;
-//		}
-//	}
+	//	for( var i in tableData)
+	//	{
+	//		if(!tableData[i].staffName || tableData[i].staffName.length < 2)
+	//		{
+	//			alert("有产量未有工人认领,请确认后重试!");
+	//			return;
+	//		}
+	//	}
 	var formData = new FormData();
 	formData.append("verifierID", localStorage.userID);
 	formData.append("verifierName", localStorage.username);
@@ -595,17 +612,14 @@ function getFinalProductionWageRecord() {
 	});
 }
 
-function deleteFinalProductionWageRecord()
-{
-	if(localStorage.roleID < window.windowRoleID.CJZG)
-	{
+function deleteFinalProductionWageRecord() {
+	if(localStorage.roleID < window.windowRoleID.CJZG) {
 		alert("只有车间主管以上人员有权删除确认后的产量信息!");
 		return;
 	}
-	var warningInfo = "确认要删除" +$("#productionProcessSlct").find("option:selected").text().toString() 
-	+ "工序,"+ document.getElementById("startTime").value.toString() + "日期,"+  $("#classTypeSlct").val() + "的产量确认信息?"
-	if(!window.changeConfirmDlg(warningInfo))
-	{
+	var warningInfo = "确认要删除" + $("#productionProcessSlct").find("option:selected").text().toString() +
+		"工序," + document.getElementById("startTime").value.toString() + "日期," + $("#classTypeSlct").val() + "的产量确认信息?"
+	if(!window.changeConfirmDlg(warningInfo)) {
 		return;
 	}
 	var formData = new FormData();
@@ -628,9 +642,9 @@ function deleteFinalProductionWageRecord()
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-	getFinalProductionWageRecord();
+				getFinalProductionWageRecord();
 				alert('删除成功!');
-				
+
 			} else {
 				alert("删除失败！" + dataRes.message);
 			}
