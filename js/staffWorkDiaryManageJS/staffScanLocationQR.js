@@ -133,9 +133,47 @@ function staffScanLocationQRLineSlctFun() {
 				if(localStorage.roleID < windowRoleID.BZ) {
 					$('#productionLineSlct').selectpicker('hide'); 
 				} 
-				//	$('#productionLineSlct').selectpicker('hide');   
 
+				staffScanLocationQRWorkContentSlctFun();
 				setTimeout(staffScanLocationQRWorkingLocationSlctFun(), 200);;
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function staffScanLocationQRWorkContentSlctFun() {
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getWorkContentDetail",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		async: false,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#workContentSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#workContentSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#workContentSlct').selectpicker('refresh');
+				$('#workContentSlct').selectpicker('render'); 
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -372,9 +410,9 @@ function getStaffAttendanceInfo() {
 	columnsArray.push({
 		checkbox: true,
 		formatter: function(value, row, index) {
-				return {
-					checked: true //设置选中
-				};
+			return {
+				checked: true //设置选中
+			};
 		}
 	});
 	columnsArray.push({
@@ -393,13 +431,13 @@ function getStaffAttendanceInfo() {
 		visible: false
 	});
 	columnsArray.push({
-		"title": "产线",
+		"title": "产      线",
 		"field": "lineID",
 		formatter: function(value, row, index) {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -410,11 +448,18 @@ function getStaffAttendanceInfo() {
 	}
 
 	columnsArray.push({
-		"title": "姓名",
+		"title": "岗位",
+		"field": "workContent",
+		formatter: function(value, row, index) {
+			return $("#workContentSlct option[value='" + value + "']").text();
+		}
+	});
+	columnsArray.push({
+		"title": "姓    名  ",
 		"field": "staffName"
 	});
 	columnsArray.push({
-		"title": "日期",
+		"title": "日       期  ",
 		"field": "dayTime"
 	});
 	columnsArray.push({
@@ -422,11 +467,11 @@ function getStaffAttendanceInfo() {
 		"field": "classType1"
 	});
 	columnsArray.push({
-		"title": "时长",
+		"title": "时 长",
 		"field": "classType2"
 	});
 	columnsArray.push({
-		"title": "上机时间",
+		"title": " 上机时间 ",
 		"field": "comeTime"
 	});
 	columnsArray.push({
@@ -483,7 +528,7 @@ function getStaffAttendanceInfo() {
 					data: models,
 					toolbar: '#materialidToolbar',
 					toolbarAlign: 'left',
-					singleSelect: true,
+					//singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -537,6 +582,7 @@ function beforeProductionScanLocationQR() {
 	formData.append("classType1", $("#classType1").val());
 	formData.append("classType2", $("#classType2").val());
 	formData.append("dayTime", document.getElementById("dayTime").value.toString());
+	formData.append("workContent", $("#workContentSlct").val());
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/insertStaffComeAttendanceInfo",
 		type: "POST",
@@ -648,8 +694,8 @@ function deleteRecord(qrCode) {
 		return;
 	}
 	if(row[0].verifierName && localStorage.roleID >= window.windowRoleID.CJZG) {
-		if(!window.changeConfirmDlg("确定删除考勤记录?" + row[0].staffName)) ;
-			return;
+		if(!window.changeConfirmDlg("确定删除考勤记录?" + row[0].staffName));
+		return;
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/deleteStaffAttendanceInfo?id=" + row[0].id,
@@ -781,6 +827,17 @@ function recognitionQR(webName, qrCode) {
 	if(webName == '1')
 
 	{
+		if(localStorage.workContent && localStorage.workContent.length > 3) {
+			var numbers = $('#workContentSlct').find("option"); //获取select下拉框的所有值
+			for(var j = 0; j < numbers.length; j++) {
+				if($(numbers[j]).val().toString() == localStorage.workContent) {
+					$(numbers[j]).attr("selected", "selected");
+					$('#workContentSlct').selectpicker('refresh');
+					$('#workContentSlct').selectpicker('render'); 
+					break;
+				}
+			}
+		}
 		$("#locationID").val(qrCode);
 		$('#classType2').selectpicker('val', "全班");
 		$('#classType2').selectpicker('refresh');

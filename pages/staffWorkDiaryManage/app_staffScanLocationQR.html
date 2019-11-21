@@ -105,9 +105,9 @@
 													<input type="date" id="startTime"  name="startTime" /><label>—</label>
 													<input type="date" id="endTime"  name="endTime" />
 												</div>
-												<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getStaffAttendanceInfo()">员工出勤</button>
-												<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmStaffAttendanceInfo()">考勤确认</button>
-												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getSelfScanLocationQRRecord()">个人记录</button>
+												<button type="button" id="processAttendanceSelect" class="btn btn-danger" style="margin-top: 10px;" onclick="getStaffAttendanceInfo()">员工出勤</button>
+												<button type="button" id="confirmAttendanceInfo" class="btn btn-danger" style="margin-top: 10px;" onclick="confirmStaffAttendanceInfo()">考勤确认</button>
+												<button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="getSelfScanLocationQRRecord()">个人记录</button>
 												<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('1','1001-1006-1030')">上机扫码</button>
 												<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="recognitionQR('2','1001-1006-1030')">下机扫码</button>-->
 
@@ -131,7 +131,13 @@
 													<div class="modal-body" id="modal-body" style="padding-left:20px;">
 														<form id="scanWorklocationForm">
 															<input type="text" id="locationID" name="locationID" style="display:none" />
-
+	<div class="form-group">
+		<div class="form-inline row">
+								<label for="name">岗位:</label>
+								<select class="selectpicker" id="workContentSlct" name="workContentSlct">
+								</select>
+							</div>
+							</div>
 															<div class="form-group">
 																<div class="form-inline row">
 																	<label for="name">班次:</label>

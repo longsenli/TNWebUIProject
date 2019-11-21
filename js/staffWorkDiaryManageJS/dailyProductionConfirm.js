@@ -85,6 +85,7 @@ function dailyProductionConfirmProcessSlctFun() {
 				}
 
 				dailyProductionConfirmLineSlctFun();
+
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -134,8 +135,46 @@ function dailyProductionConfirmLineSlctFun() {
 					$('#productionLineSlct').selectpicker('hide'); 
 				} 
 				//	$('#productionLineSlct').selectpicker('hide');   
-
+				dailyProductionConfirmWorkContentSlctFun();
 				setTimeout(dailyProductionConfirmWorkingLocationSlctFun(), 200);;
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+};
+
+function dailyProductionConfirmWorkContentSlctFun() {
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getWorkContentDetail",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		async: false,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+
+			$("#workContentSlct").find('option').remove();
+
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					$('#workContentSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+				}
+				$('#workContentSlct').selectpicker('refresh');
+				$('#workContentSlct').selectpicker('render'); 
+				$('#workContentSlct').selectpicker('hide'); 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -216,7 +255,7 @@ function getTMPProductionWageRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -225,6 +264,14 @@ function getTMPProductionWageRecord() {
 			}
 		});
 	}
+
+	columnsArray.push({
+		"title": "岗位",
+		"field": "extd1",
+		formatter: function(value, row, index) {
+			return $("#workContentSlct option[value='" + value + "']").text();
+		}
+	});
 
 	columnsArray.push({
 		"title": "物料型号",
@@ -376,7 +423,7 @@ function getTMPProductionWageRecord() {
 }
 
 function updateRowCell(id) {
-	
+
 	var row = $('#table').bootstrapTable("getRowByUniqueId", id);
 	if(Math.abs(row["wage"] - row["shelfProduction"] * row["univalence"]) > 0.5) {
 		row["wage"] = row["shelfProduction"] * row["univalence"];
@@ -470,7 +517,7 @@ function getFinalProductionWageRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -479,6 +526,14 @@ function getFinalProductionWageRecord() {
 			}
 		});
 	}
+
+	columnsArray.push({
+		"title": "岗位",
+		"field": "extd1",
+		formatter: function(value, row, index) {
+			return $("#workContentSlct option[value='" + value + "']").text();
+		}
+	});
 
 	columnsArray.push({
 		"title": "物料型号",

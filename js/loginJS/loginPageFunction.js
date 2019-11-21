@@ -43,6 +43,15 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 		localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
 	}
 
+if( result.message.split("###")[6])
+{
+		if( result.message.split("###")[6] != "null"&& result.message.split("###")[6].length > 1 && result.message.split("###")[6].trim() != "-1"  ) {
+		
+		localStorage.setItem('workContent', result.message.split("###")[6].trim());
+	}
+}
+
+	
 	localStorage.setItem('$Global_UserLogin_Info', JSON.stringify(token));
 	localStorage.setItem("LocalUserName", username);
 	localStorage.setItem("LocalUserPsw", password);
@@ -56,7 +65,7 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 	if(userInfo.indexOf(username) < 0 && $('#savePSWCheck').is(':checked')) {
 		if(userInfo.length > 2) {
 			userInfo += "###";
-		} 
+		}
 		userInfo = userInfo + username + "###" + password;
 	}
 
@@ -93,11 +102,11 @@ function initUserInfo() {
 			//创建元素Li
 			var li = document.createElement("li");
 			//向li中添加内容
-			li.innerHTML = "<li id='" + userList[i] + "' onclick='userSelected()' style='font-size:25px'>" + userList[i] +"  &nbsp; &nbsp; "+
+			li.innerHTML = "<li id='" + userList[i] + "' onclick='userSelected()' style='font-size:25px'>" + userList[i] + "  &nbsp; &nbsp; " +
 				'<span id = "' + userList[i] + '" class="glyphicon glyphicon-erase" onclick="deleteUserInfo()" style="width:10%;height: 20px;display: inline;"  aria-hidden="true"></span>' + "</li>";
 
 			//向ul追加元素li
-			ul.appendChild(li); 
+			ul.appendChild(li);
 
 			//						$('#userList').append(("<option value=" + userList[i+1] + ">" +
 			//								userList[i] + "</option>").toString())
@@ -116,7 +125,7 @@ function initUserInfo() {
 
 function showUserList() {
 	if(localStorage.userListMap.length < 3)
-	return;
+		return;
 	$("#userListModal").modal('show');
 }
 
@@ -127,7 +136,7 @@ function hideUserList() {
 var deleteUserBt = false;
 
 function deleteUserInfo() {
-	
+
 	deleteUserBt = true;
 	var userList = localStorage.userListMap.split("###");
 
@@ -176,11 +185,11 @@ function isValidIP(ip) {
 	var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
 	return reg.test(ip);
 }
-
+var latestVersion = "";
 //自定义服务器ip地址登录方法
 function defLogin() {
 	//				var defaultIP = "10.0.0.151:19001";
-	
+
 	var defaultIP = $('#RemoteServiceIP').val().trim() + ':19001';
 	var unselectedMenu = localStorage.getItem('unselectedMenu');
 	var username = document.getElementById("form-username").value;
@@ -215,12 +224,12 @@ function defLogin() {
 		complete: function(XMLHttpRequest, status) { //当请求完成时调用函数
 			// alert(XMLHttpRequest.status + status); 
 			if(status == 'timeout' || status == 'error') { //status == 'timeout'意为超时,status的可能取值：success,notmodified,nocontent,error,timeout,abort,parsererror 
-				console.log(JSON.stringify(XMLHttpRequest) + "=123=" + status)
-				
+				//console.log(JSON.stringify(XMLHttpRequest) + "=123=" + status)
+
 				alert(status + "，连接服务器失败，请检查配置信息及网络连接！")
 				//							alert(status + "，连接MES网络服务器失败，正在尝试登录mes网服务器！")
 				//							mes_login();
-		} 
+			}
 		}
 
 	});
@@ -254,6 +263,7 @@ function versionCompare() {
 			localStorage.setItem("versionNow", versionNow);
 			document.getElementById('versionInfo').innerText = "当前版本号: " + localStorage.getItem("versionNow");
 			//alert(res.message)
+			latestVersion = res.message;
 			if(res.message > versionNow) //比对版本号
 			{
 
@@ -308,16 +318,25 @@ function updateAppRun(url) {
 }
 
 function login() {
-	if($('#RemoteServiceIP').val() && $('#RemoteServiceIP').val().toString().length > 6)
+
+	var versionNow;
+	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+		versionNow = inf.version;
+	});
+
+	if(latestVersion > versionNow) //比对版本号
 	{
-		if(!isValidIP($('#RemoteServiceIP').val()))
-		{
+		alert("请退出更新APP，当前版本：" + versionNow + ",最新版本为：" + latestVersion);
+		//return;
+	}
+	if($('#RemoteServiceIP').val() && $('#RemoteServiceIP').val().toString().length > 6) {
+		if(!isValidIP($('#RemoteServiceIP').val())) {
 			alert("请正确输入IP，如：1.1.1.1");
 		}
 		defLogin();
-		return; 
+		return;
 	}
-	
+
 	var defaultIP = "10.0.0.151:19001";
 	if(localStorage.getItem('myDefaultIP')) {
 		defaultIP = localStorage.getItem('myDefaultIP');
@@ -368,7 +387,6 @@ function login() {
 				mes_login();
 			}
 		}
-
 	});
 	return false;
 }
@@ -531,7 +549,6 @@ function ww_login() {
 	});
 	return false;
 }
-
 
 //mes段网络登录调用方法
 function ww2_login() {

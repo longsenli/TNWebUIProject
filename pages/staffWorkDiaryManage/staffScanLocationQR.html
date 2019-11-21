@@ -98,12 +98,20 @@
 						<form id="scanWorklocationForm">
 							<input type="text" id="locationID" name="locationID" style="display:none" />
 							<div class="form-inline row">
+								<label for="name">岗位:</label>
+								<select class="selectpicker" id="workContentSlct" name="workContentSlct">
+								</select>
+							</div>
+
+							<br />
+							<div class="form-inline row">
 								<label for="name">班次:</label>
 								<select class="selectpicker" id="classType1" name="classType1">
 									<option value="白班">白班</option>
 									<option value="夜班">夜班</option>
 								</select>
 							</div>
+							<br />
 							<div class="form-inline row">
 								<label for="name">时长:</label>
 								<select class="selectpicker" id="classType2" name="classType2">
@@ -112,6 +120,7 @@
 									<option value="下半班">下半班</option>
 								</select>
 							</div>
+							<br />
 							<div class="form-inline row">
 								<label> 时间： </label>
 								<input type="date" id="dayTime" name="dayTime" />
