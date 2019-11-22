@@ -441,6 +441,7 @@ function chargingRackRecordRowClick(row) {
 function closeChargingRackRecordModel(modelName) {
 	$("#" + modelName).modal('hide');
 }
+
 function closeconfirmLineModal(modelName) {
 	disableChangeButton("pullOffRackButton", false);
 	$("#" + modelName).modal('hide');
@@ -585,7 +586,7 @@ function pullOffChargingRackRecord() {
 	formMap['pulloffstaffname'] = localStorage.username;
 	formMap['pulloffdate'] = new Date();
 	//如果下架的电池是一次反充二次反充电池, 则弹出提示框提示下架到哪个区域
-	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
+	if((row[0].materialtype != "" || row[0].materialtype != 'undefined') && (row[0].materialtype == '3' || row[0].materialtype == '4')) {
 		$('#confirmLineModalselect').html($('#productionLineSlct').html());
 		var numbers = $('#confirmLineModalselect').find("option"); //获取select下拉框的所有值
 		for(var j = 0; j < numbers.length; j++) {
@@ -609,7 +610,7 @@ function pullOffChargingRackRecord() {
 		$("#confirmLineModal").modal('show');
 		return;
 	}
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
 		type: "POST",
@@ -617,9 +618,9 @@ function pullOffChargingRackRecord() {
 		dataType: "json",
 
 		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -632,7 +633,6 @@ function pullOffChargingRackRecord() {
 		}
 	});
 }
-
 
 //如果下架的电池是一次反充二次反充电池, 则弹出提示框提示下架到哪个区域
 function confirmpullOffChargingRackRecord() {
@@ -663,15 +663,15 @@ function confirmpullOffChargingRackRecord() {
 	formMap['materialid'] = $('#confirmmaterialid').val();
 	formMap['materialname'] = $('#confirmmaterialname').val();
 	formMap['plantid'] = $('#confirmplantid').val();
-	if(row[0].materialtype=='3'||row[0].materialtype=='4'){
+	if(row[0].materialtype == '3' || row[0].materialtype == '4') {
 		formMap["lineid"] = $("#confirmLineModalForm" + " #confirmLineModalselect").find("option:selected").val();
-	}else{
+	} else {
 		formMap['lineid'] = $('#confirmlineid').val();
 	}
 	formMap['pulloffstaffid'] = $('#confirmpulloffstaffid').val();
 	formMap['pulloffstaffname'] = $('#confirmpulloffstaffname').val();
 	formMap['pulloffdate'] = new Date();
-	
+
 	lastSelectedMaterial = $("#chargingRackRecordAddForm" + " #materialname").val();
 	$.ajax({
 		url: window.serviceIP + "/api/chargepack/pulloffchargingrackrecord",
@@ -680,9 +680,9 @@ function confirmpullOffChargingRackRecord() {
 		dataType: "json",
 
 		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -697,10 +697,6 @@ function confirmpullOffChargingRackRecord() {
 		}
 	});
 }
-
-
-
-
 
 function showPullOffPartModal() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
@@ -718,7 +714,7 @@ function showPullOffPartModal() {
 		alert("请正确选择充电架!");
 		return;
 	}
-	if((row[0].materialtype!=""||row[0].materialtype!='undefined')&&(row[0].materialtype=='3'||row[0].materialtype=='4')){
+	if((row[0].materialtype != "" || row[0].materialtype != 'undefined') && (row[0].materialtype == '3' || row[0].materialtype == '4')) {
 		$('#myPullOffPartModalselect').html($('#productionLineSlct').html());
 		var numbers = $('#myPullOffPartModalselect').find("option"); //获取select下拉框的所有值
 		for(var j = 0; j < numbers.length; j++) {
@@ -730,11 +726,11 @@ function showPullOffPartModal() {
 		$('#myPullOffPartModalselect').selectpicker('render');
 		$('#myPullOffPartModalselectDiv').show();
 		$('#myPullOffPartModalselect').show();
-	}else{
+	} else {
 		$('#myPullOffPartModalselectDiv').hide();
 		$('#myPullOffPartModalselect').hide();
 	}
-	
+
 	$('#pullOffPartNumber').val(row[0].realnumber);
 	$("#myPullOffPartModal").modal('show');
 }
@@ -789,9 +785,9 @@ function pullOffChargingRackPartRecord() {
 		dataType: "json",
 
 		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -829,9 +825,9 @@ function deleteChargingRackRecord() {
 		dataType: "json",
 
 		//data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -887,9 +883,9 @@ function saveChargingRackRecordModel(modelID, formID) {
 		dataType: "json",
 
 		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {

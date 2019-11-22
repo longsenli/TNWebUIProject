@@ -155,9 +155,10 @@ function dailyProductionConfirmWorkContentSlctFun() {
 		data: formData,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
+
 		//processData: true,
 		async: false,
 		processData: false,
@@ -193,9 +194,10 @@ function dailyProductionConfirmWorkingLocationSlctFun() {
 		data: formData,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
+
 		//processData: true,
 		processData: false,
 		contentType: false,
@@ -443,14 +445,12 @@ function confirmProductionWageRecord() {
 		alert("记录已确认!");
 		return;
 	}
-	//	for( var i in tableData)
-	//	{
-	//		if(!tableData[i].staffName || tableData[i].staffName.length < 2)
-	//		{
-	//			alert("有产量未有工人认领,请确认后重试!");
-	//			return;
-	//		}
-	//	}
+	for(var i in tableData) {
+		if(!tableData[i].staffName || tableData[i].staffName.length < 2) {
+			alert("有产量没有工人认领,请确认后重试!");
+			return;
+		}
+	}
 	var formData = new FormData();
 	formData.append("verifierID", localStorage.userID);
 	formData.append("verifierName", localStorage.username);
@@ -690,9 +690,9 @@ function deleteFinalProductionWageRecord() {
 		contentType: false,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 

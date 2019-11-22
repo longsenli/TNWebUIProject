@@ -207,6 +207,9 @@ function confirmStaffAttendanceInfo() {
 		type: "POST",
 		processData: false,
 		contentType: false,
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		data: formData,
 		success: function(data) {
 			if(data.status == 1) {
@@ -357,9 +360,9 @@ function getSelfScanLocationQRRecord() {
 		contentType: false,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -597,9 +600,9 @@ function beforeProductionScanLocationQR() {
 		contentType: false,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -652,9 +655,9 @@ function afterProductionScanLocationQR(qrCode) {
 		contentType: false,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -709,6 +712,9 @@ function deleteRecord(qrCode) {
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -838,9 +844,9 @@ function recognitionQR(webName, qrCode) {
 			contentType: false,
 			//contentType: "application/json",
 			//dataType: "json",
-			//		headers: {
-			//			Token: localStorage.getItem('token')
-			//		},
+			headers: {
+				Token: localStorage.getItem('token')
+			},
 			async: false,
 			success: function(dataRes) {
 				if(dataRes.status == 1) { 

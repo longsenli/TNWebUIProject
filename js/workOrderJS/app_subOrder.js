@@ -351,7 +351,7 @@ function finishSubOrderByQR(qrCode, orderType) {
 					//showColumns: true,
 					//search: true,
 					pagination: true,
-					columns: columnsArray, 
+					columns: columnsArray,
 					onClickRow: function(row) {
 
 						$("#changeOrderProductionNum").val(row["productionnum"]);
@@ -360,26 +360,22 @@ function finishSubOrderByQR(qrCode, orderType) {
 				});
 
 				$("#changeOrderProductionNum").val('');
-			
-			var dataStr = "----";
+
+				var dataStr = "----";
 				var dateNow = new Date();
-				
-			if( document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.BZ)
-			{
-				if(models[0].id.startWith(dateNow.format("yyyyMMdd")))
-				{
-					$("#subOrderFinishBT").attr('disabled', false);
-					if($('#autoFinishOrderCheck').is(':checked') ) {
-						FinishSubOrder();		
+
+				if(document.PlantToLineSelectForm.productionProcessSlct.value == windowProcessEnum.BZ) {
+					if(models[0].id.startWith(dateNow.format("yyyyMMdd"))) {
+						$("#subOrderFinishBT").attr('disabled', false);
+						if($('#autoFinishOrderCheck').is(':checked')) {
+							FinishSubOrder();
+						}
+					} else {
+						$("#subOrderFinishBT").attr('disabled', true);
 					}
+					return;
 				}
-				else 
-				{
-					$("#subOrderFinishBT").attr('disabled', true);
-				}
-				return;
-			}
-				
+
 				var dataStr = "----";
 				var dateNow = new Date();
 				if(dateNow.getHours() < 7) {
@@ -403,8 +399,8 @@ function finishSubOrderByQR(qrCode, orderType) {
 				$('#usableMaterialTable').bootstrapTable('destroy');
 
 				if($('#autoFinishOrderCheck').is(':checked')) {
-					
-					 if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
+
+					if(models[0].ordersplitid.substr(models[0].ordersplitid.length - 13, 10) == dataStr) {
 						FinishSubOrder();
 					} else {
 						$('<div>').appendTo('body').addClass('alert alert-success').html('该工单不是本班次工单,请补充入库!').show().delay(3000).fadeOut();
@@ -504,9 +500,9 @@ function FinishSubOrder() {
 		//processData: false,
 		//contentType: false,
 		data: formMap2,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		success: function(data) {
 			if(data.status == 1) {
 				// alert('保存成功! ' + data.message);
@@ -561,7 +557,7 @@ function getSelfProductionRecord() {
 		"title": "完成时间",
 		"field": "inputTime"
 	});
-columnsArray.push({
+	columnsArray.push({
 		width: 300,
 		"title": "id",
 		"field": "id",
@@ -861,7 +857,7 @@ function SelectSubOrder() {
 						//pagination: true,
 						columns: columnsArray,
 						onClickRow: function(row) {
- 
+
 							$("#changeOrderProductionNum").val(row["productionnum"]);
 							$("#changeOrderProductionNum").attr("readonly", true);
 						}
@@ -1062,9 +1058,9 @@ function gainMaterialRecord() {
 		processData: false,
 		contentType: false,
 		data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -1417,9 +1413,9 @@ function gainPartMaterialRecord() {
 		processData: false,
 		contentType: false,
 		data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -1507,9 +1503,9 @@ function cancelFinishSuborder() {
 		processData: false,
 		contentType: false,
 		//data: formData2,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		success: function(data) {
 			if(data.status == 1) {
 				alert('取消成功! ' + data.message);
@@ -1664,9 +1660,9 @@ function cancelInputSuborder() {
 		processData: false,
 		contentType: false,
 		//data: formData2,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		success: function(data) {
 			if(data.status == 1) {
 				alert('取消成功! ' + data.message);

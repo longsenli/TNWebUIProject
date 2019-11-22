@@ -1,4 +1,3 @@
-
 function tidyBatteryRecordIndustrialPlantSlctFun() {
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getindustrialplant",
@@ -146,9 +145,9 @@ function tidyBatteryRecordProductionLineSlctFun() {
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == localStorage.getItem('lineID')) {
 							$(numbers[j]).attr("selected", "selected");
-//							$('#productionLineSlct').selectpicker('hide');
-//
-//							$("#productionLineLabel").css("display", "none");
+							//							$('#productionLineSlct').selectpicker('hide');
+							//
+							//							$("#productionLineLabel").css("display", "none");
 						}
 					}
 					$('#productionLineSlct').selectpicker('refresh');
@@ -275,18 +274,18 @@ function getTidyRecord(selectType) {
 			}
 		}
 	});
-//industrialPlantSlct  productionProcessSlct   productionLineSlct
+	//industrialPlantSlct  productionProcessSlct   productionLineSlct
 
-//	columnsArray.push({
-//		"title": "备注信息",
-//		"field": "remark",
-//		formatter: function(value, row, index) {
-//			if(row.materialtype=="3"||row.materialtype=="4"){
-//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
-//			}
-//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
-//		}
-//	});
+	//	columnsArray.push({
+	//		"title": "备注信息",
+	//		"field": "remark",
+	//		formatter: function(value, row, index) {
+	//			if(row.materialtype=="3"||row.materialtype=="4"){
+	//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
+	//			}
+	//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "维修送返",
 		"field": "repairbacknum"
@@ -568,11 +567,11 @@ function printPileQR() {
 		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
 		LODOP.ADD_PRINT_BARCODE(20, 20, 100, 100, "QRCode", selectRow[i].id);
 
-		LODOP.ADD_PRINT_TEXT(120, 8, 115, 50, selectRow[i].id.substr(0,14)); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(120, 8, 115, 50, selectRow[i].id.substr(0, 14)); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		LODOP.ADD_PRINT_TEXT(135, 8, 115, 50, selectRow[i].id.substr(14,14)); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(135, 8, 115, 50, selectRow[i].id.substr(14, 14)); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
@@ -581,24 +580,23 @@ function printPileQR() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
-//		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
-//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
-//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		//		LODOP.ADD_PRINT_TEXT(30, 160, 130, 40, selectRow[i].batterydate); //增加纯文本项
+		//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
+		//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
 		LODOP.ADD_PRINT_TEXT(35, 140, 130, 100, selectRow[i].remark + " * " + selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-//		LODOP.ADD_PRINT_TEXT(60, 150, 130, 100,selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
-//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
-//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
-//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
-		
-		LODOP.ADD_PRINT_TEXT(110, 140, 130, 100,  "责任人: " + selectRow[i].pilestaffname); //增加纯文本项
+		//		LODOP.ADD_PRINT_TEXT(60, 150, 130, 100,selectRow[i].materialname + " * " + selectRow[i].productionnumber); //增加纯文本项
+		//		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		//		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
+		//		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.ADD_PRINT_TEXT(110, 140, 130, 100, "责任人: " + selectRow[i].pilestaffname); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 11);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
@@ -615,7 +613,7 @@ function addTidyBatteryRepairRecord() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(row.length != 1 || row[0].childElementCount=='0') {
+	if(row.length != 1 || row[0].childElementCount == '0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -653,15 +651,15 @@ function changeTidyBatteryRecord() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-//	if(row[0]=='undefined'){
-//		alert("请选择要修改的数据,一次只能选择一行!");
-//		return;
-//	}
-//	if(row[0].childElementCount=='0'){
-//		alert("请点击整理台实时数据, 并选择一条记录");
-//		return;
-//	}
-	if(row.length != 1 || row[0].childElementCount=='0') {
+	//	if(row[0]=='undefined'){
+	//		alert("请选择要修改的数据,一次只能选择一行!");
+	//		return;
+	//	}
+	//	if(row[0].childElementCount=='0'){
+	//		alert("请点击整理台实时数据, 并选择一条记录");
+	//		return;
+	//	}
+	if(row.length != 1 || row[0].childElementCount == '0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -707,7 +705,7 @@ function addPileRecord() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
-	if(row.length != 1 || row[0].childElementCount=='0') {
+	if(row.length != 1 || row[0].childElementCount == '0') {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
@@ -734,11 +732,10 @@ function addPileRecord() {
 	$("#tidyBatteryPileForm" + " #operatorname").val(localStorage.username);
 	var today = new Date();
 	$("#tidyBatteryPileForm" + " #operatortime").val(today.format("yyyy-MM-dd hh:mm"));
-    $("#tidyBatteryPileForm" + " #operatortime").val();
+	$("#tidyBatteryPileForm" + " #operatortime").val();
 
 	$("#myPileModal").modal('show');
 }
-
 
 function closeTidyBatteryRecordModel(modelID) {
 	$("#" + modelID).modal('hide');
@@ -788,9 +785,9 @@ function saveTidyBatteryRecordModel(modelID, formID) {
 		contentType: "application/json",
 		dataType: "json",
 		data: JSON.stringify(formMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -841,9 +838,9 @@ function pileTidyBatteryRecord() {
 		data: formData,
 		processData: false,
 		contentType: false,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -880,31 +877,6 @@ function scaned(t, r, f) {
 	// alert('t='+t+'r='+r+'f='+f);
 	//获取扫描二维码信息
 	recognitionQR(accept_webName, r);
-	// 					var d = new Date();
-	// 					var h=d.getHours(),m=d.getMinutes(),s=d.getSeconds(),ms=d.getMilliseconds();
-	// 					if(h < 10){ h='0'+h; }
-	// 					if(m < 10){ m='0'+m; }
-	// 					if(s < 10){ s='0'+s; }
-	// 					if(ms < 10){ ms='00'+ms; }
-	// 					else if(ms < 100){ ms='0'+ms; }
-	// 					var ts = '['+h+':'+m+':'+s+'.'+ms+']';
-	// 					var li=null,hl = document.getElementById('history');
-	// 					if(blist.length > 0){
-	// 						li = document.createElement('li');
-	// 						li.className = 'ditem';
-	// 						hl.insertBefore(li, hl.childNodes[0]);
-	// 					} else{
-	// 						li = document.getElementById('nohistory');
-	// 					}
-	// 					li.id = blist.length;
-	// 					var html = '['+h+':'+m+':'+s+'.'+ms+']'+'　　'+t+'码<div class="hdata">';
-	// 					html += r;
-	// 					html += '</div>';
-	// 					li.innerHTML = html;
-	// 					li.setAttribute('onclick', 'selected(id)');
-	// 					blist[blist.length] = {type:t,result:r,file:f};
-	// 					update(t, r, f);
-
 }
 
 function selected(id) {
@@ -995,31 +967,31 @@ function openBarcodeCustom() {
 }
 
 function recognitionQR(webName, qrCode) {
-	if(webName == 'package'){
+	if(webName == 'package') {
 		showPackageInput(qrCode);
 	}
-	if(webName == 'finishpiletidy'){
+	if(webName == 'finishpiletidy') {
 		finishPiletidyInput(qrCode);
 	}
-	if(webName == 'showpartpileInput'){
+	if(webName == 'showpartpileInput') {
 		showpartpileInput(qrCode);
 	}
 }
 //显示部分打堆扫码窗口
 function showpartpileInput(pileID) {
-	var piletotalNum=0;
-	var remainpileNum=0;
-	var partpileNum="partpilequery";
-	var plantID="";
-	var processID="";
-	var lineID="";
-	var lineID="";
+	var piletotalNum = 0;
+	var remainpileNum = 0;
+	var partpileNum = "partpilequery";
+	var plantID = "";
+	var processID = "";
+	var lineID = "";
+	var lineID = "";
 	var username = "";
 	var userID = "";
 	$.ajax({
 		// url: window.serviceIP + "/api/chargepack/getpilerecordbypileid?id=" + pileID,http://192.168.1.109:8080/api/chargepack/finishPileTidyBatteryRecord?id=
-		url: window.serviceIP+ "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
-		"&userID="+userID+"&username="+username,
+		url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID + "&remainpileNum=" + remainpileNum + "&piletotalNum=" + piletotalNum + "&partpileNum=" + partpileNum + "&plantID=" + plantID + "&processID=" + processID + "&lineID=" + lineID +
+			"&userID=" + userID + "&username=" + username,
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -1038,13 +1010,12 @@ function showpartpileInput(pileID) {
 				}
 				$("#partPileForm" + " #partpileModalid").val(pileID);
 				$("#partPileForm" + " #piletotalNum").val(models[0].productionnumber);
-				if(!models[0].finishpileNum=='undefinded' || !models[0].finishpileNum=='0'){
+				if(!models[0].finishpileNum == 'undefinded' || !models[0].finishpileNum == '0') {
 					$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber - models[0].finishpileNum);
-				}else{
+				} else {
 					$("#partPileForm" + " #remainpileNum").val(models[0].productionnumber);
 				}
-				
-				
+
 				$("#partpileModalSaveButton").attr('disabled', false);
 				$("#partpileModal").modal('show');
 
@@ -1058,11 +1029,11 @@ function showpartpileInput(pileID) {
 function savepartPileModel() {
 	var pileID = $("#partPileForm" + " #partpileModalid").val();
 	var piletotalNum = $('#piletotalNum').val();
-	var remainpileNum= $('#remainpileNum').val();
-	var partpileNum=$('#partpileNum').val();
-	var plantID=localStorage.getItem('plantID');
-	var processID=localStorage.getItem('processID');
-	var lineID=localStorage.getItem('lineID');
+	var remainpileNum = $('#remainpileNum').val();
+	var partpileNum = $('#partpileNum').val();
+	var plantID = localStorage.getItem('plantID');
+	var processID = localStorage.getItem('processID');
+	var lineID = localStorage.getItem('lineID');
 	var username = localStorage.getItem('username');
 	var userID = localStorage.getItem('userID');
 	$("#partpileModalSaveButton").attr('disabled', true);
@@ -1073,10 +1044,10 @@ function savepartPileModel() {
 		return;
 	}
 	$.ajax({
-	// 	url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
-	// "&userID="+userID+"&username="+username,
-		url: window.serviceIP+"/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
-	"&userID="+userID+"&username="+username,
+		// 	url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
+		// "&userID="+userID+"&username="+username,
+		url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID + "&remainpileNum=" + remainpileNum + "&piletotalNum=" + piletotalNum + "&partpileNum=" + partpileNum + "&plantID=" + plantID + "&processID=" + processID + "&lineID=" + lineID +
+			"&userID=" + userID + "&username=" + username,
 		type: "POST",
 		// data: formData,
 		processData: false,
@@ -1095,7 +1066,7 @@ function savepartPileModel() {
 				$("#partpileModalSaveButton").attr('disabled', false);
 				$("#partpileModal").modal('hide');
 				alert("部分打堆扫码成功!");
-				
+
 			} else {
 				$("#partPileForm" + " #partpileModalid").val("");
 				$("#partPileForm" + " #piletotalNum").val("");
@@ -1110,24 +1081,21 @@ function savepartPileModel() {
 	});
 }
 
-
-
-
 //整托打堆调用方法
 function finishPiletidyInput(pileID) {
 	var remainpileNum = '0';
-	var piletotalNum ='0';
-	var partpileNum='0';
-	var plantID=localStorage.getItem('plantID');
-	var processID=localStorage.getItem('processID');
-	var lineID=localStorage.getItem('lineID');
-	var lineID=localStorage.getItem('lineID');
+	var piletotalNum = '0';
+	var partpileNum = '0';
+	var plantID = localStorage.getItem('plantID');
+	var processID = localStorage.getItem('processID');
+	var lineID = localStorage.getItem('lineID');
+	var lineID = localStorage.getItem('lineID');
 	var username = localStorage.getItem('username');
 	var userID = localStorage.getItem('userID');
 	$.ajax({
 		// url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&packageNum="+packageNum+"&totalNum="+totalNum,
-		url: window.serviceIP+"/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID +"&remainpileNum="+remainpileNum+"&piletotalNum="+piletotalNum+"&partpileNum="+partpileNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
-		"&userID="+userID+"&username="+username,
+		url: window.serviceIP + "/api/chargepack/finishPileTidyBatteryRecord?id=" + pileID + "&remainpileNum=" + remainpileNum + "&piletotalNum=" + piletotalNum + "&partpileNum=" + partpileNum + "&plantID=" + plantID + "&processID=" + processID + "&lineID=" + lineID +
+			"&userID=" + userID + "&username=" + username,
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -1145,7 +1113,7 @@ function finishPiletidyInput(pileID) {
 					alert("该二维码已经打堆扫码,请确认!");
 					return;
 				}
-//				getTidyRecord('onWorkbench');
+				//				getTidyRecord('onWorkbench');
 				// $("#tidyBatteryPilePackageForm" + " #id").val(pileID);
 				// $("#tidyBatteryPilePackageForm" + " #totalNum").val(models[0].productionnumber);
 				// $("#tidyBatteryPilePackageForm" + " #packageNum").val(models[0].productionnumber);
@@ -1159,13 +1127,6 @@ function finishPiletidyInput(pileID) {
 		}
 	});
 }
-
-
-
-
-
-
-
 
 //显示包装扫码窗口
 function showPackageInput(pileID) {
@@ -1188,19 +1149,19 @@ function showPackageInput(pileID) {
 					return;
 				}
 				$("#tidyBatteryPilePackageForm" + " #packagepileid").val(pileID);
-				if(models[0].fnishpackagenum==null||models[0].fnishpackagenum=='null'){
-					models[0].fnishpackagenum=0;
+				if(models[0].fnishpackagenum == null || models[0].fnishpackagenum == 'null') {
+					models[0].fnishpackagenum = 0;
 				}
-				if(models[0].finishpilenum==null||models[0].finishpilenum=='null'){
-					models[0].finishpilenum=0;
+				if(models[0].finishpilenum == null || models[0].finishpilenum == 'null') {
+					models[0].finishpilenum = 0;
 				}
 				//部分包装扫码
-				var flag= models[0].productionnumber - models[0].finishpilenum ;
+				var flag = models[0].productionnumber - models[0].finishpilenum;
 				//说明是扫的部分打堆的码
-				if(flag>0){
+				if(flag > 0) {
 					$("#tidyBatteryPilePackageForm" + " #packagetotalNum").val(models[0].finishpilenum);
 					$("#tidyBatteryPilePackageForm" + " #remainpackageNum").val(models[0].finishpilenum - models[0].fnishpackagenum);
-				}else{//整托包装
+				} else { //整托包装
 					$("#tidyBatteryPilePackageForm" + " #packagetotalNum").val(models[0].productionnumber);
 					$("#tidyBatteryPilePackageForm" + " #remainpackageNum").val(models[0].productionnumber - models[0].fnishpackagenum);
 				}
@@ -1216,14 +1177,14 @@ function showPackageInput(pileID) {
 }
 
 function savePackageInput() {
-	var packagepileid=$('#packagepileid').val();
+	var packagepileid = $('#packagepileid').val();
 	var packagetotalNum = $('#packagetotalNum').val();
-	var remainpackageNum =$('#remainpackageNum').val();
-	var packageNum=$('#packageNum').val();
-	var plantID=localStorage.getItem('plantID');
-	var processID=localStorage.getItem('processID');
-	var lineID=localStorage.getItem('lineID');
-	var lineID=localStorage.getItem('lineID');
+	var remainpackageNum = $('#remainpackageNum').val();
+	var packageNum = $('#packageNum').val();
+	var plantID = localStorage.getItem('plantID');
+	var processID = localStorage.getItem('processID');
+	var lineID = localStorage.getItem('lineID');
+	var lineID = localStorage.getItem('lineID');
 	var username = localStorage.getItem('username');
 	var userID = localStorage.getItem('userID');
 	$("#myPackageModalSaveButton").attr('disabled', true);
@@ -1244,10 +1205,10 @@ function savePackageInput() {
 	}
 
 	$.ajax({
-		url: window.serviceIP+"/api/chargepack/expendpilebatterybypackage?packagepileid=" + packagepileid +"&remainpackageNum="+remainpackageNum+"&packagetotalNum="+packagetotalNum+"&packageNum="+packageNum+"&plantID="+plantID+"&processID="+processID+"&lineID="+lineID+
-		"&userID="+userID+"&username="+username,
+		url: window.serviceIP + "/api/chargepack/expendpilebatterybypackage?packagepileid=" + packagepileid + "&remainpackageNum=" + remainpackageNum + "&packagetotalNum=" + packagetotalNum + "&packageNum=" + packageNum + "&plantID=" + plantID + "&processID=" + processID + "&lineID=" + lineID +
+			"&userID=" + userID + "&username=" + username,
 		type: "POST",
-//		data: formData,
+		//		data: formData,
 		processData: false,
 		contentType: false,
 		dataType: "json",
@@ -1269,9 +1230,7 @@ function savePackageInput() {
 	});
 }
 
-
-function getPackageRecord()
-{
+function getPackageRecord() {
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
@@ -1313,16 +1272,16 @@ function getPackageRecord()
 			}
 		}
 	});
-//	columnsArray.push({
-//		"title": "备注信息",
-//		"field": "remark",
-//		formatter: function(value, row, index) {
-//			if(row.materialtype=="3"||row.materialtype=="4"){
-//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
-//			}
-//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
-//		}
-//	});
+	//	columnsArray.push({
+	//		"title": "备注信息",
+	//		"field": "remark",
+	//		formatter: function(value, row, index) {
+	//			if(row.materialtype=="3"||row.materialtype=="4"){
+	//				return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + "--合计";
+	//			}
+	//			return $("#industrialPlantSlct option[value='" + row.plantid + "']").text() + $("#productionLineSlct option[value='" + row.lineid + "']").text();
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "打堆时间",
 		"field": "piletime"
@@ -1354,7 +1313,7 @@ function getPackageRecord()
 		"title": "责任人",
 		"field": "pilestaffname"
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "包装时间",
 		"field": "packagetime"
 	});
@@ -1435,10 +1394,8 @@ columnsArray.push({
 	});
 }
 
-
-
 //设置时间格式
-Date.prototype.format = function(format) { 
+Date.prototype.format = function(format) {
 	var o = {
 		"M+": this.getMonth() + 1, //month 
 		"d+": this.getDate(), //day 
@@ -1460,4 +1417,3 @@ Date.prototype.format = function(format) {
 	}
 	return format;
 }
-

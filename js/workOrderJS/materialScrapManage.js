@@ -315,9 +315,9 @@ function changeMaterialInfo() {
 		data: formData,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		//processData: true,
 		processData: false,
 		contentType: false,
@@ -360,10 +360,9 @@ function saveScrap() {
 		dataType: "json",
 
 		data: JSON.stringify(formDataMap).toString(),
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		success: function(data) {
 			if(data.status == 1) {
 				scrapSelectScrapInfo();
@@ -399,10 +398,9 @@ function deleteSrapRecord() {
 		data: formData,
 		processData: false,
 		contentType: false,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		success: function(data) {
 			if(data.status == 1) {
 				alert('删除成功!');

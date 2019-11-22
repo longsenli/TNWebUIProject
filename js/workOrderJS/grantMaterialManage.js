@@ -271,9 +271,9 @@ function grantMaterialByInputID() {
 		processData: false,
 		contentType: false,
 		data: formData,
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 		//processData: true,
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
@@ -630,9 +630,9 @@ function grantMaterialByBatch(grantType) {
 		contentType: false,
 		//contentType: "application/json",
 		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
+		headers: {
+			Token: localStorage.getItem('token')
+		},
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
