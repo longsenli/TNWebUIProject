@@ -6,9 +6,6 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 	}
 
 	localStorage.clear();
-	localStorage.setItem('RemoteServiceIP', realIP);
-	localStorage.setItem('unselectedMenu', unselectedMenu);
-	localStorage.setItem('myDefaultIP', realIP);
 
 	//1 已扫过   2未扫过
 	localStorage.setItem('scanWorkLocationBL', result.data);
@@ -43,15 +40,13 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 		localStorage.setItem('workingkLocation', result.message.split("###")[5].trim());
 	}
 
-if( result.message.split("###")[6])
-{
-		if( result.message.split("###")[6] != "null"&& result.message.split("###")[6].length > 1 && result.message.split("###")[6].trim() != "-1"  ) {
-		
-		localStorage.setItem('workContent', result.message.split("###")[6].trim());
-	}
-}
+	if(result.message.split("###")[6]) {
+		if(result.message.split("###")[6] != "null" && result.message.split("###")[6].length > 1 && result.message.split("###")[6].trim() != "-1") {
 
-	
+			localStorage.setItem('workContent', result.message.split("###")[6].trim());
+		}
+	}
+
 	localStorage.setItem('$Global_UserLogin_Info', JSON.stringify(token));
 	localStorage.setItem("LocalUserName", username);
 	localStorage.setItem("LocalUserPsw", password);
@@ -68,6 +63,16 @@ if( result.message.split("###")[6])
 		}
 		userInfo = userInfo + username + "###" + password;
 	}
+
+	if(localStorage.roleID < window.windowRoleID.BZ) {
+		if(unselectedMenu && unselectedMenu.indexOf("产量日清") < 0) {
+			unselectedMenu = unselectedMenu + "产量日清###"
+		}
+	}
+
+	localStorage.setItem('RemoteServiceIP', realIP);
+	localStorage.setItem('unselectedMenu', unselectedMenu);
+	localStorage.setItem('myDefaultIP', realIP);
 
 	localStorage.userListMap = userInfo;
 	//

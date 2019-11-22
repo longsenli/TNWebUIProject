@@ -355,6 +355,7 @@ function getTMPProductionWageRecord() {
 	var formData = new FormData();
 	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
+	formData.append("lineID", $("#productionLineSlct").val());
 	formData.append("classType", $("#classTypeSlct").val());
 	formData.append("dayString", document.getElementById("startTime").value.toString());
 

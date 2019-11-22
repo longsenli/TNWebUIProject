@@ -326,6 +326,11 @@
 							a_label.parentNode.style.display = "none";
 						}
 					}
+					
+					if("../pages/staffWorkDiaryManage/app_dailyPrductionConfirm.html" == a_id && localStorage.roleID < windowRoleID.BZ)
+					{
+						a_label.parentNode.style.display = "none";
+					}
 				}
 			}
 			

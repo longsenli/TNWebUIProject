@@ -1,15 +1,12 @@
 function initMenu() {
-	//console.log(localStorage.getItem('unselectedMenu'))
 
 	$(':button').each(function(i) {
 		if($(this).html() != 'X') {
-			if(localStorage.getItem('unselectedMenu').indexOf($(this).html().trim() ) >= 0)
+			if(localStorage.getItem('unselectedMenu').indexOf($(this).html().trim()) >= 0)
 				$(this).css('display', 'none');
 			else
-			$(this).css('display','block'); 
+				$(this).css('display', 'block');
 		}
-		//alert(i + "==" + $(this).html());
-
 	});
 }
 
@@ -82,8 +79,8 @@ function selectedSelfFunction() {
 
 	var ary = new Array()
 	$(':button').each(function(i) {
-	
-		if($(this).attr('id') && $(this).attr('id').toString().indexOf("html") >= 0) 
+
+		if($(this).attr('id') && $(this).attr('id').toString().indexOf("html") >= 0)
 		//if('X##保存##关闭#'.indexOf($(this).html().trim()) < 0) 
 		{
 			//alert($(this).html())
@@ -107,7 +104,7 @@ function selectedSelfFunction() {
 		pageNumber: 1,
 		pageList: "[10, 25, 50, 100, All]",
 		showFooter: false,
-		showPaginationSwitch:false,
+		showPaginationSwitch: false,
 		//showToggle: true, 
 		//showRefresh: true,
 		//showColumns: true,
@@ -116,8 +113,8 @@ function selectedSelfFunction() {
 		columns: columnsArray
 	});
 	for(var i = 0; i < ary.length; i++) {
-		if(localStorage.getItem('unselectedMenu').indexOf(ary[i].text ) < 0)
-				$('#table').bootstrapTable('check', i);
+		if(localStorage.getItem('unselectedMenu').indexOf(ary[i].text) < 0)
+			$('#table').bootstrapTable('check', i);
 	}
 	$('#mySelectedMenuModel').modal('show');
 }
