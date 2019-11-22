@@ -300,7 +300,13 @@ function getSelfScanLocationQRRecord() {
 			}
 		});
 	}
-
+	columnsArray.push({
+		"title": "岗位",
+		"field": "workContent",
+		formatter: function(value, row, index) {
+			return $("#workContentSlct option[value='" + value + "']").text();
+		}
+	});
 	columnsArray.push({
 		"title": "姓名",
 		"field": "staffName"
@@ -694,8 +700,10 @@ function deleteRecord(qrCode) {
 		return;
 	}
 	if(row[0].verifierName && localStorage.roleID >= window.windowRoleID.CJZG) {
-		if(!window.changeConfirmDlg("确定删除考勤记录?" + row[0].staffName));
-		return;
+		if(!window.changeConfirmDlg("确定删除考勤记录?" + row[0].staffName))
+		{
+			return;
+		}
 	}
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/deleteStaffAttendanceInfo?id=" + row[0].id,
@@ -710,7 +718,6 @@ function deleteRecord(qrCode) {
 			} else {
 				alert("删除失败！" + data.message);
 			}
-
 		}
 	});
 }
@@ -825,8 +832,63 @@ function openBarcodeCustom() {
 function recognitionQR(webName, qrCode) {
 
 	if(webName == '1')
-
 	{
+		$.ajax({
+		url: window.serviceIP + "/api/staffWorkDiary/getLocationQRInfo?QRCode=" + qrCode,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		async: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				for (var  i  in  models)  {  
+					if(i == 0)
+					{
+						$("#industrialPlantSlct").val(models[0].plantID);
+						$("#productionProcessSlct").val(models[0].processID);
+						$("#productionLineSlct").val(models[0].lineID);
+						if(models[0].workLocationID.length > 5)
+						{
+							$("#workingkLocationSlct").val(models[0].workLocationID);
+						}
+					}
+					$('#workContentSlct').append(("<option value=" + models[i].contentID + ">" + models[i].contentName.toString()  + "</option>").toString());
+				}
+				
+				$('#workContentSlct').selectpicker('refresh');
+				$('#workContentSlct').selectpicker('render'); 
+				
+			} else {
+				alert("扫码失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
+		
 		if(localStorage.workContent && localStorage.workContent.length > 3) {
 			var numbers = $('#workContentSlct').find("option"); //获取select下拉框的所有值
 			for(var j = 0; j < numbers.length; j++) {

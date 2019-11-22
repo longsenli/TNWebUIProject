@@ -423,10 +423,9 @@ function getTMPProductionWageRecord() {
 }
 
 function updateRowCell(id) {
-
 	var row = $('#table').bootstrapTable("getRowByUniqueId", id);
 	if(Math.abs(row["wage"] - row["shelfProduction"] * row["univalence"]) > 0.5) {
-		row["wage"] = row["shelfProduction"] * row["univalence"];
+		row["wage"] = (row["shelfProduction"] * row["univalence"]).toFixed(2);
 		$('#table').bootstrapTable('updateByUniqueId', {
 			id: id,
 			row: row
