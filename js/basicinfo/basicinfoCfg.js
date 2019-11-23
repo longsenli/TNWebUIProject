@@ -317,7 +317,7 @@ function LineCfgDatatbleFun() {
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#toolbar1',
-					singleSelect: true,
+					//singleSelect: true,
 					clickToSelect: true,
 					sortName: "recordTime",
 					sortOrder: "desc",
@@ -1207,4 +1207,27 @@ function equipParamCfgTableFun() {
 			}
 		}
 	});
+}
+
+
+
+function printLineInfo() {
+
+	var selectRow = $("#table").bootstrapTable('getSelections');
+
+	//var arrayObj = new Array();
+	for(var i = 0; i < selectRow.length; i++) {
+
+		var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+		LODOP.PRINT_INIT("打印任务名"); //首先一个初始化语句
+		//LODOP.ADD_PRINT_BARCODE(0,0,200,100,"Code39","*123ABC4567890*");
+		LODOP.ADD_PRINT_BARCODE(15, 70, 120, 120, "QRCode", selectRow[i].id);
+
+		LODOP.ADD_PRINT_TEXT(152, 60, 200, 250, selectRow[i].name); //增加纯文本项
+		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
+		LODOP.SET_PRINT_STYLEA(0, "FontSize", 14);
+		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
+
+		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
+	}
 }
