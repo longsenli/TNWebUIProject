@@ -2594,7 +2594,8 @@
 					"pages/wageManage/RZwagedetail.html",
 					"pages/dataProvenance/app_dataProvenanceTable.html",
 					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html",
-					"pages/staffWorkDiaryManage/app_dailyPrductionConfirm.html"
+					"pages/staffWorkDiaryManage/app_dailyPrductionConfirm.html",
+					"pages/dashboard/app_productionaccount.html"
 				],
 				"priority": 0
 			},
