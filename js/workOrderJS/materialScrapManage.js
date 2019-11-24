@@ -61,29 +61,31 @@ function scrapProductionProcessSlctFun() {
 		processData: true,
 		success: function(dataRes) {
 			$("#productionProcessSlct").find('option').remove();
-
+			$("#scrapProcess").find('option').remove();
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					$('#productionProcessSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
+					$('#scrapProcess').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
 				}
-				//console.log($('#productionProcessSlct'));
+
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
-				// $('#productionProcessSlct').selectpicker('mobile');
+				$('#scrapProcess').selectpicker('refresh');
+				$('#scrapProcess').selectpicker('render');   
 
 				if(localStorage.getItem('processID') != null && localStorage.getItem('processID') != 'undefined' && localStorage.getItem('processID').toString().length > 0) {
 					var numbers = $('#productionProcessSlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == localStorage.getItem('processID')) {
 							$(numbers[j]).attr("selected", "selected");
-							//$('#productionProcessSlct').selectpicker('hide');
 
-							//$("#productionProcessLabel").css("display", "none");
 						}
 					}
 					$('#productionProcessSlct').selectpicker('refresh');
-					$('#productionProcessSlct').selectpicker('render'); 
+					$('#productionProcessSlct').selectpicker('render');  
+					$('#scrapProcess').selectpicker('refresh');
+					$('#scrapProcess').selectpicker('render');  
 
 				}
 				scrapProductionLineSlctFun();
@@ -101,6 +103,11 @@ function scrapProductionLineSlctFun() {
 	//		return;
 	//	}
 	//alert("生产线选择");
+
+	$('#scrapProcess').val($('#productionProcessSlct').val());
+	$('#scrapProcess').selectpicker('refresh');
+	$('#scrapProcess').selectpicker('render');  
+
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -187,7 +194,6 @@ function scrapSelectScrapInfo() {
 		formatter: function(value, row, index) {
 			return $("#productionLineSlct option[value='" + row.lineID + "']").text();
 		}
-
 	});
 	columnsArray.push({
 		"title": "班次",
@@ -216,6 +222,7 @@ function scrapSelectScrapInfo() {
 	var urlStr = window.serviceIP + "/api/scrapinfo/getMaterialScrapRecord?plantID=" + document.PlantToLineSelectForm.industrialPlantSlct.value.toString() +
 		"&processID=" + document.PlantToLineSelectForm.productionProcessSlct.value.toString() +
 		"&lineID=" + document.PlantToLineSelectForm.productionLineSlct.value.toString() +
+		"&scrapSelectType=" + document.PlantToLineSelectForm.scrapSelectType.value.toString() +
 		"&startTime=" + document.getElementById("startTime").value + "&endTime=" + document.getElementById("endTime").value;
 
 	$.ajax({
@@ -256,7 +263,7 @@ function scrapSelectScrapInfo() {
 	});
 }
 
-function createScrapModel() {
+function createScrapModel(type) {
 
 	$('#lineID').selectpicker('refresh');
 	$('#lineID').selectpicker('render'); 
@@ -264,6 +271,8 @@ function createScrapModel() {
 	$('#classType').selectpicker('refresh');
 	$('#classType').selectpicker('render'); 
 
+	$('#operateType').val(type);
+	$("#myModalLabel").html(type + "登记");
 	var today = new Date();
 	if(today.getHours() < 7) {
 		today.setDate(today.getDate() - 1);
@@ -412,3 +421,146 @@ function deleteSrapRecord() {
 		}
 	});
 };
+
+//重写scanQR方法
+function scanQRBottomScrap() {
+	//执行H5扫描二维码方法
+	openBarcode();
+}
+
+////////以下是H5+调用摄像头进行扫一扫
+// alert(openBarcode())
+var img = null;
+var blist = [];
+
+function scaned(t, r, f) {
+	// alert('t='+t+'r='+r+'f='+f);
+	//获取扫描二维码信息
+	recognitionQR(r);
+
+}
+
+function selected(id) {
+	var h = blist[id];
+	update(h.type, h.result, h.file);
+	if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+		plus.nativeUI.confirm(h.result, function(i) {
+			if(i.index == 0) {
+				plus.runtime.openURL(h.result);
+			}
+		}, '', ['打开', '取消']);
+	} else {
+		plus.nativeUI.alert(h.result);
+	}
+}
+
+function update(t, r, f) {
+	outSet('扫描成功：');
+	outLine(t);
+	outLine(r);
+	outLine('\n图片地址：' + f);
+	if(!f || f == 'null') {
+		img.src = '../../vendor/H5+/img/barcode.png';
+	} else {
+		plus.io.resolveLocalFileSystemURL(f, function(entry) {
+			img.src = entry.toLocalURL();
+		});
+		//img.src = 'http://localhost:13131/'+f;
+	}
+}
+
+function onempty() {
+	if(window.plus) {
+		plus.nativeUI.alert('无扫描记录');
+	} else {
+		alert('无扫描记录');
+	}
+}
+
+function cleanHistroy() {
+	if(blist.length > 0) {
+		var hl = document.getElementById('history');
+		hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+	}
+	plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+		entry.removeRecursively(function() {
+			// Success
+		}, function(e) {
+			//alert( "failed"+e.message );
+		});
+	});
+}
+// 打开二维码扫描界面 
+function openBarcode() {
+	createWithoutTitle('barcode_scan.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:scanPicture()'
+			}]
+		}
+	});
+}
+// 打开自定义扫描界面 
+function openBarcodeCustom() {
+	createWithoutTitle('barcode_custom.html', {
+		titleNView: {
+			type: 'float',
+			backgroundColor: 'rgba(215,75,40,0.3)',
+			titleText: '扫一扫',
+			titleColor: '#FFFFFF',
+			autoBackButton: true,
+			buttons: [{
+				// fontSrc: '_www/helloh5.ttf',
+				text: '相册',
+				fontSize: '15px',
+				onclick: 'javascript:switchFlash()'
+			}]
+		}
+	});
+}
+
+function recognitionQR(qrCode) {
+	$('#batteryBottomQRCode').val(qrCode);
+	$('#repairReasonModal').modal('show');
+}
+
+function closeModal(modalName) {
+	$("#" + modalName).modal('hide');
+}
+
+function saveBatteryQRScrap() {
+	var formData = new FormData();
+	formData.append("id", $('#batteryBottomQRCode').val());
+	formData.append("scrapProcess", $('#scrapProcess').val());
+	formData.append("repairReason", $('#repairReason').val());
+	formData.append("updateStaff", localStorage.username);
+	formData.append("updateStaffID", localStorage.userID);
+	formData.append("scrapPlant", localStorage.plantID);
+	$.ajax({
+		url: window.serviceIP + "/api/scrapinfo/scrapByBatteryQrcode",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		headers: {
+			Token: localStorage.getItem('token')
+		},
+		success: function(data) {
+			if(data.status == 1) {
+				alert('登记成功!');
+				$("#repairReasonModal").modal('hide');
+				scrapSelectScrapInfo();
+			} else {
+				alert("登记失败！" + data.message);
+			}
+		}
+	});
+}

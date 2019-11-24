@@ -47,6 +47,35 @@
 					})
 			});
 
+			$(function() {
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+						recognitionQR(Number);
+					}
+
+				}, false); 
+			});
 			//	getWorkOrder();
 		</script>
 
@@ -78,6 +107,16 @@
 													</select>
 												</div>
 												<div class="form-group">
+													<label> 查询类型： </label>
+													<select class="selectpicker" id="scrapSelectType" name="scrapSelectType">
+														<option value="-1">全部</option>
+														<option value="报废">报废信息</option>
+														<option value="退返">退返信息</option>
+														<option value="不良">不良信息</option>
+														<option value="电池底壳">底壳扫码</option>
+													</select>
+												</div>
+												<div class="form-group">
 													<input type="date" id="startTime" name="startTime" />
 													<label>-</label>
 													<input type="date" id="endTime" name="endTime" />
@@ -85,8 +124,12 @@
 												<!--<input type="button" class="btn btn-default" value="查询 " onclick="scrapSelectScrapInfo()">-->
 											</div>
 										</form>
-										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="scrapSelectScrapInfo()">查询报废</button>
-										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="createScrapModel()">添加报废     </button>
+										<button id="workorder_add" type="button" class="btn btn-info" style="margin-top: 10px;" onclick="scrapSelectScrapInfo()">按类型查询</button>
+										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="createScrapModel('报废')">添加报废     </button>
+										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="createScrapModel('退返')">物料退返     </button>
+										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="createScrapModel('不良')">物料不良     </button>
+										<button id="workorder_add" type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="scanQRBottomScrap()">不良电池扫码     </button>
+										<button id="workorder_add" type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="recognitionQR('A2A001871107')">不良电池扫码Web     </button>
 										<button id="workorder_add" type="button" class="btn btn-success" style="margin-top: 10px;" onclick="deleteSrapRecord()">删除记录</button>
 
 										<div id="class=table-responsive">
@@ -104,6 +147,7 @@
 													</div>
 													<div class="modal-body" id="modal-body">
 														<form id="scrapModalForm">
+															<input type="text" style="margin-top: 10px;display: none;" class="form-control" id="operateType" name="operateType">
 
 															<select class="selectpicker" id="lineID" name="lineID" onchange="changeMaterialInfo()">
 															</select>
@@ -122,8 +166,40 @@
 														</form>
 													</div>
 													<div class="modal-footer">
-													<!--	<button type="button" class="btn btn-default" onclick="closeScrap()">关闭 </button>-->
+														<button type="button" class="btn btn-default" onclick="closeModal('scrapModal')">关闭 </button>
 														<button type="button" class="btn btn-default" onclick="saveScrap()">保存 </button>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal -->
+										</div>
+
+										<!-- 报废模态框（Modal） -->
+										<div class="modal fade" id="repairReasonModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">x</button>
+														<h4 class="modal-title"> 电池不良 </h4>
+													</div>
+													<div class="modal-body" id="modal-body">
+														<form id="repairReasonForm">
+															<input type="text" style="margin-top: 10px;" readonly="true" class="form-control" id="batteryBottomQRCode" name="batteryBottomQRCode">
+<br />
+															<select class="selectpicker" id="scrapProcess" style="width:100px;" name="scrapProcess">
+															</select>
+
+															<select class="selectpicker" id="repairReason" name="repairReason">
+																<option value="焊接不良">焊接不良</option>
+																<option value="插坏">插坏</option>
+																<option value="插坏">色胶不良</option>
+															</select>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" onclick="closeModal('repairReasonModal')">关闭 </button>
+														<button type="button" class="btn btn-default" onclick="saveBatteryQRScrap()">保存 </button>
 													</div>
 												</div>
 												<!-- /.modal-content -->

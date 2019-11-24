@@ -2641,6 +2641,13 @@
 					"pages/staffWorkDiaryManage/barcode_scan.html"
 				],
 				"priority": 0
+			},
+			"pages/workOrder/app_materialScrapManage.html": {
+				"resources": [],
+				"refer": [
+					"pages/workOrder/barcode_scan.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
