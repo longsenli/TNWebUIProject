@@ -47,6 +47,10 @@
 					<label>身份证号：</label>
 					<input name="cardno" id="cardno" type="text" class="mui-input-clear" placeholder="请输入身份证号">
 				</div>
+				<div class="mui-input-row">
+					<label>密&nbsp;&nbsp;码：</label>
+					<input name="password" id="password" type="text" class="mui-input-clear" placeholder="请输入密码">
+				</div>
 				<button id='choicemonth' data-options='{"type":"month"}' value="" class="btn mui-btn mui-btn-block">
 					选择非当前月份 ...</button>
 				<div class="mui-button-row">
@@ -129,6 +133,7 @@
 			})(mui);
 			function rzwagequery(){
 				var cardno = mui('#cardno')[0].value;
+				var password = mui('#password')[0].value;
 				var choicemonth = mui('#choicemonth')[0].value;
 				//校验身份证号
 				if(!isCardNo(cardno)){
@@ -147,14 +152,14 @@
 				}
 //				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
 				mui.ajax(window.serviceIP+'/userwagequery',{
-					data: JSON.stringify({username: 'username',password: 'password',cardno: cardno, senddate: choicemonth}),
+					data: JSON.stringify({username: 'username',password: password,cardno: cardno, senddate: choicemonth}),
 //					dataType:'json',//服务器返回json格式数据
 					type:'POST',//HTTP请求类型
 					timeout:5000,//超时时间设置为10秒；
 					headers:{'Content-Type':'application/json'},           
 					success:function(data){
 						if(data.status!='1'){
-							alert("没找到数据" );
+							alert(data.message);
 							return false;
 						}
 						document.getElementById("wagequerybt").removeAttribute("disabled");
