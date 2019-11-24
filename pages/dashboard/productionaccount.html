@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>产量汇总报表</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<!--<style type="text/css">
+			.fixed-table-header{
+				height:75px;
+			}
+		</style>-->
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/dashboardJS/productionaccount.js"></script>
+		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
+		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			//			if(localStorage.getItem('token') == null) {
+			//				window.location.href = "../login.html";
+			//			}
+
+			chargingRackRecordIndustrialPlantSlctFun();
+			$(function() {
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				$('#pictureInfoShow').hide();
+			});
+		</script>
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<label id='industrialPlantLabel'> 厂区： </label>
+				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="chargingRackRecordProductionLineSlctFun()">
+				</select>
+				<label id='productionProcessLabel'> 流程： </label>
+				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="chargingRackRecordProductionLineSlctFun()">
+				</select>
+				<!--<label id='productionLineLabel'> 产线： </label>
+				<select class="selectpicker" id="productionLineSlct" style="width:100px; display: none;" name="productionLineSlct" onchange="chargingRackRecordWorkingLocationSlctFun()">
+				</select>
+				<label id='workingkLocationSlctLabel'> 工位： </label>
+				<select class="selectpicker" id="workingkLocationSlct" style="width:100px; display: none;" name="workingkLocationSlct">
+				</select>-->
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<label>-</label>
+				<input type="date" id="endTime" name="endTime" />
+				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
+			</div>
+			<br />
+		</form>
+		<div class=" form-inline row">
+			<button type="button" class="btn btn-success" onclick="getOnRackRecord('onRack')">
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>产量汇总查询
+            </button>
+		</div>
+		<!--<table id="tableId" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">-->
+		<!--<table id="tableId" >-->
+		<!--</table>-->
+		<div class="table-responsive">
+			<!--表格自动出现水平滚动条-->
+			<table id="tableId" class="table text-nowrap">
+				<!--//表示表格产生横向滚动条，内容设置为一行-->
+			</table>
+			<table id="tableId" class="table table-striped">
+				<!--//不产生横向滚动条，数据内容折行显示-->
+			</table>
+		</div>
+	</body>
+
+</html>
