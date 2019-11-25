@@ -32,7 +32,7 @@
 	<body id="re_body">
 		<br>
 		<div class="mui-content">
-		        <ul class="mui-table-view mui-grid-view mui-grid-9">
+		        <ul class="mui-table-view mui-grid-view mui-grid-9" id="app_ul_list">
 		        	 
 		        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/workOrder/app_finishWorkOrder.html" name="扫码入库">
 						<span class="mui-icon"><svg class="icon" aria-hidden="true">
@@ -288,7 +288,6 @@
             }  
 		//点击打开菜单窗口
 		mui('ul').on('tap', 'li', function(e) {
-			// alert(this.getAttribute('id'))
 				// plus.webview.open(this.getAttribute('id'),'new', {}, 'slide-in-right', 200);
 				// var aaaa = this;
 				// alert(this.childNodes[0].getAttribute("id"));
@@ -312,10 +311,30 @@
 				    }
 				  }
 				});
+				
 		});
 		
 			//初始化菜单
 			function initMenu(){
+				if((localStorage.getItem('roleID')=='null')&&(localStorage.getItem('plantID')==null)&&(localStorage.getItem('processID')==null)){
+					var el = document.getElementById('app_ul_list');
+					var childs = el.childNodes;
+					for(var i = childs .length - 1; i >= 0; i--) {
+					  el.removeChild(childs[i]);
+					}
+					var rzdefaultaddhtml = '<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/wageManage/RZwagedetail.html" name="人资工资条">'+
+						'<span class="mui-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-gongzihefang"></use></svg></span></a>人资薪资条</li>'+
+					'<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a id="../pages/rights/new_app_changepassword.html" name="修改我的密码">'+
+						'<span class="mui-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mima"></use></svg></span></a>修改我的密码</li>';
+					
+					
+					
+					el.innerHTML=rzdefaultaddhtml;
+					
+					
+					
+					return;
+				}
 				for(var i=0; i<document.getElementsByTagName('li').length;i++){
 					// var aid = document.getElementsByTagName('li')[i].childNodes[0].getAttribute("id");
 					var a_label = document.getElementsByTagName('li')[i].childNodes[0];

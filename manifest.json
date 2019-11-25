@@ -2648,6 +2648,13 @@
 					"pages/workOrder/barcode_scan.html"
 				],
 				"priority": 0
+			},
+			"pages/rights/new_app_changepassword.html": {
+				"resources": [],
+				"refer": [
+					"pages/app_login.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
