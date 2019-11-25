@@ -150,7 +150,6 @@
 				for(var i = childs .length - 1; i >= 0; i--) {
 				  el.removeChild(childs[i]);
 				}
-				alert(window.serviceIP)
 //				mui.ajax('http://192.168.1.109:8080/userwagequery',{/**/
 				mui.ajax(window.serviceIP+'/userwagequery',{
 					data: JSON.stringify({username: 'username',password: password,cardno: cardno, senddate: choicemonth}),
