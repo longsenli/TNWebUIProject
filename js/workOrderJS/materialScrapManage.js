@@ -208,7 +208,7 @@ function scrapSelectScrapInfo() {
 		"field": "value"
 	});
 	columnsArray.push({
-		"title": "报废人",
+		"title": "确认人",
 		"field": "updateStaff"
 	});
 	columnsArray.push({
@@ -255,7 +255,6 @@ function scrapSelectScrapInfo() {
 					pagination: true,
 					columns: columnsArray
 				});
-
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
