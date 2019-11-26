@@ -341,6 +341,24 @@ function innitOrderIDTable(models) {
 
 function addOrderIDToBatchTable(orderID, type) {
 
+	if(orderID.indexOf("BJZ") < 0 || orderID.length > 30 || orderID.length < 15) {
+		var roomID = false;
+		var numbers = $('#dryingKilnEquipmentSlct').find("option"); //获取select下拉框的所有值
+		for(var j = 0; j < numbers.length; j++) {
+			if($(numbers[j]).val().toString() == orderID) {
+				$(numbers[j]).attr("selected", "selected");
+				roomID = true;
+			}
+		}
+		if(roomID) {
+			$('#dryingKilnEquipmentSlct').selectpicker('refresh');
+			$('#dryingKilnEquipmentSlct').selectpicker('render'); 
+		} else {
+			alert("未获取到二维码信息,请确认是正确的干燥窑二维码!" + orderID)
+		}
+		return;
+	}
+
 	if($("#table").bootstrapTable('getVisibleColumns').length != 4) {
 
 		innitOrderIDTable();

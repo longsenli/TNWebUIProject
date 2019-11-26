@@ -1066,7 +1066,7 @@ function recognitionQR(webName, qrCode) {
 
 function productionInfoPictureShow() {
 
-	if(document.PlantToLineSelectForm.queryType.value.toString() != "byLine") {
+	if(" byLine byWorkingLocation ".indexOf(document.PlantToLineSelectForm.queryType.value.toString()) < 0 ) {
 		return;
 	}
 	var heightAll = 500;
@@ -1114,38 +1114,75 @@ function productionInfoPictureShow() {
 				var totalProduction = 0;
 				var tmpNumber = 0;
 
-				//MAP数据
-				for(var i in productionInfoData) {
-					if(productionInfoData[i].orderHour == "总计") {
-						continue;
-					}
-
-					if(!lineNameProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
-						lineNameProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].inputLineID;
-					}
-					if(productionInfoData[i].orderHour == "白班") {
-						if(lineBBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
-							lineBBProductionMap[productionInfoData[i].inputLineID] = lineBBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
-						} else {
-							lineBBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
+				//MAP数据   //产线查询
+				if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation') {
+					for(var i in productionInfoData) {
+						if(productionInfoData[i].orderHour == "总计") {
+							continue;
 						}
-						continue;
-					}
-					if(productionInfoData[i].orderHour == "夜班") {
-						if(lineYBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
-							lineYBProductionMap[productionInfoData[i].inputLineID] = lineYBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
-						} else {
-							lineYBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
-						}
-						continue;
-					}
 
+						if(!lineNameProductionMap.hasOwnProperty(productionInfoData[i].inputWorkLocationID)) {
+							lineNameProductionMap[productionInfoData[i].inputWorkLocationID] = productionInfoData[i].inputWorkLocationID;
+						}
+						if(productionInfoData[i].orderHour == "白班") {
+							if(lineBBProductionMap.hasOwnProperty(productionInfoData[i].inputWorkLocationID)) {
+								lineBBProductionMap[productionInfoData[i].inputWorkLocationID] = lineBBProductionMap[productionInfoData[i].inputWorkLocationID] + productionInfoData[i].sumProduction;
+							} else {
+								lineBBProductionMap[productionInfoData[i].inputWorkLocationID] = productionInfoData[i].sumProduction;
+							}
+							continue;
+						}
+						if(productionInfoData[i].orderHour == "夜班") {
+							if(lineYBProductionMap.hasOwnProperty(productionInfoData[i].inputWorkLocationID)) {
+								lineYBProductionMap[productionInfoData[i].inputWorkLocationID] = lineYBProductionMap[productionInfoData[i].inputWorkLocationID] + productionInfoData[i].sumProduction;
+							} else {
+								lineYBProductionMap[productionInfoData[i].inputWorkLocationID] = productionInfoData[i].sumProduction;
+							}
+							continue;
+						}
+
+					}
 				}
 
+				if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine') {
+					for(var i in productionInfoData) {
+						if(productionInfoData[i].orderHour == "总计") {
+							continue;
+						}
+
+						if(!lineNameProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+							lineNameProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].inputLineID;
+						}
+						if(productionInfoData[i].orderHour == "白班") {
+							if(lineBBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+								lineBBProductionMap[productionInfoData[i].inputLineID] = lineBBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
+							} else {
+								lineBBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
+							}
+							continue;
+						}
+						if(productionInfoData[i].orderHour == "夜班") {
+							if(lineYBProductionMap.hasOwnProperty(productionInfoData[i].inputLineID)) {
+								lineYBProductionMap[productionInfoData[i].inputLineID] = lineYBProductionMap[productionInfoData[i].inputLineID] + productionInfoData[i].sumProduction;
+							} else {
+								lineYBProductionMap[productionInfoData[i].inputLineID] = productionInfoData[i].sumProduction;
+							}
+							continue;
+						}
+
+					}
+				}
 				//MAP数据转为数组
 				$.each(lineNameProductionMap, function(key, values) {
 					tmpNumber = 0;
-					lineNameArray.push($("#productionLineSlct option[value='" + key + "']").text());
+					if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine')
+					{
+						lineNameArray.push($("#productionLineSlct option[value='" + key + "']").text());
+					}
+					else if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation')
+					{
+						lineNameArray.push($("#workingkLocationSlct option[value='" + key + "']").text());
+					}
 					if(lineBBProductionMap.hasOwnProperty(key)) {
 						tmpNumber += lineBBProductionMap[key];
 						totalProduction += lineBBProductionMap[key];
