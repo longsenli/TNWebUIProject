@@ -393,7 +393,6 @@ function addOrderIDToBatchTable(orderID, type) {
 			scanQR('5');
 		}, 2000);
 	}
-
 }
 
 function pushinDryingKilnByBatch() {

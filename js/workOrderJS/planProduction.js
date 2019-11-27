@@ -104,7 +104,13 @@ function planProductionProcessSlctFun() {
 	});
 };
 
-function getPlanProductionRecord() {
+function getPlanProductionRecord(slctType) {
+	if(!slctType) {
+		slctType = $("#dealTypeInfo").html();
+	} else {
+		$("#dealTypeInfo").html(slctType);
+	}
+
 	var columnsArray = [];
 	//	columnsArray.push({
 	//		checkbox: true
@@ -135,12 +141,14 @@ function getPlanProductionRecord() {
 		"title": "物料名称",
 		"field": "materialname"
 	});
+	if(slctType == '1') {
+		columnsArray.push({
+			width: 70,
+			"title": "总计划产量",
+			"field": "planproduction"
+		});
+	}
 
-	columnsArray.push({
-		width: 70,
-		"title": "总计划产量",
-		"field": "planproduction"
-	});
 	columnsArray.push({
 		width: 70,
 		"title": "计划日产量",
@@ -182,6 +190,7 @@ function getPlanProductionRecord() {
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
 	formData.append("startTime", document.getElementById("startTime").value);
 	formData.append("endTime", document.getElementById("endTime").value);
+	formData.append("slctType", slctType); // 1是月度计划  2是每日计划
 
 	$.ajax({
 		url: window.serviceIP + "/api/order/getplanproductionrecord",
@@ -251,10 +260,30 @@ function selectedPlanProductionRow(param) {
 	$('#planProductionManageForm #processid').selectpicker('render');   
 	// $('#planProductionManageForm #processid').selectpicker('mobile');
 
-	if(optionType == "planproduction_add") {
-		var today = new Date();
+	if(optionType == "planproduction_addDaily") {
+		$("#dealTypeInfo").html("2")
+		$("#status").val("2");
+		$("#planMonthProductionInput").hide();
+		$("#monthInfoDiv").hide();
+		$("#dateInfoDiv").show();
 		planProductionMaterialSlct();
+		var today = new Date();
+		document.getElementById("startTimePlan").value = today.format("yyyy-MM-dd");
+		document.getElementById("endTimePlan").value = today.format("yyyy-MM-dd");
 		document.getElementById("planmonth").value = today.format("yyyy-MM");
+		$('#planProductionModal').modal('show');
+	} else if(optionType == "planproduction_add") {
+		$("#dealTypeInfo").html("1");
+		$("#status").val("1");
+		$("#monthInfoDiv").show();
+		$("#planMonthProductionInput").show();
+		$("#dateInfoDiv").hide();
+		var today = new Date();
+		document.getElementById("startTimePlan").value = today.format("yyyy-MM-dd");
+		document.getElementById("endTimePlan").value = today.format("yyyy-MM-dd");
+		document.getElementById("planmonth").value = today.format("yyyy-MM");
+		planProductionMaterialSlct();
+
 		$('#planProductionModal').modal('show');
 	} else if(optionType == "planproduction_edit") {
 		if(row == null || row == 'undefined' || row.length < 1) {
@@ -269,7 +298,15 @@ function selectedPlanProductionRow(param) {
 			}
 
 			if(key == "planmonth") {
-				$("#planProductionManageForm" + " #" + key).val(row[key]);
+				if($("#dealTypeInfo").html() == '1') {
+					$("#planProductionManageForm" + " #" + key).val(row[key]);
+				} else {
+					document.getElementById("startTimePlan").value = row[key];
+					document.getElementById("endTimePlan").value = row[key];
+				}
+
+				$("#monthInfoDiv").hide();
+				$("#dateInfoDiv").hide();
 				continue;
 			}
 
@@ -334,7 +371,13 @@ function deletePlanProduction(id) {
 function savePlanProductionChange() {
 
 	var formData = new FormData($("#planProductionManageForm")[0]);
-	formData.append("planmonth", window.stringToDatetimeLocalType(document.getElementById("planmonth").value, ("yyyy-MM")));
+	if($("#dealTypeInfo").html() == '1') {
+		formData.append("planmonth", window.stringToDatetimeLocalType(document.getElementById("planmonth").value, ("yyyy-MM")));
+	} else {
+		formData.append("planmonth", window.stringToDatetimeLocalType(document.getElementById("startTimePlan").value, ("yyyy-MM-dd")) +
+			'___' + window.stringToDatetimeLocalType(document.getElementById("endTimePlan").value, ("yyyy-MM-dd"))); // 表示每日起止日期
+
+	}
 	formData.append("materialname", $("#planProductionManageForm #materialid").find("option:selected").text())
 	if($('#operator').val().length < 2) {
 		formData.append("operator", localStorage.getItem('username'))
