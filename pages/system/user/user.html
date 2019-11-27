@@ -77,7 +77,7 @@
 							<div class="form-group">
 								<label for="inputPassword" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-7">
-									<input type="text" name="password" class="form-control" id="inputPassword" placeholder="密码" />
+									<input type="password" name="password" class="form-control" id="inputPassword" placeholder="密码" />
 								</div>
 								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
 							</div>
@@ -117,11 +117,17 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label id='workingkLocationSlctLabel' class="col-sm-2 control-label"> 工位： </label>
+								<label id='workingkLocationSlctLabel' class="col-sm-2 control-label"> 工位  </label>
 								<input type="hidden" id="add_worklocation_name" name="worklocation_name" />
 								<div class="col-sm-6">
 									<select class="selectpicker" id="add_workingkLocationSlct" style="width:100px;" name="worklocation_id">
 									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"> 身份证号 </label>
+								<div class="col-sm-7">
+									<input type="text" name="cardno" class="col-sm-4 form-control" id="add_cardno" placeholder="身份证号" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -208,14 +214,14 @@
 							<div class="form-group" style="">
 								<label for="editId" class="col-sm-2 control-label">登录名</label>
 								<div class="col-sm-7">
-									<input type="text" name="userid" class="form-control" id="editUserid" placeholder="登录名" />
+									<input type="text" name="userid" readonly="readonly" class="form-control" id="editUserid" placeholder="登录名" />
 								</div>
 								<label id="errorId" for="editId" class="col-sm-3 control-label"></label>
 							</div>
 							<div class="form-group">
 								<label for="inputPassword" class="col-sm-2 control-label">密码</label>
 								<div class="col-sm-7">
-									<input type="text" name="password" class="form-control" id="editPassword" placeholder="密码" />
+									<input type="password" name="password" class="form-control" id="editPassword" placeholder="密码" />
 								</div>
 								<label id="errorPassword" for="inputPassword" class="col-sm-3 control-label"></label>
 							</div>
@@ -260,6 +266,12 @@
 								<div class="col-sm-6">
 									<select class="selectpicker" id="edit_workingkLocationSlct" style="width:100px;" name="worklocation_id">
 									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"> 身份证号 </label>
+								<div class="col-sm-7">
+									<input type="text" name="cardno" class="col-sm-4 form-control" id="edit_cardno" placeholder="身份证号" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -950,7 +962,7 @@
 					//					initDataGrid();
 					$("#dataGrid").bootstrapTable('refresh');
 				} else {
-					alert("保存失败!");
+					alert("保存失败!"+data.message);
 				}
 			},
 			error: function() {
@@ -1009,7 +1021,7 @@
 		var treeName = treeNode.name;
 		$("#editListRoleModal").modal('hide');
 		// alert($("#addParentId").val());
-		alert(treeId);
+//		alert(treeId);
 		$("#editRoleId").val(treeId);
 		$("#editRoleName").val(treeName);
 	}
@@ -1036,6 +1048,7 @@
 			$('#editRoleId').val(row.roleid);
 			$('#editRoleName').val(row.roleName);
 			$('#editDutyid').val(row.dutyid);
+			$('#edit_cardno').val(row.cardno);
 			//		console.log("产线id:"+row.productionline_id);
 			LSworkOrderIndustrialPlantSlctFunEdit(1, row.industrialplant_id, row.productionprocess_id, row.productionline_id);
 			//		$('#edit_industrialplant_id').val(row.industrialplant_id);
@@ -1052,7 +1065,6 @@
 
 	function updateUser() {
 		var param = $("#editForm").serializeArray();
-		var param = $("#editForm").serializeArray();
 		param.push({
 			"name": "industrialplant_name",
 			"value": $("#edit_industrialplant_id").find("option:selected").text()
@@ -1065,6 +1077,7 @@
 			"name": "productionprocess_name",
 			"value": $("#edit_productionprocess_id").find("option:selected").text()
 		});
+		console.log(param)
 		//设为disable则无法获取
 		$.ajax({
 			url: window.serviceIP + "/user/updateUser",
