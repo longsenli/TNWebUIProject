@@ -209,7 +209,7 @@ function chargingRackRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').append(("<option value=" + models[i].id +
 						">" + models[i].name + "</option>").toString());
 					$('#worklocation').append(("<option value=" + models[i].id +
-						">" + models[i].name + "###" + models[i].describeinfo + "</option>").toString());
+						">" + models[i].name + "—" + models[i].describeinfo + "</option>").toString());
 				}
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
@@ -450,7 +450,7 @@ function closeconfirmLineModal(modelName) {
 var lastSelectedMaterial = '';
 
 function setPutOnNum() {
-	var num = parseInt($("#chargingRackRecordAddForm" + " #worklocation").find("option:selected").text().split("###")[1].trim());
+	var num = parseInt($("#chargingRackRecordAddForm" + " #worklocation").find("option:selected").text().split("___")[1].trim());
 	$("#chargingRackRecordAddForm" + " #productionnumber").val(num);
 	$("#chargingRackRecordAddForm" + " #realnumber").val(num);
 }
@@ -854,7 +854,7 @@ function saveChargingRackRecordModel(modelID, formID) {
 			return;
 		}
 		formMap["materialid"] = $("#chargingRackRecordAddForm" + " #materialname").val();
-		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("###")[0].trim()
+		formMap["materialname"] = $("#chargingRackRecordAddForm" + " #materialname").find("option:selected").text().split("___")[0].trim()
 		lastSelectedMaterial = $("#chargingRackRecordAddForm" + " #materialname").val();
 
 	}
