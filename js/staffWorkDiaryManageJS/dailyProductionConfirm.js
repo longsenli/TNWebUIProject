@@ -466,7 +466,7 @@ function confirmProductionWageRecord() {
 		success: function(data) {
 			if(data.status == 1) {
 				getFinalProductionWageRecord();
-				alert('确认成功!');
+				alert(data.message);
 			} else {
 				alert("确认失败！" + data.message);
 			}
