@@ -739,7 +739,7 @@ function getSecondaryMaterialInventoryStatistics() {
 			"field": "remark"
 		});
 	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.BB) {
-	
+
 		columnsArray.push({
 			"title": "物料名称",
 			"field": "name"
@@ -792,8 +792,60 @@ function getSecondaryMaterialInventoryStatistics() {
 			"title": "备注",
 			"field": "remark"
 		});
-	}
-	else {
+	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.JS) {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "当前数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "领料入库",
+			"field": "gainNum"
+		});
+		columnsArray.push({
+			"title": "其他入库",
+			"field": "inNum"
+		});
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "送维数量",
+			"field": "outNum"
+		});
+		columnsArray.push({
+			"title": "线边仓数量",
+			"field": "onlineNum"
+		});
+		columnsArray.push({
+			"title": "新增送维",
+			"field": "todayRepair"
+		});
+		columnsArray.push({
+			"title": "不良退返",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "报废",
+			"field": "extend2"
+		});
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
+	} else {
 		columnsArray.push({
 			"title": "物料名称",
 			"field": "name"
