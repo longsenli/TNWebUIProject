@@ -577,6 +577,63 @@ function getMaterialInventoryStatistics() {
 			"title": "备注",
 			"field": "remark"
 		});
+	} else if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == window.windowProcessEnum.CD) {
+		columnsArray.push({
+			"title": "物料名称",
+			"field": "name"
+		});
+		columnsArray.push({
+			"title": "类型",
+			"field": "extend5",
+			formatter: function(value, row, index) {
+				if(value == '1')
+					return "一等品";
+				else if(value == '2')
+					return "二等品";
+				else if(value == '3')
+					return "一次返充";
+				else if(value == '4')
+					return "二次返充";
+				else if(value == '5')
+					return "补电";
+				else
+				return "状态不详";
+			}
+		});
+		//			<option value=1>一等品</option>
+		//			<option value=2>二等品</option>
+		//			<option value=3>一次返充</option>
+		//			<option value=4>二次返充</option>
+		//			<option value=5>补电</option>
+		columnsArray.push({
+			"title": "在架数量",
+			"field": "currentNum"
+		});
+		columnsArray.push({
+			"title": "上次结余",
+			"field": "lastStorage"
+		});
+		columnsArray.push({
+			"title": "上架数量",
+			"field": "productionNum"
+		});
+		columnsArray.push({
+			"title": "报修数量",
+			"field": "expendNum"
+		});
+		columnsArray.push({
+			"title": "下架数量",
+			"field": "outNum"
+		});
+
+		columnsArray.push({
+			"title": "盘点时间",
+			"field": "updateTime"
+		});
+		columnsArray.push({
+			"title": "备注",
+			"field": "remark"
+		});
 	} else {
 		columnsArray.push({
 			"title": "物料名称",
