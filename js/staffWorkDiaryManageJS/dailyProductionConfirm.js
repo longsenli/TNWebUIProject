@@ -262,7 +262,8 @@ function getTMPProductionWageRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
+	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -522,7 +523,8 @@ function getFinalProductionWageRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val()  == windowProcessEnum.JS
+	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",

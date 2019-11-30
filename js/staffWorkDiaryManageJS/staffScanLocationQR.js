@@ -294,7 +294,8 @@ function getSelfScanLocationQRRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD) {
+	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD
+	|| localStorage.getItem('processID') == windowProcessEnum.JS) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -446,7 +447,8 @@ function getStaffAttendanceInfo() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD
+	|| $("#productionProcessSlct").val() == windowProcessEnum.JS) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
