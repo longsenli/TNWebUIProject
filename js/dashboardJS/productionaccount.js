@@ -560,3 +560,112 @@ function mergeCells1(data, fieldName, tableId) {
 		index += count;
 	}
 }
+
+function getprocessproductAccountSummaryPlant() {
+	var formData1 = new FormData();
+	formData1.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData1.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
+//	formData1.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+//	formData1.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+	formData1.append("startTime", document.getElementById("startTime").value.toString());
+	formData1.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
+	$.ajax({
+		url: window.serviceIP + "/api/dashboard/getprocessproductAccountSummaryPlant",
+//		url: "http://192.168.1.110:8080/api/dashboard/getstaffproductAccountSummaryPlant",
+		type: "POST",
+		data: formData1,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+
+
+				var models = eval("(" + dataRes.data + ")");
+				var columnsArray = [];
+				for (var  i  in  models[0])  {
+					if(i=='id'){
+						continue;
+					}
+					if(i=='orderflag'){
+						continue;
+					}
+					columnsArray.push({
+						"title": i,
+						"field": i,
+//						halign: "center",
+//						"align": "center",
+//						"valign": 'middle'
+					});
+				}
+				$('#tableId').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+//					pageSize: 15,
+//					pageNumber: 1,
+//					pageList: "[All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+//					search: true,
+//					searchAlign: 'right',
+//					pagination: true,
+					//必须设置高度，否则无法固定表头
+//					height:$(document).height()-170,
+					columns: columnsArray,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					}
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+				});
+//				mergeCells(models, "厂区", 0, '#tableId')
+				mergeCells1(models, "厂区", '#tableId')
+				mergeCells1(models, "工序", '#tableId')
+				mergeCells1(models, "姓名", '#tableId')
+//				mergeCells(models, "工序", 0, '#tableId')
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
+};
