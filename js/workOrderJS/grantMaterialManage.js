@@ -316,6 +316,13 @@ function grantMaterialDetail() {
 		"field": "grantTime"
 	});
 	columnsArray.push({
+		"title": "领料部门",
+		"field": "acceptPlantID",
+		formatter: function(value, row, index) {
+			return $("#industrialPlantSlct option[value='" + value + "']").text();
+		}
+	});
+	columnsArray.push({
 		"title": "使用状态",
 		"field": "usedstatus"
 	});
