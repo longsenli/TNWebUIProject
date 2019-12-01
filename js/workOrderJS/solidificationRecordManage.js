@@ -142,6 +142,10 @@ function solidificationRecordManageDetail() {
 		checkbox: true
 	});
 	columnsArray.push({
+		"title": "干燥窑",
+		"field": "solidifyroomname"
+	});
+	columnsArray.push({
 		"title": "物料名称",
 		"field": "materialname"
 	});
@@ -153,10 +157,7 @@ function solidificationRecordManageDetail() {
 		"title": "数量",
 		"field": "productionnum"
 	});
-	columnsArray.push({
-		"title": "干燥窑",
-		"field": "solidifyroomname"
-	});
+	
 	columnsArray.push({
 		"title": "入窑人",
 		"field": "recorder1"
@@ -249,6 +250,10 @@ function inSolidifyRoomDetail() {
 		checkbox: true
 	});
 	columnsArray.push({
+		"title": "干燥窑",
+		"field": "solidifyroomname"
+	});
+	columnsArray.push({
 		"title": "物料名称",
 		"field": "materialname"
 	});
@@ -260,10 +265,7 @@ function inSolidifyRoomDetail() {
 		"title": "数量",
 		"field": "productionnum"
 	});
-	columnsArray.push({
-		"title": "干燥窑",
-		"field": "solidifyroomname"
-	});
+	
 	columnsArray.push({
 		"title": "入窑人",
 		"field": "recorder1",
@@ -276,26 +278,26 @@ function inSolidifyRoomDetail() {
 				} else {
 
 					if(row["status"] == "1") {
-						return "一段";
+						return "一段合计";
 					}
 					if(row["status"] == "2") {
-						return "二段";
+						return "二段合计";
 					}
 					if(row["status"] == "3") {
-						return "三段";
+						return "三段合计";
 					}
 					return "";
 				};
 			} else {
 
 				if(row["status"] == "1") {
-					return "一段";
+					return "一段合计";
 				}
 				if(row["status"] == "2") {
-					return "二段";
+					return "二段合计";
 				}
 				if(row["status"] == "3") {
-					return "三段";
+					return "三段合计";
 				}
 				return "";
 			};
@@ -846,6 +848,115 @@ function uninputSolidifyRoom()
 					pageList: "[10, 25, 50, 100, All]",
 					showToggle: true,
 					showRefresh: true,
+					//showColumns: true,
+					search: true,
+					pagination: true,
+					columns: columnsArray
+				});
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
+
+
+function solidificationWorkingDetail() {
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "干燥窑",
+		"field": "solidifyRoomName"
+	});
+	columnsArray.push({
+		"title": "物料名称",
+		"field": "materialName"
+	});
+	columnsArray.push({
+		"title": "在窑拖数",
+		"field": "totalNumber"
+	});
+	columnsArray.push({
+		"title": "在窑数量",
+		"field": "totalProduction"
+	});
+	
+	columnsArray.push({
+		"title": "入库拖数",
+		"field": "phaseNumber1"
+	});
+	columnsArray.push({
+		"title": "入库数量",
+		"field": "phaseProduction1"
+	});
+
+	columnsArray.push({
+		"title": "一转二拖数",
+		"field": "phaseNumber2"
+	});
+
+	columnsArray.push({
+		"title": "一转二数量",
+		"field": "phaseProduction2"
+	});
+
+	columnsArray.push({
+		"title": "二转三拖数",
+		"field": "phaseNumber3"
+	});
+
+	columnsArray.push({
+		"title": "二转三数量",
+		"field": "phaseProduction3"
+	});
+
+	columnsArray.push({
+		"title": "出窑拖数",
+		"field": "phaseNumber4"
+	});
+
+	columnsArray.push({
+		"title": "出窑数量",
+		"field": "phaseProduction4"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("roomID", document.PlantToLineSelectForm.solidificationRoomInfoSlct.value.toString());
+	formData.append("startTime", document.getElementById("startTime").value);
+	formData.append("endTime", document.getElementById("endTime").value);
+
+	$.ajax({
+		url: window.serviceIP + "/api/solidifyrecord/getSolidifyWorkDetail",
+		type: "POST",
+		data: formData,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		//processData: true,
+		processData: false,
+		contentType: false,
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#toolbar',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 15,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
 					//showColumns: true,
 					search: true,
 					pagination: true,

@@ -294,8 +294,8 @@ function getSelfScanLocationQRRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD
-	|| localStorage.getItem('processID') == windowProcessEnum.JS) {
+	if(localStorage.getItem('processID') == windowProcessEnum.JZ || localStorage.getItem('processID') == windowProcessEnum.ZHQD ||
+		localStorage.getItem('processID') == windowProcessEnum.JS) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -447,8 +447,8 @@ function getStaffAttendanceInfo() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD
-	|| $("#productionProcessSlct").val() == windowProcessEnum.JS) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.ZHQD ||
+		$("#productionProcessSlct").val() == windowProcessEnum.JS) {
 		columnsArray.push({
 			"title": "工位",
 			"field": "worklocationID",
@@ -932,7 +932,17 @@ function recognitionQR(webName, qrCode) {
 		$('#classType1').selectpicker('refresh');
 		$('#classType1').selectpicker('render'); 
 
+		var today = new Date();
+
+		document.getElementById("dayTime").max = today.format("yyyy-MM-dd");
+		if(today.getHours() < 7) {
+			today.setDate(today.getDate() - 1);
+		}
 		document.getElementById("dayTime").value = today.format("yyyy-MM-dd");
+
+		today.setDate(today.getDate() - 2);
+		document.getElementById("dayTime").min = today.format("yyyy-MM-dd");;
+
 		$("#beforeProductionModal").modal('show');
 
 	} else if(webName == '2')
