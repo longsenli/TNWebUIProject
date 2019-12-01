@@ -209,7 +209,7 @@ function chargingRackRecordWorkingLocationSlctFun() {
 					$('#workingkLocationSlct').append(("<option value=" + models[i].id +
 						">" + models[i].name + "</option>").toString());
 					$('#worklocation').append(("<option value=" + models[i].id +
-						">" + models[i].name + "—" + models[i].describeinfo + "</option>").toString());
+						">" + models[i].name + "___" + models[i].describeinfo + "</option>").toString());
 				}
 				$('#workingkLocationSlct').selectpicker('refresh');
 				$('#workingkLocationSlct').selectpicker('render');   
