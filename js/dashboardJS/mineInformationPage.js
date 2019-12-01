@@ -1,8 +1,8 @@
 function getSelfProductionRecord() {
 	var columnsArray = [];
-//	columnsArray.push({
-//		checkbox: true
-//	});
+	//	columnsArray.push({
+	//		checkbox: true
+	//	});
 
 	columnsArray.push({
 		width: 300,
@@ -91,9 +91,9 @@ function getSelfProductionRecord() {
 
 function getProdutionWageDetail() {
 	var columnsArray = [];
-//	columnsArray.push({
-//		checkbox: true
-//	});
+	//	columnsArray.push({
+	//		checkbox: true
+	//	});
 
 	columnsArray.push({
 
@@ -141,11 +141,11 @@ function getProdutionWageDetail() {
 		"title": "确认时间",
 		"field": "verifyTime"
 	});
-//	columnsArray.push({
-//
-//		"title": "工资",
-//		"field": "wage"
-//	});
+	//	columnsArray.push({
+	//
+	//		"title": "工资",
+	//		"field": "wage"
+	//	});
 	//	columnsArray.push({
 	//
 	//		"title": "单价",
@@ -197,10 +197,8 @@ function getProdutionWageDetail() {
 	});
 }
 
-
-function getShelfTMPProduction()
-{
-		var columnsArray = [];
+function getShelfTMPProduction() {
+	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true
 	});
@@ -210,41 +208,41 @@ function getShelfTMPProduction()
 		visible: false
 	});
 
-//	columnsArray.push({
-//		"title": "厂区",
-//		"field": "plantID",
-//		visible: false
-//	});
-//	columnsArray.push({
-//		"title": "流程",
-//		"field": "processID",
-//		visible: false
-//	});
-//	columnsArray.push({
-//		"title": "产线",
-//		"field": "lineID",
-//		formatter: function(value, row, index) {
-//			return $("#productionLineSlct option[value='" + value + "']").text();
-//		}
-//	});
-//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
-//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
-//		columnsArray.push({
-//			"title": "工位",
-//			"field": "worklocationID",
-//			formatter: function(value, row, index) {
-//				return $("#workingkLocationSlct option[value='" + value + "']").text();
-//			}
-//		});
-//	}
-//
-//	columnsArray.push({
-//		"title": "岗位",
-//		"field": "extd1",
-//		formatter: function(value, row, index) {
-//			return $("#workContentSlct option[value='" + value + "']").text();
-//		}
-//	});
+	//	columnsArray.push({
+	//		"title": "厂区",
+	//		"field": "plantID",
+	//		visible: false
+	//	});
+	//	columnsArray.push({
+	//		"title": "流程",
+	//		"field": "processID",
+	//		visible: false
+	//	});
+	//	columnsArray.push({
+	//		"title": "产线",
+	//		"field": "lineID",
+	//		formatter: function(value, row, index) {
+	//			return $("#productionLineSlct option[value='" + value + "']").text();
+	//		}
+	//	});
+	//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
+	//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+	//		columnsArray.push({
+	//			"title": "工位",
+	//			"field": "worklocationID",
+	//			formatter: function(value, row, index) {
+	//				return $("#workingkLocationSlct option[value='" + value + "']").text();
+	//			}
+	//		});
+	//	}
+	//
+	//	columnsArray.push({
+	//		"title": "岗位",
+	//		"field": "extd1",
+	//		formatter: function(value, row, index) {
+	//			return $("#workContentSlct option[value='" + value + "']").text();
+	//		}
+	//	});
 
 	columnsArray.push({
 		"title": "物料型号",
@@ -289,41 +287,53 @@ function getShelfTMPProduction()
 	});
 	columnsArray.push({
 		"title": "状态",
-		"field": "status",
+		"field": "verifyTime",
 		formatter: function(value, row, index) {
+			if(!value)
 			return "未确认";
+			else
+			return "已确认";
 		}
 	});
-//	columnsArray.push({
-//		"title": "工价",
-//		"field": "univalence",
-//		editable: {
-//			type: 'text',
-//			title: '工价',
-//			validate: function(value, row, index) {
-//				if(!Number(value)) {
-//					return "请输入合法数字";
-//				}
-//			}
-//		}
-//	});
-//	columnsArray.push({
-//		"title": "个人工资",
-//		"field": "wage",
-//		editable: {
-//			type: 'text',
-//			title: '个人工资',
-//			validate: function(value, row, index) {
-//				if(!Number(value)) {
-//					return "请输入合法数字";
-//				}
-//			}
-//		}
-//	});
+	//	columnsArray.push({
+	//		"title": "工价",
+	//		"field": "univalence",
+	//		editable: {
+	//			type: 'text',
+	//			title: '工价',
+	//			validate: function(value, row, index) {
+	//				if(!Number(value)) {
+	//					return "请输入合法数字";
+	//				}
+	//			}
+	//		}
+	//	});
+	//	columnsArray.push({
+	//		"title": "个人工资",
+	//		"field": "wage",
+	//		editable: {
+	//			type: 'text',
+	//			title: '个人工资',
+	//			validate: function(value, row, index) {
+	//				if(!Number(value)) {
+	//					return "请输入合法数字";
+	//				}
+	//			}
+	//		}
+	//	});
 
 	var formData = new FormData();
 	formData.append("staffID", localStorage.userID);
-	formData.append("dayTime", document.getElementById("endTime").value);
+	var dateString = document.getElementById("endTime").value;
+	var today = new Date();
+	if(today.getHours() < 8) {
+		today.setDate(today.getDate() - 1)
+		dateString = today.format("yyyy-MM-dd");
+	} else {
+		dateString = today.format("yyyy-MM-dd");
+	}
+
+	formData.append("dayTime", dateString);
 
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/getShelfDailyTMPDetail",
