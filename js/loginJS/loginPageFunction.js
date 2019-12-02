@@ -191,6 +191,7 @@ function isValidIP(ip) {
 	return reg.test(ip);
 }
 var latestVersion = "";
+
 //自定义服务器ip地址登录方法
 function defLogin() {
 	//				var defaultIP = "10.0.0.151:19001";
@@ -204,12 +205,14 @@ function defLogin() {
 		type: 'POST',
 		// url:'http://192.168.1.100:8080/api/login',
 		//url: 'http://10.0.0.151:19001/ilpsService/api/login',
-		url: 'http://' + defaultIP.trim() + '/ilpsService/api/login',
+		url: 'http://' + defaultIP.trim() + '/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
+
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
 		success: function(result) {
@@ -255,17 +258,22 @@ function versionCompare() {
 		window.webUiService = 'http://' + RemoteServiceIP1;
 	}
 	//alert(window.serviceIP ); 
-	var versionNow;
+	var versionNow ="";
 	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 		versionNow = inf.version;
 	});
+	localStorage.setItem("versionNow", versionNow);
 	document.getElementById('versionInfo').innerText = "当前版本号: " + localStorage.getItem("versionNow");
 	$.ajax({
 		type: "get",
-		url: window.serviceIP + '/api/getappversionbyclienttype?clientType=apk',
+		
+		
+		url: window.serviceIP + '/api/getAPPVersionWithParam?clientType=apk&userID=' +localStorage.userID + "&plantID=" + localStorage.getItem('plantID')
+		+ "&processID=" + localStorage.getItem('processID') ,
+		
 		async: true,
 		success: function(res) {
-			localStorage.setItem("versionNow", versionNow);
+			
 			document.getElementById('versionInfo').innerText = "当前版本号: " + localStorage.getItem("versionNow");
 			//alert(res.message)
 			latestVersion = res.message;
@@ -328,7 +336,7 @@ function login() {
 	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 		versionNow = inf.version;
 	});
-
+	localStorage.setItem("versionNow",versionNow)
 	if(latestVersion > versionNow) //比对版本号
 	{
 		alert("请退出更新APP，当前版本：" + versionNow + ",最新版本为：" + latestVersion);
@@ -361,11 +369,12 @@ function login() {
 		type: 'POST',
 		// url:'http://192.168.1.100:8080/api/login',
 		//url: 'http://10.0.0.151:19001/ilpsService/api/login',
-		url: 'http://' + defaultIP.trim() + '/ilpsService/api/login',
+		url: 'http://' + defaultIP.trim() + '/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
@@ -409,13 +418,16 @@ function mes_login() {
 	// 				}
 	// 				alert('RemoteServiceIP1' + RemoteServiceIP1)
 	// 				alert('window.serviceIP' + window.serviceIP)
+	
+
 	$.ajax({
 		type: 'POST',
-		url: 'http://10.0.0.151:19001/ilpsService/api/login',
+		url: 'http://10.0.0.151:19001/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
@@ -461,13 +473,15 @@ function second_login() {
 	// 				}
 	// 					alert('RemoteServiceIP1' + RemoteServiceIP1)
 	// 				alert('window.serviceIP' + window.serviceIP)
+
 	$.ajax({
 		type: 'POST',
-		url: 'http://192.168.80.228:19001/ilpsService/api/login',
+		url: 'http://192.168.80.228:19001/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
@@ -521,11 +535,12 @@ function ww_login() {
 	// 				alert('window.serviceIP' + window.serviceIP)
 	$.ajax({
 		type: 'POST',
-		url: 'http://117.158.49.108:19001/ilpsService/api/login',
+		url: 'http://117.158.49.108:19001/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
@@ -569,11 +584,12 @@ function ww2_login() {
 	// 				alert('window.serviceIP' + window.serviceIP)
 	$.ajax({
 		type: 'POST',
-		url: 'http://120.194.241.54:19001/ilpsService/api/login',
+		url: 'http://120.194.241.54:19001/ilpsService/api/appLogin',
 		dataType: "json",
 		data: {
 			'username': username,
-			"password": password
+			"password": password,
+			"appVersion":localStorage.getItem("versionNow")
 		},
 		async: true, //设置为false时,timeout不生效
 		timeout: 3000,
