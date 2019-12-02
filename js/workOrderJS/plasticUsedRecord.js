@@ -156,7 +156,7 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 				alert("初始化数据失败！" + dataRes.message);
 			}
 		}
-	});
+	}); 
 };
 
 function initInputMaterialInfo() {
@@ -997,4 +997,67 @@ function plasticDataProvenance() {
 			}
 		}
 	});
+}
+
+function scrapBatteryBottom() {
+	var tableData = $("#table").bootstrapTable('getAllSelections');
+	if(!tableData || tableData.length < 1 || !tableData.length) {
+		alert("请先添加ID号再操作!")
+		return;
+	}
+	if(!tableData[0].orderID)
+	{
+		alert("请先添加ID号再操作!")
+		return;
+	}
+	if(tableData.length > 40) {
+		alert("一次最多选择40个,请确认!,当前选择个数为:" + tableData.length)
+		return;
+	}
+
+	//var tableData = $("#table").bootstrapTable('getData');
+	var orderIDList = "";
+	for(var i = 0; i < tableData.length; i++) {
+		orderIDList += tableData[i].orderID + "###";
+	}
+	orderIDList = orderIDList.substring(0, orderIDList.length - 3);
+
+if(!changeConfirmDlg("是否确认报废底壳" + tableData.length + "个"))
+{
+	return;
+}
+	var formData = new FormData();
+	formData.append("listID", orderIDList);
+	formData.append("userID", localStorage.userID);
+	formData.append("userName", localStorage.username);
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString());
+	formData.append("locationID", document.PlantToLineSelectForm.workingkLocationSlct.value.toString());
+	formData.append("workOrder", document.PlantToLineSelectForm.workOrderSlct.value.toString().split("___")[0]);
+	$.ajax({
+		url: window.serviceIP + "/api/plastic/scrapBatteryBottom",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		}, 
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				innitOrderIDTable(models);
+
+				if(materialID) {
+					selectMaterial(materialID);
+				}
+
+				getInputTotalNumber();
+			} else {
+				alert("查询工单失败！" + dataRes.message);
+			}
+		}
+	});
+
 }

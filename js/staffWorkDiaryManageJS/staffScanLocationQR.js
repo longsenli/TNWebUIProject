@@ -935,7 +935,7 @@ function recognitionQR(webName, qrCode) {
 		var today = new Date();
 
 		document.getElementById("dayTime").max = today.format("yyyy-MM-dd");
-		if(today.getHours() < 7) {
+		if(today.getHours() < 5) {
 			today.setDate(today.getDate() - 1);
 		}
 		document.getElementById("dayTime").value = today.format("yyyy-MM-dd");
