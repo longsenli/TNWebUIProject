@@ -261,8 +261,9 @@ function versionCompare() {
 	var versionNow ="";
 	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 		versionNow = inf.version;
+		localStorage.setItem("versionNow", inf.version);
 	});
-	localStorage.setItem("versionNow", versionNow);
+	
 	document.getElementById('versionInfo').innerText = "当前版本号: " + localStorage.getItem("versionNow");
 	$.ajax({
 		type: "get",
@@ -333,13 +334,16 @@ function login() {
 	var versionNow;
 	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 		versionNow = inf.version;
+		localStorage.setItem("versionNow",inf.version)
 	});
-	localStorage.setItem("versionNow",versionNow)
+	
+	
 	if(latestVersion > versionNow) //比对版本号
 	{
 		alert("请退出更新APP，当前版本：" + versionNow + ",最新版本为：" + latestVersion);
 		//return;
 	}
+
 	if($('#RemoteServiceIP').val() && $('#RemoteServiceIP').val().toString().length > 6) {
 		if(!isValidIP($('#RemoteServiceIP').val())) {
 			alert("请正确输入IP，如：1.1.1.1");
