@@ -266,8 +266,6 @@ function versionCompare() {
 	document.getElementById('versionInfo').innerText = "当前版本号: " + localStorage.getItem("versionNow");
 	$.ajax({
 		type: "get",
-		
-		
 		url: window.serviceIP + '/api/getAPPVersionWithParam?clientType=apk&userID=' +localStorage.userID + "&plantID=" + localStorage.getItem('plantID')
 		+ "&processID=" + localStorage.getItem('processID') ,
 		
