@@ -207,6 +207,13 @@ function scrapSelectScrapInfo() {
 		"title": "报废数量",
 		"field": "value"
 	});
+	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == windowProcessEnum.FB ||
+		document.PlantToLineSelectForm.productionProcessSlct.value.toString() == windowProcessEnum.BB) {
+		columnsArray.push({
+			"title": "报废重量",
+			"field": "weight"
+		});
+	}
 	columnsArray.push({
 		"title": "确认人",
 		"field": "updateStaff"
