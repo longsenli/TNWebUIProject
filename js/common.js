@@ -157,7 +157,8 @@ var windowProcessEnum = {
 	ZL: '1010',
 	JZ: '1011',
 	BZ: '1012',
-	ZHQD: '1015'
+	ZHQD: '1015',
+	LT: '1016'
 }
 
 var windowRoleID = {

@@ -109,7 +109,7 @@
 						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
 						var Number = intent.getStringExtra("value");
 						//addOrderIDToBatchTable(Number,"PDA");
-						if(Number.indexOf("TB") < 0) {
+						if(Number.indexOf("TB") < 0 && Number.indexOf("LT") < 0) {
 
 							var roomArray = Number.split("___");
 

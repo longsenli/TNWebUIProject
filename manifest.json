@@ -2595,7 +2595,8 @@
 					"pages/dataProvenance/app_dataProvenanceTable.html",
 					"pages/staffWorkDiaryManage/app_staffScanLocationQR.html",
 					"pages/staffWorkDiaryManage/app_dailyPrductionConfirm.html",
-					"pages/dashboard/app_productionaccount.html"
+					"pages/dashboard/app_productionaccount.html",
+					"pages/workOrder/app_materialCirculationManage.html"
 				],
 				"priority": 0
 			},

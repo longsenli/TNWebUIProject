@@ -752,7 +752,6 @@ function onTextareaKeyDown() {
 		$("#orderIDByBatch").val("");
 		document.getElementById('orderIDByBatch').focus();
 		//console.log($("#orderIDByBatch").val() + "=====huanh123");
-
 	}
 }
 

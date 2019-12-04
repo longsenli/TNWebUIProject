@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>物料流转管理</title>
+<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/workOrderJS/materialCirculationManage.js"></script>
+
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+
+		<script type="text/javascript">
+			if(localStorage.token == null) {
+				window.location.href = "login.html";
+			}
+			$(function() {
+				var today = new Date();
+				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
+				today.setDate(today.getDate() - 1)
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				materialCirculationPlantSlctFun();
+				$('#circulationModal').on('hide.bs.modal',
+					function() {
+						document.getElementById("circulationModalForm").reset();
+					})
+				$("body").delegate('#table tr', 'click', function() {
+					materialCirculationRowClick(this);
+				});
+			});
+		</script>
+
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+
+				<div class="form-group">
+					<label id="industrialPlantLabel"> 转出： </label>
+					<select class="selectpicker" id="originalPlantSlct" style="width:100px;" name="originalPlantSlct" >
+					</select>
+				</div>
+				<div class="form-group">
+					<label id="productionProcessLabel"> 流程： </label>
+					<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" >
+					</select>
+				</div>
+				<div class="form-group">
+					<label id="industrialPlantLabel"> 转入： </label>
+					<select class="selectpicker" id="destinationPlantSlct" style="width:100px;" name="destinationPlantSlct" >
+					</select>
+				</div>
+				<div class="form-group">
+					<label> 类型： </label>
+					<select class="selectpicker" id="circulationSlctType" name="circulationSlctType">
+						<option value="-1">全部</option>
+						<option value="借调">借调</option>
+						<option value="维修">维修</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="date" id="startTime" name="startTime" />
+					<label>-</label>
+					<input type="date" id="endTime" name="endTime" />
+				</div>
+			</div>
+		</form>
+		<button type="button" class="btn btn-info" style="margin-top: 10px;" onclick="selectMaterialCirculationRecord()">查询记录</button>
+		<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="createMaterialCirculationModal()">添加记录     </button>
+		<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="confirmMaterialCirculationRecord()">确认记录     </button>
+		<button type="button" class="btn btn-success" style="margin-top: 10px;" onclick="deleteMaterialCirculationRecord()">删除记录     </button>
+		<div id="class=table-responsive">
+			<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+			</table>
+		</div>
+
+		<!-- 报废模态框（Modal） -->
+		<div class="modal fade" id="circulationModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 物料流转 </h4>
+					</div>
+					<div class="modal-body" id="modal-body">
+						<form id="circulationModalForm">
+							<div class="form-group">
+								<label id="industrialPlantLabel"> 转出： </label>
+								<select class="selectpicker" id="originalPlantID" style="width:100px;" name="originalPlantID" onchange="initProcessMaterialInfo()">
+								</select>
+							</div>
+							<div class="form-group">
+						
+								<select class="selectpicker" id="processID" style="width:100px;" name="processID" onchange="initProcessMaterialInfo()">
+								</select>
+							</div>
+							<div class="form-group">
+								
+								<select class="selectpicker" id="materialID" style="width:100px;" name="materialID" >
+								</select>
+							</div>
+							<div class="form-group">
+								<label id="industrialPlantLabel"> 转入： </label>
+								<select class="selectpicker" id="destinationPlantID" style="width:100px;" name="destinationPlantID" >
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="selectpicker" id="circulationType" name="circulationType">
+									<option value="借调">借调</option>
+									<option value="维修">维修</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label  >请输入流转数量:</label>
+								<input type="text"  onkeyup="value=value.replace(/[^0-9|^.]/g,'')" class="form-control" id="number" name="number" placeholder="请输入流转数量">
+							</div>
+							<div class="form-group">
+								<label >请输入流转原因:</label>
+								<input type="text" class="form-control" id="circulationDescription" name="circulationDescription" placeholder="请输入流转原因">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="closeModal('circulationModal')">关闭 </button>
+						<button type="button" class="btn btn-default" onclick="saveMaterialCirculationRecord()">保存 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>
