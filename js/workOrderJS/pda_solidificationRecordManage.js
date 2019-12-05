@@ -138,6 +138,10 @@ function changeSolidificationRoomStatus() {
 			if(dataRes.status == 1) { 
 				$("#showMessage").html("转段成功！").show().delay(3000).fadeOut();
 			}
+			else
+			{
+				alert(dataRes.message);
+			}
 		}
 	});
 }

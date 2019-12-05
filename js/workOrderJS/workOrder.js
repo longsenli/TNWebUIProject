@@ -911,6 +911,7 @@ function printQRCode() {
 }
 
 function addMissingWorkOrder() {
+	
 	setLineModal();
 	$(workOrderManageForm.elements).each(function() {
 		if($(this).attr("name") != "orderid")

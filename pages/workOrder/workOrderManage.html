@@ -37,6 +37,10 @@
 			workOrderIndustrialPlantSlctFun("1");
 
 			$(function() {
+//				if(localStorage.getItem('roleID') != null && localStorage.getItem('roleID') != "undefined" && localStorage.getItem('roleID') < window.windowRoleID.CJZG) {
+//					//车间主任以下不显示补打工单
+//					$("#addMissingWorkOrderBT").hide();
+//				}
 				
 				var today = new Date();
 				today.setDate(today.getDate() + 3);
@@ -165,7 +169,7 @@
 			<button id="workorder_deleteReal" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除订单
             </button>
-			<button type="button" class="btn btn-default" onclick="addMissingWorkOrder()">
+			<button  id="addMissingWorkOrderBT" type="button" class="btn btn-default" onclick="addMissingWorkOrder()">
                 <span class="glyphicon glyphicon-transfer" aria-hidden="true" ></span>补打工单
             </button>
 			<label id="workOrderType" style="display: none;"></label>

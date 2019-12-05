@@ -131,6 +131,10 @@ function changeSolidificationRoomStatus() {
 			if(dataRes.status == 1) { 
 				alert("转段成功!");
 			}
+			else
+			{
+				alert(dataRes.message);
+			}
 		}
 	});
 
