@@ -503,10 +503,8 @@ function mergeOnlineMaterialReocrd(mergeID) {
 function printOnlineMaterialReocrd() {
 
 	var selectRow = $("#table").bootstrapTable('getSelections');
-	//var arrayObj = new Array();
 	for(var i = 0; i < selectRow.length; i++) {
-		//console.log("dayin");
-
+		
 		if(selectRow[i].status != '3')
 			continue;
 		var orderLength = selectRow[i].id.length;
@@ -530,7 +528,7 @@ function printOnlineMaterialReocrd() {
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
 
-		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100, selectRow[i].materialName + " * " + selectRow[i].materialnum); //增加纯文本项
+		LODOP.ADD_PRINT_TEXT(70, 160, 130, 100,$("#materialid option[value='" + selectRow[i].materialid + "']").text() + " * " + selectRow[i].materialnum); //增加纯文本项
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);

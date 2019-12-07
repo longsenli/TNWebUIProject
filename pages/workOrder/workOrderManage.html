@@ -37,17 +37,17 @@
 			workOrderIndustrialPlantSlctFun("1");
 
 			$(function() {
-//				if(localStorage.getItem('roleID') != null && localStorage.getItem('roleID') != "undefined" && localStorage.getItem('roleID') < window.windowRoleID.CJZG) {
-//					//车间主任以下不显示补打工单
-//					$("#addMissingWorkOrderBT").hide();
-//				}
-				
+				//				if(localStorage.getItem('roleID') != null && localStorage.getItem('roleID') != "undefined" && localStorage.getItem('roleID') < window.windowRoleID.CJZG) {
+				//					//车间主任以下不显示补打工单
+				//					$("#addMissingWorkOrderBT").hide();
+				//				}
+
 				var today = new Date();
 				today.setDate(today.getDate() + 3);
 				document.getElementById("scheduledstarttime").max = today.format("yyyy-MM-dd");
 				today.setDate(today.getDate() - 10);
 				document.getElementById("scheduledstarttime").min = today.format("yyyy-MM-dd");;
-				
+
 				$('#myModal').on('hide.bs.modal',
 					function() {
 						document.getElementById("workOrderManageForm").reset();
@@ -96,48 +96,78 @@
 							<input type="text" id="plantid" name="plantid" style="display:none" />
 							<input type="text" id="processid" name="processid" style="display:none" />
 							<!--							<input type="text" id="lineid" name="lineid" style="display:none" />-->
-							<label for="name">工单号:</label>
-							<input type="text" readonly="readonly" class="form-control" id="orderid" name="orderid" placeholder="工单号自动生成">
-							<label> 产线： </label>
-							<br />
-							<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" onchange="lineWorkOrderModalChange()">
-							</select>
-							<br />
-							<label for="name">产品型号:</label>
-							<br />
-							<select class="selectpicker" id="materialid" name="materialid" style="width:100px;">
-							</select>
-							<br />
-							<label for="name">物料托数:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="batchnum" name="batchnum" placeholder="请输入批次数量" oninput="workOrderSetCount()">
-							<label for="name">总产量:</label>
-							<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
-							<label for="name" style="display:none">报废数量:</label>
-							<input type="text" class="form-control" style="display:none" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
-							<!--<label for="name">订单状态:</label>
-							-->
-							<select class="selectpicker" id="status" name="status" style="width:100px;">
-								<option value=1>已下单</option>
-								<option value=2>已打印</option>
-								<option value=3>已开工</option>
-								<option value=4>已完成</option>
-								<option value=5>已关闭</option>
-								<option value=6>已删除</option>
-							</select>
+							<div class="form-group">
+								<div class="form-inline">
+									<label for="name" style="width: 100px;" align="right">工单号:</label>
+									<input type="text" readonly="readonly" class="form-control" id="orderid" name="orderid" placeholder="工单号自动生成">
+								</div>
+							</div>
+							<div class="form-group">
+								<label style="width: 100px;" align="right"> 产线： </label>
 
-							<label for="name">计划开始时间:</label>
-							<input type="date" class="form-control" id="scheduledstarttime" name="scheduledstarttime" onchange="lineWorkOrderModalChange()">
-							<label for="name">班次:</label>
-							<br />
-							<select class="selectpicker" id="workshift" name="workshift" style="width:100px;" onchange="lineWorkOrderModalChange()">
-								<option value=BB>白班</option>
-								<option value=YB>夜班</option>
-							</select>
-							<br />
+								<select class="selectpicker" id="lineid" style="width:100px;" name="lineid" onchange="lineWorkOrderModalChange()">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="name" style="width: 100px;" align="right">产品型号:</label>
+
+								<select class="selectpicker" id="materialid" name="materialid" style="width:100px;">
+								</select>
+							</div>
+							<div class="form-group">
+								<div class="form-inline">
+									<label for="name" style="width: 100px;" align="right">物料托数:</label>
+									<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="batchnum" name="batchnum" placeholder="请输入批次数量" oninput="workOrderSetCount()">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-inline">
+									<label for="name" style="width: 100px;" align="right">总产量:</label>
+									<input type="text" class="form-control" onkeyup="value=value.replace(/[^0-9]/g,'')" id="totalproduction" name="totalproduction" placeholder="请输入总产量">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="name" style="display:none">报废数量:</label>
+								<input type="text" class="form-control" style="display:none" onkeyup="value=value.replace(/[^0-9|^.]/g,'')" id="scrapnum" name="scrapnum" placeholder="请输入报废数量">
+							</div>
+							<div class="form-group">
+								<select class="selectpicker" id="status" name="status" style="width:100px;">
+									<option value=1>已下单</option>
+									<option value=2>已打印</option>
+									<option value=3>已开工</option>
+									<option value=4>已完成</option>
+									<option value=5>已关闭</option>
+									<option value=6>已删除</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<div class="form-inline">
+									<label for="name" style="width: 100px;" align="right">计划开始时间:</label>
+									<input type="date" class="form-control" id="scheduledstarttime" name="scheduledstarttime" onchange="lineWorkOrderModalChange()">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="name" style="width: 100px;" align="right">班次:</label>
+
+								<select class="selectpicker" id="workshift" name="workshift" style="width:100px;" onchange="lineWorkOrderModalChange()">
+									<option value=BB>白班</option>
+									<option value=YB>夜班</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="name" style="width: 100px;" align="right">班组:</label>
+								<select class="selectpicker" id="units" name="units" style="width:100px;" onchange="lineWorkOrderModalChange()">
+									<option value='A'>A班</option>
+									<option value='B'>B班</option>
+								</select>
+							</div>
+
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" onclick="saveWorkOrderChange()">保存 </button>
+						<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="saveAsWorkorderTemplate"   type="checkbox">保存为模板</label>
+			
+						<button type="button" class="btn btn-info btn-lg" onclick="saveWorkOrderChange()">保存 </button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
@@ -163,13 +193,13 @@
 			<button id="subOrderPrintQRBT" type="button" class="btn btn-default" onclick="printQRCode()">
                 <span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印工单
             </button>
-            <button id="workorder_finish" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
+			<button id="workorder_finish" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
                 <span class="glyphicon glyphicon-saved" aria-hidden="true"></span>订单完工
             </button>
 			<button id="workorder_deleteReal" type="button" class="btn btn-default" onclick="selectedWorkOrderRow(this)">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" ></span>删除订单
             </button>
-			<button  id="addMissingWorkOrderBT" type="button" class="btn btn-default" onclick="addMissingWorkOrder()">
+			<button id="addMissingWorkOrderBT" type="button" class="btn btn-default" onclick="addMissingWorkOrder()">
                 <span class="glyphicon glyphicon-transfer" aria-hidden="true" ></span>补打工单
             </button>
 			<label id="workOrderType" style="display: none;"></label>

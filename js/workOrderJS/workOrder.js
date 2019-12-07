@@ -340,7 +340,10 @@ function setLineModal() {
 
 	$('#workshift').selectpicker('refresh');
 	$('#workshift').selectpicker('render'); 
-	// $('#workshift').selectpicker('mobile');
+	
+	$('#units').selectpicker('refresh');
+	$('#units').selectpicker('render'); 
+
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
@@ -396,6 +399,8 @@ function createWorkOrderID() {
 	var orderID = document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[1];
 	orderID += document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[1];
 	orderID += $("#workOrderManageForm" + " #lineid").find("option:selected").selectpicker('val').get('0').value.split("###")[1];
+	orderID += $("#workOrderManageForm" + " #units").find("option:selected").selectpicker('val').get('0').value;
+
 	orderID += $("#workOrderManageForm" + " #workshift").find("option:selected").selectpicker('val').get('0').value;
 
 	orderID += window.stringToDatetimeLocalType(document.getElementById("scheduledstarttime").value, "yyyyMMdd");
