@@ -151,7 +151,7 @@ function plasticUsedRecordWorkingLocationSlctFun() {
 				}
 				plasticUsedRecordWorkOrderInfoSlct();
 				initInputMaterialInfo();
-				getInputTotalNumber();
+				
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -292,7 +292,7 @@ function initWorkOrderSlctFun() {
 		}
 	}
 	localStorage.selectedOrderPlasticUsedPage = $('#workOrderSlct').val();
-
+	getInputTotalNumber();
 }
 
 function changeWorkOrderSlctFun() {
