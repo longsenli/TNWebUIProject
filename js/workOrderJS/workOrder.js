@@ -85,7 +85,6 @@ function workOrderProductionProcessSlctFun() {
 					$('#productionProcessSlct').selectpicker('render'); 
 
 				}
-
 				workOrderProductionLineSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -120,16 +119,21 @@ function workOrderProductionLineSlctFun() {
 
 			$("#productionLineSlct").find('option').remove();
 			$('#productionLineSlct').append(("<option value=" + "-1" + ">" + "全部产线"  + "</option>").toString());
-
+			$("#productionLineIDOnlySlct").find('option').remove();
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
 				for (var  i  in  models)  {  
 					$('#productionLineSlct').append(("<option value=" + models[i].id + "###" + models[i].shortname + ">" + models[i].name.toString()  + "</option>").toString());
+					$('#productionLineIDOnlySlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
+
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render');   
-				// $('#productionLineSlct').selectpicker('mobile');
+
+				$('#productionLineIDOnlySlct').selectpicker('refresh');
+				$('#productionLineIDOnlySlct').selectpicker('render');   
+				$('#productionLineIDOnlySlct').selectpicker('hide');
 
 				if(localStorage.getItem('lineID') != null && localStorage.getItem('lineID') != 'undefined' && localStorage.getItem('lineID').toString().length > 0) {
 					var numbers = $('#productionLineSlct').find("option"); //获取select下拉框的所有值
@@ -159,6 +163,7 @@ function getWorkOrder() {
 	//	columnsArray.push({
 	//		checkbox: true
 	//	});
+	$("#workOrderType").html("workOrder_select");
 	columnsArray.push({
 		width: 200,
 		"title": "工单号",
@@ -297,8 +302,8 @@ function getWorkOrder() {
 					//showRefresh: true,
 					//showColumns: true,
 					//search: true,
-					fixedColumns: true, //固定列
-					fixedNumber: 1, //固定前两列
+					//fixedColumns: true, //固定列
+					//fixedNumber: 1, //固定前两列
 					pagination: true,
 					columns: columnsArray,
 					onClickRow: function(row) {
@@ -340,10 +345,11 @@ function setLineModal() {
 
 	$('#workshift').selectpicker('refresh');
 	$('#workshift').selectpicker('render'); 
-	
+
 	$('#units').selectpicker('refresh');
 	$('#units').selectpicker('render'); 
 
+	$("#saveAsWorkorderTemplate").prop("checked", false);
 
 	$.ajax({
 		url: window.serviceIP + "/api/basicdata/getmaterialbyprocess?processID=" +
@@ -519,8 +525,11 @@ function selectedWorkOrderRow(param) {
 			alert("请选择行数据!");
 			return;
 		}
-
-		deleteWorkOrderReally(row["id"]);
+		if(document.getElementById("workOrderType").innerHTML == "selectTemplate") {
+			deleteWorkOrderTemplate(row["id"])
+		} else {
+			deleteWorkOrderReally(row["id"]);
+		}
 	} else if(optionType == "workorder_finish") {
 		if(row.length < 1) {
 			alert("请选择行数据!");
@@ -635,6 +644,7 @@ function saveWorkOrderChange() {
 		formData.append("status", window.windowOrderStatusEnum.addmissing);
 	}
 	//console.log(window.getFormDataToJson(formData));
+	//console.log(formData.get("plantid"));
 	$.ajax({
 		url: window.serviceIP + "/api/order/changeworkorder",
 		type: "POST",
@@ -648,6 +658,37 @@ function saveWorkOrderChange() {
 
 		success: function(data) {
 			if(data.status == 1) {
+
+				if($('#saveAsWorkorderTemplate').is(':checked')) {
+					var formDataMap = {};
+					formDataMap["plantID"] = formData.get("plantid").split("###")[0];
+					formDataMap["processID"] = formData.get("processid").split("###")[0];
+					formDataMap["lineID"] = formData.get("lineid").split("###")[0];
+					formDataMap["materialID"] = formData.get("materialid");
+					formDataMap["materialName"] = $("#materialid").find("option:selected").text().toString().split("___")[0];
+					formDataMap["batchNum"] = formData.get("batchnum");
+					formDataMap["totalProduction"] = formData.get("totalproduction");
+					formDataMap["createStaff"] = localStorage.username;
+					//console.log(window.getFormDataToJson(formData));
+					//var formData2 = new FormData();
+					//formData2["jsonStr"] = JSON.stringify(formDataMap);
+					$.ajax({
+						url: window.serviceIP + "/api/order/addWorkorderTemplate",
+						type: "POST",
+						contentType: "application/json",
+						dataType: "json",
+						data: JSON.stringify(formDataMap),
+						//		headers: {
+						//			Token: localStorage.getItem('token')
+						//		},
+
+						success: function(dataTemplate) {
+							if(dataTemplate.status != 1) {
+								alert("保存模板失败！" + data.message);
+							}
+						}
+					});
+				}
 				alert('保存成功!');
 				getWorkOrder();
 				$("#myModal").modal('hide');
@@ -660,11 +701,12 @@ function saveWorkOrderChange() {
 
 var workOrderSelectedRow;
 var lineNameSlct = "";
+
 function workOrderRowClick(row) {
 
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	$(row).addClass('changeTableRowColor');
-	$($(row).find("td")[0]).addClass('changeTableRowColor');
+	$($(row).find("td")).addClass('changeTableRowColor');
 }
 
 function workOrderSetCount() {
@@ -884,7 +926,7 @@ function printQRCode() {
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 10);
 		LODOP.SET_PRINT_STYLEA(0, "Bold", 2);
-		
+
 		LODOP.ADD_PRINT_TEXT(10, 160, 130, 20, "日期: ");
 		LODOP.SET_PRINT_STYLEA(0, "ItemType", 1);
 		LODOP.SET_PRINT_STYLEA(0, "FontSize", 12);
@@ -916,7 +958,7 @@ function printQRCode() {
 }
 
 function addMissingWorkOrder() {
-	
+
 	setLineModal();
 	$(workOrderManageForm.elements).each(function() {
 		if($(this).attr("name") != "orderid")
@@ -929,4 +971,240 @@ function addMissingWorkOrder() {
 	lineWorkOrderModalChange();
 	$("#workOrderType").html("addMissingWorkOrder");
 	$('#myModal').modal('show');
+}
+
+function selectWorkOrderTemplate() {
+	$("#workOrderType").html("selectTemplate");
+	$('#orderSplitTable').bootstrapTable('destroy')
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true
+	});
+
+	columnsArray.push({
+		"title": "厂区",
+		"field": "plantID",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "流程",
+		"field": "processID",
+		visible: false
+	});
+	columnsArray.push({
+		"title": "产线",
+		"field": "lineID",
+		formatter: function(value, row, index) {
+			return $("#productionLineIDOnlySlct option[value='" + value + "' ]").text();
+		}
+	});
+
+	columnsArray.push({
+		"title": "物料型号",
+		"field": "materialName"
+	});
+
+	columnsArray.push({
+		"title": "物料拖数",
+		"field": "batchNum"
+	});
+	columnsArray.push({
+		"title": "总产量",
+		"field": "totalProduction"
+	});
+
+	columnsArray.push({
+		"title": "姓名",
+		"field": "createStaff"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[0]);
+	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[0]);
+	formData.append("lineID", document.PlantToLineSelectForm.productionLineSlct.value.toString().split("###")[0]);
+	$.ajax({
+		url: window.serviceIP + "/api/order/getWorkorderTemplate",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					singleSelect: false,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 100,
+					pageNumber: 1,
+					uniqueId: "id",
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					columns: columnsArray,
+					onClickRow: function(row) {
+
+						//$('.changeTableRowColor').removeClass('changeTableRowColor');
+						//$(row).addClass('changeTableRowColor');
+						workOrderSelectedRow = row;
+					}
+
+				});
+				workOrderSelectedRow = null;
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
+}
+
+function showWorkOrderTemplateModal() {
+	$("#imageShow").hide();
+	if(document.getElementById("workOrderType").innerHTML != "selectTemplate") {
+		alert("请先选定工单模板信息再操作!")
+		return;
+	}
+	var tableData = $('#table').bootstrapTable('getSelections');
+	if(!tableData || tableData.length < 1) {
+		alert("请先选定工单模板信息再操作!当前选择0行!")
+		return;
+	}
+	$("#startTimeTemplate").val(window.stringToDatetimeLocalType(new Date(), "yyyy-MM-dd"));
+	$("#workordrTemplateModal").modal('show');
+}
+
+function createWorkOrderByTemplate() {
+	$("#createWorkOrderByTemplateBT").attr("disabled", "disabled");
+	$("#imageShow").show();
+	if(document.getElementById("workOrderType").innerHTML != "selectTemplate") {
+		alert("请先选定工单模板信息再操作!")
+		return;
+	}
+	var tableData = $('#table').bootstrapTable('getSelections');
+	if(!tableData || tableData.length < 1) {
+		alert("请先选定工单模板信息再操作!当前选择0行!")
+		return;
+	}
+
+	var orderForepart = document.PlantToLineSelectForm.industrialPlantSlct.value.toString().split("###")[1];
+	orderForepart += document.PlantToLineSelectForm.productionProcessSlct.value.toString().split("###")[1];
+	var orderMidpiece = $("#unitsTemplate").val();
+	var orderPosterior = $("#workshiftTemplate").val();
+	orderPosterior += window.stringToDatetimeLocalType(document.getElementById("startTimeTemplate").value, "yyyyMMdd");
+
+	var formData = new FormData();
+	formData.append("orderForepart", orderForepart);
+	formData.append("orderMidpiece", orderMidpiece);
+	formData.append("orderPosterior", orderPosterior);
+	formData.append("creator", localStorage.username);
+	formData.append("recordJsonString", JSON.stringify(tableData));
+
+	$.ajax({
+		url: window.serviceIP + "/api/order/addWorkorderTemplateBatch",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+				alert("创建成功!");
+				getWorkOrder();
+				$("#workordrTemplateModal").modal('hide');
+			} else {
+				alert("创建失败!" + dataRes.message);
+			}
+			$("#createWorkOrderByTemplateBT").attr("disabled", "");
+			$("#imageShow").hide();
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+			$("#createWorkOrderByTemplateBT").attr("disabled", "");
+			$("#imageShow").hide();
+		}
+	});
+}
+
+function deleteWorkOrderTemplate(id) {
+	$.ajax({
+		url: window.serviceIP + "/api/order/deleteWorkorderTemplate?id=" + id,
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: window.getFormDataToJson(formData),
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+
+				selectWorkOrderTemplate();
+				alert('删除成功!');
+			} else {
+				alert("订单关闭失败!" + data.message);
+			}
+		}
+	});
+}
+
+function closeTemplateModal() {
+	$("#workordrTemplateModal").modal('hide');
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工资详情管理</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/interphonePatrolManageJS/interphonePatrolManage.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-table-editable.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap3-editable/css/bootstrap-editable.css" media="screen">
+	</head>
+
+	<body style="padding-left:20px;padding-top:5px">
+		<script type="text/javascript">
+			$(function() {
+				interphonePatrolManageIndustrialPlantSlctFun();
+				$(function() {
+					$("body").delegate('#table tr', 'click', function() {
+						scanQRRecordRowClick(this);
+					});
+				});
+
+				var today = new Date();
+				if(today.getHours() < 15) {
+					today.setDate(today.getDate() - 1);
+				}
+				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
+				interphonePatrolManageIndustrialPlantSlctFun();
+			});
+		</script>
+
+		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+			<div class="form-inline row">
+				<select class="selectpicker " id="industrialPlantSlct" name="industrialPlantSlct">
+				</select>
+				<select class="selectpicker " id="productionProcessSlct" name="productionProcessSlct">
+				</select>
+				<select class="selectpicker " id="patrolLocationSlct" name="patrolLocationSlct">
+				</select>
+				<!--<select class="selectpicker" id="classTypeSlct" name="classTypeSlct">
+					<option value="白班">白班</option>
+					<option value="夜班">夜班</option>
+				</select>-->
+
+				<label> 时间： </label>
+				<input type="date" id="startTime" name="startTime" />
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getInterphonePatrolReport()">巡查详情报表</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="addInterphonePatrolRecord()">添加巡查</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="showConfirmModal()">提交查岗结果</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getInterphonePatrolDetail()">巡查明细</button>
+				<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除记录</button>-->
+				<label id="scanType" style="display: none;"> -</label>
+			</div>
+			<br />
+		</form>
+		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+		</table>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="interphonePatrolConfirmModal" role="dialog" aria-hidden="true" data-backdrop='static'>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">x</button>
+						<h4 class="modal-title" id="myModalLabel"> 查岗次序 </h4>
+					</div>
+					<div class="modal-body" id="modal-body" style="padding-left:20px;">
+						<form id="scanWorklocationForm">
+
+							<div class="form-group">
+								<div class="form-inline row">
+									<label for="name" style="width: 100;" align="right">次数:</label>
+									<select class="selectpicker" id="timeNumber" name="timeNumber">
+										<option value="1">第一次查岗</option>
+										<option value="2">第二次查岗</option>
+										<option value="3">第三次查岗</option>
+										<option value="4">第四次查岗</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-inline row">
+									<label for="name" style="width: 100;" align="right">巡查人:</label>
+									<input type="text" id="patrolStaff" name="patrolStaff" />
+								</div>
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-info" onclick="confirmInterphonePatrolRecord()">保存 </button>
+						<button type="button" class="btn btn-info" onclick="closeModal('interphonePatrolConfirmModal')">关闭 </button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>

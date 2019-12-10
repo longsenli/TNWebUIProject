@@ -75,9 +75,7 @@ function staffScanLocationQRProcessSlctFun() {
 							$('#productionProcessSlct').selectpicker('hide');
 						}
 					}
-
 				}
-
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render'); 
 				if(localStorage.roleID < windowRoleID.BZ) {

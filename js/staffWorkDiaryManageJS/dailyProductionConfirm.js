@@ -476,7 +476,6 @@ function confirmProductionWageRecord() {
 			} else {
 				alert("确认失败！" + data.message);
 			}
-
 		}
 	});
 }
