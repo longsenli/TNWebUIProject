@@ -643,6 +643,7 @@ function saveWorkOrderChange() {
 	if(document.getElementById("workOrderType").innerHTML == "addMissingWorkOrder") {
 		formData.append("status", window.windowOrderStatusEnum.addmissing);
 	}
+	formData.append("openStaff", localStorage.username);
 	//console.log(window.getFormDataToJson(formData));
 	//console.log(formData.get("plantid"));
 	$.ajax({
@@ -683,6 +684,7 @@ function saveWorkOrderChange() {
 						//		},
 
 						success: function(dataTemplate) {
+							//alert(dataTemplate.status )
 							if(dataTemplate.status != 1) {
 								alert("保存模板失败！" + data.message);
 							}
