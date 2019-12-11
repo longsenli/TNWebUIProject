@@ -1106,12 +1106,13 @@ function showWorkOrderTemplateModal() {
 		alert("请先选定工单模板信息再操作!当前选择0行!")
 		return;
 	}
+	$("#createWorkOrderByTemplateBT").attr("disabled", false);
 	$("#startTimeTemplate").val(window.stringToDatetimeLocalType(new Date(), "yyyy-MM-dd"));
 	$("#workordrTemplateModal").modal('show');
 }
 
 function createWorkOrderByTemplate() {
-	$("#createWorkOrderByTemplateBT").attr("disabled", "disabled");
+	$("#createWorkOrderByTemplateBT").attr("disabled", true);
 	$("#imageShow").show();
 	if(document.getElementById("workOrderType").innerHTML != "selectTemplate") {
 		alert("请先选定工单模板信息再操作!")
@@ -1156,7 +1157,7 @@ function createWorkOrderByTemplate() {
 			} else {
 				alert("创建失败!" + dataRes.message);
 			}
-			$("#createWorkOrderByTemplateBT").attr("disabled", "");
+			$("#createWorkOrderByTemplateBT").attr("disabled", false);
 			$("#imageShow").hide();
 		},
 		error: function(jqXHR, exception) {
@@ -1177,7 +1178,7 @@ function createWorkOrderByTemplate() {
 				msg = 'Uncaught Error.\n' + jqXHR.responseText;
 			}
 			alert("请求出错," + msg);
-			$("#createWorkOrderByTemplateBT").attr("disabled", "");
+			$("#createWorkOrderByTemplateBT").attr("disabled", false);
 			$("#imageShow").hide();
 		}
 	});
