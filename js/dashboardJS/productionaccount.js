@@ -686,8 +686,8 @@ function getmonthproductAccountSummaryPlant() {
 	formData1.append("startTime", document.getElementById("startTime").value.toString());
 	formData1.append("endTime", document.getElementById("endTime").value.toString() + " 23:59:59");
 	$.ajax({
-//		url: window.serviceIP + "/api/dashboard/getmonthproductAccountSummaryPlant",
-		url: "http://192.168.1.110:8080/api/dashboard/getmonthproductAccountSummaryPlant",
+		url: window.serviceIP + "/api/dashboard/getmonthproductAccountSummaryPlant",
+//		url: "http://192.168.1.110:8080/api/dashboard/getmonthproductAccountSummaryPlant",
 		type: "POST",
 		data: formData1,
 		processData: false,
