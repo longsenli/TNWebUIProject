@@ -611,6 +611,8 @@ function confirmInterphonePatrolRecord() {
 			if(data.status == 1) {
 
 				alert("保存成功!" + data.message);
+				$("#interphonePatrolConfirmModal").modal('hide');
+				getInterphonePatrolReport();
 			} else {
 				alert("确认失败！" + data.message);
 			}
