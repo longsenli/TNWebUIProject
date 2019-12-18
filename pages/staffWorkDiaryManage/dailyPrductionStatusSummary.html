@@ -73,15 +73,14 @@
 				</select>
 				<label> 时间： </label>
 				<input type="date" id="startTime" name="startTime" />
-				<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getTMPProductionWageRecord()">产量详情</button>
-				<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmProductionWageRecord()">产量确认</button>
+				<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getTMPLineProductionDetailRecord()">产线生产明细</button>
+				<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmLineProductionDetailRecord()">产线生产明细确认</button>
 
-				<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('1')">上机扫码</button>
-				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('2')">下机扫码</button>-->
-				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除记录</button>
-				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="getFinalProductionWageRecord()">确认信息查询查询</button>
-				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="deleteFinalProductionWageRecord()">删除确认信息</button>
+<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="getConfirmedLineProductionRecord()">产线明细确认信息查询</button>
 
+				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="getTMPProcessProductionDetailRecord()">工序产量查询</button>
+				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="confirmProcessProductionDetailRecord()">工序产量确认</button>
+<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="getConfirmedProcessProductionRecord()">工序明细确认信息查询</button>
 			</div>
 			<br />
 		</form>
