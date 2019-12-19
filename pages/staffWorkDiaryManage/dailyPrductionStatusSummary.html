@@ -11,24 +11,20 @@
 			}
 		</style>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/staffWorkDiaryManageJS/dailyProductionStatusSummary.js"></script>
-		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
-		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-table-editable.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap3-editable/css/bootstrap-editable.css" media="screen">
 	</head>
 
@@ -73,17 +69,16 @@
 				</select>
 				<label> 时间： </label>
 				<input type="date" id="startTime" name="startTime" />
-				<button type="button" id="processAttendanceSelect" class="btn btn-primary" style="margin-top: 10px;" onclick="getTMPLineProductionDetailRecord()">产线日清</button>
-				<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmLineProductionDetailRecord()">产线确认</button>
-
-<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="getConfirmedLineProductionRecord()">产线日清查询</button>
-
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getTMPLineProductionDetailRecord()">产线日清</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="confirmLineProductionDetailRecord()">产线确认</button>
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getConfirmedLineProductionRecord()">产线日清查询</button>
 				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="getTMPProcessProductionDetailRecord()">工序日清</button>
 				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="confirmProcessProductionDetailRecord()">工序确认</button>
-<button type="button" id="confirmAttendanceInfo" class="btn btn-primary" style="margin-top: 10px;" onclick="getConfirmedProcessProductionRecord()">工序日清查询</button>
+				<button type="button" class="btn btn-warning" style="margin-top: 10px;" onclick="getConfirmedProcessProductionRecord()">工序日清查询</button>
 			</div>
 			<br />
 		</form>
+		<label id="currentOperatorType" style="display: none;">-</label>
 		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
 

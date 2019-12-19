@@ -382,7 +382,7 @@ function getSelfScanLocationQRRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					search: true,
+					search: false,
 					searchAlign: 'right',
 					pagination: true,
 					columns: columnsArray
@@ -628,7 +628,7 @@ function beforeProductionScanLocationQR() {
 				localStorage.setItem('lineID', locationInfo[2].trim());
 				localStorage.setItem('workingkLocation', locationInfo[3].trim());
 
-				$('<div>').appendTo('body').addClass('alert alert-success').html('上机成功,祝您工作愉快!').show().delay(3000).fadeOut();
+				$('#showImage').addClass('alert alert-success').html('上机成功,祝您工作愉快!').show().delay(3000).fadeOut();
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -676,7 +676,8 @@ function afterProductionScanLocationQR(qrCode) {
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
 				getSelfScanLocationQRRecord();
-				$('<div>').appendTo('body').addClass('alert alert-success').html('下机成功!今日辛苦了!').show().delay(3000).fadeOut();
+
+				$('#showImage').addClass('alert alert-success').html('下机成功!今日辛苦了!').show().delay(3000).fadeOut();
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

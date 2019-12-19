@@ -11,6 +11,44 @@
 				background-color: #31b0d5 !important;
 				color: black;
 			}
+			
+			.alert {
+				display: none;
+				position: fixed;
+				top: 70%;
+				left: 50%;
+				min-width: 300px;
+				max-width: 600px;
+				transform: translate(-50%, -50%);
+				z-index: 99999;
+				text-align: center;
+				padding: 15px;
+				border-radius: 3px;
+			}
+			
+			.alert-success {
+				color: #3c763d;
+				background-color: #dff0d8;
+				border-color: #d6e9c6;
+			}
+			
+			.alert-info {
+				color: #31708f;
+				background-color: #d9edf7;
+				border-color: #bce8f1;
+			}
+			
+			.alert-warning {
+				color: #8a6d3b;
+				background-color: #fcf8e3;
+				border-color: #faebcc;
+			}
+			
+			.alert-danger {
+				color: #a94442;
+				background-color: #f2dede;
+				border-color: #ebccd1;
+			}
 		</style>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
@@ -19,23 +57,19 @@
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../js/staffWorkDiaryManageJS/staffScanLocationQR.js"></script>
-		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
-		<script type="text/javascript" src="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.js"></script>
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
-		<script type="text/javascript" src="../../js/basicinfo/basicinfo.js"></script>
-		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
+
 		<!--H5+ js引入-->
 		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 		<!--Nifty Stylesheet [ REQUIRED ]-->
 		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
 	</head>
 
-	<body style="padding-left:20px;padding-top:5px">
+	<body>
 		<script type="text/javascript">
 			$(function() {
 				staffScanLocationQRIndustrialPlantSlctFun();
@@ -102,8 +136,8 @@
 
 												<div class="form-group">
 
-													<input type="date" id="startTime"  name="startTime" /><label>—</label>
-													<input type="date" id="endTime"  name="endTime" />
+													<input type="date" id="startTime" name="startTime" /><label>—</label>
+													<input type="date" id="endTime" name="endTime" />
 												</div>
 												<button type="button" id="processAttendanceSelect" class="btn btn-danger" style="margin-top: 10px;" onclick="getStaffAttendanceInfo()">员工出勤</button>
 												<button type="button" id="confirmAttendanceInfo" class="btn btn-danger" style="margin-top: 10px;" onclick="confirmStaffAttendanceInfo()">考勤确认</button>
@@ -117,8 +151,6 @@
 											</div>
 											<br />
 										</form>
-										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
-										</table>
 
 										<!-- 模态框（Modal） -->
 										<div class="modal fade" id="beforeProductionModal" role="dialog" aria-hidden="true" data-backdrop='static'>
@@ -131,13 +163,13 @@
 													<div class="modal-body" id="modal-body" style="padding-left:20px;">
 														<form id="scanWorklocationForm">
 															<input type="text" id="locationID" name="locationID" style="display:none" />
-	<div class="form-group">
-		<div class="form-inline row">
-								<label for="name">岗位:</label>
-								<select class="selectpicker" id="workContentSlct" name="workContentSlct">
-								</select>
-							</div>
-							</div>
+															<div class="form-group">
+																<div class="form-inline row">
+																	<label for="name">岗位:</label>
+																	<select class="selectpicker" id="workContentSlct" name="workContentSlct">
+																	</select>
+																</div>
+															</div>
 															<div class="form-group">
 																<div class="form-inline row">
 																	<label for="name">班次:</label>
@@ -174,7 +206,9 @@
 											</div>
 											<!-- /.modal -->
 										</div>
-
+										<div id="showImage"></div>
+										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+										</table>
 									</div>
 								</div>
 							</div>
