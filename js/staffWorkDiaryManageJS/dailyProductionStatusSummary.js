@@ -131,51 +131,9 @@ function dailyProductionStatusSummaryLineSlctFun() {
 				}
 				$('#productionLineSlct').selectpicker('refresh');
 				$('#productionLineSlct').selectpicker('render'); 
-				if(localStorage.roleID < windowRoleID.BZ) {
-					$('#productionLineSlct').selectpicker('hide'); 
-				} 
-				//	$('#productionLineSlct').selectpicker('hide');   
-				dailyProductionStatusSummaryWorkContentSlctFun();
+				$('#productionLineSlct').selectpicker('hide');   
+
 				setTimeout(dailyProductionStatusSummaryWorkingLocationSlctFun(), 200);;
-			} else {
-				alert("初始化数据失败！" + dataRes.message);
-			}
-		}
-	});
-};
-
-function dailyProductionStatusSummaryWorkContentSlctFun() {
-	var formData = new FormData();
-	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
-	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
-
-	$.ajax({
-		url: window.serviceIP + "/api/basicdata/getWorkContentDetail",
-		type: "POST",
-		data: formData,
-		//contentType: "application/json",
-		//dataType: "json",
-		headers: {
-			Token: localStorage.getItem('token')
-		},
-
-		//processData: true,
-		async: false,
-		processData: false,
-		contentType: false,
-		success: function(dataRes) {
-
-			$("#workContentSlct").find('option').remove();
-
-			if(dataRes.status == 1) { 
-
-				var models = eval("(" + dataRes.data + ")");
-				for (var  i  in  models)  {  
-					$('#workContentSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString());
-				}
-				$('#workContentSlct').selectpicker('refresh');
-				$('#workContentSlct').selectpicker('render'); 
-				$('#workContentSlct').selectpicker('hide'); 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -222,24 +180,26 @@ function dailyProductionStatusSummaryWorkingLocationSlctFun() {
 };
 
 function scanQRRecordRowClick(row) {
+
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
-	if($(row).hasClass('selected')) {
-		$(row).find("td").addClass('changeTableRowColor');
-	}
+	$(row).find("td").addClass('changeTableRowColor');
+//	if($(row).hasClass('selected')) {
+//		$(row).find("td").addClass('changeTableRowColor');
+//	}
 }
 var timeNum = 1;
 
 function getTMPLineProductionDetailRecord() {
 	$("#currentOperatorType").html("getTMPLineProductionDetailRecord");
 	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
-	});
+	//	columnsArray.push({
+	//		checkbox: true,
+	//		formatter: function(value, row, index) {
+	//			return {
+	//				checked: true //设置选中
+	//			};
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -263,18 +223,16 @@ function getTMPLineProductionDetailRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
-	//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
-	//		columnsArray.push({
-	//			"title": "工位",
-	//			"field": "worklocationID",
-	//			formatter: function(value, row, index) {
-	//				return $("#workingkLocationSlct option[value='" + value + "']").text();
-	//			}
-	//		});
-	//	}
-	//
-	//
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+		$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+		columnsArray.push({
+			"title": "工位",
+			"field": "worklocationID",
+			formatter: function(value, row, index) {
+				return $("#workingkLocationSlct option[value='" + value + "']").text();
+			}
+		});
+	}
 
 	columnsArray.push({
 		"title": "物料型号",
@@ -291,20 +249,31 @@ function getTMPLineProductionDetailRecord() {
 		"field": "productionNumber"
 	});
 
-	columnsArray.push({
-		"title": "投料型号",
-		"field": "usedMaterialName"
+if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+		"title": "折合大片",
+		"field": "productionNumber",
+			formatter: function(value, row, index) {
+				return value / 4;
+			}
 	});
+}
+	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
+		columnsArray.push({
+			"title": "投料型号",
+			"field": "usedMaterialName"
+		});
 
-	columnsArray.push({
-		"title": "投料数量",
-		"field": "usedNumber"
-	});
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
 
-	columnsArray.push({
-		"title": "报废数量",
-		"field": "scrapNumber"
-	});
+		columnsArray.push({
+			"title": "报废数量",
+			"field": "scrapNumber"
+		});
+	}
 
 	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
@@ -416,14 +385,14 @@ function getTMPLineProductionDetailRecord() {
 function getConfirmedLineProductionRecord() {
 
 	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
-	});
+	//	columnsArray.push({
+	//		checkbox: true,
+	//		formatter: function(value, row, index) {
+	//			return {
+	//				checked: true //设置选中
+	//			};
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -447,18 +416,16 @@ function getConfirmedLineProductionRecord() {
 			return $("#productionLineSlct option[value='" + value + "']").text();
 		}
 	});
-	//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
-	//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
-	//		columnsArray.push({
-	//			"title": "工位",
-	//			"field": "worklocationID",
-	//			formatter: function(value, row, index) {
-	//				return $("#workingkLocationSlct option[value='" + value + "']").text();
-	//			}
-	//		});
-	//	}
-	//
-	//
+	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+		$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+		columnsArray.push({
+			"title": "工位",
+			"field": "worklocationID",
+			formatter: function(value, row, index) {
+				return $("#workingkLocationSlct option[value='" + value + "']").text();
+			}
+		});
+	}
 
 	columnsArray.push({
 		"title": "物料型号",
@@ -474,21 +441,31 @@ function getConfirmedLineProductionRecord() {
 		"title": "总产量",
 		"field": "productionNumber"
 	});
-
-	columnsArray.push({
-		"title": "投料型号",
-		"field": "usedMaterialName"
+if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+		"title": "折合大片",
+		"field": "productionNumber",
+			formatter: function(value, row, index) {
+				return value / 4;
+			}
 	});
+}
+	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
+		columnsArray.push({
+			"title": "投料型号",
+			"field": "usedMaterialName"
+		});
 
-	columnsArray.push({
-		"title": "投料数量",
-		"field": "usedNumber"
-	});
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
 
-	columnsArray.push({
-		"title": "报废数量",
-		"field": "scrapNumber"
-	});
+		columnsArray.push({
+			"title": "报废数量",
+			"field": "scrapNumber"
+		});
+	}
 
 	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
@@ -510,7 +487,7 @@ function getConfirmedLineProductionRecord() {
 		"field": "classType"
 	});
 
-columnsArray.push({
+	columnsArray.push({
 		"title": "确认人",
 		"field": "extend1"
 	});
@@ -679,14 +656,14 @@ function getTMPProcessProductionDetailRecord() {
 	$("#currentOperatorType").html("getTMPProcessProductionDetailRecord");
 
 	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
-	});
+	//	columnsArray.push({
+	//		checkbox: true,
+	//		formatter: function(value, row, index) {
+	//			return {
+	//				checked: true //设置选中
+	//			};
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -737,6 +714,15 @@ function getTMPProcessProductionDetailRecord() {
 		"title": "总产量",
 		"field": "productionNumber"
 	});
+	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+		"title": "折合大片",
+		"field": "productionNumber",
+			formatter: function(value, row, index) {
+				return value / 4;
+			}
+	});
+}
 	columnsArray.push({
 		"title": "计划产量",
 		"field": "planDailyProduction"
@@ -917,14 +903,14 @@ function getTMPProcessProductionDetailRecord() {
 
 function getConfirmedProcessProductionRecord() {
 	var columnsArray = [];
-	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
-	});
+	//	columnsArray.push({
+	//		checkbox: true,
+	//		formatter: function(value, row, index) {
+	//			return {
+	//				checked: true //设置选中
+	//			};
+	//		}
+	//	});
 	columnsArray.push({
 		"title": "id",
 		"field": "id",
@@ -975,6 +961,15 @@ function getConfirmedProcessProductionRecord() {
 		"title": "总产量",
 		"field": "productionNumber"
 	});
+	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+		"title": "折合大片",
+		"field": "productionNumber",
+			formatter: function(value, row, index) {
+				return value / 4;
+			}
+	});
+}
 	columnsArray.push({
 		"title": "计划产量",
 		"field": "planDailyProduction"
@@ -1039,7 +1034,7 @@ function getConfirmedProcessProductionRecord() {
 		"title": "白夜班",
 		"field": "classType"
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "确认人",
 		"field": "extend1"
 	});
