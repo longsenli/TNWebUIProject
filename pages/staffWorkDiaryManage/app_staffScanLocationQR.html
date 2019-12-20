@@ -86,7 +86,15 @@
 				var today = new Date();
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
 				if(today.getHours() < 7) {
-					today.setDate(today.getDay() - 1);
+					today.setDate(today.getDate() - 1);
+		
+				}
+				
+				if(today.getHours() < 7 || today.getHours() > 21) {
+					
+					$("#classTypeSlct").val("夜班");
+					$('#classTypeSlct').selectpicker('refresh');
+					$('#classTypeSlct').selectpicker('render'); 
 				}
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 

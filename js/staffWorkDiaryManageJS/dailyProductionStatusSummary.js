@@ -378,7 +378,7 @@ function getTMPLineProductionDetailRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					search: true,
+					//search: true,
 					searchAlign: 'right',
 					pagination: true,
 					columns: columnsArray
@@ -510,6 +510,15 @@ function getConfirmedLineProductionRecord() {
 		"field": "classType"
 	});
 
+columnsArray.push({
+		"title": "确认人",
+		"field": "extend1"
+	});
+	columnsArray.push({
+		"title": "确认时间",
+		"field": "extend2"
+	});
+
 	//	columnsArray.push({
 	//		"title": "工价",
 	//		"field": "univalence",
@@ -562,9 +571,23 @@ function getConfirmedLineProductionRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					search: true,
+					//search: true,
 					searchAlign: 'right',
 					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					columns: columnsArray
 					//					,
 					//					onClickRow: function(row) {
@@ -624,7 +647,7 @@ function confirmLineProductionDetailRecord() {
 		alert("记录已确认!");
 		return;
 	}
-
+	tableData[0]["extend1"] = localStorage.username;
 	//	var formData = new FormData();
 	//
 	//	formData.append("jsonStr", JSON.stringify(tableData));
@@ -857,7 +880,7 @@ function getTMPProcessProductionDetailRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					search: true,
+					//search: true,
 					searchAlign: 'right',
 					pagination: true,
 					columns: columnsArray
@@ -1016,7 +1039,14 @@ function getConfirmedProcessProductionRecord() {
 		"title": "白夜班",
 		"field": "classType"
 	});
-
+columnsArray.push({
+		"title": "确认人",
+		"field": "extend1"
+	});
+	columnsArray.push({
+		"title": "确认时间",
+		"field": "extend2"
+	});
 	//	columnsArray.push({
 	//		"title": "工价",
 	//		"field": "univalence",
@@ -1069,9 +1099,23 @@ function getConfirmedProcessProductionRecord() {
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					search: true,
+					//search: true,
 					searchAlign: 'right',
 					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
 					columns: columnsArray
 					//					,
 					//					onClickRow: function(row) {
@@ -1121,7 +1165,7 @@ function confirmProcessProductionDetailRecord() {
 		alert("记录已确认!");
 		return;
 	}
-
+	tableData[0]["extend1"] = localStorage.username;
 	//	var formData = new FormData();
 	//
 	//	formData.append("jsonStr", JSON.stringify(tableData));
