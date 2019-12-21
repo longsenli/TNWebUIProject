@@ -183,9 +183,9 @@ function scanQRRecordRowClick(row) {
 
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	$(row).find("td").addClass('changeTableRowColor');
-//	if($(row).hasClass('selected')) {
-//		$(row).find("td").addClass('changeTableRowColor');
-//	}
+	//	if($(row).hasClass('selected')) {
+	//		$(row).find("td").addClass('changeTableRowColor');
+	//	}
 }
 var timeNum = 1;
 
@@ -249,15 +249,15 @@ function getTMPLineProductionDetailRecord() {
 		"field": "productionNumber"
 	});
 
-if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-		"title": "折合大片",
-		"field": "productionNumber",
+			"title": "折合大片",
+			"field": "productionNumber",
 			formatter: function(value, row, index) {
 				return value / 4;
 			}
-	});
-}
+		});
+	}
 	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
 		columnsArray.push({
 			"title": "投料型号",
@@ -441,15 +441,15 @@ function getConfirmedLineProductionRecord() {
 		"title": "总产量",
 		"field": "productionNumber"
 	});
-if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-		"title": "折合大片",
-		"field": "productionNumber",
+			"title": "折合大片",
+			"field": "productionNumber",
 			formatter: function(value, row, index) {
 				return value / 4;
 			}
-	});
-}
+		});
+	}
 	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
 		columnsArray.push({
 			"title": "投料型号",
@@ -716,13 +716,13 @@ function getTMPProcessProductionDetailRecord() {
 	});
 	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-		"title": "折合大片",
-		"field": "productionNumber",
+			"title": "折合大片",
+			"field": "productionNumber",
 			formatter: function(value, row, index) {
 				return value / 4;
 			}
-	});
-}
+		});
+	}
 	columnsArray.push({
 		"title": "计划产量",
 		"field": "planDailyProduction"
@@ -963,13 +963,13 @@ function getConfirmedProcessProductionRecord() {
 	});
 	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-		"title": "折合大片",
-		"field": "productionNumber",
+			"title": "折合大片",
+			"field": "productionNumber",
 			formatter: function(value, row, index) {
 				return value / 4;
 			}
-	});
-}
+		});
+	}
 	columnsArray.push({
 		"title": "计划产量",
 		"field": "planDailyProduction"
