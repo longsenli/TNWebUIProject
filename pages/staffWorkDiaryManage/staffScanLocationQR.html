@@ -63,6 +63,11 @@
 					<option value="夜班">夜班</option>
 					<option value="-1">全部</option>
 				</select>
+				<select class="selectpicker" id="teamTypeSlct" name="teamTypeSlct">
+					<option value="-1">全部</option>
+					<option value="A">A班</option>
+					<option value="B">B班</option>
+				</select>
 				<select class="selectpicker" id="workingkLocationSlct" name="workingkLocationSlct">
 				</select>
 				<label> 时间： </label>
@@ -77,6 +82,8 @@
 				<!--<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('1')">上机扫码</button>
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="scanLocationQR('2')">下机扫码</button>-->
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="deleteRecord()">删除记录</button>
+
+				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="staffAttendanceSummary()">考勤统计</button>
 			</div>
 			<br />
 		</form>

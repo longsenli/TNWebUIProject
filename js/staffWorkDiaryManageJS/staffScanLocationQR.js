@@ -606,6 +606,7 @@ function beforeProductionScanLocationQR() {
 	formData.append("classType2", $("#classType2").val());
 	formData.append("dayTime", document.getElementById("dayTime").value.toString());
 	formData.append("workContent", $("#workContentSlct").val());
+	formData.append("teamType", $("#teamTypeSlct").val());
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/insertStaffComeAttendanceInfo",
 		type: "POST",
@@ -706,6 +707,7 @@ function afterProductionScanLocationQR(qrCode) {
 }
 
 function deleteRecord(qrCode) {
+	
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -915,6 +917,19 @@ function recognitionQR(webName, qrCode) {
 				}
 			}
 		}
+		
+			if(localStorage.teamType && localStorage.teamType.length > 0) {
+			var numbers = $('#workContentSlct').find("option"); //获取select下拉框的所有值
+			for(var j = 0; j < numbers.length; j++) {
+				if($(numbers[j]).val().toString() == localStorage.teamType) {
+					$(numbers[j]).attr("selected", "selected");
+					$('#workContentSlct').selectpicker('refresh');
+					$('#workContentSlct').selectpicker('render'); 
+					break;
+				}
+			}
+		}
+			
 		$("#locationID").val(qrCode);
 		$('#classType2').selectpicker('val', "全班");
 		$('#classType2').selectpicker('refresh');
@@ -946,4 +961,128 @@ function recognitionQR(webName, qrCode) {
 
 	} else if(webName == '2')
 		afterProductionScanLocationQR(qrCode);
+}
+
+
+function staffAttendanceSummary()
+{
+	var columnsArray = [];
+	
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+
+	columnsArray.push({
+		"title": "姓    名  ",
+		"field": "staffName"
+	});
+	var dateString =new Date(document.getElementById("startTime").value) ;
+	if(document.getElementById("startTime").value.toString() > document.getElementById("endTime").value.toString())
+	{
+		alert("开始时间不能大于结束时间!");
+		return;
+	}
+	for(var i =0;;i++)
+	{
+		
+		if(dateString.format("yyyy-MM-dd") > document.getElementById("endTime").value.toString())
+		{
+			break;	
+		}
+		
+		columnsArray.push({
+		"title": dateString.format("yyyy-MM-dd"),
+		"field": dateString.format("yyyy-MM-dd")
+	});
+	
+		dateString.setDate(dateString.getDate() + 1);
+	}
+	columnsArray.push({
+		"title": "合计出勤",
+		"field": "totalAttendance"
+	});
+
+	var formData = new FormData();
+	formData.append("plantID", $("#industrialPlantSlct").val());
+	formData.append("processID", $("#productionProcessSlct").val());
+	formData.append("lineID", $("#productionLineSlct").val());
+	formData.append("teamType", $("#teamTypeSlct").val());
+	formData.append("startTime", document.getElementById("startTime").value.toString());
+	formData.append("endTime", document.getElementById("endTime").value.toString() + " 23:59");
+
+	$.ajax({
+		url: window.serviceIP + "/api/staffWorkDiary/getStaffAttendanceSummary",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					//singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 40,
+					pageNumber: 1,
+					pageList: "[10, 25, 50, 100, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
 }
