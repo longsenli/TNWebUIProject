@@ -200,115 +200,240 @@ function getTMPLineProductionDetailRecord() {
 	//			};
 	//		}
 	//	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
+	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 
-	columnsArray.push({
-		"title": "厂区",
-		"field": "plantID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "流程",
-		"field": "processID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "产线",
-		"field": "lineID",
-		formatter: function(value, row, index) {
-			return $("#productionLineSlct option[value='" + value + "']").text();
-		}
-	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
-		$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
-			"title": "工位",
-			"field": "worklocationID",
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
 			formatter: function(value, row, index) {
-				return $("#workingkLocationSlct option[value='" + value + "']").text();
+				return $("#productionLineSlct option[value='" + value + "']").text();
 			}
 		});
-	}
 
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "materialName"
-	});
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "materialID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "总产量",
-		"field": "productionNumber"
-	});
-
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-			"title": "折合大片",
-			"field": "productionNumber",
-			formatter: function(value, row, index) {
-				return value / 4;
-			}
+			"title": "物料型号",
+			"field": "materialName"
 		});
-	}
-	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
+
 		columnsArray.push({
-			"title": "投料型号",
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "出库型号",
 			"field": "usedMaterialName"
 		});
 
 		columnsArray.push({
-			"title": "投料数量",
+			"title": "出库数量",
 			"field": "usedNumber"
 		});
 
 		columnsArray.push({
-			"title": "报废数量",
-			"field": "scrapNumber"
+			"title": "日期",
+			"field": "dayTime"
 		});
-	}
-
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
-			"title": "报废重量",
-			"field": "weightNumber"
+			"title": "白夜班",
+			"field": "classType"
 		});
+
+	} else if(window.windowProcessEnum.ZHQD == $("#productionProcessSlct").val()) {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+			$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+			columnsArray.push({
+				"title": "工位",
+				"field": "worklocationID",
+				formatter: function(value, row, index) {
+					return $("#workingkLocationSlct option[value='" + value + "']").text();
+				}
+			});
+		}
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+	} else {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+			$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+			columnsArray.push({
+				"title": "工位",
+				"field": "worklocationID",
+				formatter: function(value, row, index) {
+					return $("#workingkLocationSlct option[value='" + value + "']").text();
+				}
+			});
+		}
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+			columnsArray.push({
+				"title": "折合大片",
+				"field": "productionNumber",
+				formatter: function(value, row, index) {
+					return value / 4;
+				}
+			});
+		}
+		if($("#productionProcessSlct").val() != windowProcessEnum.JZ && $("#productionProcessSlct").val() != windowProcessEnum.ZH) {
+			columnsArray.push({
+				"title": "投料型号",
+				"field": "usedMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "投料数量",
+				"field": "usedNumber"
+			});
+
+			columnsArray.push({
+				"title": "报废数量",
+				"field": "scrapNumber"
+			});
+		}
+
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
+			columnsArray.push({
+				"title": "报废重量",
+				"field": "weightNumber"
+			});
+		}
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+		//	columnsArray.push({
+		//		"title": "工价",
+		//		"field": "univalence",
+		//		editable: {
+		//			type: 'text',
+		//			title: '工价',
+		//			validate: function(value, row, index) {
+		//				if(!Number(value)) {
+		//					return "请输入合法数字";
+		//				}
+		//			}
+		//		}
+		//	});
 	}
-
-	columnsArray.push({
-		"title": "日期",
-		"field": "dayTime"
-	});
-	columnsArray.push({
-		"title": "班组",
-		"field": "teamType"
-	});
-	columnsArray.push({
-		"title": "白夜班",
-		"field": "classType"
-	});
-
-	//	columnsArray.push({
-	//		"title": "工价",
-	//		"field": "univalence",
-	//		editable: {
-	//			type: 'text',
-	//			title: '工价',
-	//			validate: function(value, row, index) {
-	//				if(!Number(value)) {
-	//					return "请输入合法数字";
-	//				}
-	//			}
-	//		}
-	//	});
-
 	var formData = new FormData();
 	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
@@ -393,123 +518,240 @@ function getConfirmedLineProductionRecord() {
 	//			};
 	//		}
 	//	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
+	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 
-	columnsArray.push({
-		"title": "厂区",
-		"field": "plantID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "流程",
-		"field": "processID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "产线",
-		"field": "lineID",
-		formatter: function(value, row, index) {
-			return $("#productionLineSlct option[value='" + value + "']").text();
-		}
-	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
-		$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
 		columnsArray.push({
-			"title": "工位",
-			"field": "worklocationID",
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
 			formatter: function(value, row, index) {
-				return $("#workingkLocationSlct option[value='" + value + "']").text();
+				return $("#productionLineSlct option[value='" + value + "']").text();
 			}
 		});
-	}
 
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "materialName"
-	});
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "materialID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "总产量",
-		"field": "productionNumber"
-	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
-			"title": "折合大片",
-			"field": "productionNumber",
-			formatter: function(value, row, index) {
-				return value / 4;
-			}
+			"title": "物料型号",
+			"field": "materialName"
 		});
-	}
-	if($("#productionProcessSlct").val() != windowProcessEnum.JZ) {
+
 		columnsArray.push({
-			"title": "投料型号",
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "出库型号",
 			"field": "usedMaterialName"
 		});
 
 		columnsArray.push({
-			"title": "投料数量",
+			"title": "出库数量",
 			"field": "usedNumber"
 		});
 
 		columnsArray.push({
-			"title": "报废数量",
-			"field": "scrapNumber"
+			"title": "日期",
+			"field": "dayTime"
 		});
-	}
-
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
-			"title": "报废重量",
-			"field": "weightNumber"
+			"title": "白夜班",
+			"field": "classType"
 		});
+
+	} else if(window.windowProcessEnum.ZHQD == $("#productionProcessSlct").val()) {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+			$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+			columnsArray.push({
+				"title": "工位",
+				"field": "worklocationID",
+				formatter: function(value, row, index) {
+					return $("#workingkLocationSlct option[value='" + value + "']").text();
+				}
+			});
+		}
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+	} else {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.JZ || $("#productionProcessSlct").val() == windowProcessEnum.JS ||
+			$("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
+			columnsArray.push({
+				"title": "工位",
+				"field": "worklocationID",
+				formatter: function(value, row, index) {
+					return $("#workingkLocationSlct option[value='" + value + "']").text();
+				}
+			});
+		}
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+			columnsArray.push({
+				"title": "折合大片",
+				"field": "productionNumber",
+				formatter: function(value, row, index) {
+					return value / 4;
+				}
+			});
+		}
+		if($("#productionProcessSlct").val() != windowProcessEnum.JZ && $("#productionProcessSlct").val() != windowProcessEnum.ZH) {
+			columnsArray.push({
+				"title": "投料型号",
+				"field": "usedMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "投料数量",
+				"field": "usedNumber"
+			});
+
+			columnsArray.push({
+				"title": "报废数量",
+				"field": "scrapNumber"
+			});
+		}
+
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
+			columnsArray.push({
+				"title": "报废重量",
+				"field": "weightNumber"
+			});
+		}
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+		//	columnsArray.push({
+		//		"title": "工价",
+		//		"field": "univalence",
+		//		editable: {
+		//			type: 'text',
+		//			title: '工价',
+		//			validate: function(value, row, index) {
+		//				if(!Number(value)) {
+		//					return "请输入合法数字";
+		//				}
+		//			}
+		//		}
+		//	});
 	}
-
-	columnsArray.push({
-		"title": "日期",
-		"field": "dayTime"
-	});
-	columnsArray.push({
-		"title": "班组",
-		"field": "teamType"
-	});
-	columnsArray.push({
-		"title": "白夜班",
-		"field": "classType"
-	});
-
-	columnsArray.push({
-		"title": "确认人",
-		"field": "extend1"
-	});
-	columnsArray.push({
-		"title": "确认时间",
-		"field": "extend2"
-	});
-
-	//	columnsArray.push({
-	//		"title": "工价",
-	//		"field": "univalence",
-	//		editable: {
-	//			type: 'text',
-	//			title: '工价',
-	//			validate: function(value, row, index) {
-	//				if(!Number(value)) {
-	//					return "请输入合法数字";
-	//				}
-	//			}
-	//		}
-	//	});
-
 	var formData = new FormData();
 	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
@@ -656,178 +898,281 @@ function getTMPProcessProductionDetailRecord() {
 	$("#currentOperatorType").html("getTMPProcessProductionDetailRecord");
 
 	var columnsArray = [];
-	//	columnsArray.push({
-	//		checkbox: true,
-	//		formatter: function(value, row, index) {
-	//			return {
-	//				checked: true //设置选中
-	//			};
-	//		}
-	//	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
 
-	columnsArray.push({
-		"title": "厂区",
-		"field": "plantID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "流程",
-		"field": "processID",
-		visible: false
-	});
-	//	columnsArray.push({
-	//		"title": "产线",
-	//		"field": "lineID",
-	//		formatter: function(value, row, index) {
-	//			return $("#productionLineSlct option[value='" + value + "']").text();
-	//		}
-	//	});
-	//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
-	//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
-	//		columnsArray.push({
-	//			"title": "工位",
-	//			"field": "worklocationID",
-	//			formatter: function(value, row, index) {
-	//				return $("#workingkLocationSlct option[value='" + value + "']").text();
-	//			}
-	//		});
-	//	}
-	//
-	//
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "productionMaterialName"
-	});
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "productionMaterialID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "总产量",
-		"field": "productionNumber"
-	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 		columnsArray.push({
-			"title": "折合大片",
-			"field": "productionNumber",
-			formatter: function(value, row, index) {
-				return value / 4;
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "在窑数量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "在窑拖数",
+			"field": "productionTransition1"
+		});
+		columnsArray.push({
+			"title": "入窑数量",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "入窑拖数",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "出窑数量",
+			"field": "grantNumber"
+		});
+		columnsArray.push({
+			"title": "出窑拖数",
+			"field": "grantNumberTransition1"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else if(window.windowProcessEnum.ZHQD == $("#productionProcessSlct").val()) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+
+		columnsArray.push({
+			"title": "领料型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "领料数量",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "出勤人数",
+			"field": "attendanceNumber"
+		});
+		columnsArray.push({
+			"title": "机器数量",
+			"field": "machineNumber"
+		});
+		columnsArray.push({
+			"title": "开机数量",
+			"field": "actualMachineNumber"
+		});
+		columnsArray.push({
+			"title": "开机率",
+			"field": "productionMachineRatio"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+			columnsArray.push({
+				"title": "折合大片",
+				"field": "productionNumber",
+				formatter: function(value, row, index) {
+					return value / 4;
+				}
+			});
+		}
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "发料型号",
+			"field": "grantMaterialName"
+		});
+		columnsArray.push({
+			"title": "发料数量",
+			"field": "grantNumber"
+		});
+
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "lastInventory"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "currentInventory"
+		});
+
+		if($("#productionProcessSlct").val() != windowProcessEnum.JZ && $("#productionProcessSlct").val() != windowProcessEnum.ZH) {
+			columnsArray.push({
+				"title": "领料型号",
+				"field": "receiveMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "领料数量",
+				"field": "receiveMaterialNumber1"
+			});
+
+			columnsArray.push({
+				"title": "投料型号",
+				"field": "usedMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "投料数量",
+				"field": "usedNumber"
+			});
+			columnsArray.push({
+				"title": "报废型号",
+				"field": "scrapMaterialName"
+			});
+			columnsArray.push({
+				"title": "报废数量",
+				"field": "scrapNumber"
+			});
+
+			if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
+				columnsArray.push({
+					"title": "报废重量",
+					"field": "weightNumber"
+				});
 			}
-		});
-	}
-	columnsArray.push({
-		"title": "计划产量",
-		"field": "planDailyProduction"
-	});
-	columnsArray.push({
-		"title": "完成率",
-		"field": "ratioFinish"
-	});
-	columnsArray.push({
-		"title": "发料型号",
-		"field": "grantMaterialName"
-	});
-	columnsArray.push({
-		"title": "发料数量",
-		"field": "grantNumber"
-	});
 
-	columnsArray.push({
-		"title": "上班结余",
-		"field": "lastInventory"
-	});
-	columnsArray.push({
-		"title": "理论库存",
-		"field": "currentInventory"
-	});
+		}
 
-	columnsArray.push({
-		"title": "领料型号",
-		"field": "receiveMaterialName"
-	});
-
-	columnsArray.push({
-		"title": "领料数量",
-		"field": "receiveMaterialNumber1"
-	});
-
-	columnsArray.push({
-		"title": "投料型号",
-		"field": "usedMaterialName"
-	});
-
-	columnsArray.push({
-		"title": "投料数量",
-		"field": "usedNumber"
-	});
-	columnsArray.push({
-		"title": "报废型号",
-		"field": "scrapMaterialName"
-	});
-	columnsArray.push({
-		"title": "报废数量",
-		"field": "scrapNumber"
-	});
-
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
-			"title": "报废重量",
-			"field": "weightNumber"
+			"title": "出勤人数",
+			"field": "attendanceNumber"
+		});
+		columnsArray.push({
+			"title": "机器数量",
+			"field": "machineNumber"
+		});
+		columnsArray.push({
+			"title": "开机数量",
+			"field": "actualMachineNumber"
+		});
+		columnsArray.push({
+			"title": "开机率",
+			"field": "productionMachineRatio"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
 		});
 	}
-
-	columnsArray.push({
-		"title": "出勤人数",
-		"field": "attendanceNumber"
-	});
-	columnsArray.push({
-		"title": "机器数量",
-		"field": "machineNumber"
-	});
-	columnsArray.push({
-		"title": "开机数量",
-		"field": "actualMachineNumber"
-	});
-	columnsArray.push({
-		"title": "开机率",
-		"field": "productionMachineRatio"
-	});
-
-	columnsArray.push({
-		"title": "日期",
-		"field": "dayTime"
-	});
-	columnsArray.push({
-		"title": "班组",
-		"field": "teamType"
-	});
-	columnsArray.push({
-		"title": "白夜班",
-		"field": "classType"
-	});
-
-	//	columnsArray.push({
-	//		"title": "工价",
-	//		"field": "univalence",
-	//		editable: {
-	//			type: 'text',
-	//			title: '工价',
-	//			validate: function(value, row, index) {
-	//				if(!Number(value)) {
-	//					return "请输入合法数字";
-	//				}
-	//			}
-	//		}
-	//	});
-
 	var formData = new FormData();
 	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
@@ -903,159 +1248,281 @@ function getTMPProcessProductionDetailRecord() {
 
 function getConfirmedProcessProductionRecord() {
 	var columnsArray = [];
-	//	columnsArray.push({
-	//		checkbox: true,
-	//		formatter: function(value, row, index) {
-	//			return {
-	//				checked: true //设置选中
-	//			};
-	//		}
-	//	});
-	columnsArray.push({
-		"title": "id",
-		"field": "id",
-		visible: false
-	});
 
-	columnsArray.push({
-		"title": "厂区",
-		"field": "plantID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "流程",
-		"field": "processID",
-		visible: false
-	});
-	//	columnsArray.push({
-	//		"title": "产线",
-	//		"field": "lineID",
-	//		formatter: function(value, row, index) {
-	//			return $("#productionLineSlct option[value='" + value + "']").text();
-	//		}
-	//	});
-	//	if($("#productionProcessSlct").val() == windowProcessEnum.JZ|| $("#productionProcessSlct").val() == windowProcessEnum.JS
-	//	|| $("#productionProcessSlct").val() == windowProcessEnum.ZHQD) {
-	//		columnsArray.push({
-	//			"title": "工位",
-	//			"field": "worklocationID",
-	//			formatter: function(value, row, index) {
-	//				return $("#workingkLocationSlct option[value='" + value + "']").text();
-	//			}
-	//		});
-	//	}
-	//
-	//
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "productionMaterialName"
-	});
-
-	columnsArray.push({
-		"title": "物料型号",
-		"field": "productionMaterialID",
-		visible: false
-	});
-	columnsArray.push({
-		"title": "总产量",
-		"field": "productionNumber"
-	});
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 		columnsArray.push({
-			"title": "折合大片",
-			"field": "productionNumber",
-			formatter: function(value, row, index) {
-				return value / 4;
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "在窑数量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "在窑拖数",
+			"field": "productionTransition1"
+		});
+		columnsArray.push({
+			"title": "入窑数量",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "入窑拖数",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "出窑数量",
+			"field": "grantNumber"
+		});
+		columnsArray.push({
+			"title": "出窑拖数",
+			"field": "grantNumberTransition1"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else if(window.windowProcessEnum.ZHQD == $("#productionProcessSlct").val()) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+
+		columnsArray.push({
+			"title": "领料型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "领料数量",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "出勤人数",
+			"field": "attendanceNumber"
+		});
+		columnsArray.push({
+			"title": "机器数量",
+			"field": "machineNumber"
+		});
+		columnsArray.push({
+			"title": "开机数量",
+			"field": "actualMachineNumber"
+		});
+		columnsArray.push({
+			"title": "开机率",
+			"field": "productionMachineRatio"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+			columnsArray.push({
+				"title": "折合大片",
+				"field": "productionNumber",
+				formatter: function(value, row, index) {
+					return value / 4;
+				}
+			});
+		}
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "发料型号",
+			"field": "grantMaterialName"
+		});
+		columnsArray.push({
+			"title": "发料数量",
+			"field": "grantNumber"
+		});
+
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "lastInventory"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "currentInventory"
+		});
+
+		if($("#productionProcessSlct").val() != windowProcessEnum.JZ && $("#productionProcessSlct").val() != windowProcessEnum.ZH) {
+			columnsArray.push({
+				"title": "领料型号",
+				"field": "receiveMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "领料数量",
+				"field": "receiveMaterialNumber1"
+			});
+
+			columnsArray.push({
+				"title": "投料型号",
+				"field": "usedMaterialName"
+			});
+
+			columnsArray.push({
+				"title": "投料数量",
+				"field": "usedNumber"
+			});
+			columnsArray.push({
+				"title": "报废型号",
+				"field": "scrapMaterialName"
+			});
+			columnsArray.push({
+				"title": "报废数量",
+				"field": "scrapNumber"
+			});
+
+			if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
+				columnsArray.push({
+					"title": "报废重量",
+					"field": "weightNumber"
+				});
 			}
-		});
-	}
-	columnsArray.push({
-		"title": "计划产量",
-		"field": "planDailyProduction"
-	});
-	columnsArray.push({
-		"title": "完成率",
-		"field": "ratioFinish"
-	});
-	columnsArray.push({
-		"title": "发料型号",
-		"field": "grantMaterialName"
-	});
-	columnsArray.push({
-		"title": "发料数量",
-		"field": "grantNumber"
-	});
 
-	columnsArray.push({
-		"title": "领料型号",
-		"field": "receiveMaterialName"
-	});
+		}
 
-	columnsArray.push({
-		"title": "领料数量",
-		"field": "receiveMaterialNumber1"
-	});
-
-	columnsArray.push({
-		"title": "投料型号",
-		"field": "usedMaterialName"
-	});
-
-	columnsArray.push({
-		"title": "投料数量",
-		"field": "usedNumber"
-	});
-	columnsArray.push({
-		"title": "报废型号",
-		"field": "scrapMaterialName"
-	});
-	columnsArray.push({
-		"title": "报废数量",
-		"field": "scrapNumber"
-	});
-
-	if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
-			"title": "报废重量",
-			"field": "weightNumber"
+			"title": "出勤人数",
+			"field": "attendanceNumber"
+		});
+		columnsArray.push({
+			"title": "机器数量",
+			"field": "machineNumber"
+		});
+		columnsArray.push({
+			"title": "开机数量",
+			"field": "actualMachineNumber"
+		});
+		columnsArray.push({
+			"title": "开机率",
+			"field": "productionMachineRatio"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
 		});
 	}
-
-	columnsArray.push({
-		"title": "日期",
-		"field": "dayTime"
-	});
-	columnsArray.push({
-		"title": "班组",
-		"field": "teamType"
-	});
-	columnsArray.push({
-		"title": "白夜班",
-		"field": "classType"
-	});
-	columnsArray.push({
-		"title": "确认人",
-		"field": "extend1"
-	});
-	columnsArray.push({
-		"title": "确认时间",
-		"field": "extend2"
-	});
-	//	columnsArray.push({
-	//		"title": "工价",
-	//		"field": "univalence",
-	//		editable: {
-	//			type: 'text',
-	//			title: '工价',
-	//			validate: function(value, row, index) {
-	//				if(!Number(value)) {
-	//					return "请输入合法数字";
-	//				}
-	//			}
-	//		}
-	//	});
-
 	var formData = new FormData();
 	formData.append("plantID", $("#industrialPlantSlct").val());
 	formData.append("processID", $("#productionProcessSlct").val());
