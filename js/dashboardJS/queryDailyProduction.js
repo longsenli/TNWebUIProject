@@ -591,6 +591,13 @@ function getDailyProduction() {
 			"field": "scrapNumber"
 		});
 
+		if($("#productionProcessSlct").val() == windowProcessEnum.FB || $("#productionProcessSlct").val() == windowProcessEnum.BB) {
+			columnsArray.push({
+				"title": "报废重量",
+				"field": "weightNumber"
+			});
+		}
+
 		columnsArray.push({
 			width: 300,
 			"title": "班次",
@@ -1066,7 +1073,7 @@ function recognitionQR(webName, qrCode) {
 
 function productionInfoPictureShow() {
 
-	if(" byLine byWorkingLocation ".indexOf(document.PlantToLineSelectForm.queryType.value.toString()) < 0 ) {
+	if(" byLine byWorkingLocation ".indexOf(document.PlantToLineSelectForm.queryType.value.toString()) < 0) {
 		return;
 	}
 	var heightAll = 500;
@@ -1175,12 +1182,9 @@ function productionInfoPictureShow() {
 				//MAP数据转为数组
 				$.each(lineNameProductionMap, function(key, values) {
 					tmpNumber = 0;
-					if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine')
-					{
+					if(document.PlantToLineSelectForm.queryType.value.toString() == 'byLine') {
 						lineNameArray.push($("#productionLineSlct option[value='" + key + "']").text());
-					}
-					else if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation')
-					{
+					} else if(document.PlantToLineSelectForm.queryType.value.toString() == 'byWorkingLocation') {
 						lineNameArray.push($("#workingkLocationSlct option[value='" + key + "']").text());
 					}
 					if(lineBBProductionMap.hasOwnProperty(key)) {
