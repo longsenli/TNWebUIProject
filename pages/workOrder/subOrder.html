@@ -35,30 +35,8 @@
 			if(localStorage.getItem('token') == null) {
 				window.location.href = "../login.html";
 			}
-			//			   jQuery(function(){
-			//  jQuery('#qrcode').qrcode("http://www.jq22.com");
-			//})
-			//			jQuery('#qrcode').qrcode({
-			//				render: "table",
-			//				text: "http://www.jq22.com"
-			//			});
-			subOrderIndustrialPlantSlctFun();
-			$(function() {
-				$('#myModal').on('hide.bs.modal',
-					function() {
-						//canvas.clearRect( 0, 0, 320, 320);
-						canvas = null;
-						context = null;
-						video = null;
-						document.getElementById("videoSubOrderScanQR").pause();
-						//document.getElementById("videoSubOrderScanQR").srcObject = '';
 
-						document.getElementById("videoSubOrderScanQR").src = '';
-						if(mediaStreamTrack != null && mediaStreamTrack.getTracks().length > 0) {
-							mediaStreamTrack.getTracks()[0].stop();
-						}
-					})
-			});
+			subOrderIndustrialPlantSlctFun();
 
 			$(function() {
 				$("body").delegate('#table tr', 'click', function() {
@@ -85,11 +63,6 @@
 					usableMaterialRowClick(this);
 				});
 			});
-			//subOrderProductionProcessSlctFun();
-			//			setTimeout(function() {
-			//				//add your code
-			//				lineWorkOrderSlct();
-			//			}, 5 * 100);
 		</script>
 		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 			<div class="form-inline row">

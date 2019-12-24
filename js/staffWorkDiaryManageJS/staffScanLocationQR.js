@@ -681,7 +681,7 @@ function afterProductionScanLocationQR(qrCode) {
 				$('#showImage').addClass('alert alert-success').html('下机成功!今日辛苦了!').show().delay(3000).fadeOut();
 
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				alert( dataRes.message);
 			}
 		},
 		error: function(jqXHR, exception) {
