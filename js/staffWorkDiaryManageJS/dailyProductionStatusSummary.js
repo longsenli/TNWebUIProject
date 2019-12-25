@@ -33,9 +33,8 @@ function dailyProductionStatusSummaryIndustrialPlantSlctFun() {
 				}
 				$('#industrialPlantSlct').selectpicker('refresh');
 				$('#industrialPlantSlct').selectpicker('render'); 
-				if(localStorage.roleID < windowRoleID.BZ) {
-					$('#industrialPlantSlct').selectpicker('hide');
-				}
+				$('#materialtype').selectpicker('hide');
+
 				dailyProductionStatusSummaryProcessSlctFun();
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -80,9 +79,6 @@ function dailyProductionStatusSummaryProcessSlctFun() {
 
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render'); 
-				if(localStorage.roleID < windowRoleID.BZ) {
-					$('#industrialPlantSlct').selectpicker('hide');
-				}
 
 				dailyProductionStatusSummaryLineSlctFun();
 
@@ -250,6 +246,80 @@ function getTMPLineProductionDetailRecord() {
 			"field": "usedNumber"
 		});
 
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+	} else if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+		columnsArray.push({
+			"title": "类型",
+			"field": "productionTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
+		columnsArray.push({
+			"title": "上架物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "上架数量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "下架物料型号",
+			"field": "usedMaterialName"
+		});
+		columnsArray.push({
+			"title": "类型",
+			"field": "usedNumberTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
+		columnsArray.push({
+			"title": "下架数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "不良数量",
+			"field": "scrapNumber"
+		});
 		columnsArray.push({
 			"title": "日期",
 			"field": "dayTime"
@@ -899,7 +969,81 @@ function getTMPProcessProductionDetailRecord() {
 
 	var columnsArray = [];
 
-	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
+	if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "上架数量",
+			"field": "productionNumber"
+		});
+	columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "下架物料型号",
+			"field": "grantMaterialName"
+		});
+		columnsArray.push({
+			"title": "下架物料型号",
+			"field": "grantMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "下架数量",
+			"field": "grantNumber"
+		});
+			columnsArray.push({
+			"title": "上班结余",
+			"field": "lastInventory"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "currentInventory"
+		});
+
+		columnsArray.push({
+			"title": "出勤人数",
+			"field": "attendanceNumber"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 		columnsArray.push({
 			"title": "id",
 			"field": "id",

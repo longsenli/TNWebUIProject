@@ -71,6 +71,13 @@
 				</select>
 				<select class="selectpicker" id="workingkLocationSlct" name="workingkLocationSlct">
 				</select>
+				<select class="selectpicker" id="materialtype" name="materialtype" style="width:100px;">
+					<option value=1>一等品</option>
+					<option value=2>二等品</option>
+					<option value=3>一次返充</option>
+					<option value=4>二次返充</option>
+					<option value=5>补电</option>
+				</select>
 				<label> 时间： </label>
 				<input type="date" id="startTime" name="startTime" />
 				<button type="button" class="btn btn-primary" style="margin-top: 10px;" onclick="getTMPLineProductionDetailRecord()">产线日清</button>
@@ -85,7 +92,6 @@
 		<label id="currentOperatorType" style="display: none;">-</label>
 		<table id="table" style="table-layout: fixed;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
 		</table>
-
 
 	</body>
 
