@@ -256,6 +256,12 @@ function getOnRackRecord(selectType) {
 					if(i=='id'){
 						continue;
 					}
+					if(i=='ordinal'){
+						continue;
+					}
+					if(i=='flag'){
+						continue;
+					}
 					columnsArray.push({
 						"title": i,
 						"field": i,
