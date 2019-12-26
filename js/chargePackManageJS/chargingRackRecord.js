@@ -563,7 +563,7 @@ function pullOffChargingRackRecord() {
 		disableChangeButton("pullOffRackButton", false);
 		return;
 	}
-	if(row[0].pulloffdate) {
+	if(row[0].pulloffdate&&row[0].pulloffdate!='1970-01-01 08:00:00') {
 		alert("该记录已下架,不要重复操作!");
 		disableChangeButton("pullOffRackButton", false);
 		return;
@@ -645,7 +645,7 @@ function confirmpullOffChargingRackRecord() {
 		disableChangeButton("pullOffRackButton", false);
 		return;
 	}
-	if(row[0].pulloffdate) {
+	if(row[0].pulloffdate&&row[0].pulloffdate!='1970-01-01 08:00:00') {
 		alert("该记录已下架,不要重复操作!");
 		disableChangeButton("pullOffRackButton", false);
 		return;
@@ -706,7 +706,7 @@ function showPullOffPartModal() {
 		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
 		return;
 	}
-	if(row[0].pulloffdate) {
+	if(row[0].pulloffdate&&row[0].pulloffdate!='1970-01-01 08:00:00') {
 		alert("该记录已下架,不要重复操作!");
 		return;
 	}
@@ -745,7 +745,7 @@ function pullOffChargingRackPartRecord() {
 		disableChangeButton("myPullOffPartButton", false);
 		return;
 	}
-	if(row[0].pulloffdate) {
+	if(row[0].pulloffdate&&row[0].pulloffdate!='1970-01-01 08:00:00') {
 		alert("该记录已下架,不要重复操作!");
 		disableChangeButton("myPullOffPartButton", false);
 		return;
@@ -840,6 +840,48 @@ function deleteChargingRackRecord() {
 		}
 	});
 }
+
+//取消下架
+function cancelChargingRackRecord() {
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	
+	if(!row[0].pulloffstaffid || !row[0].pulloffstaffname || !row[0].pulloffdate) {
+		alert("请先点下架记录查询选择要取消下哪一架");
+		return;
+	}
+	if(!row[0].plantid) {
+		alert("请正确选择充电架!");
+		return;
+	}
+	$.ajax({
+		url: window.serviceIP + "/api/chargepack/cancelchargingrackrecord?id=" + row[0].id,
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+		headers: {
+			Token: localStorage.getItem('token')
+		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getOnRackRecord('onRack');
+				alert('删除成功!');
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
+		}
+	});
+}
+
 
 function saveChargingRackRecordModel(modelID, formID) {
 	disableChangeButton(modelID + "SaveButton", true);

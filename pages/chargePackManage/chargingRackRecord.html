@@ -114,8 +114,11 @@
 			<button type="button" id="pullOffRackPartButton" class="btn btn-info" onclick="showPullOffPartModal()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>部分下架
            </button>
-			<button type="button" class="btn btn-info" onclick="deleteChargingRackRecord()">
+			<button type="button" class="btn btn-danger" onclick="deleteChargingRackRecord()">
                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>删除记录
+           </button>
+           <button type="button" class="btn btn-danger" onclick="cancelChargingRackRecord()">
+                <span class="glyphicon glyphicon-move" aria-hidden="true"></span>取消下架
            </button>
 		</div>
 		<table id="table" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
