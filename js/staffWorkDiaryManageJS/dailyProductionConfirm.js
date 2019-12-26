@@ -578,6 +578,10 @@ function getFinalProductionWageRecord() {
 		"field": "classType1"
 	});
 	columnsArray.push({
+		"title": "班组",
+		"field": "extd2"
+	});
+	columnsArray.push({
 		"title": "时长",
 		"field": "classType2"
 	});

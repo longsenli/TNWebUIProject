@@ -322,6 +322,10 @@ function getSelfScanLocationQRRecord() {
 		"field": "classType1"
 	});
 	columnsArray.push({
+		"title": "班组",
+		"field": "extd2"
+	});
+	columnsArray.push({
 		"title": "时长",
 		"field": "classType2"
 	});
@@ -474,6 +478,10 @@ function getStaffAttendanceInfo() {
 	columnsArray.push({
 		"title": "白夜班",
 		"field": "classType1"
+	});
+	columnsArray.push({
+		"title": "班组",
+		"field": "extd2"
 	});
 	columnsArray.push({
 		"title": "时 长",
