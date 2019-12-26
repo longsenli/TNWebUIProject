@@ -175,6 +175,16 @@ function dailyProductionStatusSummaryWorkingLocationSlctFun() {
 	});
 };
 
+//修改完结时间用时的背景颜色
+function cellStylesales(value, row, index) {
+	return {
+		css: {
+			background: '#ffeb3b',
+			color: '#000'
+		}
+	};
+}
+
 function scanQRRecordRowClick(row) {
 
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
@@ -1000,7 +1010,7 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "上架数量",
 			"field": "productionNumber"
 		});
-	columnsArray.push({
+		columnsArray.push({
 			"title": "计划产量",
 			"field": "planDailyProduction"
 		});
@@ -1021,7 +1031,7 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "下架数量",
 			"field": "grantNumber"
 		});
-			columnsArray.push({
+		columnsArray.push({
 			"title": "上班结余",
 			"field": "lastInventory"
 		});
