@@ -379,6 +379,9 @@ function getstaffproductAccountSummaryPlant() {
 					if(i=='orderflag'){
 						continue;
 					}
+//					if(i=='班别'){
+//						continue;
+//					}
 					columnsArray.push({
 						"title": i,
 						"field": i,
@@ -422,11 +425,11 @@ function getstaffproductAccountSummaryPlant() {
 					}
 					//导出excel表格设置<<<<<<<<<<<<<<<<
 				});
-//				mergeCells(models, "姓名", 0, '#tableId')
-//				mergeCells(models, "工序", 0, '#tableId')
+
 				mergeCells1(models, "厂区", '#tableId')
 				mergeCells1(models, "工序", '#tableId')
-				mergeCells1(models, "姓名", '#tableId')
+				mergeCellsforName1(models, "姓名", '#tableId')
+
 //				mergeCells(models, "工序", 0, '#tableId')
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -535,6 +538,7 @@ function mergeColspan(data, fieldNameArr, target) {
 
 
 
+
 /**
  * 合并单元格
  * 
@@ -572,6 +576,90 @@ function mergeCells1(data, fieldName, tableId) {
 		});
 		index += count;
 	}
+}
+
+
+/**
+ * 合并单元格
+ * 
+ * @param data
+ *            原始数据（在服务端完成排序）
+ * @param fieldName
+ *            合并属性名称
+ * @param target
+ *            目标表格对象
+ */
+function mergeCellsforName1(data, fieldName, tableId) {
+	var bai = 0;
+	var ye =0 ;
+	
+	
+	for (var i=0; i<data.length; i++ ){
+		if(data[i].班别 =='白班' ){
+			bai++;
+		}
+	}
+	ye = data.length - bai;
+	
+	for (var i=0; i<bai; i++ ){
+		// 声明一个map计算相同属性值在data对象出现的次数和
+		var sortMap = {};
+		for (var i = 0; i < bai; i++) {
+			for ( var prop in data[i]) {
+				if (prop == fieldName) {
+					var key = data[i][prop];
+					if (sortMap.hasOwnProperty(key)) {
+						sortMap[key] = sortMap[key] * 1 + 1;
+					} else {
+						sortMap[key] = 1;
+					}
+					break;
+				}
+			}
+		}
+		var index = 0;
+		for ( var prop in sortMap) {
+			var count = sortMap[prop] * 1;
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : fieldName,
+				colspan : 1,
+				rowspan : count
+			});
+			index += count;
+		}
+	}
+	
+	for (var i=bai; i<data.length; i++ ){
+		// 声明一个map计算相同属性值在data对象出现的次数和
+		var sortMap = {};
+		for (var i = bai; i < data.length; i++) {
+			for ( var prop in data[i]) {
+				if (prop == fieldName) {
+					var key = data[i][prop];
+					if (sortMap.hasOwnProperty(key)) {
+						sortMap[key] = sortMap[key] * 1 + 1;
+					} else {
+						sortMap[key] = 1;
+					}
+					break;
+				}
+			}
+		}
+		var index = bai;
+		for ( var prop in sortMap) {
+			var count = sortMap[prop] * 1;
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : fieldName,
+				colspan : 1,
+				rowspan : count
+			});
+			index += count;
+		}
+	}
+	
+	
 }
 
 function getprocessproductAccountSummaryPlant() {
