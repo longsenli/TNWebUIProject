@@ -607,6 +607,9 @@ function getprocessproductAccountSummaryPlant() {
 					if(i=='orderflag'){
 						continue;
 					}
+					if(i=='other'){
+						continue;
+					}
 					columnsArray.push({
 						"title": i,
 						"field": i,
@@ -615,6 +618,7 @@ function getprocessproductAccountSummaryPlant() {
 //						"valign": 'middle'
 					});
 				}
+				models.splice(models.length-1, 1); 
 				$('#tableId').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
