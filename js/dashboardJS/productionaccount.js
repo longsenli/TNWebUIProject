@@ -663,7 +663,7 @@ function mergeCellsforName1(data, fieldName, tableId) {
 }
 
 function getprocessproductAccountSummaryPlant() {
-	$('#echarts_container').hide();
+//	$('#echarts_container').hide();
 	var formData1 = new FormData();
 	formData1.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData1.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());
@@ -706,6 +706,54 @@ function getprocessproductAccountSummaryPlant() {
 //						"valign": 'middle'
 					});
 				}
+				//获取keys , 如果工序是全部则需要生成多个图表
+				var colkeysArray = Object.keys(models[0]);  
+				if(colkeysArray.length>=4){
+					var show_chart ='';
+					//循环创建多少个图表
+					for(var i=0; i<((colkeysArray.length-1)/3); i++){
+						//标题显示哪个工序;
+						var htitle = '';
+						 show_chart +='<div class="col-md-4 column"><h3 align="center">'+colkeysArray [i*3+1].substr(0,2)+'</h3><div id="show_chart'+i+'" style="height: 200px;width: 100%; display: block;"></div></div>';
+					}
+					
+					$('#echarts_container').html(show_chart);
+				}
+				
+				
+				//创建图表
+				for(var i=0; i<((colkeysArray.length-1)/3); i++){
+						var wei = models[models.length-1][colkeysArray [i*3+1]];
+						var shi = models[models.length-1][colkeysArray [i*3+2]];
+						if(wei < 0){
+							wei=0;
+						}
+						if(shi  < 0){
+							shi=0;
+						}
+						var dom = document.getElementById("show_chart"+i);
+						var myChart = echarts.init(dom);
+						var app = {};
+						option = null;
+						option = {
+						    series : [
+						        {
+						            type: 'pie',
+						            radius : '55%',
+						            center: ['50%', '60%'],
+						            data:[
+						                {value:wei, name:'未完成  '+wei},
+						                {value:shi, name:'实际  '+shi},
+						            ]
+						        }
+						    ]
+						};
+						if (option && typeof option === "object") {
+						    myChart.setOption(option, true);
+						}
+						
+					}
+				//删除最后一条图表无用数据
 				models.splice(models.length-1, 1); 
 				$('#tableId').bootstrapTable('destroy').bootstrapTable({
 					data: models,
@@ -822,6 +870,10 @@ function getmonthproductAccountSummaryPlant() {
 //						"valign": 'middle'
 					});
 				}
+				
+				
+				
+				
 				var wei = models[models.length-1].计划数量;
 				var shi = models[models.length-1].实际数量;
 				if(wei < 0){
@@ -851,6 +903,75 @@ function getmonthproductAccountSummaryPlant() {
 				    myChart.setOption(option, true);
 				}
 				
+				
+				
+				
+				
+				
+				
+				var dom1 = document.getElementById("echarts_container1");
+				var myChart = echarts.init(dom1);
+				var app1 = {};
+				option1 = null;
+				option1 = {
+				    series : [
+				        {
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:wei, name:'未完成  '+wei},
+				                {value:shi, name:'实际  '+shi},
+				            ]
+				        }
+				    ]
+				};
+				if (option && typeof option1 === "object") {
+				    myChart.setOption(option1, true);
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				var dom2 = document.getElementById("echarts_container2");
+				var myChart = echarts.init(dom2);
+				var app2 = {};
+				option2 = null;
+				option2 = {
+				    series : [
+				        {
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:wei, name:'未完成  '+wei},
+				                {value:shi, name:'实际  '+shi},
+				            ]
+				        }
+				    ]
+				};
+				if (option && typeof option2 === "object") {
+				    myChart.setOption(option2, true);
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+//				window.onresize = myChart.resize();
 				models.splice(models.length-1, 1); 
 				$('#tableId').bootstrapTable('destroy').bootstrapTable({
 					data: models,

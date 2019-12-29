@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,  maximum-scale=1.0,  user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>产量汇总报表</title>
 		<style>
 			.changeTableRowColor {
@@ -10,11 +11,96 @@
 				color: black;
 			}
 		</style>
-		<!--<style type="text/css">
-			.fixed-table-header{
-				height:75px;
-			}
-		</style>-->
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
+		<!--<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">-->
+	</head>
+	<body style="padding-left:20px;padding-top:5px">
+	<div class="container-fluid">
+	<div class="row clearfix">
+		<br>
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class=" form-inline row">
+					<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
+						<div class="row clearfix">
+							<div class="col-md-12 column">
+								<div class="col-md-3 col-sm-12 column">
+									<label id='industrialPlantLabel'> 厂区： </label>
+									<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="chargingRackRecordProductionLineSlctFun()">
+									</select>
+								</div>
+								<div class="col-md-3 column">
+									<label id='productionProcessLabel'> 流程： </label>
+									<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="chargingRackRecordProductionLineSlctFun()">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-md-12 column">
+								<div class="col-md-3 col-sm-12 column">
+									<label> 开始时间： </label>
+									<input type="date" id="startTime" name="startTime" />
+								</div>
+								<div class="col-md-3 col-sm-12 column">
+									<label> 结束时间：</label>
+									<input type="date" id="endTime" name="endTime" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class=" form-inline row">
+					<button type="button" class="btn btn-success" onclick="getOnRackRecord('onRack')">
+		                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>工序产量汇总查询
+		            </button>
+					<button type="button" class="btn btn-success" onclick="getstaffproductAccountSummaryPlant()">
+		                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>员工产量汇总查询
+		            </button>
+					<button type="button" class="btn btn-success" onclick="getprocessproductAccountSummaryPlant()">
+		                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>工艺产品与月度生产统计报表
+		            </button>
+					<!--<button type="button" class="btn btn-success" onclick="getmonthproductAccountSummaryPlant()">
+		                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>月度生产统计
+		            </button>-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix" >
+		<div class="col-md-12 column">
+			<div class="row clearfix" id="echarts_container">
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="table-responsive">
+			<!--表格自动出现水平滚动条-->
+			<table id="tableId" class="table text-nowrap">
+				<!--//表示表格产生横向滚动条，内容设置为一行-->
+			</table>
+			<table id="tableId" class="table table-striped">
+				<!--//不产生横向滚动条，数据内容折行显示-->
+			</table>
+		</div>
+		</div>
+	</div>
+</div>
+
 		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="../../vendor/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -23,7 +109,6 @@
 		<script type="text/javascript" src="../../js/common.js"></script>
 		<script type="text/javascript" src="../../vendor/echarts/echarts.min.js"></script>
 		<script type="text/javascript" src="../../js/dashboardJS/productionaccount.js"></script>
-
 		<script type="text/javascript" src="../../vendor/lodop/LodopFuncs.js"></script>
 		<script type="text/javascript" src="../../vendor/qrcode/reqrcode.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
@@ -31,13 +116,6 @@
 		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
 		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
-	</head>
-
-	<body style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
 			//			if(localStorage.getItem('token') == null) {
 			//				window.location.href = "../login.html";
@@ -50,87 +128,11 @@
 				today.setDate(today.getDate() - 1)
 				document.getElementById("startTime").value = today.format("yyyy-MM-dd");
 				$('#pictureInfoShow').hide();
+				
+				
+//				window.onresize = myChart.resize();
 			});
+			
 		</script>
-		<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
-			<div class="form-inline row">
-				<label id='industrialPlantLabel'> 厂区： </label>
-				<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="chargingRackRecordProductionLineSlctFun()">
-				</select>
-				<label id='productionProcessLabel'> 流程： </label>
-				<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="chargingRackRecordProductionLineSlctFun()">
-				</select>
-				<!--<label id='productionLineLabel'> 产线： </label>
-				<select class="selectpicker" id="productionLineSlct" style="width:100px; display: none;" name="productionLineSlct" onchange="chargingRackRecordWorkingLocationSlctFun()">
-				</select>
-				<label id='workingkLocationSlctLabel'> 工位： </label>
-				<select class="selectpicker" id="workingkLocationSlct" style="width:100px; display: none;" name="workingkLocationSlct">
-				</select>-->
-				<label> 时间： </label>
-				<input type="date" id="startTime" name="startTime" />
-				<label>-</label>
-				<input type="date" id="endTime" name="endTime" />
-				<!--	<input type="button" class="btn btn-default" value="提交 " onclick="publishIdea()">-->
-			</div>
-			<br />
-		</form>
-		<div class=" form-inline row">
-			<button type="button" class="btn btn-success" onclick="getOnRackRecord('onRack')">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>工序产量汇总查询
-            </button>
-            <button type="button" class="btn btn-success" onclick="getstaffproductAccountSummaryPlant()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>员工产量汇总查询
-            </button>
-            <!--<button type="button" class="btn btn-success" onclick="getstaffproductAccountSummaryPlant()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>月度生产统计
-            </button>-->
-            <button type="button" class="btn btn-success" onclick="getprocessproductAccountSummaryPlant()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>工艺产品月报表
-            </button>
-            <button type="button" class="btn btn-success" onclick="getmonthproductAccountSummaryPlant()">
-                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>月度生产统计
-            </button>
-		</div>
-		<div id="echarts_container" style="height: 300px; display: block;"></div>
-       
-		<!--<table id="tableId" style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">-->
-		<!--<table id="tableId" >-->
-		<!--</table>-->
-		<div class="table-responsive">
-			<!--表格自动出现水平滚动条-->
-			<table id="tableId" class="table text-nowrap">
-				<!--//表示表格产生横向滚动条，内容设置为一行-->
-			</table>
-			<table id="tableId" class="table table-striped">
-				<!--//不产生横向滚动条，数据内容折行显示-->
-			</table>
-		</div>
 	</body>
-	 <!--<script type="text/javascript">
-		var dom = document.getElementById("container");
-		var myChart = echarts.init(dom);
-		var app = {};
-		option = null;
-		option = {
-			title : {
-		        text: '某站点用户访问来源',
-		        x:'center'
-		    },
-		    series : [
-		        {
-		            type: 'pie',
-		            radius : '55%',
-		            center: ['50%', '60%'],
-		            data:[
-		                {value:1000000, name:'直接访问'},
-		                {value:310, name:'邮件营销'},
-		            ]
-		        }
-		    ]
-		};
-		;
-		if (option && typeof option === "object") {
-		    myChart.setOption(option, true);
-		}
-       </script>-->
 </html>
