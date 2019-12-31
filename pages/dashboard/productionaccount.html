@@ -17,7 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-table-fixed-columns/bootstrap-table-fixed-columns.css" media="screen">
 		<!--<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">-->
 	</head>
-	<body style="padding-left:20px;padding-top:5px">
+	<body style="padding-left:40px;padding-top:5px">
 	<div class="container-fluid">
 	<div class="row clearfix">
 		<br>
@@ -27,28 +27,17 @@
 					<form ID="PlantToLineSelectForm" name="PlantToLineSelectForm">
 						<div class="row clearfix">
 							<div class="col-md-12 column">
-								<div class="col-md-3 col-sm-12 column">
+								<div class=" form-inline row">
 									<label id='industrialPlantLabel'> 厂区： </label>
 									<select class="selectpicker" id="industrialPlantSlct" style="width:100px;" name="industrialPlantSlct" onchange="chargingRackRecordProductionLineSlctFun()">
 									</select>
-								</div>
-								<div class="col-md-3 column">
 									<label id='productionProcessLabel'> 流程： </label>
 									<select class="selectpicker" id="productionProcessSlct" style="width:100px;" name="productionProcessSlct" onchange="chargingRackRecordProductionLineSlctFun()">
 									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row clearfix">
-							<div class="col-md-12 column">
-								<div class="col-md-3 col-sm-12 column">
 									<label> 开始时间： </label>
 									<input type="date" id="startTime" name="startTime" />
-								</div>
-								<div class="col-md-3 col-sm-12 column">
 									<label> 结束时间：</label>
 									<input type="date" id="endTime" name="endTime" />
-								</div>
 							</div>
 						</div>
 					</form>
@@ -56,6 +45,7 @@
 			</div>
 		</div>
 	</div>
+	<br>
 	<br>
 	<div class="row clearfix">
 		<div class="col-md-12 column">
