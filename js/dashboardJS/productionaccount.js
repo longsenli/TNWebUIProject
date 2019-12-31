@@ -590,21 +590,35 @@ function mergeCells1(data, fieldName, tableId) {
  *            目标表格对象
  */
 function mergeCellsforName1(data, fieldName, tableId) {
-	var bai = 0;
-	var ye =0 ;
+	var A_class = 0;
+	var B_class =0 ;
+	var None_class = 0;
 	
+	var firstclasstype = data[0].班组;
 	
 	for (var i=0; i<data.length; i++ ){
-		if(data[i].班别 =='白班' ){
-			bai++;
+		if(data[i].班组 ==firstclasstype ){
+			A_class++;
 		}
 	}
-	ye = data.length - bai;
 	
-	for (var i=0; i<bai; i++ ){
+	var sencondclasstype = data[A_class].班组;
+	
+	for (var i=A_class; i<data.length; i++ ){
+		if(data[i].班组 ==sencondclasstype ){
+			B_class++;
+		}
+	}
+	
+	
+	
+	None_class = data.length - A_class - B_class;
+	
+	
+	for (var i=0; i<A_class; i++ ){
 		// 声明一个map计算相同属性值在data对象出现的次数和
 		var sortMap = {};
-		for (var i = 0; i < bai; i++) {
+		for (var i = 0; i < A_class; i++) {
 			for ( var prop in data[i]) {
 				if (prop == fieldName) {
 					var key = data[i][prop];
@@ -630,10 +644,10 @@ function mergeCellsforName1(data, fieldName, tableId) {
 		}
 	}
 	
-	for (var i=bai; i<data.length; i++ ){
+	for (var i=A_class; i<data.length - None_class; i++ ){
 		// 声明一个map计算相同属性值在data对象出现的次数和
 		var sortMap = {};
-		for (var i = bai; i < data.length; i++) {
+		for (var i = A_class; i < data.length; i++) {
 			for ( var prop in data[i]) {
 				if (prop == fieldName) {
 					var key = data[i][prop];
@@ -646,7 +660,7 @@ function mergeCellsforName1(data, fieldName, tableId) {
 				}
 			}
 		}
-		var index = bai;
+		var index = A_class;
 		for ( var prop in sortMap) {
 			var count = sortMap[prop] * 1;
 			$(tableId).bootstrapTable('mergeCells', {
