@@ -983,7 +983,7 @@ function staffAttendanceSummary()
 	});
 
 	columnsArray.push({
-		"title": "姓    名  ",
+		"title": " 员 工 姓 名  ",
 		"field": "staffName"
 	});
 	var dateString =new Date(document.getElementById("startTime").value) ;
