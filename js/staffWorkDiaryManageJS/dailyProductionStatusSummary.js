@@ -196,8 +196,7 @@ function scanQRRecordRowClick(row) {
 var timeNum = 1;
 
 function getTMPLineProductionDetailRecord() {
-	if($("#classTypeSlct").val() == "-1")
-	{
+	if($("#classTypeSlct").val() == "-1") {
 		alert("确认产量不能选择全部!")
 		return;
 	}
@@ -979,8 +978,7 @@ function confirmLineProductionDetailRecord() {
 }
 
 function getTMPProcessProductionDetailRecord() {
-	if($("#classTypeSlct").val() == "-1")
-	{
+	if($("#classTypeSlct").val() == "-1") {
 		alert("确认产量不能选择全部!")
 		return;
 	}
