@@ -1044,9 +1044,21 @@ function getTMPProcessProductionDetailRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
-			"field": "currentInventory"
+			"field": "inventoryTransition1"
 		});
-
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
 		columnsArray.push({
 			"title": "出勤人数",
 			"field": "attendanceNumber"
@@ -1288,7 +1300,20 @@ function getTMPProcessProductionDetailRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
-			"field": "currentInventory"
+			"field": "inventoryTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.TB) {
@@ -1633,6 +1658,7 @@ function getTMPProcessProductionDetailRecord() {
 
 function getConfirmedProcessProductionRecord() {
 	var columnsArray = [];
+
 	if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
 		columnsArray.push({
 			"title": "id",
@@ -1691,9 +1717,12 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
+			"field": "inventoryTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
 			"field": "currentInventory"
 		});
-
 		columnsArray.push({
 			"title": "出勤人数",
 			"field": "attendanceNumber"
@@ -1935,6 +1964,10 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
+			"field": "inventoryTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
 			"field": "currentInventory"
 		});
 
@@ -2025,9 +2058,42 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
+			"field": "inventoryTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
 			"field": "currentInventory"
 		});
 
+		//		columnsArray.push({
+		//			"title": "出勤人数",
+		//			"field": "attendanceNumber"
+		//		});
+		//		columnsArray.push({
+		//			"title": "机器数量",
+		//			"field": "machineNumber"
+		//		});
+		//		columnsArray.push({
+		//			"title": "开机数量",
+		//			"field": "actualMachineNumber"
+		//		});
+		//		columnsArray.push({
+		//			"title": "开机率",
+		//			"field": "productionMachineRatio"
+		//		});
+		//
+		//		columnsArray.push({
+		//			"title": "日期",
+		//			"field": "dayTime"
+		//		});
+		//		columnsArray.push({
+		//			"title": "班组",
+		//			"field": "teamType"
+		//		});
+		//		columnsArray.push({
+		//			"title": "白夜班",
+		//			"field": "classType"
+		//		});
 	} else {
 
 		columnsArray.push({
@@ -2092,10 +2158,6 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "理论库存",
-			"field": "inventoryTransition1"
-		});
-		columnsArray.push({
-			"title": "实盘数量",
 			"field": "currentInventory"
 		});
 
