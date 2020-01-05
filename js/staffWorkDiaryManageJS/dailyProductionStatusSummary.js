@@ -1273,7 +1273,7 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "电池报废",
 			"field": "weightNumber"
 		});
-		
+
 		columnsArray.push({
 			"title": "发料一部",
 			"field": "grantNumberTransition1"
@@ -1351,8 +1351,7 @@ function getTMPProcessProductionDetailRecord() {
 			}
 		});
 
-		
-	}else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
 		columnsArray.push({
 			"title": "id",
 			"field": "id",
@@ -1383,7 +1382,7 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "总产量",
 			"field": "productionNumber"
 		});
-columnsArray.push({
+		columnsArray.push({
 			"title": "计划产量",
 			"field": "planDailyProduction"
 		});
@@ -1575,7 +1574,6 @@ columnsArray.push({
 			}
 		});
 
-		
 	} else {
 
 		columnsArray.push({
@@ -1785,7 +1783,7 @@ columnsArray.push({
 }
 
 function getConfirmedProcessProductionRecord() {
-	
+
 	var columnsArray = [];
 
 	if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
@@ -1850,16 +1848,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 		columnsArray.push({
 			"title": "出勤人数",
@@ -2017,16 +2006,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.ZH) {
 		columnsArray.push({
@@ -2075,7 +2055,7 @@ function getConfirmedProcessProductionRecord() {
 			"title": "电池报废",
 			"field": "weightNumber"
 		});
-		
+
 		columnsArray.push({
 			"title": "发料一部",
 			"field": "grantNumberTransition1"
@@ -2120,16 +2100,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "线边仓实际库存",
-			"field": "reveiveType",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "reveiveType"
 		});
 		columnsArray.push({
 			"title": "半成品结余",
@@ -2141,20 +2112,10 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
-		
-	}else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
 		columnsArray.push({
 			"title": "id",
 			"field": "id",
@@ -2185,7 +2146,7 @@ function getConfirmedProcessProductionRecord() {
 			"title": "总产量",
 			"field": "productionNumber"
 		});
-columnsArray.push({
+		columnsArray.push({
 			"title": "计划产量",
 			"field": "planDailyProduction"
 		});
@@ -2254,16 +2215,7 @@ columnsArray.push({
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.TB) {
@@ -2365,19 +2317,9 @@ columnsArray.push({
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
-		
 	} else {
 
 		columnsArray.push({
