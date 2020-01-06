@@ -108,6 +108,16 @@ function scrapProductionLineSlctFun() {
 	$('#scrapProcess').selectpicker('refresh');
 	$('#scrapProcess').selectpicker('render');  
 
+	if($('#productionProcessSlct').val() == windowProcessEnum.TB) {
+		$('#returnBT').hide();
+		$('#unqualifyBT').hide();
+		$('#unqualifiedBatteryBT').hide();
+
+	} else {
+		$('#returnBT').show();
+		$('#unqualifyBT').show();
+		$('#unqualifiedBatteryBT').show();
+	}
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
 	formData.append("processID", document.PlantToLineSelectForm.productionProcessSlct.value.toString());

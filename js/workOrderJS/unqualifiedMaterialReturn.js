@@ -250,10 +250,10 @@ function unqualifiedMaterialReturnSelect() {
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
-		}
+		} 
 	});
 }
-
+  
 function getOrderInfoDetail(recordID) {
 	$('#returntable').bootstrapTable('destroy');
 	if(!recordID)
@@ -426,6 +426,7 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 	//alert("生产线选择");
 	
 	
+	
 	if(!$("#unqualifiedMaterialReturnNumber").val()) {
 		alert("退返数量无效!");
 		return;
@@ -448,6 +449,12 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 	//console.log(selectRow[0].number);
 	if(returnNum > selectRow[0].number) {
 		alert("退返数量不能大于入库数量!");
+		return;
+	}
+	
+	if(!selectRow[0].outputProcessID || selectRow[0].outputProcessID.length < 2)
+	{
+		alert("需要选择已投料的二维码进行红冲!");
 		return;
 	}
 	var returnRecord = {};
@@ -486,7 +493,7 @@ function unqualifiedMaterialReturnAddReturnRecord() {
 
 				alert("添加成功！");
 			} else {
-				alert("初始化产线数据失败！" + dataRes.message);
+				alert("添加失败！" + dataRes.message);
 			}
 		}
 	});
