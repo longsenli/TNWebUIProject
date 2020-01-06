@@ -269,6 +269,90 @@ function getTMPLineProductionDetailRecord() {
 			"field": "classType"
 		});
 
+	} else if(window.windowProcessEnum.TB == $("#productionProcessSlct").val()) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "报废大片",
+			"field": "productionTransition1"
+		});
+		columnsArray.push({
+			"title": "和膏锅数",
+			"field": "productionTransition2",
+			editable: {
+				type: 'text',
+				title: '和膏锅数',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+
+		columnsArray.push({
+			"title": "投料型号",
+			"field": "usedMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+
+		columnsArray.push({
+			"title": "报废数量",
+			"field": "scrapNumber"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
 	} else if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
 
 		columnsArray.push({
@@ -652,6 +736,164 @@ function getConfirmedLineProductionRecord() {
 			"field": "usedNumber"
 		});
 
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+
+	} else if(window.windowProcessEnum.TB == $("#productionProcessSlct").val()) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "报废大片",
+			"field": "productionTransition1"
+		});
+		columnsArray.push({
+			"title": "和膏锅数",
+			"field": "productionTransition2",
+			editable: {
+				type: 'text',
+				title: '和膏锅数',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+
+		columnsArray.push({
+			"title": "投料型号",
+			"field": "usedMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+
+		columnsArray.push({
+			"title": "报废数量",
+			"field": "scrapNumber"
+		});
+
+		columnsArray.push({
+			"title": "日期",
+			"field": "dayTime"
+		});
+		columnsArray.push({
+			"title": "班组",
+			"field": "teamType"
+		});
+		columnsArray.push({
+			"title": "白夜班",
+			"field": "classType"
+		});
+	} else if(window.windowProcessEnum.CD == $("#productionProcessSlct").val()) {
+
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "产线",
+			"field": "lineID",
+			formatter: function(value, row, index) {
+				return $("#productionLineSlct option[value='" + value + "']").text();
+			}
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "materialName"
+		});
+		columnsArray.push({
+			"title": "类型",
+			"field": "productionTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
+		columnsArray.push({
+			"title": "上架物料型号",
+			"field": "materialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "上架数量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "下架物料型号",
+			"field": "usedMaterialName"
+		});
+		columnsArray.push({
+			"title": "类型",
+			"field": "usedNumberTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
+		columnsArray.push({
+			"title": "下架数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "不良数量",
+			"field": "scrapNumber"
+		});
 		columnsArray.push({
 			"title": "日期",
 			"field": "dayTime"
@@ -1440,6 +1682,22 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "合计退返",
 			"field": "scrapNumber"
 		});
+		columnsArray.push({
+			"title": "本部涂板报废",
+			"field": "weightNumber"
+		});
+		columnsArray.push({
+			"title": "上报不良",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "上报产量",
+			"field": "usedNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "上报发料",
+			"field": "usedNumberTransition2"
+		});
 
 		columnsArray.push({
 			"title": "上班结余",
@@ -1507,6 +1765,14 @@ function getTMPProcessProductionDetailRecord() {
 			"field": "productionTransition1"
 		});
 		columnsArray.push({
+			"title": "分板大片红冲",
+			"field": "productionTransition2"
+		});
+		columnsArray.push({
+			"title": "上报产量",
+			"field": "productionTransition3"
+		});
+		columnsArray.push({
 			"title": "板栅型号",
 			"field": "receiveMaterialName"
 		});
@@ -1552,6 +1818,21 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "投料数量",
 			"field": "usedNumber"
 		});
+
+		columnsArray.push({
+			"title": "上报领料",
+			"field": "reveiveType"
+		});
+		columnsArray.push({
+			"title": "上报不良总计",
+			"field": "grantNumberTransition1"
+		});
+
+		//		columnsArray.push({
+		//			"title": "上报投料",
+		//			"field": "grantNumberTransition2"
+		//		});
+
 		columnsArray.push({
 			"title": "上班结余",
 			"field": "lastInventory"
@@ -1848,7 +2129,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory"
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 		columnsArray.push({
 			"title": "出勤人数",
@@ -2006,7 +2296,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory"
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.ZH) {
 		columnsArray.push({
@@ -2100,7 +2399,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "线边仓实际库存",
-			"field": "reveiveType"
+			"field": "reveiveType",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 		columnsArray.push({
 			"title": "半成品结余",
@@ -2112,7 +2420,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory"
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
@@ -2204,6 +2521,22 @@ function getConfirmedProcessProductionRecord() {
 			"title": "合计退返",
 			"field": "scrapNumber"
 		});
+		columnsArray.push({
+			"title": "本部涂板报废",
+			"field": "weightNumber"
+		});
+		columnsArray.push({
+			"title": "上报不良",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "上报产量",
+			"field": "usedNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "上报发料",
+			"field": "usedNumberTransition2"
+		});
 
 		columnsArray.push({
 			"title": "上班结余",
@@ -2215,7 +2548,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory"
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.TB) {
@@ -2260,6 +2602,14 @@ function getConfirmedProcessProductionRecord() {
 		columnsArray.push({
 			"title": "大片报废",
 			"field": "productionTransition1"
+		});
+		columnsArray.push({
+			"title": "分板大片红冲",
+			"field": "productionTransition2"
+		});
+		columnsArray.push({
+			"title": "上报产量",
+			"field": "productionTransition3"
 		});
 		columnsArray.push({
 			"title": "板栅型号",
@@ -2307,6 +2657,21 @@ function getConfirmedProcessProductionRecord() {
 			"title": "投料数量",
 			"field": "usedNumber"
 		});
+
+		columnsArray.push({
+			"title": "上报领料",
+			"field": "reveiveType"
+		});
+		columnsArray.push({
+			"title": "上报不良总计",
+			"field": "grantNumberTransition1"
+		});
+
+		//		columnsArray.push({
+		//			"title": "上报投料",
+		//			"field": "grantNumberTransition2"
+		//		});
+
 		columnsArray.push({
 			"title": "上班结余",
 			"field": "lastInventory"
@@ -2317,7 +2682,16 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory"
+			"field": "currentInventory",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
 		});
 
 	} else {
