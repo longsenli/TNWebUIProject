@@ -1855,6 +1855,197 @@ function getTMPProcessProductionDetailRecord() {
 			}
 		});
 
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "报废片数",
+			"field": "scrapNumber"
+		});
+		columnsArray.push({
+			"title": "报废重量",
+			"field": "weightNumber"
+		});
+
+		columnsArray.push({
+			"title": "板栅型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "领料一部",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "领料二部",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "领料三部",
+			"field": "receiveMaterialNumber3"
+		});
+		columnsArray.push({
+			"title": "领料合计",
+			"field": "receiveNumber"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "reveiveType"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "usedNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "usedNumberTransition2",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.BB) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "发往一部",
+			"field": "grantNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "发往二部",
+			"field": "grantNumberTransition2"
+		});
+		columnsArray.push({
+			"title": "发往三部",
+			"field": "grantNumberTransition3"
+		});
+		columnsArray.push({
+			"title": "发料合计",
+			"field": "grantNumber"
+		});
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "lastInventory"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "currentInventory"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "inventoryTransition1",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+		columnsArray.push({
+			"title": "板栅型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "报废片数",
+			"field": "scrapNumber"
+		});
+		columnsArray.push({
+			"title": "报废重量",
+			"field": "weightNumber"
+		});
+
 	} else {
 
 		columnsArray.push({
@@ -2692,6 +2883,197 @@ function getConfirmedProcessProductionRecord() {
 					}
 				}
 			}
+		});
+
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "报废片数",
+			"field": "scrapNumber"
+		});
+		columnsArray.push({
+			"title": "报废重量",
+			"field": "weightNumber"
+		});
+
+		columnsArray.push({
+			"title": "板栅型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "领料一部",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "领料二部",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "领料三部",
+			"field": "receiveMaterialNumber3"
+		});
+		columnsArray.push({
+			"title": "领料合计",
+			"field": "receiveNumber"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "reveiveType"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "usedNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "usedNumberTransition2",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+
+	} else if($("#productionProcessSlct").val() == windowProcessEnum.BB) {
+		columnsArray.push({
+			"title": "id",
+			"field": "id",
+			visible: false
+		});
+
+		columnsArray.push({
+			"title": "厂区",
+			"field": "plantID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "流程",
+			"field": "processID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "物料型号",
+			"field": "productionMaterialID",
+			visible: false
+		});
+		columnsArray.push({
+			"title": "总产量",
+			"field": "productionNumber"
+		});
+		columnsArray.push({
+			"title": "计划产量",
+			"field": "planDailyProduction"
+		});
+		columnsArray.push({
+			"title": "完成率",
+			"field": "ratioFinish"
+		});
+		columnsArray.push({
+			"title": "发往一部",
+			"field": "grantNumberTransition1"
+		});
+		columnsArray.push({
+			"title": "发往二部",
+			"field": "grantNumberTransition2"
+		});
+		columnsArray.push({
+			"title": "发往三部",
+			"field": "grantNumberTransition3"
+		});
+		columnsArray.push({
+			"title": "发料合计",
+			"field": "grantNumber"
+		});
+		columnsArray.push({
+			"title": "上班结余",
+			"field": "lastInventory"
+		});
+		columnsArray.push({
+			"title": "理论库存",
+			"field": "currentInventory"
+		});
+		columnsArray.push({
+			"title": "实盘数量",
+			"field": "inventoryTransition1",
+			editable: {
+				type: 'text',
+				title: '实盘数量',
+				validate: function(value, row, index) {
+					if(!Number(value)) {
+						return "请输入合法数字";
+					}
+				}
+			}
+		});
+		columnsArray.push({
+			"title": "板栅型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "报废片数",
+			"field": "scrapNumber"
+		});
+		columnsArray.push({
+			"title": "报废重量",
+			"field": "weightNumber"
 		});
 
 	} else {
