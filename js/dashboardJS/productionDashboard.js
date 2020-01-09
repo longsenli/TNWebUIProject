@@ -38,7 +38,7 @@ function productionDashboardPlantSlctFun(flag) {
 				productionDashboardProcessSlctFun();
 
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				console.log("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -169,7 +169,7 @@ function initProductionDashboardPicture(showType) {
 				plantProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询订单计划失败！" + dataRes.message);
+				console.log("查询订单计划失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -195,7 +195,7 @@ function initProductionDashboardPicture(showType) {
 				realProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -220,7 +220,7 @@ function initProductionDashboardPicture(showType) {
 				planDailyProductionNumber = dataRes.data;
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -744,7 +744,7 @@ function initProductionDashboardPicture(showType) {
 
 			setTimeout("initProductionDashboardByLineMaterialPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);
 		} else {
-			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);
+			setTimeout("initProductionDashboardPicture('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 5);  
 		}
 	}
 }
@@ -801,7 +801,7 @@ function productionDashboardProcessSlctFun(showType) {
 
 				initProductionDashboardPicture();
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				console.log("初始化数据失败！" + dataRes.message);
 			}
 		}
 	});
@@ -875,7 +875,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 				plantProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询订单计划失败！" + dataRes.message);
+				console.log("查询订单计划失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -901,7 +901,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 				realProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -926,7 +926,7 @@ function initProductionDashboardByLineMaterialPicture(showType) {
 				planDailyProductionNumber = dataRes.data;
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -1516,7 +1516,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 				plantProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询订单计划失败！" + dataRes.message);
+				console.log("查询订单计划失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -1542,7 +1542,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 				realProductionDashboardData = eval("(" + dataRes.data + ")");
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}
@@ -1567,7 +1567,7 @@ function initProductionDashboardByMaterialPicture(showType) {
 				planDailyProductionNumber = dataRes.data;
 
 			} else {
-				alert("查询产量数据失败！" + dataRes.message);
+				console.log("查询产量数据失败！" + dataRes.message);
 				return;
 			}
 		}

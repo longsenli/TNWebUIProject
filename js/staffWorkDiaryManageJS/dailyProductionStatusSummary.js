@@ -2222,11 +2222,10 @@ function getTMPProcessProductionDetailRecord() {
 					//search: true,
 					searchAlign: 'right',
 					pagination: true,
-					columns: columnsArray
-					//					,
-					//					onClickRow: function(row) {
-					//						setTimeout("updateRowCell('" + row["id"] + "')", 1000);
-					//					}
+					columns: columnsArray,
+					onClickRow: function(row) {
+						setTimeout('$(".input-sm").select()',100);
+					}
 				});
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
