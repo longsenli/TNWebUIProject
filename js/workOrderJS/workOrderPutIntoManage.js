@@ -294,7 +294,7 @@ function workOrderPutIntoManage() {
 					pagination: true,
 					columns: columnsArray,
 					onClickRow: function(row, element) {
-						if(row.信息 == '总计') {
+						if(row.入库工单 == '总计') {
 							//console.log(element);
 							//console.log(1);
 							

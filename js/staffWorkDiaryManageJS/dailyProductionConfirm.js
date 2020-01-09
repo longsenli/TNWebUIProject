@@ -407,6 +407,7 @@ function getTMPProductionWageRecord() {
 					columns: columnsArray,
 					onClickRow: function(row) {
 						setTimeout("updateRowCell('" + row["id"] + "')", 1000);
+						setTimeout('$(".input-sm").select()',100);
 					}
 				});
 			} else {
