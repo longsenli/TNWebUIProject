@@ -357,10 +357,19 @@ function changeMaterialInfo() {
 				//labelStyle = " style=\"font-size:36px\" ";
 				//textStyle = " style=\"font-size:36px;height: 80px;\" ";
 
+				var FBBool = false;
+				if($("#productionProcessSlct").val() == windowProcessEnum.BB || $("#productionProcessSlct").val() == windowProcessEnum.FB) {
+					FBBool = true;
+				}
 				for (var  i  in  models)  {  
 					htmlInner += "<label " + labelStyle + " >" + models[i].name + "</label>" + "<input type=\"text\" class=\"form-control\" " + textStyle +
 						" onkeyup=\"value=value.replace(/[^0-9|^.]/g,'')\" id=\"" + models[i].id + "###" + models[i].name + "\" name=\"" + models[i].id +
-						"###" + models[i].name + "\"    placeholder=\"请输入报废数量\">";
+						"###" + models[i].name;
+					if(FBBool) {
+						htmlInner += "\"    placeholder=\"请输入报废重量\">";
+					} else {
+						htmlInner += "\"    placeholder=\"请输入报废数量\">";
+					}
 				}
 			} else {
 				alert("获取物料信息失败！" + dataRes.message);
