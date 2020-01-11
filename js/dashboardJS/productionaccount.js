@@ -428,6 +428,8 @@ function getstaffproductAccountSummaryPlant() {
 
 				mergeCells1(models, "厂区", '#tableId')
 				mergeCells1(models, "工序", '#tableId')
+//				mergeCells1(models, "姓名", '#tableId')
+//				mergeCells1forTotal(models, "姓名", '#tableId') //按照姓名排序合计
 				mergeCellsforName1(models, "姓名", '#tableId')
 
 //				mergeCells(models, "工序", 0, '#tableId')
@@ -578,6 +580,52 @@ function mergeCells1(data, fieldName, tableId) {
 	}
 }
 
+/**
+ * 合并单元格
+ * 
+ * @param data
+ *            原始数据（在服务端完成排序）
+ * @param fieldName
+ *            合并属性名称
+ * @param target
+ *            目标表格对象
+ */
+function mergeCells1forTotal(data, fieldName, tableId) {
+	// 声明一个map计算相同属性值在data对象出现的次数和
+	var sortMap = {};
+	for (var i = 0; i < data.length; i++) {
+		for ( var prop in data[i]) {
+			if (prop == fieldName) {
+				var key = data[i][prop];
+				if (sortMap.hasOwnProperty(key)) {
+					sortMap[key] = sortMap[key] * 1 + 1;
+				} else {
+					sortMap[key] = 1;
+				}
+				break;
+			}
+		}
+	}
+	var index = 0;
+	for ( var prop in sortMap) {
+		var count = sortMap[prop] * 1;
+		$(tableId).bootstrapTable('mergeCells', {
+			index : index + 2,
+			field : '总产量',
+			colspan : 1,
+			rowspan : count - 2
+		});
+		$(tableId).bootstrapTable('mergeCells', {
+			index : index + 2,
+			field : '合计工资',
+			colspan : 1,
+			rowspan : count -2
+		});
+		
+		index += count;
+	}
+}
+
 
 /**
  * 合并单元格
@@ -640,6 +688,26 @@ function mergeCellsforName1(data, fieldName, tableId) {
 				colspan : 1,
 				rowspan : count
 			});
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : '班组',
+				colspan : 1,
+				rowspan : count
+			});
+			//合计开始
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '总产量',
+					colspan : 1,
+					rowspan : count - 2
+				});
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '合计工资',
+					colspan : 1,
+					rowspan : count -2
+				});
+			//合计结束
 			index += count;
 		}
 	}
@@ -669,6 +737,26 @@ function mergeCellsforName1(data, fieldName, tableId) {
 				colspan : 1,
 				rowspan : count
 			});
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : '班组',
+				colspan : 1,
+				rowspan : count
+			});
+				//合计开始
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '总产量',
+					colspan : 1,
+					rowspan : count - 2
+				});
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '合计工资',
+					colspan : 1,
+					rowspan : count -2
+				});
+			//合计结束
 			index += count;
 		}
 	}
