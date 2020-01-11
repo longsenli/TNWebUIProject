@@ -418,6 +418,7 @@ function getSelfScanLocationQRRecord() {
 }
 
 function getStaffAttendanceInfo() {
+	var classTypeRes = "A";
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true,
@@ -481,7 +482,23 @@ function getStaffAttendanceInfo() {
 	});
 	columnsArray.push({
 		"title": "班组",
-		"field": "extd2"
+		"field": "extd2",
+		formatter: function(value, row, index) {
+//			if(!value)
+//			{
+//				return classTypeRes;
+//			}
+			return classTypeRes;
+		},
+			editable: {
+				type: 'text',
+				title: '班组',
+				validate: function(value, row, index) {
+					if("A" != value && "B" != value) {
+						return "请输入A或者B";
+					}
+				}
+			}
 	});
 	columnsArray.push({
 		"title": "时 长",
@@ -539,8 +556,25 @@ function getStaffAttendanceInfo() {
 
 		success: function(dataRes) {
 			if(dataRes.status == 1) { 
-
+				var ANumber = 0;
+				var BNumber = 0;
+				
 				var models = eval("(" + dataRes.data + ")");
+				for(var i in models)
+				{
+					if(models[i].extd2 == "A")
+					{
+						ANumber++;
+					}
+					if(models[i].extd2 == "B")
+					{
+						BNumber++;
+					}
+				}
+				if(ANumber < BNumber)
+				{
+					classTypeRes = "B";
+				}
 				$('#table').bootstrapTable('destroy').bootstrapTable({
 					data: models,
 					toolbar: '#materialidToolbar',
@@ -572,7 +606,10 @@ function getStaffAttendanceInfo() {
 						//onMsoNumberFormat: DoOnMsoNumberFormat  
 					},
 					//导出excel表格设置<<<<<<<<<<<<<<<<
-					columns: columnsArray
+					columns: columnsArray,
+					onClickRow: function(row) {
+						setTimeout('$(".input-sm").select()',100);
+					}
 				});
 			} else {
 				alert("初始化数据失败！" + dataRes.message);

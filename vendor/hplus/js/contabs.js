@@ -3,8 +3,8 @@ $(function () {
 	initSystemMenu();
 	function initSystemMenu() {
 	var isFirstMenu;
-	var userName = $.cookie('username');
-	var userID = $.cookie('userID');
+	var userName = localStorage.username;
+	var userID = localStorage.userID;
 	$.ajax({
 		type: "Post",
 		url: window.serviceIP + "/menu/getUserMenuList?userID="+userID,
@@ -55,7 +55,7 @@ $(function () {
 			// side-menu
 			$("#side-menu").html(showlist.html());
 			//显示登录用户名称
-			document.getElementById("loginname").innerText = $.cookie("username");
+			document.getElementById("loginname").innerText = localStorage.username;
 //			$("#loginname").innerText=userName;
 			//通过遍历给菜单项加上data-index属性
 		    $(".J_menuItem").each(function (index) {
