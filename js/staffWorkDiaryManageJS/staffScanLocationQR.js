@@ -925,14 +925,13 @@ function recognitionQR(webName, qrCode) {
 				}
 			}
 		}
-		
 			if(localStorage.teamType && localStorage.teamType.length > 0) {
-			var numbers = $('#workContentSlct').find("option"); //获取select下拉框的所有值
+			var numbers = $('#teamTypeSlct').find("option"); //获取select下拉框的所有值
 			for(var j = 0; j < numbers.length; j++) {
 				if($(numbers[j]).val().toString() == localStorage.teamType) {
 					$(numbers[j]).attr("selected", "selected");
-					$('#workContentSlct').selectpicker('refresh');
-					$('#workContentSlct').selectpicker('render'); 
+					$('#teamTypeSlct').selectpicker('refresh');
+					$('#teamTypeSlct').selectpicker('render'); 
 					break;
 				}
 			}

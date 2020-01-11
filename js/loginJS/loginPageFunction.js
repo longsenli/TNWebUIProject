@@ -46,8 +46,9 @@ function loginSuccess(result, realIP, unselectedMenu, username, password) {
 			localStorage.setItem('workContent', result.message.split("###")[6].trim());
 		}
 	}
+
 		if(result.message.split("###")[7]) {
-		if(result.message.split("###")[7] != "null" && result.message.split("###")[7].length > 1 && result.message.split("###")[7].trim() != "-1") {
+		if(result.message.split("###")[7] != "null"  && result.message.split("###")[7].trim() != "-1") {
 
 			localStorage.setItem('teamType', result.message.split("###")[7].trim());
 		}
