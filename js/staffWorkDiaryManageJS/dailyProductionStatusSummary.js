@@ -4,9 +4,6 @@ function dailyProductionStatusSummaryIndustrialPlantSlctFun() {
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
 		processData: true,
 		success: function(dataRes) {
 
@@ -14,7 +11,6 @@ function dailyProductionStatusSummaryIndustrialPlantSlctFun() {
 
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
-				//console.log(models);
 				for (var  i  in  models)  {  
 					$('#industrialPlantSlct').append(("<option value=" + models[i].id.toString() + ">" +
 						models[i].name.toString() + "</option>").toString())
@@ -50,9 +46,6 @@ function dailyProductionStatusSummaryProcessSlctFun() {
 
 		contentType: "application/json",
 		dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
 		processData: true,
 		success: function(dataRes) {
 			$("#productionProcessSlct").find('option').remove();
@@ -62,7 +55,6 @@ function dailyProductionStatusSummaryProcessSlctFun() {
 				for (var  i  in  models)  {  
 					$('#productionProcessSlct').append(("<option value=" + models[i].id + ">" + models[i].name.toString()  + "</option>").toString())
 				}
-				//console.log($('#productionProcessSlct'));
 				$('#productionProcessSlct').selectpicker('refresh');
 				$('#productionProcessSlct').selectpicker('render');   
 
@@ -90,12 +82,6 @@ function dailyProductionStatusSummaryProcessSlctFun() {
 };
 
 function dailyProductionStatusSummaryLineSlctFun() {
-	//	return true;
-	//	if(!($.isEmptyObject(first)) && first.toString().length > 1) {
-	//
-	//		return;
-	//	}
-	//alert("生产线选择");
 
 	var formData = new FormData();
 	formData.append("plantID", document.PlantToLineSelectForm.industrialPlantSlct.value.toString());
@@ -105,12 +91,6 @@ function dailyProductionStatusSummaryLineSlctFun() {
 		url: window.serviceIP + "/api/basicdata/getproductionline",
 		type: "POST",
 		data: formData,
-		//contentType: "application/json",
-		//dataType: "json",
-		//		headers: {
-		//			Token: localStorage.getItem('token')
-		//		},
-		//processData: true,
 		async: false,
 		processData: false,
 		contentType: false,
@@ -189,9 +169,6 @@ function scanQRRecordRowClick(row) {
 
 	$('.changeTableRowColor').removeClass('changeTableRowColor');
 	$(row).find("td").addClass('changeTableRowColor');
-	//	if($(row).hasClass('selected')) {
-	//		$(row).find("td").addClass('changeTableRowColor');
-	//	}
 }
 var timeNum = 1;
 
@@ -202,14 +179,6 @@ function getTMPLineProductionDetailRecord() {
 	}
 	$("#currentOperatorType").html("getTMPLineProductionDetailRecord");
 	var columnsArray = [];
-	//	columnsArray.push({
-	//		checkbox: true,
-	//		formatter: function(value, row, index) {
-	//			return {
-	//				checked: true //设置选中
-	//			};
-	//		}
-	//	});
 	if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 
 		columnsArray.push({
@@ -1193,10 +1162,6 @@ function confirmLineProductionDetailRecord() {
 		return;
 	}
 	tableData[0]["extend1"] = localStorage.username;
-	//	var formData = new FormData();
-	//
-	//	formData.append("jsonStr", JSON.stringify(tableData));
-
 	$.ajax({
 		url: window.serviceIP + "/api/staffWorkDiary/saveDailyLineProductionDetailRecord",
 		type: "POST",
@@ -1981,7 +1946,14 @@ function getTMPProcessProductionDetailRecord() {
 		});
 		columnsArray.push({
 			"title": "总产量",
-			"field": "productionNumber"
+			"field": "productionNumber",
+			formatter: function(value, row, index) {
+				if(row.reveiveType) {
+					return "投料明细";
+				} else {
+					return value
+				}
+			}
 		});
 		columnsArray.push({
 			"title": "计划产量",
@@ -2224,7 +2196,7 @@ function getTMPProcessProductionDetailRecord() {
 					pagination: true,
 					columns: columnsArray,
 					onClickRow: function(row) {
-						setTimeout('$(".input-sm").select()',100);
+						setTimeout('$(".input-sm").select()', 100);
 					}
 				});
 			} else {
@@ -2319,16 +2291,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 		columnsArray.push({
 			"title": "出勤人数",
@@ -2486,16 +2449,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.ZH) {
 		columnsArray.push({
@@ -2589,16 +2543,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "线边仓实际库存",
-			"field": "reveiveType",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "reveiveType"
 		});
 		columnsArray.push({
 			"title": "半成品结余",
@@ -2610,16 +2555,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
@@ -2738,16 +2674,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.TB) {
@@ -2872,16 +2799,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "currentInventory",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "currentInventory"
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
@@ -2969,16 +2887,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "usedNumberTransition2",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "usedNumberTransition2"
 		});
 
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.BB) {
@@ -3010,7 +2919,14 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "总产量",
-			"field": "productionNumber"
+			"field": "productionNumber",
+			formatter: function(value, row, index) {
+				if(row.reveiveType) {
+					return "投料明细";
+				} else {
+					return value
+				}
+			}
 		});
 		columnsArray.push({
 			"title": "计划产量",
@@ -3046,16 +2962,7 @@ function getConfirmedProcessProductionRecord() {
 		});
 		columnsArray.push({
 			"title": "实盘数量",
-			"field": "inventoryTransition1",
-			editable: {
-				type: 'text',
-				title: '实盘数量',
-				validate: function(value, row, index) {
-					if(!Number(value)) {
-						return "请输入合法数字";
-					}
-				}
-			}
+			"field": "inventoryTransition1"
 		});
 		columnsArray.push({
 			"title": "板栅型号",
@@ -3298,7 +3205,6 @@ function getConfirmedProcessProductionRecord() {
 }
 
 function confirmProcessProductionDetailRecord() {
-	//	var tableData = $('#table').bootstrapTable('getSelections');
 
 	if($("#currentOperatorType").html() != "getTMPProcessProductionDetailRecord") {
 		alert("请先查询工序生产情况,再确认!");
@@ -3339,8 +3245,4 @@ function confirmProcessProductionDetailRecord() {
 			}
 		}
 	});
-}
-
-function closeModal(modalName) {
-	$("#" + modalName).modal('hide');
 }
