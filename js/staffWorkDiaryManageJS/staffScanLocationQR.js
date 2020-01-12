@@ -180,7 +180,7 @@ function staffScanLocationQRWorkContentSlctFun() {
 };
 
 function confirmStaffAttendanceInfo() {
-	var tableData = $("#table").bootstrapTable('getAllSelections');
+	var tableData = $("#table").bootstrapTable('getData');
 	if(!tableData || tableData.length < 1) {
 		alert("请先选定工人信息再操作!")
 		return;
@@ -421,12 +421,13 @@ function getStaffAttendanceInfo() {
 	var classTypeRes = "A";
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
+		checkbox: true
+//		,
+//		formatter: function(value, row, index) {
+//			return {
+//				checked: true //设置选中
+//			};
+//		}
 	});
 	columnsArray.push({
 		"title": "id",
@@ -579,7 +580,7 @@ function getStaffAttendanceInfo() {
 					data: models,
 					toolbar: '#materialidToolbar',
 					toolbarAlign: 'left',
-					//singleSelect: true,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",

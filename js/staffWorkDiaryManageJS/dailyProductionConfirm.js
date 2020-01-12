@@ -232,12 +232,13 @@ var timeNum = 1;
 function getTMPProductionWageRecord() {
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true,
-		formatter: function(value, row, index) {
-			return {
-				checked: true //设置选中
-			};
-		}
+		checkbox: true
+//		,
+//		formatter: function(value, row, index) {
+//			return {
+//				checked: true //设置选中
+//			};
+//		}
 	});
 	columnsArray.push({
 		"title": "id",
@@ -390,7 +391,7 @@ function getTMPProductionWageRecord() {
 					data: models,
 					toolbar: '#materialidToolbar',
 					toolbarAlign: 'left',
-					//singleSelect: true,
+					singleSelect: true,
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
@@ -448,7 +449,7 @@ function updateRowCell(id) {
 }
 
 function confirmProductionWageRecord() {
-	var tableData = $('#table').bootstrapTable('getSelections');
+	var tableData = $('#table').bootstrapTable('getData');
 	if(!tableData || tableData.length < 1) {
 		alert("请先选定工人信息再操作!")
 		return;
