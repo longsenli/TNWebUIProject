@@ -712,10 +712,12 @@ function mergeCellsforName1(data, fieldName, tableId) {
 		}
 	}
 	
+	
+	
 	for (var i=A_class; i<data.length - None_class; i++ ){
 		// 声明一个map计算相同属性值在data对象出现的次数和
 		var sortMap = {};
-		for (var i = A_class; i < data.length; i++) {
+		for (var i = A_class; i < data.length - None_class; i++) {
 			for ( var prop in data[i]) {
 				if (prop == fieldName) {
 					var key = data[i][prop];
@@ -760,6 +762,58 @@ function mergeCellsforName1(data, fieldName, tableId) {
 			index += count;
 		}
 	}
+	
+	
+	
+	for (var i=A_class + B_class; i<data.length; i++ ){
+		// 声明一个map计算相同属性值在data对象出现的次数和
+		var sortMap = {};
+		for (var i = A_class +B_class; i < data.length; i++) {
+			for ( var prop in data[i]) {
+				if (prop == fieldName) {
+					var key = data[i][prop];
+					if (sortMap.hasOwnProperty(key)) {
+						sortMap[key] = sortMap[key] * 1 + 1;
+					} else {
+						sortMap[key] = 1;
+					}
+					break;
+				}
+			}
+		}
+		var index = A_class + B_class;
+		for ( var prop in sortMap) {
+			var count = sortMap[prop] * 1;
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : fieldName,
+				colspan : 1,
+				rowspan : count
+			});
+			$(tableId).bootstrapTable('mergeCells', {
+				index : index,
+				field : '班组',
+				colspan : 1,
+				rowspan : count
+			});
+				//合计开始
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '总产量',
+					colspan : 1,
+					rowspan : count - 2
+				});
+				$(tableId).bootstrapTable('mergeCells', {
+					index : index + 2,
+					field : '合计工资',
+					colspan : 1,
+					rowspan : count -2
+				});
+			//合计结束
+			index += count;
+		}
+	}
+	
 	
 	
 }
