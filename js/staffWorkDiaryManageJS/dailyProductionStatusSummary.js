@@ -1214,7 +1214,13 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "物料型号",
 			"field": "productionMaterialName"
 		});
-
+		columnsArray.push({
+			"title": "类型",
+			"field": "productionTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
 		columnsArray.push({
 			"title": "物料型号",
 			"field": "productionMaterialID",
@@ -1232,19 +1238,43 @@ function getTMPProcessProductionDetailRecord() {
 			"title": "完成率",
 			"field": "ratioFinish"
 		});
-		columnsArray.push({
-			"title": "下架物料型号",
-			"field": "grantMaterialName"
-		});
-		columnsArray.push({
-			"title": "下架物料型号",
-			"field": "grantMaterialID",
-			visible: false
-		});
+
 		columnsArray.push({
 			"title": "下架数量",
 			"field": "grantNumber"
 		});
+
+		columnsArray.push({
+			"title": "装配型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "一部领料",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "二部领料",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "三部领料",
+			"field": "receiveMaterialNumber3"
+		});
+		columnsArray.push({
+			"title": "领料合计",
+			"field": "receiveNumber"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "退返不良",
+			"field": "scrapNumber"
+		});
+
 		columnsArray.push({
 			"title": "上班结余",
 			"field": "lastInventory"
@@ -1266,19 +1296,7 @@ function getTMPProcessProductionDetailRecord() {
 				}
 			}
 		});
-		columnsArray.push({
-			"title": "出勤人数",
-			"field": "attendanceNumber"
-		});
 
-		columnsArray.push({
-			"title": "日期",
-			"field": "dayTime"
-		});
-		columnsArray.push({
-			"title": "白夜班",
-			"field": "classType"
-		});
 	} else if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 		columnsArray.push({
 			"title": "id",
@@ -2250,7 +2268,13 @@ function getConfirmedProcessProductionRecord() {
 			"title": "物料型号",
 			"field": "productionMaterialName"
 		});
-
+		columnsArray.push({
+			"title": "类型",
+			"field": "productionTransition1",
+			formatter: function(value, row, index) {
+				return $("#materialtype option[value='" + value + "']").text();
+			}
+		});
 		columnsArray.push({
 			"title": "物料型号",
 			"field": "productionMaterialID",
@@ -2268,19 +2292,43 @@ function getConfirmedProcessProductionRecord() {
 			"title": "完成率",
 			"field": "ratioFinish"
 		});
-		columnsArray.push({
-			"title": "下架物料型号",
-			"field": "grantMaterialName"
-		});
-		columnsArray.push({
-			"title": "下架物料型号",
-			"field": "grantMaterialID",
-			visible: false
-		});
+
 		columnsArray.push({
 			"title": "下架数量",
 			"field": "grantNumber"
 		});
+
+		columnsArray.push({
+			"title": "装配型号",
+			"field": "receiveMaterialName"
+		});
+
+		columnsArray.push({
+			"title": "一部领料",
+			"field": "receiveMaterialNumber1"
+		});
+		columnsArray.push({
+			"title": "二部领料",
+			"field": "receiveMaterialNumber2"
+		});
+		columnsArray.push({
+			"title": "三部领料",
+			"field": "receiveMaterialNumber3"
+		});
+		columnsArray.push({
+			"title": "领料合计",
+			"field": "receiveNumber"
+		});
+
+		columnsArray.push({
+			"title": "投料数量",
+			"field": "usedNumber"
+		});
+		columnsArray.push({
+			"title": "退返不良",
+			"field": "scrapNumber"
+		});
+
 		columnsArray.push({
 			"title": "上班结余",
 			"field": "lastInventory"
@@ -2293,18 +2341,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "实盘数量",
 			"field": "currentInventory"
 		});
-		columnsArray.push({
-			"title": "出勤人数",
-			"field": "attendanceNumber"
-		});
 
 		columnsArray.push({
-			"title": "日期",
-			"field": "dayTime"
+			"title": "确认人",
+			"field": "extend1"
 		});
 		columnsArray.push({
-			"title": "白夜班",
-			"field": "classType"
+			"title": "确认时间",
+			"field": "extend2"
 		});
 	} else if(window.windowProcessEnum.GH == $("#productionProcessSlct").val()) {
 		columnsArray.push({
@@ -2365,6 +2409,14 @@ function getConfirmedProcessProductionRecord() {
 		columnsArray.push({
 			"title": "白夜班",
 			"field": "classType"
+		});
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
 		});
 	} else if(window.windowProcessEnum.ZHQD == $("#productionProcessSlct").val()) {
 		columnsArray.push({
@@ -2450,6 +2502,14 @@ function getConfirmedProcessProductionRecord() {
 		columnsArray.push({
 			"title": "实盘数量",
 			"field": "currentInventory"
+		});
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
 		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.ZH) {
 		columnsArray.push({
@@ -2557,7 +2617,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "实盘数量",
 			"field": "currentInventory"
 		});
-
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
+		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.JZ) {
 		columnsArray.push({
 			"title": "id",
@@ -2676,7 +2743,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "实盘数量",
 			"field": "currentInventory"
 		});
-
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
+		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.TB) {
 		columnsArray.push({
 			"title": "id",
@@ -2801,7 +2875,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "实盘数量",
 			"field": "currentInventory"
 		});
-
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
+		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.FB) {
 		columnsArray.push({
 			"title": "id",
@@ -2889,7 +2970,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "实盘数量",
 			"field": "usedNumberTransition2"
 		});
-
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
+		});
 	} else if($("#productionProcessSlct").val() == windowProcessEnum.BB) {
 		columnsArray.push({
 			"title": "id",
@@ -2981,7 +3069,14 @@ function getConfirmedProcessProductionRecord() {
 			"title": "报废重量",
 			"field": "weightNumber"
 		});
-
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
+		});
 	} else {
 
 		columnsArray.push({
@@ -3115,6 +3210,14 @@ function getConfirmedProcessProductionRecord() {
 		columnsArray.push({
 			"title": "白夜班",
 			"field": "classType"
+		});
+		columnsArray.push({
+			"title": "确认人",
+			"field": "extend1"
+		});
+		columnsArray.push({
+			"title": "确认时间",
+			"field": "extend2"
 		});
 	}
 	var formData = new FormData();
