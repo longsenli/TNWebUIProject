@@ -458,6 +458,69 @@ function getstaffproductAccountSummaryPlant() {
 	});
 };
 
+/**
+ * 合并单元格
+ * 
+ * @param data
+ *            原始数据（在服务端完成排序）
+ * @param fieldName
+ *            合并参照的属性名称
+ * @param colspan
+ *            合并开始列
+ * @param target
+ *            目标表格对象	 
+ * @param fieldList
+ *            要合并的字段集合
+ */
+function mergeCells(data, fieldName, colspan, target, fieldList) {
+	// 声明一个map计算相同属性值在data对象出现的次数和
+	var sortMap = {};
+	for(var i = 0; i < data.length; i++) {
+		for(var prop in data[i]) {
+			//例如people.unit.name
+			var fieldArr = fieldName.split(".");
+			getCount(data[i], prop, fieldArr, 0, sortMap);
+		}
+	}
+	var index = 0;
+	for(var prop in sortMap) {
+		var count = sortMap[prop];
+		for(var i = 0; i < fieldList.length; i++) {
+			$(target).bootstrapTable('mergeCells', {
+				index: index,
+				field: fieldList[i],
+				colspan: colspan,
+				rowspan: count
+			});
+		}
+		index += count;
+	}
+}
+/**
+ * 递归到最后一层 统计数据重复次数
+ * 比如例如people.unit.name 就一直取到name
+ * 类似于data["people"]["unit"]["name"]
+ */
+function getCount(data, prop, fieldArr, index, sortMap) {
+	if(index == fieldArr.length - 1) {
+		if(prop == fieldArr[index]) {
+			var key = data[prop];
+			if(sortMap.hasOwnProperty(key)) {
+				sortMap[key] = sortMap[key] + 1;
+			} else {
+				sortMap[key] = 1;
+			}
+		}
+		return;
+	}
+	if(prop == fieldArr[index]) {
+		var sdata = data[prop];
+		index = index + 1;
+		getCount(sdata, fieldArr[index], fieldArr, index, sortMap);
+	}
+
+}
+
 function getStaffAttendanceProductionSummary() {
 	$('#echarts_container').hide();
 	if(document.PlantToLineSelectForm.productionProcessSlct.value.toString() == '-1') {
@@ -536,15 +599,15 @@ function getStaffAttendanceProductionSummary() {
 					clickToSelect: true,
 					sortName: "orderSplitid",
 					sortOrder: "asc",
-										pageSize: 1000,
-										pageNumber: 1,
-										pageList: "[All]",
+					pageSize: 1000,
+					pageNumber: 1,
+					pageList: "[All]",
 					//showToggle: true,
 					//showRefresh: true,
 					//showColumns: true,
-					//					search: true,
+					search: true,
 					//					searchAlign: 'right',
-					//					pagination: true,
+					pagination: true,
 					//必须设置高度，否则无法固定表头
 					//					height:$(document).height()-170,
 					columns: columnsArray,
@@ -564,9 +627,13 @@ function getStaffAttendanceProductionSummary() {
 					//导出excel表格设置<<<<<<<<<<<<<<<<
 				});
 
-//				mergeCells1(models, "厂区", '#tableId')
-//				mergeCells1(models, "工序", '#tableId')
-
+				//				mergeCells1(models, "厂区", '#tableId')
+				//				mergeCells1(models, "工序", '#tableId')
+				//mergeCells(models, "staffName", 1, $('#tableId'), ["classType"]);
+				//mergeCells(models, "staffName", 1, $('#tableId'), ["teamLeader"]);
+				//mergeCells(models, "staffName", 1, $('#tableId'), ["staffName"]);
+				
+				mergeCells1(models, "staffName", '#tableId')
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
