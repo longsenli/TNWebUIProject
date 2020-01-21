@@ -295,7 +295,7 @@ function getOnRackRecord(selectType) {
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',
@@ -415,7 +415,7 @@ function getstaffproductAccountSummaryPlant() {
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',
@@ -617,7 +617,7 @@ function getStaffAttendanceProductionSummary() {
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',
@@ -1140,7 +1140,7 @@ function getprocessproductAccountSummaryPlant() {
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',
@@ -1335,7 +1335,7 @@ function getmonthproductAccountSummaryPlant() {
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',
