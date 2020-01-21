@@ -163,8 +163,11 @@ function equipStatusAllParamMntInit(showType) {
 			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#FFFFFF;font-weight:bold\">设备运行参数监控看板</h1>";
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
+				console.log(models)
 				for(var i = 0; i < models.length; i++) {
+					
 					controller += "<div class =\"TempContral\" ";
+					
 
 					if("1" == models[i].status) {
 						controller += " style =\"background-color:#DAA520 !important;\""
@@ -176,7 +179,7 @@ function equipStatusAllParamMntInit(showType) {
 						//alert(controller);
 					}
 					controller += ">";
-
+					controller += "<label class =\"fontStyle\">  &nbsp;&nbsp;位置：" + models[i].equipName + " &nbsp &nbsp </label><br/>";
 					for(var j = 0; j < $('#equipmentParamType').find("option").length; j++) {
 
 						controller += " &nbsp&nbsp" + models[i].showName + " &nbsp&nbsp<br/>"
@@ -184,13 +187,14 @@ function equipStatusAllParamMntInit(showType) {
 						i++;
 					}
 					i = i - 1
-					controller += "<label class =\"fontStyle\">  &nbsp;&nbsp;位置：" + models[i].equipName + " &nbsp &nbsp</label></div>"
+					controller += "</div>";
 				}
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
-
+	
 			document.getElementById("tempControlerShow").innerHTML = controller;
+			console.log(controller)
 			document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "( 实时 )监控看板";
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
@@ -216,6 +220,116 @@ function equipStatusAllParamMntInit(showType) {
 	}
 	//console.log(document.getElementById("refreshID").innerHTML);
 }
+
+
+
+
+
+function equipStatusAllParamMntInitNew(showType) {
+	document.getElementById("tempControlerShow").innerHTML = "";
+	document.getElementById('circulationGitPicture').src = window.webUiService + "/image/circulationPic.gif";
+
+	$('#circulationPicture').css('display', 'block');
+	$.ajax({
+		url: window.serviceIP + "/api/equipment/getRecentAllParamPecordNew?equipType=" +
+			document.equipmentSelectForm.equipmentType.value.toString() +
+			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString() +
+			"&processID=" + document.equipmentSelectForm.equipMngProcessSlct.value.toString(),
+		type: "GET",
+
+		contentType: "application/json",
+		dataType: "json",
+		headers: {
+			Token: localStorage.getItem('token')
+		},
+		processData: true,
+		success: function(dataRes) {
+			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#FFFFFF;font-weight:bold\">设备运行参数监控看板</h1>";
+			
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				var running = 0;
+				var stop = 0;
+				var none =0;
+				for(var i = 0; i < models.length; i++) {
+					if(models[i].运行状态 == '运行'){running++;}
+					if(models[i].运行状态 == '停止'){stop++;}
+					if(models[i].运行状态 == '未知'){none++;}
+				}
+				var str = "";
+				str +='<div class="row clearfix"><div class="col-md-12 column"><hr size="2"/></div>'+
+				'<div class="col-md-3 column"><font size="6" face="微软雅黑">共计: '+models.length+' 台设备</font></div>'+
+				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="green">运行: '+running+' 台</font></div>'+
+				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="brown">停止: '+stop+' 台</font></div>'+
+				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="red">状态未知: '+none+' 台</font></div>'+
+				'<div class="col-md-12 column"><hr/></div>'+
+				'</div>';
+				str +='<div class="row clearfix">';
+				for(var i = 0; i < models.length; i++) {
+					str = str.concat('<div class="col-md-2 column"><div style="float: left; width: 100%; margin-left: 10px; margin-top: 10px; border: 1px solid #ede6e6; background-color: #fcfcfc;font-size:14px; ">');
+					for(var j in models[i]) {
+						if(j=='实时温度'&& models[i][j] - 1 > models[i].设定温度){
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\"><font  color=\"red\">" + j + ":" + "</font><span style=\"color: red;\"><font  color=\"red\">" + models[i][j] + "</font> </span></span>");
+							continue;
+						}
+						if(j=='实时湿度'&&models[i][j] - 1 >models[i].设定湿度){
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\"><font  color=\"red\">" + j + ":" + "</font><span style=\"color: red;\"><font  color=\"red\">" + models[i][j] + "</font> </span></span>");
+							continue;
+						}
+						if(models[i][j]=='运行'){
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: green;\">" + models[i][j] + " </span></span>");
+							continue;
+						}
+						if(models[i][j]=='停止'){
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: brown;\">" + models[i][j] + " </span></span>");
+							continue;
+						}
+						if(models[i][j]=='未知'){
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: red;\">" + models[i][j] + " </span></span>");
+							continue;
+						}
+							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: black;\">" + models[i][j] + " </span></span>");
+						
+					}
+					str += "</div></div>";
+				}
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+			str += "</div>";
+			document.getElementById("tempControlerShow").innerHTML = controller;
+			document.getElementById("equipmentShowListDiv").innerHTML=str;
+			console.log(controller)
+			document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "( 实时 )监控看板";
+			$("#tempControlerShow").ready(function() {
+				$('#circulationPicture').css('display', 'none');
+			});
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			//                      alert(XMLHttpRequest.status);
+			//                      alert(XMLHttpRequest.readyState);
+			//                      alert(textStatus);
+		}
+	});
+	if(!showType) {
+		var tmpDate = new Date();
+		//console.log(showType);
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		setTimeout("equipStatusAllParamMntInitNew('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 6);
+	} else if(showType == 'refresh' + document.getElementById("refreshID").innerHTML) {
+		var tmpDate = new Date();
+		//console.log(showType);
+		$("#refreshID").html(tmpDate.format("yyyy-MM-dd-hh:mm:ss"));
+		setTimeout("equipStatusAllParamMntInitNew('refresh" + document.getElementById("refreshID").innerHTML + "')", 60000 * 6);
+	}
+	//console.log(document.getElementById("refreshID").innerHTML);
+}
+
+
+
+
+
 
 function equipStatusMntParamType(webName) {
 
