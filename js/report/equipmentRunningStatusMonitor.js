@@ -244,7 +244,7 @@ function equipStatusAllParamMntInitNew(showType) {
 		},
 		processData: true,
 		success: function(dataRes) {
-			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;color:#FFFFFF;font-weight:bold\">设备运行参数监控看板</h1>";
+			var controller = "<h1 id=\"dashboardName\" style=\"text-align:center;font-weight:bold\">设备运行参数监控看板</h1>";
 			
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
@@ -254,14 +254,15 @@ function equipStatusAllParamMntInitNew(showType) {
 				for(var i = 0; i < models.length; i++) {
 					if(models[i].运行状态 == '运行'){running++;}
 					if(models[i].运行状态 == '停止'){stop++;}
-					if(models[i].运行状态 == '未知'){none++;}
+					if(models[i].运行状态 == '离线'){none++;}
 				}
 				var str = "";
 				str +='<div class="row clearfix"><div class="col-md-12 column"><hr size="2"/></div>'+
 				'<div class="col-md-3 column"><font size="6" face="微软雅黑">共计: '+models.length+' 台设备</font></div>'+
 				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="green">运行: '+running+' 台</font></div>'+
 				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="brown">停止: '+stop+' 台</font></div>'+
-				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="red">状态未知: '+none+' 台</font></div>'+
+				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="brown">离线: '+none+' 台</font></div>'+
+//				'<div class="col-md-3 column"><font size="6" face="微软雅黑" color="red">状态未知: '+none+' 台</font></div>'+
 				'<div class="col-md-12 column"><hr/></div>'+
 				'</div>';
 				str +='<div class="row clearfix">';
@@ -280,14 +281,14 @@ function equipStatusAllParamMntInitNew(showType) {
 							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: green;\">" + models[i][j] + " </span></span>");
 							continue;
 						}
-						if(models[i][j]=='停止'){
-							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: brown;\">" + models[i][j] + " </span></span>");
-							continue;
-						}
-						if(models[i][j]=='未知'){
-							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: red;\">" + models[i][j] + " </span></span>");
-							continue;
-						}
+//						if(models[i][j]=='停止'){
+//							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: brown;\">" + models[i][j] + " </span></span>");
+//							continue;
+//						}
+//						if(models[i][j]=='未知'){
+//							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: red;\">" + models[i][j] + " </span></span>");
+//							continue;
+//						}
 							str = str.concat("<span style=\"float:left; width:100%;padding:2px;\">" + j + ":" + "<span style=\"color: black;\">" + models[i][j] + " </span></span>");
 						
 					}
