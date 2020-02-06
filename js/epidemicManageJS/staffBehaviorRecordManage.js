@@ -79,11 +79,7 @@ function getShelfFilloutRecord() {
 	}
 	var columnsArray = [];
 	columnsArray.push({
-		checkbox: true
-	});
-
-	columnsArray.push({
-		"title": "日期",
+		"title": "登 记 日 期",
 		"field": "daytime"
 	});
 
@@ -116,7 +112,6 @@ function getShelfFilloutRecord() {
 
 	var formData = new FormData();
 	formData.append("identityID", $("#identityID").val());
-	
 
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/getShelfFilloutEpidemicRecord",
