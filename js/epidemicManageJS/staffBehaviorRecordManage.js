@@ -1,5 +1,11 @@
 function staffBehaviorRecordSaveRecord() {
 
+	var selectedDay = new Date(document.getElementById("daytime").value);
+	var nowDay = new Date();
+	if(selectedDay.format("yyyy-MM-dd") > nowDay.format("yyyy-MM-dd")) {
+		alert("登记日期大于当前日期无效！" + document.getElementById("daytime").value)
+		return;
+	}
 	if($("#staffName").val() == '') {
 		alert($("#staffName").attr('placeholder'));
 		$("#staffName").focus();

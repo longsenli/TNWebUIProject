@@ -25,6 +25,15 @@ function saveNewStaffBasicInfo() {
 		return false;
 	}
 
+  var regExpP = /^1[3456789]\d{9}$/; //手机号
+ 
+    if (!regExpP.test($("#telephone").val())) { 
+        alert("手机号码有误！" +$("#telephone").attr('placeholder'));
+		$("#telephone").focus();
+		return false;
+    }
+ 
+
 
 	$("#saveBT").attr('disabled', true);
 	var recordMapObjet = window.formToObject($("#staffBehaviorRecordForm"));
