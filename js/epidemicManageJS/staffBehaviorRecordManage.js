@@ -10,6 +10,11 @@ function staffBehaviorRecordSaveRecord() {
 		$("#identityID").focus();
 		return false;
 	}
+	if($("#telephone").val() == '') {
+		alert($("#telephone").attr('placeholder'));
+		$("#telephone").focus();
+		return false;
+	}
 	if($("#process").val() == '') {
 		alert($("#process").attr('placeholder'));
 		$("#process").focus();
@@ -40,6 +45,7 @@ function staffBehaviorRecordSaveRecord() {
 		$("#quarantine").focus();
 		return false;
 	}
+	$("#saveBT").attr('disabled', true);
 	var recordMapObjet = window.formToObject($("#staffBehaviorRecordForm"));
 
 	$.ajax({
@@ -62,13 +68,15 @@ function staffBehaviorRecordSaveRecord() {
 				document.getElementById("daytime").value = today.format("yyyy-MM-dd");
 				//document.getElementById("daytime").value = today.format("yyyy-MM-dd");
 				//document.getElementById("daytime").value = "2020-01-22";
-
+				$("#saveBT").attr('disabled', false);
 				alert("保存成功,日期自动跳转至下一日！" + document.getElementById("daytime").value);
 			} else {
-				alert("初始化数据失败！" + dataRes.message);
+				$("#saveBT").attr('disabled', false);
+				alert(dataRes.message);
 			}
 		}
 	});
+	$("#saveBT").attr('disabled', false);
 };
 
 function getShelfFilloutRecord() {
@@ -79,6 +87,14 @@ function getShelfFilloutRecord() {
 	}
 	var columnsArray = [];
 	columnsArray.push({
+		"title": "员工姓名",
+		"field": "name"
+	});
+	columnsArray.push({
+		"title": "手    机    号    码",
+		"field": "telephone"
+	});
+	columnsArray.push({
 		"title": "登 记 日 期",
 		"field": "daytime"
 	});
@@ -88,12 +104,12 @@ function getShelfFilloutRecord() {
 		"field": "stayLocation"
 	});
 	columnsArray.push({
-		"title": "是否接触易感染人群",
+		"title": "是否接触湖北、杭州、温州、台州人员",
 		"field": "contactSeverity"
 	});
 
 	columnsArray.push({
-		"title": "自身身体有无异常",
+		"title": "自身身体有无发烧、干咳等异常",
 		"field": "abnormalShelf"
 	});
 	columnsArray.push({
@@ -150,11 +166,11 @@ function getShelfFilloutRecord() {
 					pagination: true,
 					//>>>>>>>>>>>>>>导出excel表格设置
 					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
-					exportDataType: "basic", //basic', 'all', 'selected'.
+					exportDataType: "all", //basic', 'all', 'selected'.
 					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
 					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
 					exportOptions: { //导出参数
-						ignoreColumn: [0, 0], //忽略某一列的索引  
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
 						fileName: '数据导出', //文件名称设置  
 						worksheetName: 'Sheet1', //表格工作区名称  
 						tableName: '数据导出表',

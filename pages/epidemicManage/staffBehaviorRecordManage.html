@@ -69,26 +69,33 @@
 
 												<div class="form-group">
 
-													<input type="text" id="staffName" name="staffName" style="width:300px;" placeholder="请输入姓名 ">
+													<input type="text" id="staffName" style='font-size: 20px;' name="staffName" style="width:300px;" placeholder="请输入姓名 ">
 
 												</div>
 												<div class="form-group">
 
-													<input type="text" id="identityID" name="identityID" style="width:300px;" placeholder="请输入身份证号 ">
+													<input type="text" id="identityID" style='font-size: 20px;' name="identityID" style="width:300px;" placeholder="请输入身份证号 ">
 
 												</div>
 												<div class="form-group">
 
-													<input type="date" style="width:300px;" id="daytime" name="daytime" />
+													<input type="text" id="telephone" style='font-size: 20px;' name="telephone" style="width:300px;" placeholder="请输入手机号码 ">
+
+												</div>
+												<div class="form-group">
+
+													<input type="date" style="width:250px;font-size: 20px;" id="daytime" name="daytime" />
 												</div>
 												<div class="form-group">
 													<select class="selectpicker " style="width:300px;" id="department" name="department">
 														<option style='margin-top: 5px;font-size: 25px;' value="生产一部">生产一部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="生产二部">生产二部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="生产三部">生产三部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="生产部">生产部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="再生资源">再生资源</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="塑业部">塑业部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="售后服务部">售后服务部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="工程设备部">工程设备部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="质量部">质量部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="技术部">技术部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="财务部">财务部</option>
@@ -97,18 +104,60 @@
 														<option style='margin-top: 5px;font-size: 25px;' value="信息化办公室">信息化办公室</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="精益办">精益办</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="基建部">基建部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="供应链管理部">供应链管理部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="行政后勤部">行政后勤部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="安全管理部">安全管理部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="环保职防部">环保职防部</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="审计部">审计部</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="总经办">总经办</option>
 														<option style='margin-top: 5px;font-size: 25px;' value="其他">其他</option>
 													</select>
 												</div>
 
 												<div class="form-group">
-													<input type="text" id="process" name="process" style="width:300px;" placeholder="请输入工序或岗位">
+													<input type="text" id="process" style='font-size: 20px;' name="process" style="width:300px;" placeholder="请输入工序或岗位">
 												</div>
 
 												<div class="form-group">
-													<input type="text" id="stayLocation" name="stayLocation" style="width:300px;" placeholder="请输入当日所在省市">
+													<input type="text" id="stayLocation" style='font-size: 20px;' name="stayLocation" style="width:300px;" placeholder="请输入当日所在省市">
 												</div>
+
+												<div class="form-group">
+													<label style='font-size: 20px;'>是否接触湖北、杭州、温州、台州人员</label>
+													<br />
+													<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="contactSeverity" name="contactSeverity">
+														<option style='margin-top: 5px;font-size: 25px;' value="否">否</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="是">是</option>
+
+													</select>
+												</div>
+
+												<div class="form-group">
+													<label style='font-size: 20px;'>自身身体有无发烧、干咳等异常</label><br />
+													<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="abnormalShelf" name="abnormalShelf">
+														<option style='margin-top: 5px;font-size: 25px;' value="无">无</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="有">有</option>
+
+													</select>
+												</div>
+
+												<div class="form-group">
+													<label style='font-size: 20px;'>身边人员身体有无异常</label><br />
+													<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="abnormalPartner" name="abnormalPartner">
+														<option style='margin-top: 5px;font-size: 25px;' value="无">无</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="有">有</option>
+
+													</select>
+												</div>
+												<div class="form-group">
+													<label style='font-size: 20px;'>是否居家或医院隔离</label><br />
+													<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="quarantine" name="quarantine">
+														<option style='margin-top: 5px;font-size: 25px;' value="当日在家休息">当日在家休息</option>
+														<option style='margin-top: 5px;font-size: 10px;' value="湖北,杭州,温州,台州停留">湖北,杭州,温州,台州停留</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="当日在医院隔离">当日在医院隔离</option>
+													</select>
+												</div>
+												<!--													
 												<div class="form-group">
 													<input type="text" id="contactSeverity" name="contactSeverity" style="width:300px;" placeholder="是否接触疫情高危地区人员">
 												</div>
@@ -121,19 +170,20 @@
 
 												<div class="form-group">
 													<input type="text" id="quarantine" name="quarantine" style="width:300px;" placeholder="是否居家或医院隔离">
-												</div>
+												</div>-->
 												<div class="form-group">
-													<input type="text" id="remark" name="remark" style="width:300px;" placeholder="其他情况说明">
+													<textarea rows="4" cols="28" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明"></textarea>
+													<!--<input type="text" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明">-->
 												</div>
 												<div class="form-group">
 													<label style="width:300px;">保存成功后日期会自动跳转至下一日</label>
 												</div>
 												<div class="form-group">
-													<button type="button" class="btn btn-primary" style="width:300px;" onclick="staffBehaviorRecordSaveRecord()">登&nbsp;&nbsp;&nbsp;&nbsp;记</button>
+													<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="staffBehaviorRecordSaveRecord()">登&nbsp;&nbsp;&nbsp;&nbsp;记</button>
 												</div>
 												<br />
 												<div class="form-group">
-													<button type="button" class="btn btn-primary" style="width:300px;" onclick="getShelfFilloutRecord()">个人登记查询（身份证号）</button>
+													<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="getShelfFilloutRecord()">个人登记查询（身份证号）</button>
 												</div>
 											</form>
 											<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
