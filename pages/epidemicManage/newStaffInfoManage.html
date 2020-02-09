@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+
+		<title>濮阳基地员工疫情调查</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/epidemicManageJS/newStaffInfoManage.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-table-editable.js"></script>
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap3-editable/css/bootstrap-editable.css" media="screen">
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+	</head>
+
+	<body class="gray-bg">
+		<script type="text/javascript">
+			
+		</script>
+
+		<div id="container" class="effect aside-float aside-bright mainnav-lg">
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="panel">
+									<!--<div class="panel-heading">
+										<h3 class="panel-title">物料退返</h3>
+									</div>-->
+									<div class="panel-body">
+
+											<form id="staffBehaviorRecordForm" name="staffBehaviorRecordForm" class="m-t" role="form" method="post">
+
+												<h3 style="text-align:center;"><strong>天能集团（河南）能源科技有限公司网上报名平台</strong></h3>
+												<br />
+
+												<div class="form-group">
+
+													<input type="text" id="staffName" style='font-size: 20px;' name="staffName" style="width:300px;" placeholder="请输入姓名 ">
+
+												</div>
+												<div class="form-group">
+
+													<label align="left" style='font-size: 25px;'><input type="radio" checked="checked" value = '男' id='maleSex'  name="sex"  >男</label> <br />
+													<label align="left" style='font-size: 25px;'><input type="radio" value = '女' id='femaleSex' name="sex" >女</label>
+												</div>
+												<!--<div class="form-group">
+
+													<input type="text" id="identityID" style='font-size: 20px;' name="identityID" style="width:300px;" placeholder="请输入身份证号 ">
+
+												</div>-->
+												<div class="form-group">
+
+													<input type="number" id="age" style='font-size: 20px;' name="age" style="width:300px;" placeholder="请输入年龄 ">
+
+												</div>
+												<div class="form-group">
+
+													<input type="number" id="telephone" style='font-size: 20px;' name="telephone" style="width:300px;" placeholder="请输入手机号码 ">
+
+												</div>
+												<!--<div class="form-group">
+
+													<input type="date" style="width:250px;font-size: 20px;" id="daytime" name="daytime" />
+												</div>-->
+												<div class="form-group">
+
+													<label align="left" style='font-size: 25px;'><input type="radio" checked="checked" value= '初中及以下' id='educationLevel1'   name="educationLevel"  >初中及以下</label> <br />
+													<br /><label align="left" style='font-size: 25px;'><input type="radio" value= '高中或中专' id='educationLevel2' name="educationLevel" >高中或中专</label><br />
+													<br /><label align="left" style='font-size: 25px;'><input type="radio" value= '大专及以上' id='educationLevel3' name="educationLevel" >大专及以上</label>
+												</div>
+
+												<div class="form-group">
+													<input type="text" id="familyLocation" style='font-size: 20px;' name="familyLocation" style="width:300px;" placeholder="请输入家庭住址">
+												</div>
+
+												<!--<div class="form-group">
+													<label style='font-size: 20px;'>是否接触湖北、杭州、温州、台州人员</label>
+													<br />
+													<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="contactSeverity" name="contactSeverity">
+														<option style='margin-top: 5px;font-size: 25px;' value="否">否</option>
+														<option style='margin-top: 5px;font-size: 25px;' value="是">是</option>
+
+													</select>
+												</div>-->
+												<div class="form-group">
+													<label style='font-size: 25px;'>应聘岗位</label><br />
+													<label style='font-size: 25px;'><input type="radio"  id='employmentObjective' checked="checked" value= '普工' name="employmentObjective"  >普工</label>
+
+												</div>
+
+												<div class="form-group">
+													<textarea rows="4" cols="28" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明"></textarea>
+													<!--<input type="text" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明">-->
+												</div>
+
+												<div class="form-group">
+													<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="saveNewStaffBasicInfo()">登&nbsp;&nbsp;&nbsp;&nbsp;记</button>
+												</div>
+												<br />
+												<div class="form-group">
+													<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="getNewStaffBasicInfo()">个人登记查询（姓名）</button>
+												</div>
+											</form>
+											<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+											</table>
+										
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>
