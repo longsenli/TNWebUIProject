@@ -106,6 +106,10 @@ function getNewStaffBasicInfo() {
 		"title": "其他说明",
 		"field": "remark"
 	});
+	columnsArray.push({
+		"title": "登记时间",
+		"field": "updateTime"
+	});
 
 	var formData = new FormData();
 	formData.append("name", $("#staffName").val());
