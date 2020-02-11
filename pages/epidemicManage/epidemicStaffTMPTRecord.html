@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=0" />
+
+		<title>天能集团（河南）能源科技有限公司疫情管控平台</title>
+		<style>
+			.changeTableRowColor {
+				background-color: #31b0d5 !important;
+				color: black;
+			}
+		</style>
+		<script type="text/javascript" src="../../vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/bootstrap-select.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/epidemicManageJS/epidemicStaffTMPTRecord.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-zh-CN.js"></script>
+		<script type="text/javascript" src="../../vendor/boostrap-select/defaults-zh_CN.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/tableExport.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap-datatable/bootstrap-table-export.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<script type="text/javascript" src="../../vendor/bootstrap3-editable/js/bootstrap-table-editable.js"></script>
+		<script type="text/javascript" src="../../vendor/H5+/js/common.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap/css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap3-editable/css/bootstrap-editable.css" media="screen">
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="../../vendor/nifty_admin_v2.9/demo/css/nifty.css" rel="stylesheet">
+	</head>
+
+	<body class="gray-bg">
+		<script type="text/javascript">
+			$(function() {
+				document.addEventListener('plusready', function() {
+
+					// Android平台导入Intent类  
+					//      var sc = plus.android.importClass("com.android.ScannerInerface");  
+					//      alert(window.plus)
+
+					//      var main = plus.android.runtimeMainActivity();  
+					//      var Context = plus.android.importClass("com.android.ScannerInerface");  
+					//      console.log(Context)
+					var main = plus.android.runtimeMainActivity(); //获取activity  
+					var context = plus.android.importClass('android.content.Context'); //上下文  
+					var receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+						onReceive: doReceive
+					});
+					var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+					var Intent = plus.android.importClass('android.content.Intent');
+					var filter = new IntentFilter();
+					filter.addAction("android.intent.action.SCANRESULT"); //监听扫描  
+					main.registerReceiver(receiver, filter); //注册监听  
+					//   android.intent.action.SCANRESULT
+					function doReceive(context, intent) {
+						plus.android.importClass(intent); //通过intent实例引入intent类，方便以后的‘.’操作  
+						var Number = intent.getStringExtra("value");
+
+						if(Number.length == 18) {
+							getStaffEpidemicBasicInfo(Number);
+						} else {
+							getStaffEpidemicTMPTSelection(Number);
+						}
+
+					}
+
+				}, false);
+			});
+		</script>
+
+		<div id="container" class="effect aside-float aside-bright mainnav-lg">
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="panel">
+									<!--<div class="panel-heading">
+										<h3 class="panel-title">物料退返</h3>
+									</div>-->
+									<div class="panel-body">
+
+										<form id="staffTMPTRecordForm" name="staffTMPTRecordForm" class="m-t" role="form" method="post">
+
+											<h3 style="text-align:center;"><strong>天能集团（河南）能源科技有限公司疫情管控平台</strong></h3>
+											<br />
+
+											<div class="form-group">
+
+												<input type="text" id="name" readonly="readonly" style='font-size: 20px;' name="name" style="width:300px;" placeholder="请输入姓名 ">
+
+											</div>
+											<div class="form-group">
+												<input type="text" id="sex" readonly="readonly" style='font-size: 20px;' name="sex" style="width:300px;" placeholder="请输入性别 ">
+											</div>
+											<div class="form-group">
+
+												<input type="text" id="department" readonly="readonly" style='font-size: 20px;' name="department" style="width:300px;" placeholder="请输入部门 ">
+
+											</div>
+											<div class="form-group">
+
+												<input type="text" id="telephoneNumber" readonly="readonly" style='font-size: 20px;' name="telephoneNumber" style="width:300px;" placeholder="请输入手机号码 ">
+
+											</div>
+											<div class="form-group">
+
+												<input type="text" id="identityNO" readonly="readonly" style='font-size: 20px;' name="identityNO" style="width:300px;" placeholder="请输入身份证号 ">
+
+											</div>
+											<div class="form-group">
+												<input type="text" id="familyLocation" readonly="readonly" style='font-size: 20px;' name="familyLocation" style="width:300px;" placeholder="请输入家庭住址">
+											</div>
+
+											<div class="form-group">
+
+												<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="temperature" name="temperature">
+													<option style='margin-top: 5px;font-size: 20px;' value="36°以下">36°以下</option>
+													<option style='margin-top: 5px;font-size: 20px;' value="36°—36.5°">36°—36.5°</option>
+													<option style='margin-top: 5px;font-size: 20px;' value="36.5°—37°">36.5°—37°</option>
+													<option style='margin-top: 5px;font-size: 20px;' value="37°—37.2°">37°—37.2°</option>
+													<option style='margin-top: 5px;font-size: 20px;' value="37.2°—38.5°">37.2°—38.5°</option>
+													<option style='margin-top: 5px;font-size: 20px;' value="38.5°以上">38.5°以上</option>
+												</select>
+											</div>
+
+											<div class="form-group">
+												<textarea rows="4" cols="28" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明"></textarea>
+												<!--<input type="text" style='font-size: 20px;' id="remark" name="remark" style="width:300px;" placeholder="其他情况说明">-->
+											</div>
+											<label id="showImage" style="margin-top: 10px;font-size: 15px;color: #3C763D"></label>
+											<br />
+											<label style="margin-top: 10px;font-size: 20px;color: #3C763D"><input id="autoFinishOrderCheck"   checked type="checkbox">扫描体温自动保存</label>
+											<br />
+											<!--<div class="form-group">
+												<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="getStaffEpidemicBasicInfo('410926198804151628')">身份证</button>
+											</div>
+											<div class="form-group">
+												<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="getStaffEpidemicTMPTSelection('36.5°—37°')">温度</button>
+											</div>-->
+
+											<div class="form-group">
+												<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="scanLocationQR()">手&nbsp;&nbsp;机&nbsp;&nbsp;扫&nbsp;&nbsp;码</button>
+											</div>
+											<br />
+											<div class="form-group">
+												<button type="button" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="saveStaffEpidemicTMPTRecord()">登&nbsp;&nbsp;&nbsp;&nbsp;记</button>
+											</div>
+											<br />
+											<div class="form-group">
+												<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;width:300px;" onclick="getStaffEpidemicTMPTRecord()">个人登记查询（姓名）</button>
+											</div>
+										</form>
+										<table id="table" class="table table-responsive table-striped    table-bordered table-hover table-condensed ">
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>
