@@ -33,7 +33,11 @@ function saveStaffEpidemicTMPTRecord() {
 
 	$("#saveBT").attr('disabled', true);
 	var recordMapObjet = window.formToObject($("#staffTMPTRecordForm"));
-
+if(recordMapObjet["identityNO"] == "" ||  recordMapObjet["identityNO"].length <10)
+{
+	alert("请扫描员工二维码!");
+	return;
+}
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/addStaffTMPTRecord",
 		type: "POST",
@@ -93,6 +97,7 @@ function getStaffEpidemicBasicInfo(identityNo) {
 };
 
 function getStaffEpidemicTMPTSelection(selectedOption) {
+	selectedOption = selectedOption.trim();
 	var numbers = $('#temperature').find("option"); //获取select下拉框的所有值
 	var selectBL = false;
 	for(var j = 0; j < numbers.length; j++) {
@@ -114,6 +119,12 @@ function getStaffEpidemicTMPTSelection(selectedOption) {
 };
 
 function getStaffEpidemicTMPTRecord() {
+
+	if($("#name").val() == '') {
+		alert($("#name").attr('placeholder'));
+		$("#name").focus();
+		return false;
+	}
 
 	var columnsArray = [];
 	columnsArray.push({
