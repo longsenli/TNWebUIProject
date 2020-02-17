@@ -1,6 +1,51 @@
+function getStaffEpidemicTMPTRecordCompony() {
+	$.ajax({
+		url: window.serviceIP + "/api/basicdata/getindustrialplantbyfilter?type=3",
+		type: "GET",
+		contentType: "application/json",
+		dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+		processData: true,
+		success: function(dataRes) {
+
+			$("#componySlct").find('option').remove();
+			$('#componySlct').append(("<option value=" + "-1" + ">" + "全部" + "</option>").toString())
+			if(dataRes.status == 1) { 
+				var models = eval("(" + dataRes.data + ")");
+				//console.log(models);
+				for (var  i  in  models)  {  
+					$('#componySlct').append(("<option value=" + models[i].id.toString() + ">" +
+						models[i].name.toString() + "</option>").toString())
+				}
+				$('#componySlct').selectpicker('refresh');
+				$('#componySlct').selectpicker('render');  
+
+				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
+					var numbers = $('#componySlct').find("option"); //获取select下拉框的所有值
+					for(var j = 0; j < numbers.length; j++) {
+						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
+							$(numbers[j]).attr("selected", "selected");
+							$('#componySlct').selectpicker('hide');
+						}
+					}
+					$('#componySlct').selectpicker('refresh');
+					$('#componySlct').selectpicker('render'); 
+
+				} 
+				getStaffEpidemicTMPTRecordDepartmentSlct();
+
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		}
+	});
+}
+
 function getStaffEpidemicTMPTRecordDepartmentSlct() {
 	$.ajax({
-		url: window.serviceIP + "/api/EpidemicManage/getStaffEpidemicBasicDepartmentInfo",
+		url: window.serviceIP + "/api/EpidemicManage/getStaffEpidemicBasicDepartmentInfo?compony=" + $('#componySlct').val(),
 		type: "GET",
 		contentType: "application/json",
 		dataType: "json",
@@ -12,15 +57,28 @@ function getStaffEpidemicTMPTRecordDepartmentSlct() {
 
 			$("#department").find('option').remove();
 			$('#department').append(("<option value=" + "-1" + ">" + "全部" + "</option>").toString())
+			
+				$("#checkpoint").find('option').remove();
+			$('#checkpoint').append(("<option value=" + "-1" + ">" + "全部" + "</option>").toString())
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
 				//console.log(models);
 				for (var  i  in  models)  {  
-					$('#department').append(("<option value=" + models[i].department.toString() + ">" +
-						models[i].department.toString() + "</option>").toString())
+					if("1" == models[i].type) {
+						$('#department').append(("<option value=" + models[i].id.toString() + ">" +
+							models[i].id.toString() + "</option>").toString())
+					}
+
+					if("2" == models[i].type) {
+						$('#checkpoint').append(("<option value=" + models[i].id.toString() + ">" +
+							models[i].name.toString() + "</option>").toString())
+					}
 				}
 				$('#department').selectpicker('refresh');
-				$('#department').selectpicker('render');   
+				$('#department').selectpicker('render'); 
+
+				$('#checkpoint').selectpicker('refresh');
+				$('#checkpoint').selectpicker('render');   
 
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
@@ -46,8 +104,7 @@ function saveStaffEpidemicTMPTRecord() {
 	}
 	recordMapObjet["updator"] = localStorage.userID;
 	recordMapObjet["extd2"] = localStorage.roleID;
-	if(localStorage.roleID.substr(0, 2) != "70")
-	{
+	if(localStorage.roleID.substr(0, 2) != "70") {
 		alert("该账号没有登记权限,请确认后使用!");
 		$("#saveBT").attr('disabled', false);
 		return;
@@ -431,7 +488,7 @@ function getStaffEpidemicTMPTRecordByFilter() {
 	});
 
 	var formData = new FormData();
-	formData.append("name", "-1");
+	formData.append("name", $("#componySlct").val() + "___" +  $("#checkpoint").val());
 	formData.append("startTime", $("#startTime").val());
 	formData.append("endTime", $("#endTime").val() + " 23:59:59");
 	formData.append("department", $("#department").val());
@@ -799,9 +856,7 @@ function printStaffQRCode() {
 	}
 }
 
-
-function getStaffEpidemicBasicInfoByName()
-{
+function getStaffEpidemicBasicInfoByName() {
 	if($("#selectedName").val() == '') {
 		alert($("#selectedName").attr('placeholder'));
 		$("#selectedName").focus();
@@ -842,7 +897,7 @@ function getStaffEpidemicBasicInfoByName()
 		"title": "籍          贯",
 		"field": "familyLocation"
 	});
-columnsArray.push({
+	columnsArray.push({
 		"title": "现       住        址",
 		"field": "extd1"
 	});

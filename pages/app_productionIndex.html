@@ -31,6 +31,7 @@
 		<!--底部导航-->
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="app_webview_main.html">
+				<!--<a id="defaultTab" class="mui-tab-item mui-active" href="app_epidemicManage_main.html">-->
 				<span class="mui-icon">
 					<svg class="icon" aria-hidden="true">
 						  <use xlink:href="#icon-home1"></use>
@@ -113,7 +114,7 @@
 								setTimeout(function() {
 									mui.__back__first = null;
 								}, 1500);
-							} else {
+							} else {  
 								if (new Date().getTime() - mui.__back__first < 2000) {
 									plus.runtime.quit();
 								}
@@ -152,6 +153,7 @@
 				}); //绘制底部边线
 			});
 			var subpages = ['app_webview_main.html','app_myhome.html'];
+			//var subpages = ['app_epidemicManage_main.html','app_myhome.html'];
 			var subpage_style = {
 				top: '45px',
 				bottom: '51px'
