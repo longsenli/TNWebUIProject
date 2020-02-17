@@ -33,11 +33,25 @@ function saveStaffEpidemicTMPTRecord() {
 
 	$("#saveBT").attr('disabled', true);
 	var recordMapObjet = window.formToObject($("#staffTMPTRecordForm"));
-if(recordMapObjet["identityNO"] == "" ||  recordMapObjet["identityNO"].length <10)
-{
-	alert("请扫描员工二维码!");
-	return;
-}
+	if(recordMapObjet["identityNO"] == "" || recordMapObjet["identityNO"].length < 10) {
+		alert("请扫描员工二维码!");
+		$("#saveBT").attr('disabled', false);
+		return;
+	}
+
+	if(!recordMapObjet["temperature"] || recordMapObjet["temperature"] == "" || recordMapObjet["temperature"].length < 2) {
+		alert("请扫描温度二维码!");
+		$("#saveBT").attr('disabled', false);
+		return;
+	}
+	recordMapObjet["updator"] = localStorage.userID;
+	recordMapObjet["extd2"] = localStorage.roleID;
+	if(localStorage.roleID.substr(0, 2) != "70")
+	{
+		alert("该账号没有登记权限,请确认后使用!");
+		$("#saveBT").attr('disabled', false);
+		return;
+	}
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/addStaffTMPTRecord",
 		type: "POST",
@@ -53,6 +67,9 @@ if(recordMapObjet["identityNO"] == "" ||  recordMapObjet["identityNO"].length <1
 			if(dataRes.status == 1) { 
 				$('#showImage').addClass('alert alert-success').html('登记成功!祝您生活愉快,请带好口罩,保持距离!').show().delay(3000).fadeOut();
 				getStaffEpidemicTMPTRecord();
+				//	$("#name").val("");
+
+				$("#identityNO").val("");
 			} else {
 				$("#saveBT").attr('disabled', false);
 				alert(dataRes.message);
@@ -87,6 +104,8 @@ function getStaffEpidemicBasicInfo(identityNo) {
 				$("#telephoneNumber").val(models[0].telephoneNumber);
 				$("#identityNO").val(models[0].identityNO);
 				$("#familyLocation").val(models[0].familyLocation);
+				$("#extd1").val(models[0].extd1);
+				$("#compony").val(models[0].compony);
 				getStaffEpidemicTMPTRecord();
 			} else {
 
@@ -96,25 +115,32 @@ function getStaffEpidemicBasicInfo(identityNo) {
 	});
 };
 
+function saveOnClickRadio() {
+	setTimeout(saveStaffEpidemicTMPTRecord(), 2000);
+}
+
 function getStaffEpidemicTMPTSelection(selectedOption) {
 	selectedOption = selectedOption.trim();
-	var numbers = $('#temperature').find("option"); //获取select下拉框的所有值
-	var selectBL = false;
-	for(var j = 0; j < numbers.length; j++) {
-		if($(numbers[j]).val().toString() == selectedOption) {
-			$(numbers[j]).attr("selected", "selected");
-			selectBL = true;
-		}
-	}
-	if(!selectBL) {
-		alert("二维码不是有效体温信息," + selectedOption);
-		return;
-	}
-	$('#temperature').selectpicker('refresh');
-	$('#temperature').selectpicker('render'); 
+
+	$("input:radio[value='" + selectedOption + "']").attr('checked', 'true');
+
+	//	var numbers = $('#temperature').find("option"); //获取select下拉框的所有值
+	//	var selectBL = false;
+	//	for(var j = 0; j < numbers.length; j++) {
+	//		if($(numbers[j]).val().toString() == selectedOption) {
+	//			$(numbers[j]).attr("selected", "selected");
+	//			selectBL = true;
+	//		}
+	//	}
+	//	if(!selectBL) {
+	//		alert("二维码不是有效体温信息," + selectedOption);
+	//		return;
+	//	}
+	//	$('#temperature').selectpicker('refresh');
+	//	$('#temperature').selectpicker('render'); 
 
 	if($('#autoFinishOrderCheck').is(':checked')) {
-		saveStaffEpidemicTMPTRecord();
+		setTimeout(saveStaffEpidemicTMPTRecord(), 2000);
 	}
 };
 
@@ -131,13 +157,20 @@ function getStaffEpidemicTMPTRecord() {
 		"title": "员工姓名",
 		"field": "name"
 	});
-
 	columnsArray.push({
-		"title": "性别",
+		"title": "体        温",
+		"field": "temperature"
+	});
+	columnsArray.push({
+		"title": "登    记    时    间",
+		"field": "updateTime"
+	});
+	columnsArray.push({
+		"title": "性 别",
 		"field": "sex"
 	});
 	columnsArray.push({
-		"title": "  部     门  ",
+		"title": "  部          门  ",
 		"field": "department"
 	});
 
@@ -147,27 +180,15 @@ function getStaffEpidemicTMPTRecord() {
 	});
 
 	columnsArray.push({
-		"title": "体     温",
-		"field": "temperature"
-	});
-
-	columnsArray.push({
 		"title": "其他说明",
 		"field": "remark"
-	});
-	columnsArray.push({
-		"title": "登记时间",
-		"field": "updateTime"
 	});
 
 	var formData = new FormData();
 	formData.append("name", $("#name").val());
-	formData.append("startTime", "-1");
-	formData.append("endTime", "-1");
-	formData.append("department", "-1");
-	formData.append("tmptType", "-1");
+
 	$.ajax({
-		url: window.serviceIP + "/api/EpidemicManage/getStaffTMPTRecord",
+		url: window.serviceIP + "/api/EpidemicManage/getStaffLatestEpidemicTMPTRecord",
 		type: "POST",
 		data: formData,
 		processData: false,
@@ -182,41 +203,47 @@ function getStaffEpidemicTMPTRecord() {
 			if(dataRes.status == 1) { 
 
 				var models = eval("(" + dataRes.data + ")");
+				var resText = "";
+				for(var i in models) {
+					resText += "体温:" + models[i].temperature + "时间 :" + models[i].updateTime + "</br>"
+				}
 
-				$('#table').bootstrapTable('destroy').bootstrapTable({
-					data: models,
-					toolbar: '#materialidToolbar',
-					toolbarAlign: 'left',
-					singleSelect: true,
-					clickToSelect: true,
-					sortName: "orderSplitid",
-					sortOrder: "asc",
-					pageSize: 40,
-					pageNumber: 1,
-					uniqueId: "id",
-					pageList: "[10, 25, 50, 100, All]",
-					//showToggle: true,
-					//showRefresh: true,
-					//showColumns: true,
-					search: true,
-					searchAlign: 'right',
-					pagination: true,
-					//>>>>>>>>>>>>>>导出excel表格设置
-					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
-					exportDataType: "all", //basic', 'all', 'selected'.
-					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
-					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
-					exportOptions: { //导出参数
-						//ignoreColumn: [0, 0], //忽略某一列的索引  
-						fileName: '数据导出', //文件名称设置  
-						worksheetName: 'Sheet1', //表格工作区名称  
-						tableName: '数据导出表',
-						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
-						//onMsoNumberFormat: DoOnMsoNumberFormat  
-					},
-					//导出excel表格设置<<<<<<<<<<<<<<<<
-					columns: columnsArray
-				});
+				$('#latestTMPTText').html(resText);
+
+				//				$('#table').bootstrapTable('destroy').bootstrapTable({
+				//					data: models,
+				//					toolbar: '#materialidToolbar',
+				//					toolbarAlign: 'left',
+				//					singleSelect: true,
+				//					clickToSelect: true,
+				//					sortName: "orderSplitid",
+				//					sortOrder: "asc",
+				//					pageSize: 40,
+				//					pageNumber: 1,
+				//					uniqueId: "id",
+				//					pageList: "[10, 25, 50, 100, All]",
+				//					//showToggle: true,
+				//					//showRefresh: true,
+				//					//showColumns: true,
+				//					search: true,
+				//					searchAlign: 'right',
+				//					pagination: true,
+				//					//>>>>>>>>>>>>>>导出excel表格设置
+				//					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+				//					exportDataType: "all", //basic', 'all', 'selected'.
+				//					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+				//					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+				//					exportOptions: { //导出参数
+				//						//ignoreColumn: [0, 0], //忽略某一列的索引  
+				//						fileName: '数据导出', //文件名称设置  
+				//						worksheetName: 'Sheet1', //表格工作区名称  
+				//						tableName: '数据导出表',
+				//						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+				//						//onMsoNumberFormat: DoOnMsoNumberFormat  
+				//					},
+				//					//导出excel表格设置<<<<<<<<<<<<<<<<
+				//					columns: columnsArray
+				//				});
 			} else {
 				alert("初始化数据失败！" + dataRes.message);
 			}
@@ -382,8 +409,12 @@ function getStaffEpidemicTMPTRecordByFilter() {
 		"field": "identityNO"
 	});
 	columnsArray.push({
-		"title": "家庭住址",
+		"title": "  籍             贯 ",
 		"field": "familyLocation"
+	});
+	columnsArray.push({
+		"title": "  现      住      址     ",
+		"field": "extd1"
 	});
 	columnsArray.push({
 		"title": "体     温",
@@ -512,8 +543,12 @@ function getStaffEpidemicTMPTRecordByName() {
 		"field": "identityNO"
 	});
 	columnsArray.push({
-		"title": "家庭住址",
+		"title": "  籍             贯 ",
 		"field": "familyLocation"
+	});
+	columnsArray.push({
+		"title": "  现      住      址     ",
+		"field": "extd1"
 	});
 	columnsArray.push({
 		"title": "体     温",
