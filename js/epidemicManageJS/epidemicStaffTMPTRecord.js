@@ -710,6 +710,11 @@ function getStaffEpidemicBasicInfoByDepartment() {
 
 		return false;
 	}
+	if($("#componySlct").val() == '-1') {
+		alert("不能选择全部!请选择明确公司!");
+
+		return false;
+	}
 	var columnsArray = [];
 	columnsArray.push({
 		checkbox: true,
@@ -748,7 +753,7 @@ function getStaffEpidemicBasicInfoByDepartment() {
 
 	var formData = new FormData();
 	formData.append("department", $("#department").val());
-
+formData.append("compony", $("#componySlct").val());
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/getStaffEpidemicBasicInfoByDepartment",
 		type: "POST",
