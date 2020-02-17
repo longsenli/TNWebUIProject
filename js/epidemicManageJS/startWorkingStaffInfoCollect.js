@@ -1,5 +1,11 @@
 function addStaffEpidemicBasicInfo() {
 
+if($("#department").val() == '') {
+		alert($("#department").attr('placeholder'));
+		$("#department").focus();
+		return false;
+	}
+
 	if($("#name").val() == '') {
 		alert($("#name").attr('placeholder'));
 		$("#name").focus();

@@ -798,3 +798,130 @@ function printStaffQRCode() {
 		LODOP.PRINT(); //最后一个打印(或预览、维护、设计)语句
 	}
 }
+
+
+function getStaffEpidemicBasicInfoByName()
+{
+	if($("#selectedName").val() == '') {
+		alert($("#selectedName").attr('placeholder'));
+		$("#selectedName").focus();
+		return false;
+	}
+	var columnsArray = [];
+	columnsArray.push({
+		checkbox: true,
+		formatter: function(value, row, index) {
+			return {
+				checked: true //设置选中
+			};
+		}
+	});
+	columnsArray.push({
+		"title": "员工姓名",
+		"field": "name"
+	});
+
+	columnsArray.push({
+		"title": "性别",
+		"field": "sex"
+	});
+	columnsArray.push({
+		"title": "  部     门  ",
+		"field": "department"
+	});
+
+	columnsArray.push({
+		"title": "手    机    号    码",
+		"field": "telephoneNumber"
+	});
+	columnsArray.push({
+		"title": "身份证号",
+		"field": "identityNO"
+	});
+	columnsArray.push({
+		"title": "籍          贯",
+		"field": "familyLocation"
+	});
+columnsArray.push({
+		"title": "现       住        址",
+		"field": "extd1"
+	});
+	var formData = new FormData();
+	formData.append("name", $("#selectedName").val());
+
+	$.ajax({
+		url: window.serviceIP + "/api/EpidemicManage/getStaffEpidemicBasicInfoByName",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					//singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 100,
+					pageNumber: 1,
+					uniqueId: "id",
+					pageList: "[50, 100, 150, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "all", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
+		}
+	});
+}
