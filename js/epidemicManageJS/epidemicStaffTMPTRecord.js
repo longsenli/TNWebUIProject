@@ -109,6 +109,7 @@ function saveStaffEpidemicTMPTRecord() {
 		$("#saveBT").attr('disabled', false);
 		return;
 	}
+	
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/addStaffTMPTRecord",
 		type: "POST",
@@ -155,6 +156,12 @@ function getStaffEpidemicBasicInfo(identityNo) {
 					alert("未找到该身份证号信息,请检查身份证号是否正确!" + identityNo);
 					return;
 				}
+				if(models[0].compony != localStorage.plantID)
+				{
+					alert("该员工不属于本公司,请核对!")
+					return;
+				} 
+			
 				$("#name").val(models[0].name);
 				$("#sex").val(models[0].sex);
 				$("#department").val(models[0].department);
