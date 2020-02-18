@@ -494,6 +494,11 @@ function getStaffEpidemicTMPTRecordByFilter() {
 		"field": "updateTime"
 	});
 
+columnsArray.push({
+		"title": "登  记  地  点",
+		"field": "updator"
+	});
+	
 	var formData = new FormData();
 	formData.append("name", $("#componySlct").val() + "___" +  $("#checkpoint").val());
 	formData.append("startTime", $("#startTime").val());
@@ -584,6 +589,15 @@ function getStaffEpidemicTMPTRecordByName() {
 		return false;
 	}
 	var columnsArray = [];
+		columnsArray.push({
+		checkbox: true
+	});
+	columnsArray.push({
+		"title": "id",
+		"field": "id",
+		visible: false
+	});
+
 	columnsArray.push({
 		"title": "员工姓名",
 		"field": "name"
@@ -627,12 +641,20 @@ function getStaffEpidemicTMPTRecordByName() {
 		"title": "登记时间",
 		"field": "updateTime"
 	});
+	columnsArray.push({
+		"title": "登  记  地  点",
+		"field": "updator"
+	});
+if($("#componySlct").val() == '-1') {
+		alert("不能选择全部!请选择明确公司!");
 
+		return false;
+	}
 	var formData = new FormData();
 	formData.append("name", $("#selectedName").val());
 	formData.append("startTime", $("#startTime").val());
 	formData.append("endTime", $("#endTime").val() + " 23:59:59");
-	formData.append("department", "-1");
+	formData.append("department", $("#componySlct").val() + "___compony");
 	formData.append("tmptType", "-1");
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/getStaffTMPTRecord",
@@ -989,6 +1011,44 @@ function getStaffEpidemicBasicInfoByName() {
 				msg = 'Uncaught Error.\n' + jqXHR.responseText;
 			}
 			alert("请求出错," + msg);
+		}
+	});
+}
+
+
+function deleteStaffEpidemicTMPTRecord()
+{
+	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
+		return row;
+	});
+	if(row.length != 1) {
+		alert("请选择要修改的数据,一次只能选择一行! 当前行数为:" + row.length);
+		return;
+	}
+	if(!row[0].id) {
+		alert("请先按照名称查询个人记录!");
+		return;
+	}
+	alert("324====" +row[0].id )
+		$.ajax({
+		url: window.serviceIP + "/api/EpidemicManage/deleteStaffTMPTRecord?id=" + row[0].id,
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+
+		//data: JSON.stringify(formMap).toString(),
+//		headers: {
+//			Token: localStorage.getItem('token')
+//		},
+
+		success: function(data) {
+			if(data.status == 1) {
+				getStaffEpidemicTMPTRecordByName();
+				alert('删除成功!');
+			} else {
+				alert("保存失败！" + data.message);
+			}
+
 		}
 	});
 }

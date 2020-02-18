@@ -29,14 +29,13 @@
 		<link rel="stylesheet" type="text/css" href="../../vendor/boostrap-select/bootstrap-select.min.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap-datatable/bootstrap-table.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="../../vendor/bootstrap3-editable/css/bootstrap-editable.css" media="screen">
-
 	</head>
 
 	<body class="gray-bg" style="padding-left:20px;padding-top:5px">
 		<script type="text/javascript">
-						if(localStorage.getItem('token') == null) {
-							window.location.href = "../epidemicManageLogin.html";
-						}
+			if(localStorage.getItem('token') == null) {
+				window.location.href = "../epidemicManageLogin.html";
+			}
 
 			$(function() {
 
@@ -47,7 +46,7 @@
 				getStaffEpidemicTMPTRecordCompony();
 			});
 		</script>
-		<form id="staffTMPTRecordForm" name="staffTMPTRecordForm" class="m-t" role="form"  >
+		<form id="staffTMPTRecordForm" name="staffTMPTRecordForm" class="m-t" role="form">
 			<div class="form-inline row">
 
 				<select class="selectpicker " data-live-search="true" id="componySlct" name="componySlct" onchange="getStaffEpidemicTMPTRecordDepartmentSlct()">
@@ -79,6 +78,7 @@
 
 				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByName()">个人体温查询（姓名）</button>
 				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicBasicInfoByName()">个人信息查询（姓名）</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="deleteStaffEpidemicTMPTRecord()">删除记录</button>
 
 			</div>
 		</form>
