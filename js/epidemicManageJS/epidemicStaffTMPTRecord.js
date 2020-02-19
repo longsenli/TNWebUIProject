@@ -1029,7 +1029,6 @@ function deleteStaffEpidemicTMPTRecord()
 		alert("请先按照名称查询个人记录!");
 		return;
 	}
-	alert("324====" +row[0].id )
 		$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/deleteStaffTMPTRecord?id=" + row[0].id,
 		type: "POST",
@@ -1049,6 +1048,112 @@ function deleteStaffEpidemicTMPTRecord()
 				alert("保存失败！" + data.message);
 			}
 
+		}
+	});
+}
+function getStaffEpidemicTMPTRecordBySummary()
+{
+	if($("#componySlct").val() == '-1') {
+		alert("不能选择全部!请选择明确公司!");
+
+		return false;
+	}
+	var columnsArray = [];
+	
+	columnsArray.push({
+		"title": "部         门",
+		"field": "name"
+	});
+
+	columnsArray.push({
+		"title": "数     量",
+		"field": "number"
+	});
+	columnsArray.push({
+		"title": "  含         义  ",
+		"field": "type"
+	});
+
+	
+	var formData = new FormData();
+	formData.append("compony", $("#componySlct").val());
+formData.append("startTime", $("#startTime").val() );
+
+formData.append("endTime", $("#endTime").val() + " 23:59:59");
+
+	$.ajax({
+		url: window.serviceIP + "/api/EpidemicManage/getTMPTRecordSummary",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		//contentType: "application/json",
+		//dataType: "json",
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
+
+		success: function(dataRes) {
+			if(dataRes.status == 1) { 
+
+				var models = eval("(" + dataRes.data + ")");
+
+				$('#table').bootstrapTable('destroy').bootstrapTable({
+					data: models,
+					toolbar: '#materialidToolbar',
+					toolbarAlign: 'left',
+					//singleSelect: true,
+					clickToSelect: true,
+					sortName: "orderSplitid",
+					sortOrder: "asc",
+					pageSize: 100,
+					pageNumber: 1,
+					uniqueId: "id",
+					pageList: "[50, 100, 150, All]",
+					//showToggle: true,
+					//showRefresh: true,
+					//showColumns: true,
+					search: true,
+					searchAlign: 'right',
+					pagination: true,
+					//>>>>>>>>>>>>>>导出excel表格设置
+					showExport: true, //是否显示导出按钮(此方法是自己写的目的是判断终端是电脑还是手机,电脑则返回true,手机返回falsee,手机不显示按钮)
+					exportDataType: "all", //basic', 'all', 'selected'.
+					exportTypes: ['doc', 'excel'], //导出类型'json','xml','png','csv','txt','sql','doc','excel','xlsx','pdf'
+					//exportButton: $('#btn_export'),     //为按钮btn_export  绑定导出事件  自定义导出按钮(可以不用)
+					exportOptions: { //导出参数
+						//ignoreColumn: [0, 0], //忽略某一列的索引  
+						fileName: '数据导出', //文件名称设置  
+						worksheetName: 'Sheet1', //表格工作区名称  
+						tableName: '数据导出表',
+						excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
+						//onMsoNumberFormat: DoOnMsoNumberFormat  
+					},
+					//导出excel表格设置<<<<<<<<<<<<<<<<
+					columns: columnsArray
+				});
+			} else {
+				alert("初始化数据失败！" + dataRes.message);
+			}
+		},
+		error: function(jqXHR, exception) {
+			var msg = '';
+			if(jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if(jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if(jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if(exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if(exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if(exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			alert("请求出错," + msg);
 		}
 	});
 }

@@ -49,16 +49,16 @@
 		<form id="staffTMPTRecordForm" name="staffTMPTRecordForm" class="m-t" role="form">
 			<div class="form-inline row">
 
-				<select class="selectpicker " data-live-search="true" id="componySlct" name="componySlct" onchange="getStaffEpidemicTMPTRecordDepartmentSlct()">
+				<select class="selectpicker "  style='margin-top: 5px;' data-live-search="true" id="componySlct" name="componySlct" onchange="getStaffEpidemicTMPTRecordDepartmentSlct()">
 				</select>
 
-				<select class="selectpicker " data-live-search="true" id="department" name="department">
+				<select class="selectpicker "  style='margin-top: 5px;' data-live-search="true" id="department" name="department">
 				</select>
 
-				<select class="selectpicker " data-live-search="true" id="checkpoint" name="checkpoint">
+				<select class="selectpicker "  style='margin-top: 5px;' data-live-search="true" id="checkpoint" name="checkpoint">
 				</select>
 
-				<select class="selectpicker " style='font-size: 20px;' style="width:300px;" id="temperature" name="temperature">
+				<select class="selectpicker "  style='margin-top: 5px;' id="temperature" name="temperature">
 					<option style='margin-top: 5px;font-size: 20px;' value="-1">全部</option>
 					<option style='margin-top: 5px;font-size: 20px;' value="36.5°以下">36.5°以下</option>
 					<option style='margin-top: 5px;font-size: 20px;' value="36.5°—37°">36.5°—37°</option>
@@ -66,19 +66,20 @@
 					<option style='margin-top: 5px;font-size: 20px;' value="37.3°及以上">37.3°及以上</option>
 				</select>
 
-				<input type="date" id="startTime" name="startTime" />
+				<input type="date"  style='margin-top: 5px;' id="startTime" name="startTime" />
 				<label>-</label>
-				<input type="date" id="endTime" name="endTime" />
+				<input type="date"  style='margin-top: 5px;' id="endTime" name="endTime" />
 				<br />
 				<br />
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByFilter()">登记记录查询</button>
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicBasicInfoByDepartment()">部门人员查询</button>
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="printStaffQRCode()">二维码打印</button>
-				<input type="text" id="selectedName" style='font-size: 20px;' name="selectedName" style="width:300px;" placeholder="请输入姓名 ">
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByFilter()">登记记录查询</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordBySummary()">登记汇总查询</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicBasicInfoByDepartment()">部门人员查询</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="printStaffQRCode()">二维码打印</button>
+				<input type="text" id="selectedName" style='margin-top: 5px;font-size: 20px;' name="selectedName" style="width:300px;" placeholder="请输入姓名 ">
 
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByName()">个人体温查询（姓名）</button>
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="getStaffEpidemicBasicInfoByName()">个人信息查询（姓名）</button>
-				<button type="button" id="saveBT" class="btn btn-primary" style="font-size: 20px;" onclick="deleteStaffEpidemicTMPTRecord()">删除记录</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByName()">个人体温查询（姓名）</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicBasicInfoByName()">个人信息查询（姓名）</button>
+				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="deleteStaffEpidemicTMPTRecord()">删除记录</button>
 
 			</div>
 		</form>
