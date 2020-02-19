@@ -57,8 +57,8 @@ function getStaffEpidemicTMPTRecordDepartmentSlct() {
 
 			$("#department").find('option').remove();
 			$('#department').append(("<option value=" + "-1" + ">" + "全部" + "</option>").toString())
-			
-				$("#checkpoint").find('option').remove();
+
+			$("#checkpoint").find('option').remove();
 			$('#checkpoint').append(("<option value=" + "-1" + ">" + "全部" + "</option>").toString())
 			if(dataRes.status == 1) { 
 				var models = eval("(" + dataRes.data + ")");
@@ -109,7 +109,7 @@ function saveStaffEpidemicTMPTRecord() {
 		$("#saveBT").attr('disabled', false);
 		return;
 	}
-	
+
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/addStaffTMPTRecord",
 		type: "POST",
@@ -156,12 +156,11 @@ function getStaffEpidemicBasicInfo(identityNo) {
 					alert("未找到该身份证号信息,请检查身份证号是否正确!" + identityNo);
 					return;
 				}
-				if(models[0].compony != localStorage.plantID)
-				{
+				if(models[0].compony != localStorage.plantID) {
 					alert("该员工不属于本公司,请核对!")
 					return;
-				} 
-			
+				}
+
 				$("#name").val(models[0].name);
 				$("#sex").val(models[0].sex);
 				$("#department").val(models[0].department);
@@ -494,13 +493,13 @@ function getStaffEpidemicTMPTRecordByFilter() {
 		"field": "updateTime"
 	});
 
-columnsArray.push({
+	columnsArray.push({
 		"title": "登  记  地  点",
 		"field": "updator"
 	});
-	
+
 	var formData = new FormData();
-	formData.append("name", $("#componySlct").val() + "___" +  $("#checkpoint").val());
+	formData.append("name", $("#componySlct").val() + "___" + $("#checkpoint").val());
 	formData.append("startTime", $("#startTime").val());
 	formData.append("endTime", $("#endTime").val() + " 23:59:59");
 	formData.append("department", $("#department").val());
@@ -589,7 +588,7 @@ function getStaffEpidemicTMPTRecordByName() {
 		return false;
 	}
 	var columnsArray = [];
-		columnsArray.push({
+	columnsArray.push({
 		checkbox: true
 	});
 	columnsArray.push({
@@ -645,7 +644,7 @@ function getStaffEpidemicTMPTRecordByName() {
 		"title": "登  记  地  点",
 		"field": "updator"
 	});
-if($("#componySlct").val() == '-1') {
+	if($("#componySlct").val() == '-1') {
 		alert("不能选择全部!请选择明确公司!");
 
 		return false;
@@ -782,7 +781,7 @@ function getStaffEpidemicBasicInfoByDepartment() {
 
 	var formData = new FormData();
 	formData.append("department", $("#department").val());
-formData.append("compony", $("#componySlct").val());
+	formData.append("compony", $("#componySlct").val());
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/getStaffEpidemicBasicInfoByDepartment",
 		type: "POST",
@@ -1015,9 +1014,7 @@ function getStaffEpidemicBasicInfoByName() {
 	});
 }
 
-
-function deleteStaffEpidemicTMPTRecord()
-{
+function deleteStaffEpidemicTMPTRecord() {
 	var row = $.map($('#table').bootstrapTable('getSelections'), function(row) {
 		return row;
 	});
@@ -1029,16 +1026,16 @@ function deleteStaffEpidemicTMPTRecord()
 		alert("请先按照名称查询个人记录!");
 		return;
 	}
-		$.ajax({
+	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/deleteStaffTMPTRecord?id=" + row[0].id,
 		type: "POST",
 		contentType: "application/json",
 		dataType: "json",
 
 		//data: JSON.stringify(formMap).toString(),
-//		headers: {
-//			Token: localStorage.getItem('token')
-//		},
+		//		headers: {
+		//			Token: localStorage.getItem('token')
+		//		},
 
 		success: function(data) {
 			if(data.status == 1) {
@@ -1051,15 +1048,15 @@ function deleteStaffEpidemicTMPTRecord()
 		}
 	});
 }
-function getStaffEpidemicTMPTRecordBySummary()
-{
+
+function getStaffEpidemicTMPTRecordBySummary() {
 	if($("#componySlct").val() == '-1') {
 		alert("不能选择全部!请选择明确公司!");
 
 		return false;
 	}
 	var columnsArray = [];
-	
+
 	columnsArray.push({
 		"title": "部         门",
 		"field": "name"
@@ -1074,12 +1071,11 @@ function getStaffEpidemicTMPTRecordBySummary()
 		"field": "type"
 	});
 
-	
 	var formData = new FormData();
 	formData.append("compony", $("#componySlct").val());
-formData.append("startTime", $("#startTime").val() );
+	formData.append("startTime", $("#startTime").val());
 
-formData.append("endTime", $("#endTime").val() + " 23:59:59");
+	formData.append("endTime", $("#endTime").val() + " 23:59:59");
 
 	$.ajax({
 		url: window.serviceIP + "/api/EpidemicManage/getTMPTRecordSummary",
