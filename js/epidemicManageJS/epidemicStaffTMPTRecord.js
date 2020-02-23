@@ -21,19 +21,27 @@ function getStaffEpidemicTMPTRecordCompony() {
 				}
 				$('#componySlct').selectpicker('refresh');
 				$('#componySlct').selectpicker('render');  
-
+var selected = false;
 				if(localStorage.getItem('plantID') != null && localStorage.getItem('plantID') != 'undefined' && localStorage.getItem('plantID').toString().length > 0) {
 					var numbers = $('#componySlct').find("option"); //获取select下拉框的所有值
 					for(var j = 0; j < numbers.length; j++) {
 						if($(numbers[j]).val().toString() == localStorage.getItem('plantID')) {
 							$(numbers[j]).attr("selected", "selected");
 							$('#componySlct').selectpicker('hide');
+							selected = true;
 						}
 					}
+					
 					$('#componySlct').selectpicker('refresh');
 					$('#componySlct').selectpicker('render'); 
 
 				} 
+				if(!selected)
+					{
+						$('#componySlct').val("天能集团(河南)能源科技有限公司");
+							$('#componySlct').selectpicker('refresh');
+					$('#componySlct').selectpicker('render'); 
+					}
 				getStaffEpidemicTMPTRecordDepartmentSlct();
 
 			} else {

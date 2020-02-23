@@ -37,6 +37,11 @@
 				window.location.href = "../epidemicManageLogin.html";
 			}
 			$(function() {
+				if(localStorage.roleID.substr(0, 2) != "70") {
+		$("#scanTMPTDetailBT").hide();
+		$("#scanStaffDetail").hide();
+	}
+				
 				var today = new Date();
 				document.getElementById("endTime").value = today.format("yyyy-MM-dd");
 				//today.setDate(today.getDate() - 1)
@@ -69,9 +74,9 @@
 				<input type="date" style='margin-top: 5px;' id="endTime" name="endTime" />
 				<br />
 				<br />
-				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByFilter()">登记记录查询</button>
+				<button type="button" id="scanTMPTDetailBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordByFilter()">登记记录查询</button>
 				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicTMPTRecordBySummary()">登记汇总查询</button>
-				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicBasicInfoByDepartment()">部门人员查询</button>
+				<button type="button" id="scanStaffDetail" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="getStaffEpidemicBasicInfoByDepartment()">部门人员查询</button>
 				<button type="button" id="saveBT" class="btn btn-primary" style="margin-top: 5px;font-size: 20px;" onclick="printStaffQRCode()">二维码打印</button>
 				<input type="text" id="selectedName" style='margin-top: 5px;font-size: 20px;' name="selectedName" style="width:300px;" placeholder="请输入姓名 ">
 

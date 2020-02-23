@@ -330,7 +330,7 @@ function getTMPProductionWageRecord() {
 			type: 'text',
 			title: '个人产量',
 			validate: function(value, row, index) {
-				if(!Number(value)) {
+				if(!Number(value) && value !='0') {
 					return "请输入合法数字";
 				}
 			}
@@ -343,7 +343,7 @@ function getTMPProductionWageRecord() {
 			type: 'text',
 			title: '工价',
 			validate: function(value, row, index) {
-				if(!Number(value)) {
+				if(!Number(value) && value !='0') {
 					return "请输入合法数字";
 				}
 			}
@@ -356,7 +356,7 @@ function getTMPProductionWageRecord() {
 			type: 'text',
 			title: '个人工资',
 			validate: function(value, row, index) {
-				if(!Number(value)) {
+				if(!Number(value) && value !='0') {
 					return "请输入合法数字";
 				}
 			}
