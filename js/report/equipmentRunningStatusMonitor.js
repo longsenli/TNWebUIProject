@@ -231,7 +231,7 @@ function equipStatusAllParamMntInitNew(showType) {
 
 	$('#circulationPicture').css('display', 'block');
 	$.ajax({
-		url: window.serviceIP + "/api/equipment/getRecentAllParamPecordNew?equipType=" +
+		url: window.serviceIP + "/api/equipment/getRecentAllParamRecordNew?equipType=" +
 			document.equipmentSelectForm.equipmentType.value.toString() +
 			"&plantID=" + document.equipmentSelectForm.equipMngPlantSlct.value.toString() +
 			"&processID=" + document.equipmentSelectForm.equipMngProcessSlct.value.toString(),
