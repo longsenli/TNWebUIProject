@@ -300,7 +300,7 @@ function equipStatusAllParamMntInitNew(showType) {
 			str += "</div>";
 			document.getElementById("tempControlerShow").innerHTML = controller;
 			document.getElementById("equipmentShowListDiv").innerHTML=str;
-			console.log(controller)
+			//console.log(controller)
 			document.getElementById("dashboardName").innerHTML = $("#equipmentType").find("option:selected").text() + "( 实时 )监控看板";
 			$("#tempControlerShow").ready(function() {
 				$('#circulationPicture').css('display', 'none');
